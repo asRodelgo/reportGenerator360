@@ -1,0 +1,391 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Template Entrepreneurship indicators data sheet version 1
+% 
+% Alberto Sanchez asanchezrodelgo@ifc.org Jun 2016
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{article}
+%%%%%%%%%%%%%% package declaration %%%%%%%%%%%%%%%%%%%%%
+\usepackage[top=0in, bottom=0.1in, left=0in, right=0in]{geometry}
+\usepackage{graphicx} % to load images
+\usepackage[export]{adjustbox} % add alignment to includegraphics
+\usepackage[font=small]{caption}
+\usepackage{xcolor} % color text
+\usepackage{tabularx} % to adjust table width, etc. 
+\usepackage{titlesec} % format titles and headers
+\usepackage{sectsty} % format sections & subsections
+\usepackage{booktabs} % For \toprule, \midrule and \bottomrule
+\usepackage[colorlinks = true,
+            linkcolor = blue,
+            urlcolor  = blue,
+            citecolor = blue,
+            anchorcolor = blue]{hyperref} % to include hyperlinks in the doc
+\sectionfont{\fontsize{24}{22}\selectfont\raggedright} % formats title newsletter (section) 
+\subsectionfont{\fontsize{14}{12}\selectfont\raggedright} % formats title newsletter (section)
+\usepackage{times} % select font family
+\usepackage{anyfontsize} % custom font sizes
+\usepackage{colortbl} % custom font sizes
+\color{gray}
+%\usepackage[table]{color}
+%\definecolor{lightgray}{gray}{0.9}
+%\let\oldtabular\tabular
+%\let\endoldtabular\endtabular
+%\renewenvironment{tabular}{\rowcolors{2}{white}{lightgray}\oldtabular}{\endoldtabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BEGIN DOCUMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+<<setup,echo=FALSE,message=FALSE,cache=FALSE>>= 
+# Global chunk options: Cache chunks which source R code
+read_chunk("charts_PDF.R")
+@
+%
+<<params,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE>>=
+
+#c <- "Spain"
+thisYear <- substr(Sys.Date(),1,4)
+#library(stringr)
+couName <- countries[countries$name==c,]$name
+#couName <- str_wrap(couName,width=12)
+couISO2 <- countries[countries$Country==couName,]$iso2
+couISO3 <- countries[countries$Country==couName,]$iso3
+#expYear <- .getExportsPeriod(couName)
+#impYear <- .getImportsPeriod(couName)
+month <- substr(Sys.Date(),6,7)
+year <- substr(Sys.Date(),1,4)
+date <- Sys.Date()
+#ES_year <- filter(TCMN_data, CountryCode==couISO3 & Subsection=="table3")$Period[1]
+#thisYear <- "2015"
+
+@
+%%%%%%%%%%%%%%%% PAGE 1 %%%%%%%%%%%%%%%%%%%
+%World Bank logo and Site branding
+\begin{figure}
+  \vspace{-3ex} % move up this figure
+  %\hspace{-7ex} % move left this figure
+  %\includegraphics[width=19cm]{/Users/asanchez3/Desktop/Work/TCMN/ReportGenerators/www/bannerLight.png}
+\end{figure}
+
+\begin{figure}
+  \vspace{-1ex} % move up this figure
+  %\hspace{-7ex} % move left this figure
+  \includegraphics[width=21.6cm,height=6cm]{/Users/asanchez3/Desktop/Work/TCMN/ReportGenerators/www/header_background_lightblue_white_Big.png}
+\end{figure}
+
+\begin{figure}
+\begin{minipage}[t]{0.99\textwidth} % top section
+  \vspace*{-26.8cm}
+  \begin{minipage}[t]{0.48\textwidth} % top section
+    \vspace{-1ex}
+    \begin{minipage}[t]{0.99\textwidth} % top section
+      \hspace{5ex}\raggedright\Large{\color{white}Digital Entrepreneurship 360}
+      %\includegraphics[width=5.5cm,height=1.2cm]{/Users/asanchez3/Desktop/Work/TCMN/ReportGenerators/www/WBlogo_Transparent.jpg}
+      %\includegraphics[width=7cm]{/Users/asanchez3/Desktop/Work/TCMN/ReportGenerators/www/Entrepr_logo1.png}
+    \end{minipage}
+  
+    \begin{minipage}[b]{0.99\textwidth} 
+      \vspace{4ex}
+      %\begin{minipage}[c]{0.18\textwidth} % flag
+        %\center{\includegraphics[width=1.2cm,height=1.2cm]{/Users/asanchez3/shinyTCMN/www/\Sexpr{couISO2}.png}}
+      %\end{minipage}
+      %\begin{minipage}[c]{0.80\textwidth} % Country name
+      \hspace{5ex}{\fontsize{40}{42}\selectfont{\color{white}\Sexpr{couName}}}
+      %\vspace{4ex}  
+      %\hspace{5ex}\raggedright{\small{\color{white}COUNTRY SNAPSHOT}}
+      %\end{minipage}
+    \end{minipage}
+    
+    \begin{minipage}[t]{0.99\textwidth} % top section
+      \vspace{4ex}
+      \hspace{5ex}\raggedright\large{\color{white}Country Snapshot}
+    \end{minipage}  
+  \end{minipage}
+  \begin{minipage}[t]{0.56\textwidth} % overview section
+    \vspace{-4ex}
+    \begin{minipage}[c]{0.30\textwidth}
+  <<figure_sparkline1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='right',results="asis">>=  
+    @      
+    \vspace{-2ex}
+    \hspace{2ex}\tiny{\href{https://data.crunchbase.com/docs/2013-snapshot}{\textcolor[HTML]{22A6F5}{Source: Crunchbase snapshot}}}
+    \vspace{3ex}
+    \end{minipage}
+    \begin{minipage}[c]{0.30\textwidth}
+  <<figure_sparkline2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=  
+    @      
+    \vspace{-2ex}
+    \hspace{2ex}\tiny{\href{http://reports.weforum.org/global-competitiveness-index/}{\textcolor[HTML]{22A6F5}{Source: WEF-GCI Report}}}
+    \vspace{3ex}
+    \end{minipage}
+    \begin{minipage}[c]{0.30\textwidth}
+  <<figure_sparkline3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=  
+    @      
+    \vspace{-2ex}
+    \hspace{2ex}\tiny{\href{http://data.worldbank.org}{\textcolor[HTML]{22A6F5}{Source: World Bank WDI}}}
+    \vspace{3ex}
+    \end{minipage}
+    
+    \begin{minipage}[c]{0.30\textwidth}
+  <<figure_sparkline4,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=  
+    @      
+    \vspace{-2ex}
+    \hspace{2ex}\tiny{\href{http://reports.weforum.org/global-competitiveness-index/}{\textcolor[HTML]{22A6F5}{Source: WEF-GCI Report}}}
+    \end{minipage}
+    \begin{minipage}[c]{0.30\textwidth}
+  <<figure_sparkline5,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=  
+    @      
+    \vspace{-2ex}
+    \hspace{2ex}\tiny{\href{http://data.worldbank.org}{\textcolor[HTML]{22A6F5}{Source: World Bank WDI}}}
+    \end{minipage}
+    \begin{minipage}[c]{0.30\textwidth}
+  <<figure_sparkline6,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=  
+    @      
+    \vspace{-2ex}
+    \hspace{2ex}\tiny{\href{http://reports.weforum.org/global-competitiveness-index/}{\textcolor[HTML]{22A6F5}{Source: WEF-GCI Report}}}
+    \end{minipage}
+  \end{minipage}
+\end{minipage}
+%{\color{white!20!blue}\noindent\makebox[\linewidth]{\rule{18cm}{2pt}}} % horiz line
+\end{figure}
+
+%% Policy --------------------------------------------
+\begin{minipage}[c]{0.95\textwidth}
+  \begin{flushleft}  
+    \hspace{4ex}\Large{\textcolor[HTML]{22A6F5}{POLICY}}\hspace{2ex}\small{\textcolor[HTML]{818181}{Laws, regulations, and government initiatives}}
+  \end{flushleft}
+  %\vspace*{-0.4cm}
+  \begin{minipage}[c]{0.55\textwidth}
+    \hspace{4ex}\small{\textcolor[HTML]{818181}{GOVERNMENT INDEXES}}
+    \vspace{1ex}
+    <<bar_facewrap_chart_Policy,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=3.2,fig.width=7,results="asis">>=  
+    @      
+   \hspace{4ex}\scriptsize{\href{http://reports.weforum.org/global-information-technology-report-2016/}{\textcolor[HTML]{22A6F5}{SOURCES: GLOBAL INFORMATION TECHNOLOGY REPORT; }}\href{http://data.worldbank.org}{\textcolor[HTML]{22A6F5}{WORLD BANK - WDI}}}
+  \end{minipage}
+  \begin{minipage}[c]{0.43\textwidth}
+    %\vspace{-1ex}
+    \small{\textcolor[HTML]{818181}{INVESTMENT FRIENDLINESS}}
+    \vspace{1ex}
+    <<number_chart_Policy,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=6,fig.width=10,results="asis">>=  
+    @
+    \vspace{-1ex}
+    \scriptsize{\href{http://iab.worldbank.org/Data/ExploreTopics/Investing-across-sectors}{\textcolor[HTML]{22A6F5}{SOURCE: INVESTING ACROSS BORDERS}}}
+  \end{minipage}
+\end{minipage}
+
+\begin{minipage}[b]{0.95\textwidth}
+  \vspace{0.8cm}
+  \hspace*{0.4cm} 
+  \begin{minipage}[c]{0.50\textwidth} % Doing Business table
+    %\vspace*{-0.1cm}
+    %\begin{flushleft}
+    \hspace{1ex}\small{\textcolor[HTML]{818181}{DOING BUSINESS \Sexpr{year}}}
+    %\end{flushleft}
+   \\[4pt]
+  %  \centering
+      \resizebox{\textwidth}{!}{%
+      <<doing_business_table,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=  
+        @          
+      }
+    \\[6pt]
+     %\hspace*{0.5cm} 
+     \hspace{1ex}\scriptsize{\href{http://www.doingbusiness.org}{\textcolor[HTML]{22A6F5}{SOURCE: DOING BUSINESS}}}
+  \end{minipage}
+    \begin{minipage}[c]{0.42\textwidth} 
+    \hspace{4ex}\small{\textcolor[HTML]{818181}{COST OF BUSINESS STARTUP PROCEDURES}}
+    
+    \hspace{4ex}\footnotesize{\textcolor[HTML]{818181}{\% of GNI per capita}}
+    <<line_chart_Policy,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=3.5,fig.width=7.5,results="asis">>=  
+      @            
+    \hspace{4ex}\scriptsize{\href{http://data.worldbank.org}{\textcolor[HTML]{22A6F5}{SOURCE: WORLD BANK WDI}}} 
+  \end{minipage}
+\end{minipage}
+%\vspace{1ex}
+%{\color{blue!50!white}\noindent\makebox[\linewidth]{\rule{20cm}{0.3pt}}} % horiz line
+
+%% Human capital --------------------------------------------
+
+\begin{minipage}[b]{0.95\textwidth}
+   \vspace{5ex}
+   \begin{flushleft}  
+     \hspace{4ex}\Large{\textcolor[HTML]{22A6F5}{HUMAN CAPITAL}}\hspace{2ex}\small{\textcolor[HTML]{818181}{State of educational institutions and access to skilled labor}}
+   \end{flushleft} 
+%\vspace{0.5cm}
+  \begin{minipage}[c]{0.55\textwidth} % WEF Radar
+    \hspace{4ex}\small{\textcolor[HTML]{818181}{AVAILABILITY OF SKILLED LABOR AND EDUCATION}} 
+    
+    \hspace{4ex}\footnotesize{\textcolor[HTML]{818181}{(1-7, 7 = best)}}
+      <<bar_facewrap_chart_Human,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=3.1,fig.width=7,results="asis">>=  
+    @      
+    %\vspace*{-0.6cm} 
+    \hspace{4ex}\scriptsize{\href{http://reports.weforum.org/global-competitiveness-index/}{\textcolor[HTML]{22A6F5}{SOURCE: WEF-GCI REPORT}}}
+  \end{minipage}
+  \begin{minipage}[c]{0.43\textwidth} % 
+    \small{\textcolor[HTML]{818181}{POPULATION EMPLOYED IN SERVICES SECTOR \\ \footnotesize(\% total employed population)}}
+    \vspace{-2ex}
+      <<pie_chart_double_Human,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=4.5,fig.width=7.5,results="asis">>=  
+    @      
+    \vspace{-1ex} 
+    \scriptsize{\href{http://data.worldbank.org}{\textcolor[HTML]{22A6F5}{SOURCE: WORLD BANK WDI}}}
+  \end{minipage}
+\end{minipage}  
+
+%{\color{blue!50!white}\noindent\makebox[\linewidth]{\rule{18cm}{0.3pt}}} % horiz line
+\clearpage
+%% Finance --------------------------------------------
+\begin{figure}
+  \vspace{108ex} % move down this figure
+  %\hspace{-7ex} % move left this figure
+  \includegraphics[width=21.7cm,height=11cm]{/Users/asanchez3/Desktop/Work/TCMN/ReportGenerators/www/bottom_background_lightgrey.png}
+\end{figure}
+
+\begin{figure}
+\vspace*{-27.5cm}
+\hspace*{+1cm}
+\begin{minipage}[c]{0.95\textwidth}
+  \begin{minipage}[c]{0.95\textwidth}
+    %\vspace{16ex}
+    \begin{flushleft}  
+     \Large{\textcolor[HTML]{22A6F5}{FINANCING}} \hspace{2ex}\small{\textcolor[HTML]{818181} {Sources of capital available for digital entrepreneurs, including debt, equity, grants, blended financing, etc}}
+    \end{flushleft} 
+     %\vspace{1ex}
+     \small{\textcolor[HTML]{818181}{FDI, PUBLIC CAPITAL MARKET AND VENTURE CAPITAL}}
+      \\[4pt]
+      %\\ \footnotesize(\% GDP)}}
+      %\vspace*{-0.6cm}
+      \begin{minipage}[c]{0.32\textwidth}  
+      %\centering
+        <<figure_sparkline_Fin1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=11,fig.width=20,results="asis">>=  
+        @      
+      %\vspace*{-0.2cm}
+%       \\[4pt]
+%       \hspace{4ex}\scriptsize{\href{http://www3.weforum.org/docs/gcr/2015-2016/GCI_Dataset_2006-2015.xlsx}{\textcolor[HTML]{22A6F5}{SOURCES: WEF-GCI REPORT; }}\href{http://data.worldbank.org}{\textcolor[HTML]{22A6F5}{WORLD BANK - WDI}}}
+      \end{minipage}
+      \begin{minipage}[c]{0.32\textwidth}
+        <<figure_sparkline_Fin2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=11,fig.width=20,results="asis">>=  
+        @
+      \end{minipage}
+      \begin{minipage}[c]{0.32\textwidth}
+        <<figure_sparkline_Fin3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=11,fig.width=20,results="asis">>=  
+        @
+      \end{minipage}
+       \hspace{4ex}\scriptsize{\href{http://reports.weforum.org/global-competitiveness-index/}{\textcolor[HTML]{22A6F5}{SOURCES: WEF-GCI REPORT; }}\href{http://data.worldbank.org}{\textcolor[HTML]{22A6F5}{WORLD BANK - WDI}}}
+  \end{minipage}
+    
+  \begin{minipage}[c]{0.95\textwidth} % 
+    \vspace*{0.6cm}
+    \begin{minipage}[c]{0.49\textwidth} % 
+      \small{\textcolor[HTML]{818181}{INFORMAL INVESTORS RATE \footnotesize(\% of 18-64 population)}}
+      %\vspace*{-0.4cm}
+      <<line_chart_Finance1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2,fig.width=6.5,results="asis">>=  
+      @      
+      \vspace*{-0.2cm} 
+      \scriptsize{\href{http://www.gemconsortium.org/data/sets}{\textcolor[HTML]{22A6F5}{SOURCE: GLOBAL ENTREPRENEURSHIP MONITOR - ADULT POPULATION}}}
+    \end{minipage}
+    \begin{minipage}[c]{0.49\textwidth} % 
+      \small{\textcolor[HTML]{818181}{VENTURE CAPITAL AVAILABILITY \footnotesize (1-7, best)}}
+      %\vspace*{-0.6cm}
+      <<line_chart_Finance2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2,fig.width=6.5,results="asis">>=  
+      @      
+      \vspace*{-0.2cm} 
+      \scriptsize{\href{http://reports.weforum.org/global-competitiveness-index/}{\textcolor[HTML]{22A6F5}{SOURCE: WEF-GCI REPORT}}}
+    \end{minipage}
+  \end{minipage}  
+  
+ % {\color{blue!50!white}\noindent\makebox[\linewidth]{\rule{18cm}{0.3pt}}} % horiz line
+  %\color{white} % define color white to contrast with grey background
+  %% Markets --------------------------------------------
+  \vspace{5ex}
+  \begin{minipage}[b]{0.95\textwidth}
+    %\vspace{2ex}
+    \begin{flushleft}  
+      \Large{\textcolor[HTML]{22A6F5}{MARKETS}}\hspace{2ex}\small{\textcolor[HTML]{818181} {Existence of early customers and distribution channels}}
+    \end{flushleft}
+    %\vspace{0.2cm}
+    \begin{minipage}[c]{0.48\textwidth} % WEF Radar
+      \small{\textcolor[HTML]{818181}{FINANCIAL INCLUSION \footnotesize(\% age 15+)}}
+%      \vspace*{-0.6cm}
+%         <<radar_chart_Markets,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig%.align='center',fig.height=5,fig.width=7,results="asis">>=  
+%       @      
+        <<bar_chart_Markets,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=6,fig.width=10.5,results="asis">>=  
+      @      
+      \vspace*{-0.1cm} 
+      \scriptsize{\href{http://www.worldbank.org/en/programs/globalfindex}{\textcolor[HTML]{22A6F5}{SOURCE: WORLD BANK - FINDEX}}}
+    \end{minipage}
+    \begin{minipage}[c]{0.48\textwidth} % 
+      \small{\textcolor[HTML]{818181}{DIGITAL COMMERCE \& INTERNET ACCESS}}
+      \vspace{1ex}
+      %\begin{minipage}[c]{0.99\textwidth} % 
+        <<number_chart_Markets,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=6,fig.width=11.5,results="asis">>=  
+        @            
+      \vspace{2ex}
+      %\end{minipage}
+      \hspace{4ex}\scriptsize{\href{http://www.enterprisesurveys.org/data/exploretopics/innovation-and-technology}{\textcolor[HTML]{22A6F5}{SOURCES: ENTERPRISE SURVEYS; }}\href{http://reports.weforum.org/global-competitiveness-index/}{\textcolor[HTML]{22A6F5}{WEF-GCI REPORT; }}\href{http://data.worldbank.org}{\textcolor[HTML]{22A6F5}{WORLD BANK - WDI}}}
+    \end{minipage}
+  \end{minipage}  
+  
+  %{\color{blue!50!white}\noindent\makebox[\linewidth]{\rule{18cm}{0.3pt}}} % horiz line
+
+%% Culture --------------------------------------------
+  %\color{white} % define color white to contrast with grey background
+  %\vspace*{-26cm}
+  \begin{minipage}[c]{0.83\textwidth}
+    \vspace{2ex}
+    \begin{flushleft}  
+      \Large{\textcolor[HTML]{22A6F5}{CULTURE}}\hspace{2ex}\small{\textcolor[HTML]{818181} {Societal attitudes toward entrepreneurship}}
+    \end{flushleft}
+    \vspace*{-0.2cm}
+    % Table 2
+    \centering
+    \resizebox{\textwidth}{!}{
+    <<table_time_avg_Culture,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=  
+    @      
+    }
+  \end{minipage}
+  \begin{minipage}[c]{0.125\textwidth}
+    \vspace*{+1.1cm}
+    <<sparklines_Culture,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=8.8,fig.width=5.5,results="asis">>=  
+    @
+    \vspace*{-0.5cm}
+  \end{minipage}
+  
+  %\vspace{-1ex}
+  \scriptsize{\href{http://www.gemconsortium.org/data/sets}{\textcolor[HTML]{22A6F5}{SOURCES: GLOBAL ENTREPRENEURSHIP MONITOR - ADULT POPULATION; }}\href{http://data.worldbank.org}{\textcolor[HTML]{22A6F5}{WORLD BANK - WDI}}}
+ % {\color{blue!50!white}\noindent\makebox[\linewidth]{\rule{18cm}{0.3pt}}} % horiz line
+  
+  %% Supports --------------------------------------------
+  \vspace{2ex}
+  \begin{minipage}[c]{0.83\textwidth}
+    \vspace{2ex}
+    \begin{flushleft}  
+      \Large{\textcolor[HTML]{22A6F5}{SUPPORTS}}\hspace{2ex}\small{\textcolor[HTML]{818181} {Infrastructure and support services available through incubators, accelerators and other NGOs}}
+    \end{flushleft}
+    \vspace*{-0.2cm}
+    % Table 2
+    \centering
+    \resizebox{\textwidth}{!}{
+    <<table_time_avg_Supports,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=  
+    @      
+    }
+  \end{minipage}
+  \begin{minipage}[c]{0.125\textwidth}
+    \vspace*{+1cm}
+    <<sparklines_Supports,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=7.7,fig.width=5.8,results="asis">>=  
+    @
+    \vspace*{-0.5cm}
+  \end{minipage}
+  
+  %\vspace{-1ex}
+  \scriptsize{\href{http://www.enterprisesurveys.org/data/exploretopics/innovation-and-technology}{\textcolor[HTML]{22A6F5}{SOURCES: ENTERPRISE SURVEYS; }}\href{http://www3.weforum.org/docs/gcr/2015-2016/GCI_Dataset_2006-2015.xlsx}{\textcolor[HTML]{22A6F5}{WEF-GCI REPORT; }}\href{http://data.worldbank.org}{\textcolor[HTML]{22A6F5}{WORLD BANK - WDI}}}
+\end{minipage}
+
+  %%% footer ----------------------------------
+  \vspace{4ex}
+  \begin{minipage}[c]{0.33\textwidth}
+    \hspace*{+0.3cm} \includegraphics[width=4cm,left]{/Users/asanchez3/Desktop/Work/TCMN/ReportGenerators/www/WBlogo_Transparent.png}
+    %\hspace*{+0.3cm} \includegraphics[width=4cm,left]{/Users/asanchez3/shinyTCMN/www/wb_logo.png}
+  \end{minipage}
+  \begin{minipage}[c]{0.65\textwidth}
+    \vspace*{-0.1cm}
+    \raggedleft{\color{white!40!black} \footnotesize DIGITAL ENTREPRENEURSHIP 360 - LAST UPDATED \Sexpr{date}}
+  \end{minipage}
+\end{figure}
+%%%%%%%%%%%%%%%% END OF DOCUMENT %%%%%%%%%%%%%%%%%%%
+\end{document}
