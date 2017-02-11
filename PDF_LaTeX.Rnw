@@ -1,0 +1,50 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Template PDF indicators data sheet generic version
+% 
+% Alberto Sanchez asanchezrodelgo@ifc.org Jun 2016
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{article}
+%%%%%%%%%%%%%% package declaration %%%%%%%%%%%%%%%%%%%%%
+\usepackage[top=0in, bottom=0.1in, left=0in, right=0in]{geometry}
+\usepackage{graphicx} % to load images
+\usepackage[export]{adjustbox} % add alignment to includegraphics
+\usepackage[font=small]{caption}
+\usepackage{xcolor} % color text
+\usepackage{tabularx} % to adjust table width, etc. 
+\usepackage{titlesec} % format titles and headers
+\usepackage{sectsty} % format sections & subsections
+\usepackage{booktabs} % For \toprule, \midrule and \bottomrule
+\usepackage[colorlinks = true,
+            linkcolor = blue,
+            urlcolor  = blue,
+            citecolor = blue,
+            anchorcolor = blue]{hyperref} % to include hyperlinks in the doc
+\sectionfont{\fontsize{24}{22}\selectfont\raggedright} % formats title newsletter (section) 
+\subsectionfont{\fontsize{14}{12}\selectfont\raggedright} % formats title newsletter (section)
+\usepackage{times} % select font family
+\usepackage{anyfontsize} % custom font sizes
+\usepackage{colortbl} % custom font sizes
+\color{gray}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BEGIN DOCUMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+<<setup,echo=FALSE,message=FALSE,cache=FALSE>>= 
+# Global chunk options: Cache chunks which source R code
+read_chunk(paste0("templates/",input_reportID,"_charts.R"))
+@
+%
+<<params,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE>>=
+thisYear <- substr(Sys.Date(),1,4)
+couName <- countries[countries$name==c,]$name
+couISO2 <- countries[countries$Country==couName,]$iso2
+couISO3 <- countries[countries$Country==couName,]$iso3
+month <- substr(Sys.Date(),6,7)
+year <- substr(Sys.Date(),1,4)
+date <- Sys.Date()
+#test_source <- "Wello hello mellow yellow"
+@
+
+\Sexpr{paste0(knit_child(paste0('templates/',input_reportID,'_PDF_LaTeX.Rnw'),quiet=TRUE),collapse='\n')}
+%%%%%%%%%%%%%%%% END OF DOCUMENT %%%%%%%%%%%%%%%%%%%
+\end{document}

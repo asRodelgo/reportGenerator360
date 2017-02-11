@@ -11,14 +11,14 @@ exclude <- c("Channel Islands","Virgin Islands (U.S.)","Northern Mariana Islands
              "St. Martin (French part)","Sint Maarten (Dutch part)")
 processed <- c()
 #for (c in filter(countries, !(name %in% exclude))$name) {
-for (c in c("Spain")) {
+for (c in c("France")) {
   if (!(substr(c,1,1)=="(") & !(filter(countries, name==c)$iso3=="")){
     iso3 <- .getCountryCode(c)
-    knit2pdf(paste0("templates/",input_reportID,'PDF_LaTeX.Rnw'), clean = TRUE,
+    knit2pdf('PDF_LaTeX.Rnw', clean = TRUE,
              encoding = "UTF-8",
              output = paste0(input_reportID,"_",iso3,".tex"))
     # copy file to pdf directory
-    file.copy(paste0(input_reportID,"_",iso3,".pdf"), paste0(input_reportID,"_final_pdf/"),overwrite=TRUE)
+    file.copy(paste0(input_reportID,"_",iso3,".pdf"), paste0("templates/",input_reportID,"_final_pdf/"),overwrite=TRUE)
     file.remove(paste0(input_reportID,"_",iso3,".pdf"))
     file.remove(paste0(input_reportID,"_",iso3,".tex"))
     processed <- c(processed,c)
