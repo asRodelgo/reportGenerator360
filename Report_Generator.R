@@ -6,9 +6,6 @@ setwd('/Users/asanchez3/Desktop/Work/reportGenerator360/')
 source('generic_functions.R') # data and functions needed
 source('helper_functions.R') # charts and table functions needed
 # Create the data reports --------------------------------------
-#for (c in c("Sint Maarten (Dutch part)")){
-#for (c in c("Antigua and Barbuda")) {
-#for (c in c("Channel Islands")) {
 exclude <- c("Channel Islands","Virgin Islands (U.S.)","Northern Mariana Islands",
              "Marshall Islands","Greenland","Gibraltar","Cayman Islands","British Virgin Islands",
              "St. Martin (French part)","Sint Maarten (Dutch part)")

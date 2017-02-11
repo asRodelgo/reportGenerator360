@@ -42,6 +42,7 @@ couISO3 <- countries[countries$Country==couName,]$iso3
 month <- substr(Sys.Date(),6,7)
 year <- substr(Sys.Date(),1,4)
 date <- Sys.Date()
+#test_source <- "Wello hello mellow yellow"
 @
 %%%%%%%%%%%%%%%% PAGE 1 %%%%%%%%%%%%%%%%%%%
 %World Bank logo and Site branding
