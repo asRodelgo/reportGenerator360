@@ -1,0 +1,48 @@
+---
+title: "How does it work"
+author: "Alberto Sanchez Rodelgo"
+date: "2/11/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Generate PDF reports in LaTeX
+
+Basic instructions on how to generate 2 pager PDF reports based on TCdata360 data. 
+
+# Pre-requisites:
+
+- The R packages called in: **generic_functions.R** plus **jsonlite** to process the TCdata360's API responses.
+- Tex installation (To be able to knit LaTeX code into PDF)
+
+# Setup
+
+1. This is meant to be run on a local environment, for now. So download this project and change accordingly all local paths in:
+
+- **Writer_Report_data.R**
+- **Report_Generator.R**
+- **datapull_TCdata360.R**
+
+2. Tell the report what indicators and what charts you will use. For this, a configuration file is needed: **DataDescription.csv** Most of the columns are optional except for: Section, Subsection, Subsection2 and tcdata360_id. 
+
+- **Section**: Main topics within the report
+- **Subsection**: group tag indicators. Example: Use the same name for indicators you want to appear in the same chart/table. 
+- **Subsection2**: in case indicators are used in more than 1 place. In case indicators are used in 3 places, then a new column would need to be added (Subsection3), although I'm not sure this will work without further changes.
+- **tcdata360_id**: TCdata360 indicator ID per the API.
+
+Other important columns (not needed just yet but good to have. For now, they are hardcoded into the report, working on this)
+
+- **Source_Name**: Name of data source to appear on report footnotes. Ex: WDI 
+- **Source_Link**: URL pointing to data source (as hyperlink to Source_Name)
+
+3. Pick a main theme color for background and main titles. Fixed to blue now, working on it
+
+
+# Steps to generate PDF reports: (Once setup is complete)
+
+1. Run **Writer_Report_data.R** to pull and store the data from TCdata360's API. Important: If you change the downloaded data file location, it is usually a good practice to keep it outside the project directory (especially if you keep versions on Github, large files will make it crash)
+2. Run **Report_Generator.R**
+
