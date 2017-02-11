@@ -6,4 +6,4 @@
 # Each R code chunk LaTeX will read is delimited by: ## ---- label ----
 
 # Source the adequate template to create the PDF
-source(paste0(input_reportID,"_charts.R"))
+source(paste0("templates/",input_reportID,"_charts.R"))
