@@ -3,7 +3,7 @@
 ##################################
 # setwd() to handle images and other files
 setwd('/Users/asanchez3/Desktop/Work/reportGenerator360/')
-source('generic_functions.R') # data and functions needed
+source('global_utils.R') # data and functions needed
 source('helper_functions.R') # charts and table functions needed
 # Create the data reports --------------------------------------
 exclude <- c("Channel Islands","Virgin Islands (U.S.)","Northern Mariana Islands",
