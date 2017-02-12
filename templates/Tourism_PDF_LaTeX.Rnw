@@ -1,0 +1,110 @@
+%%%%%%%%%%%%%%%% PAGE 1 %%%%%%%%%%%%%%%%%%%
+%World Bank logo and Site branding
+\begin{figure}
+  \vspace{-3ex} % move up this figure
+\end{figure}
+
+\begin{figure}
+  \vspace{-1ex} % move up this figure
+  \includegraphics[width=21.6cm,height=6cm]{\Sexpr{paste0(parent_directory,"/www/header_background_",main_color,".png")}}
+\end{figure}
+
+\begin{figure}
+\begin{minipage}[t]{0.99\textwidth} % top section
+  \vspace*{-26.8cm}
+  \begin{minipage}[t]{0.48\textwidth} % top section
+    \vspace{-1ex}
+    \begin{minipage}[t]{0.99\textwidth} % top section
+      \hspace{5ex}\raggedright\Large{\color{white}\Sexpr{title}}
+    \end{minipage}
+  
+    \begin{minipage}[b]{0.99\textwidth} 
+      \vspace{4ex}
+      \hspace{5ex}{\fontsize{40}{42}\selectfont{\color{white}\Sexpr{couName}}}
+    \end{minipage}
+    
+    \begin{minipage}[t]{0.99\textwidth} % top section
+      \vspace{4ex}
+      \hspace{5ex}\raggedright\large{\color{white}Country Snapshot}
+    \end{minipage}  
+  \end{minipage}
+  \begin{minipage}[t]{0.56\textwidth} % overview section
+    \vspace{-4ex}
+    \begin{minipage}[c]{0.30\textwidth}
+  <<figure_sparkline1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='right',results="asis">>=  
+    @      
+    \vspace{-2ex}
+    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure1")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{Source: \Sexpr{filter(dataDesc, Subsection2 == "figure1")$Source_Name}}}}
+    \vspace{3ex}
+    \end{minipage}
+    \begin{minipage}[c]{0.30\textwidth}
+  <<figure_sparkline2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=  
+    @      
+    \vspace{-2ex}
+    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure2")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{Source: \Sexpr{filter(dataDesc, Subsection2 == "figure2")$Source_Name}}}}
+    \vspace{3ex}
+    \end{minipage}
+    \begin{minipage}[c]{0.30\textwidth}
+  <<figure_sparkline3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=  
+    @      
+    \vspace{-2ex}
+    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure3")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{Source: \Sexpr{filter(dataDesc, Subsection2 == "figure3")$Source_Name}}}}
+    \vspace{3ex}
+    \end{minipage}
+    
+    \begin{minipage}[c]{0.30\textwidth}
+  <<figure_sparkline4,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=  
+    @      
+    \vspace{-2ex}
+    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure4")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{Source: \Sexpr{filter(dataDesc, Subsection2 == "figure4")$Source_Name}}}}
+    \end{minipage}
+    \begin{minipage}[c]{0.30\textwidth}
+  <<figure_sparkline5,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=  
+    @      
+    \vspace{-2ex}
+    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure5")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{Source: \Sexpr{filter(dataDesc, Subsection2 == "figure5")$Source_Name}}}}
+    \end{minipage}
+    \begin{minipage}[c]{0.30\textwidth}
+  <<figure_sparkline6,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=  
+    @      
+    \vspace{-2ex}
+    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure6")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{Source: \Sexpr{filter(dataDesc, Subsection2 == "figure6")$Source_Name}}}}
+    \end{minipage}
+  \end{minipage}
+\end{minipage}
+\end{figure}
+% END OF HEADER PART
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Tourism Demand and Supply --------------------------------------------
+\begin{minipage}[c]{0.95\textwidth}
+  \begin{flushleft}  
+    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[1]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[1]}}}
+  \end{flushleft}
+  \begin{minipage}[c]{0.55\textwidth}
+    \begin{minipage}[t]{0.99\textwidth}
+      \hspace{4ex}\small{\textcolor[HTML]{818181}{PASSENGER ARRIVALS}}
+      \vspace{1ex}
+      <<line1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=3.2,fig.width=7,results="asis">>=  
+      @      
+     \hspace{4ex}\scriptsize{\href{http://reports.weforum.org/global-information-technology-report-2016/}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCES: GLOBAL INFORMATION TECHNOLOGY REPORT; }}\href{http://data.worldbank.org}{\textcolor[HTML]{\Sexpr{main_color}}{WORLD BANK - WDI}}}
+     \end{minipage}
+     \begin{minipage}[b]{0.99\textwidth}
+      \hspace{4ex}\small{\textcolor[HTML]{818181}{PASSENGER ARRIVALS}}
+      \vspace{1ex}
+      <<bar_wrap1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=3.2,fig.width=7,results="asis">>=  
+      @      
+     \hspace{4ex}\scriptsize{\href{http://reports.weforum.org/global-information-technology-report-2016/}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCES: GLOBAL INFORMATION TECHNOLOGY REPORT; }}\href{http://data.worldbank.org}{\textcolor[HTML]{\Sexpr{main_color}}{WORLD BANK - WDI}}}
+     \end{minipage}
+  \end{minipage}
+  \begin{minipage}[c]{0.43\textwidth}
+    \small{\textcolor[HTML]{818181}{INVESTMENT FRIENDLINESS}}
+    \vspace{1ex}
+    <<number1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=6,fig.width=10,results="asis">>=  
+    @
+    \vspace{-1ex}
+    \scriptsize{\href{http://iab.worldbank.org/Data/ExploreTopics/Investing-across-sectors}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: INVESTING ACROSS BORDERS}}}
+  \end{minipage}
+\end{minipage}
+
+%% Tourism Economic Indicators --------------------------------------------

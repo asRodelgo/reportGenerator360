@@ -34,7 +34,7 @@ thisYear <- substr(Sys.Date(),1,4)
 
 ##################
 # global input Report template: Entrepreneurship, Tourism, Investment Climate, etc
-input_reportID <- "Entrepreneurship"
+input_reportID <- "Tourism"
 ##################
 # Read template report configuration
 reportConfig <- read.csv(paste0("templates/",input_reportID, "_ReportConfiguration.csv"), stringsAsFactors = FALSE)
