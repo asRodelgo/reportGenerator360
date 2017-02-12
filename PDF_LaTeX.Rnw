@@ -42,6 +42,11 @@ couISO3 <- countries[countries$Country==couName,]$iso3
 month <- substr(Sys.Date(),6,7)
 year <- substr(Sys.Date(),1,4)
 date <- Sys.Date()
+#### custom texts and colors
+title <- reportConfig$Report_Title[1]
+main_color <- reportConfig$Color[1]
+section_name <- reportConfig$Section
+section_desc <- reportConfig$Section_Description
 #test_source <- "Wello hello mellow yellow"
 @
 
