@@ -6,7 +6,7 @@
 
 \begin{figure}
   \vspace{-1ex} % move up this figure
-  \includegraphics[width=21.6cm,height=6cm]{/Users/asanchez3/Desktop/Work/TCMN/ReportGenerators/www/header_background_lightblue_white_Big.png}
+  \includegraphics[width=21.6cm,height=6cm]{\Sexpr{paste0(parent_directory,"/www/header_background_",main_color,".png")}}
 \end{figure}
 
 \begin{figure}
@@ -157,7 +157,7 @@
 \begin{minipage}[c]{0.95\textwidth}
   \begin{minipage}[c]{0.95\textwidth}
     \begin{flushleft}  
-     \Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[3]}}} \hspace{2ex}\small{\textcolor[HTML]{818181} {\Sexpr{section_desc[3]}}}
+     \Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[3]}}}\hspace{2ex}\small{\textcolor[HTML]{818181} {\Sexpr{section_desc[3]}}}
     \end{flushleft} 
      \small{\textcolor[HTML]{818181}{FDI, PUBLIC CAPITAL MARKET AND VENTURE CAPITAL}}
       \\[4pt]
@@ -267,10 +267,10 @@
   %%% footer ----------------------------------
   \vspace{4ex}
   \begin{minipage}[c]{0.33\textwidth}
-    \hspace*{+0.3cm} \includegraphics[width=4cm,left]{/Users/asanchez3/Desktop/Work/TCMN/ReportGenerators/www/WBlogo_Transparent.png}
+    \hspace*{+0.3cm} \includegraphics[width=4cm,left]{\Sexpr{paste0(parent_directory,"/www/WBlogo_Transparent.png")}}
   \end{minipage}
   \begin{minipage}[c]{0.65\textwidth}
     \vspace*{-0.1cm}
-    \raggedleft{\color{white!40!black} \footnotesize DIGITAL ENTREPRENEURSHIP 360 - LAST UPDATED \Sexpr{date}}
+    \raggedleft{\color{white!40!black} \footnotesize \Sexpr{title} - LAST UPDATED \Sexpr{date}}
   \end{minipage}
 \end{figure}

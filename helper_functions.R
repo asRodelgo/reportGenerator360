@@ -103,11 +103,11 @@ figure_sparkline <- function(couName,table){
     
     # print indicator name
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 1.1,indicator, col="#22a6f5", cex=10)
+    graphics::text(1.5, 1.1,indicator, col=paste0("#",reportConfig$Color[1]), cex=10)
     graphics::text(1.5, 0.7,paste0(unit, " (",dataPeriod,")"), col="#818181", cex=5)
     # print data point and rank
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 0.95,dataPoint, col="#22a6f5", cex=18)
+    graphics::text(1.5, 0.95,dataPoint, col=paste0("#",reportConfig$Color[1]), cex=18)
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
     graphics::text(1.5, 1.1,paste0("(Rank: ",rank,"/",rankedTotal,")"), col="grey", cex=7)
     # plot sparkline  
@@ -148,7 +148,7 @@ figure_sparkline <- function(couName,table){
     
     # print indicator name
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 1.1,indicator, col="#22a6f5", cex=10)
+    graphics::text(1.5, 1.1,indicator, col=paste0("#",reportConfig$Color[1]), cex=10)
     graphics::text(1.5, 0.7,unit, col="#818181", cex=5)
     # print data point and rank
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
@@ -528,9 +528,9 @@ bar_chart <- function(couName,section,table,paste_unit){
       #data <- mutate(data, id = seq(1,nrow(data),1))
       ggplot(NULL,aes(x=IndicatorShort,y=Observation)) +
         geom_bar(data=data_grey,color="#f1f3f3",fill = "#f1f3f3",stat="identity") +
-        geom_bar(data=data,color="#22A6F5",fill="#22A6F5",stat="identity") +
+        geom_bar(data=data,color=paste0("#",reportConfig$Color[1]),fill=paste0("#",reportConfig$Color[1]),stat="identity") +
         geom_text(data=data, aes(label=round(Observation,1),y=ifelse(Observation<21,Observation + max(Observation)*.1,Observation - max(Observation)*.1)),
-                  size=12,color=ifelse(data$Observation<21,"#22a6f5","white")) + 
+                  size=12,color=ifelse(data$Observation<21,paste0("#",reportConfig$Color[1]),"white")) + 
         coord_flip()+
         theme(legend.key=element_blank(),
               legend.title=element_blank(),
@@ -545,9 +545,9 @@ bar_chart <- function(couName,section,table,paste_unit){
         )
     } else {
       ggplot(NULL,aes(x=IndicatorShort,y=Observation)) +
-        geom_bar(data=data,color="#22A6F5",fill="#22A6F5",stat="identity") +
+        geom_bar(data=data,color=paste0("#",reportConfig$Color[1]),fill=paste0("#",reportConfig$Color[1]),stat="identity") +
         geom_text(data=data, aes(label=round(Observation,1),y=ifelse(Observation<14,Observation + max(Observation)*.1,Observation - max(Observation)*.1)),
-                  size=6,color=ifelse(data$Observation<14,"#22a6f5","white")) + 
+                  size=6,color=ifelse(data$Observation<14,paste0("#",reportConfig$Color[1]),"white")) + 
         coord_flip()+
         theme(legend.key=element_blank(),
               legend.title=element_blank(),
@@ -621,22 +621,22 @@ number_chart <- function(couName,section,table,str_wrap_size){
         rank[i] <- which(thisKey$CountryCode == cou)
         # print indicator name
         plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-        graphics::text(1, 1.1,thisKey$IndicatorShort[1], col="#22a6f5", cex=3, adj=0)
+        graphics::text(1, 1.1,thisKey$IndicatorShort[1], col=paste0("#",reportConfig$Color[1]), cex=3, adj=0)
         graphics::text(1, 0.75,paste0(thisKey$Unit[1], " (",thisKey$Period[1],")"), col="#818181", cex=2, adj = 0)
         # print data point and rank
         plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-        graphics::text(1.17, 1,filter(thisKey,CountryCode==cou)$Observation , col="#22a6f5", cex=8)
+        graphics::text(1.17, 1,filter(thisKey,CountryCode==cou)$Observation , col=paste0("#",reportConfig$Color[1]), cex=8)
         graphics::text(1.42, 0.95,paste0("(Rank: ",rank[i],"/",rankedTotal[i],")"), col="grey", cex=3, adj=0)
       
       } else { # no data for this indicator
         
         # print indicator name
         plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-        graphics::text(1, 1.1,thisKey$IndicatorShort[1], col="#22a6f5", cex=3, adj=0)
+        graphics::text(1, 1.1,thisKey$IndicatorShort[1], col=paste0("#",reportConfig$Color[1]), cex=3, adj=0)
         graphics::text(1, 0.75,paste0(thisKey$Unit[1], " (",thisKey$Period[1],")"), col="#818181", cex=2, adj = 0)
         # print data point and rank
         plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-        graphics::text(1.17, 1," " , col="#22a6f5", cex=8)
+        graphics::text(1.17, 1," " , col=paste0("#",reportConfig$Color[1]), cex=8)
         graphics::text(1.42, 0.95,paste0("(Rank: /",rankedTotal[i],")"), col="grey", cex=3, adj=0)
       }
       i <- i + 1
@@ -716,7 +716,7 @@ bar_facewrap_chart <- function(couName, section, table){
         #coord_flip()+
         facet_wrap(~IndicatorShort,scales="free_y") +
         theme(strip.text.x = element_text(family="Times", size = 12, colour = "white"),
-              strip.background = element_rect(colour = "#22A6F5", fill = "#22A6F5"),
+              strip.background = element_rect(colour = paste0("#",reportConfig$Color[1]), fill = paste0("#",reportConfig$Color[1])),
               legend.key=element_blank(),
               legend.title=element_blank(),
               legend.text = element_text(family="Times", size = 10, colour = "#818181"),
@@ -746,7 +746,7 @@ bar_facewrap_chart <- function(couName, section, table){
         coord_flip() +
         facet_wrap(~IndicatorShort) +
         theme(strip.text.x = element_text(family="Times", size = 12, colour = "white"),
-              strip.background = element_rect(colour = "#22A6F5", fill = "#22A6F5"),
+              strip.background = element_rect(colour = paste0("#",reportConfig$Color[1]), fill = paste0("#",reportConfig$Color[1])),
               legend.key=element_blank(),
               legend.title=element_blank(),
               legend.text = element_text(family="Times", size = 10, colour = "#818181"),
@@ -1372,7 +1372,7 @@ pie_chart_region <- function(couName,section,table){
       
       p2 <- ggplot(dataRegion, aes("",Observation,fill=IndicatorShort)) +
         geom_bar(width=1,stat="identity") +
-        scale_fill_manual(values = c("#f1f3f3","#22a6f5"),guide=FALSE) +
+        scale_fill_manual(values = c("#f1f3f3",paste0("#",reportConfig$Color[1])),guide=FALSE) +
         coord_polar("y",start = 0) +
         geom_text(aes(label=ObsLabel,y=15),
                   size=12,color="white") + 
@@ -1394,7 +1394,7 @@ pie_chart_region <- function(couName,section,table){
       
       ggplot(data, aes("",Observation,fill=IndicatorShort)) +
         geom_bar(width=1,stat="identity") +
-        scale_fill_manual(values = c("#f1f3f3","#22a6f5"),guide=FALSE) +
+        scale_fill_manual(values = c("#f1f3f3",paste0("#",reportConfig$Color[1])),guide=FALSE) +
         coord_polar("y",start = 0) +
         geom_text(aes(label=ObsLabel,y=15),
                   size=12,color="white") + 
@@ -1483,7 +1483,7 @@ pie_chart_regular <- function(couName,section,table){
     
     p1 <- ggplot(data1, aes("",Observation,fill=IndicatorShort)) +
       geom_bar(width=1,stat="identity") +
-      scale_fill_manual(values = c("#f1f3f3","#22a6f5"),guide=FALSE) +
+      scale_fill_manual(values = c("#f1f3f3",paste0("#",reportConfig$Color[1])),guide=FALSE) +
       coord_polar("y",start = 0) +
       geom_text(aes(label=ObsLabel,y=10),
                 size=5,color="white") + 
@@ -1501,7 +1501,7 @@ pie_chart_regular <- function(couName,section,table){
     
     p2 <- ggplot(data2, aes("",Observation,fill=IndicatorShort)) +
       geom_bar(width=1,stat="identity") +
-      scale_fill_manual(values = c("#f1f3f3","#22a6f5"),guide=FALSE) +
+      scale_fill_manual(values = c("#f1f3f3",paste0("#",reportConfig$Color[1])),guide=FALSE) +
       coord_polar("y",start = 0) +
       geom_text(aes(label=ObsLabel,y=10),
                 size=5,color="white") + 

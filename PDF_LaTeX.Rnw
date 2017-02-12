@@ -44,9 +44,10 @@ year <- substr(Sys.Date(),1,4)
 date <- Sys.Date()
 #### custom texts and colors
 title <- reportConfig$Report_Title[1]
-main_color <- reportConfig$Color[1]
+main_color <- reportConfig$Color[1] #722FF5 "722F37"
 section_name <- reportConfig$Section
 section_desc <- reportConfig$Section_Description
+parent_directory <- getwd()
 #test_source <- "Wello hello mellow yellow"
 @
 
