@@ -56,7 +56,7 @@ figure_sparkline(couName,"figure7")
 bar_facewrap_chart(couName,reportConfig$Section[2],"line2", vertical_bars = FALSE)
 
 ## ---- bar_wrap3 ----
-bar_facewrap_chart(couName,reportConfig$Section[2],"line4")
+bar_facewrap_chart(couName,reportConfig$Section[2],"line4", vertical_bars = FALSE)
 
 ## ---- bar1 ----
 bar_chart(couName, reportConfig$Section[2],"line3",paste_unit=TRUE)

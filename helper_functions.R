@@ -37,47 +37,50 @@ figure_sparkline <- function(couName,table){
   rank <- which(dataWorld$CountryCode == cou)
   rankedTotal <- nrow(dataWorld)
   
-  # Ad-hoc shorten some indicatores and units names:
-  if (table == "figure1"){
-    indicator <- "Tech Startups"
-    unit <- "number per million pop"
-  }
-  if (table == "figure2"){
-    indicator <- "Doing Business"
-    unit <- "1=most business-friendly regulat."
-  }
-  if (table == "figure3"){
-    indicator <- "Broadband Internet"
-    unit <- "Subscriptions per 100 pop."
-  }
-  if (table == "figure4"){
-    indicator <- "Scientists, Engineers"
-    unit <- "Availability 1-7, 7=best"
-  }
-  if (table == "figure5"){
-    indicator <- "Tertiary Education"
-    unit <- "Enrollments in percent of pop."
-  }
-  if (table == "figure6"){
-    indicator <- "Venture Capital"
-    unit <- "Availability 1-7, 7=best"
-  }
-  if (table == "figure7"){
-    indicator <- "Test indicator"
-    unit <- "Availability 1-7, 7=best"
-  }
-  if (table == "figureFin1"){
-    indicator <- "FDI, net inflows"
-    unit <- "BoP, current US$, as % GDP"
-  }
-  if (table == "figureFin2"){
-    indicator <- "Investment in Telecoms w/ Private Part."
-    unit <- "Millions, $US"
-  }
-  if (table == "figureFin3"){
-    indicator <- "Market Capitaliz. of Listed Companies"
-    unit <- "% of GDP"
-  }
+  # # Ad-hoc shorten some indicatores and units names:
+  # if (table == "figure1"){
+  #   indicator <- "Tech Startups"
+  #   unit <- "number per million pop"
+  # }
+  # if (table == "figure2"){
+  #   indicator <- "Doing Business"
+  #   unit <- "1=most business-friendly regulat."
+  # }
+  # if (table == "figure3"){
+  #   indicator <- "Broadband Internet"
+  #   unit <- "Subscriptions per 100 pop."
+  # }
+  # if (table == "figure4"){
+  #   indicator <- "Scientists, Engineers"
+  #   unit <- "Availability 1-7, 7=best"
+  # }
+  # if (table == "figure5"){
+  #   indicator <- "Tertiary Education"
+  #   unit <- "Enrollments in percent of pop."
+  # }
+  # if (table == "figure6"){
+  #   indicator <- "Venture Capital"
+  #   unit <- "Availability 1-7, 7=best"
+  # }
+  # if (table == "figure7"){
+  #   indicator <- "Test indicator"
+  #   unit <- "Availability 1-7, 7=best"
+  # }
+  # if (table == "figureFin1"){
+  #   indicator <- "FDI, net inflows"
+  #   unit <- "BoP, current US$, as % GDP"
+  # }
+  # if (table == "figureFin2"){
+  #   indicator <- "Investment in Telecoms w/ Private Part."
+  #   unit <- "Millions, $US"
+  # }
+  # if (table == "figureFin3"){
+  #   indicator <- "Market Capitaliz. of Listed Companies"
+  #   unit <- "% of GDP"
+  # }
+  
+  indicator <- data$IndicatorShort[1]
+  unit <- data$Unit[1]
     
   if (nrow(data)>0){
     

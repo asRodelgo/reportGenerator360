@@ -11,7 +11,7 @@ exclude <- c("Channel Islands","Virgin Islands (U.S.)","Northern Mariana Islands
              "St. Martin (French part)","Sint Maarten (Dutch part)")
 processed <- c()
 #for (c in filter(countries, !(name %in% exclude))$name) {
-for (c in c("India")) {
+for (c in c("Italy")) {
   if (!(substr(c,1,1)=="(") & !(filter(countries, name==c)$iso3=="")){
     iso3 <- .getCountryCode(c)
     knit2pdf('PDF_LaTeX.Rnw', clean = TRUE,
