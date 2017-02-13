@@ -62,6 +62,10 @@ figure_sparkline <- function(couName,table){
     indicator <- "Venture Capital"
     unit <- "Availability 1-7, 7=best"
   }
+  if (table == "figure7"){
+    indicator <- "Test indicator"
+    unit <- "Availability 1-7, 7=best"
+  }
   if (table == "figureFin1"){
     indicator <- "FDI, net inflows"
     unit <- "BoP, current US$, as % GDP"
@@ -381,9 +385,9 @@ table_time_avg <- function(couName,section,table){
     #  rowsSelect <- seq(1,nrow(data)-1,2)
     #}
     if (section %in% c("Culture","Supports")){
-      col <- rep("\\rowcolor{white}", length(rowsSelect))  
+      col <- rep("\\rowcolor{white}", length(rowsSelect))
     } else {
-      col <- rep("\\rowcolor[gray]{0.95}", length(rowsSelect))  
+      col <- rep("\\rowcolor[gray]{0.95}", length(rowsSelect))
     }
     
     data.table <- xtable(data, digits=rep(1,ncol(data)+1)) #control decimals
@@ -651,7 +655,7 @@ number_chart <- function(couName,section,table,str_wrap_size){
 
 
 ## ---- bar_facewrap_chart ----
-bar_facewrap_chart <- function(couName, section, table){      
+bar_facewrap_chart <- function(couName, section, table, vertical_bars = TRUE){      
   
   cou <- .getCountryCode(couName) # This chart needs to query neighbouring countries also
   
@@ -701,7 +705,7 @@ bar_facewrap_chart <- function(couName, section, table){
 #     
     require(stringr) # to wrap label text
     #data <- mutate(data, Country = str_wrap(Country, width = 15))
-    if (section == "Policy"){
+    if (vertical_bars == TRUE){
 
       #maxPeriod_thisCou <- filter(data, CountryCode==cou)$Period[1]
       data <- data %>%

@@ -39,7 +39,10 @@ line_chart(couName,reportConfig$Section[1],"line1")
 bar_facewrap_chart(couName,reportConfig$Section[1],"line2")
 
 ## ---- number1 ----
-number_chart(couName,reportConfig$Section[1],"radar",str_wrap_size=30)
+number_chart(couName,reportConfig$Section[1],"radar1",str_wrap_size=30)
+
+## ---- number2 ----
+number_chart(couName,reportConfig$Section[1],"radar2",str_wrap_size=30)
 
 ########## Tourism Economic Indicators ##########
 
@@ -50,7 +53,7 @@ figure_sparkline(couName,"figure2")
 figure_sparkline(couName,"figure7")
 
 ## ---- bar_wrap2 ----
-bar_facewrap_chart(couName,reportConfig$Section[2],"line2")
+bar_facewrap_chart(couName,reportConfig$Section[2],"line2", vertical_bars = FALSE)
 
 ## ---- bar_wrap3 ----
 bar_facewrap_chart(couName,reportConfig$Section[2],"line4")
@@ -58,7 +61,7 @@ bar_facewrap_chart(couName,reportConfig$Section[2],"line4")
 ## ---- bar1 ----
 bar_chart(couName, reportConfig$Section[2],"line3",paste_unit=TRUE)
 
-## ---- number2 ----
+## ---- number3 ----
 number_chart(couName,reportConfig$Section[2],"line5",str_wrap_size=36)
 
 ########## Tourism competitiveness ##########
