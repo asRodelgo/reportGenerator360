@@ -139,7 +139,7 @@
   \begin{minipage}[c]{0.5\textwidth}  
     \hspace{4ex}\small{\textcolor[HTML]{818181}{INTERNATIONAL TOURISM, \% of exports}}
     \vspace{1ex}
-    <<bar_wrap3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=4,fig.width=8,results="asis">>=  
+    <<bar1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=4,fig.width=8,results="asis">>=  
     @      
     %\vspace{-1ex}
     \hspace{4ex}\scriptsize{\href{http://data.worldbank.org/data-catalog/world-development-indicators}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: WORLD BANK - WDI}}}
@@ -147,7 +147,7 @@
   \begin{minipage}[c]{0.5\textwidth} 
     \hspace{4ex}\small{\textcolor[HTML]{818181}{INTERNATIONAL TOURISM, in \$US}}
     \vspace{1ex}
-    <<bar1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=4,fig.width=8,results="asis">>=  
+    <<bar2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=4,fig.width=8,results="asis">>=  
     @      
     %\vspace{-1ex}
     \hspace{4ex}\scriptsize{\href{http://data.worldbank.org/data-catalog/world-development-indicators}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: WORLD BANK - WDI}}}
@@ -168,7 +168,7 @@
     \begin{minipage}[c]{0.5\textwidth}
       \hspace{4ex}\small{\textcolor[HTML]{818181}{DIRECT CONTRIBUTION}}
       \vspace{1ex}
-      <<bar_wrap2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=10,results="asis">>=  
+      <<number4,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=10,results="asis">>=  
       @      
       %\vspace{-1ex}
       \hspace{4ex}\hspace{4ex}\scriptsize{\href{https://tool.wttc.org/}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: WTTC}}}
@@ -227,7 +227,7 @@
     \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[4]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[4]}}}
   \end{flushleft}
   \vspace{1ex}
-  <<bar_wrap3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2.5,fig.width=11,results="asis">>=  
+  <<bar_wrap5,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2.5,fig.width=11,results="asis">>=  
   @      
   %\vspace{-1ex}
   \hspace{4ex}\scriptsize{\href{http://www3.weforum.org/docs/TT15/WEF_TTCR_Dataset_2015.xlsx}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: WEF TTCR 2015}}}

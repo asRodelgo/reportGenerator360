@@ -658,7 +658,7 @@ number_chart <- function(couName,section,table,str_wrap_size){
 
 
 ## ---- bar_facewrap_chart ----
-bar_facewrap_chart <- function(couName, section, table, vertical_bars = TRUE){      
+bar_facewrap_chart <- function(couName, section, table, vertical_bars = TRUE, str_wrap_size = 20){      
   
   cou <- .getCountryCode(couName) # This chart needs to query neighbouring countries also
   
@@ -666,16 +666,12 @@ bar_facewrap_chart <- function(couName, section, table, vertical_bars = TRUE){
   neighbors <- countries[countries$region==couRegion,]$iso3 # retrieve all countries in that region
   neighbors <- as.character(neighbors[!(neighbors==cou)]) # exclude the selected country
   
-  # hardcode for now
-  #neighbors <- c("DZA","JOR","MAR","EGY","TUN")
-  
   data <- Report_data %>%
     filter(CountryCode %in% c(cou,neighbors), Section==section, Subsection==table) %>%
     mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear)-1),Period))
   
   if (nrow(filter(data, CountryCode==cou))>0){
     
-    #data <- merge(data, countries[,c("Country","CountryCodeISO3")], by.x="CountryCode", by.y="CountryCodeISO3") # add country name
     data <- data %>%
       filter(!is.na(Observation)) %>%
       group_by(Key,Country) %>%
@@ -699,22 +695,14 @@ bar_facewrap_chart <- function(couName, section, table, vertical_bars = TRUE){
     my_order <- data.frame(Country = country_order, order = seq(1,length(order_legend),1))
     data <- merge(data,my_order, by="Country") %>%
       arrange(order) 
-      #filter(order < 10) #keep 5 countries to compare
-    # order the factors
-#     data$Country = factor(as.character(data$Country), 
-#                           levels = c(as.character(unique(data[data$CountryCode %in% topNeighbors,]$Country)),
-#                                      unique(as.character(data[data$CountryCode==cou,]$Country))))
-#     order_legend <- c(couName,as.character(unique(data[data$CountryCode %in% topNeighbors,]$Country)))
 #     
     require(stringr) # to wrap label text
-    #data <- mutate(data, Country = str_wrap(Country, width = 15))
     if (vertical_bars == TRUE){
 
-      #maxPeriod_thisCou <- filter(data, CountryCode==cou)$Period[1]
       data <- data %>%
         group_by(Key) %>%
         filter(Period == max(Period,na.rm=TRUE)) %>%
-        mutate(IndicatorShort = str_wrap(paste0(IndicatorShort," (",Period,")"), width = 20)) %>%
+        mutate(IndicatorShort = str_wrap(paste0(IndicatorShort," (",Period,")"), width = str_wrap_size)) %>%
         filter(order < 6) %>%
         as.data.frame()
       
@@ -744,7 +732,7 @@ bar_facewrap_chart <- function(couName, section, table, vertical_bars = TRUE){
       data <- data %>%
         group_by(Key) %>%
         filter(Period == max(Period,na.rm=TRUE)) %>%
-        mutate(IndicatorShort = str_wrap(paste0(IndicatorShort," (",Period,")"), width = 20)) %>%
+        mutate(IndicatorShort = str_wrap(paste0(IndicatorShort," (",Period,")"), width = str_wrap_size)) %>%
         filter(order < 6) %>%
         as.data.frame()
       

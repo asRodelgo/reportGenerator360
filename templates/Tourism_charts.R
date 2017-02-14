@@ -59,10 +59,19 @@ bar_facewrap_chart(couName,reportConfig$Section[2],"line2", vertical_bars = FALS
 bar_facewrap_chart(couName,reportConfig$Section[2],"line4", vertical_bars = FALSE)
 
 ## ---- bar1 ----
-bar_chart(couName, reportConfig$Section[2],"line3",paste_unit=TRUE)
+bar_chart(couName, reportConfig$Section[2],"line4",paste_unit=FALSE)
+
+## ---- bar_wrap4 ----
+bar_facewrap_chart(couName, reportConfig$Section[2],"line3",vertical_bars = FALSE, str_wrap_size = 40)
+
+## ---- bar2 ----
+bar_chart(couName, reportConfig$Section[2],"line3",paste_unit = FALSE)
 
 ## ---- number3 ----
 number_chart(couName,reportConfig$Section[2],"line5",str_wrap_size=36)
+
+## ---- number4 ----
+number_chart(couName, reportConfig$Section[2],"line2",str_wrap_size=36)
 
 ########## Tourism competitiveness ##########
 
@@ -77,5 +86,5 @@ sparklines(couName,reportConfig$Section[3],"radar1")
 
 ########## Access & Transport ##########
 
-## ---- bar_wrap3 ----
+## ---- bar_wrap5 ----
 bar_facewrap_chart(couName,reportConfig$Section[4],"radar1")
