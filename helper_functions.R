@@ -1520,3 +1520,89 @@ pie_chart_regular <- function(couName,section,table){
   }  
   
 }
+
+## ---- table_time ----
+table_time <- function(couName,section,table){      
+  
+  cou <- .getCountryCode(couName)
+  #table <- "table1"
+  tableKeys <- unique(filter(Report_data, Section == section, Subsection==table)[,c("Key","IndicatorShort")])
+  data <- filter(Report_data, CountryCode==cou, Section == section, Subsection==table)
+  data <- merge(tableKeys,select(data,-IndicatorShort),by="Key",all.x=TRUE)
+  
+  if (sum(data$Observation,na.rm=TRUE)==0){ # in case this country has no data
+    data$Observation <- 0
+    data$Period <- as.numeric(thisYear)-1
+    # To create table's reference points in the LaTeX output
+    data_initial <- data
+    for (per in (as.numeric(thisYear)-7):(as.numeric(thisYear)-2)){
+      data_plus <- mutate(data_initial,Period = per)
+      data <- bind_rows(data, data_plus)
+    }
+    data$Period <- as.character(data$Period)
+  }
+  # keep the latest period (excluding projections further than 2 years)
+  data <- mutate(data, Period = ifelse(is.na(Period),max(as.numeric(Period),na.rm=TRUE),Period)) %>%
+    filter(Period <= (as.numeric(thisYear))) %>%
+    # remove NAs rows
+    # calculate average for 1st column
+    mutate(Unit = ifelse(grepl("Active population",Unit),"% of TEA",Unit),
+           IndicatorShort = paste0(IndicatorShort,", ",Unit))
+  data$IndicatorShort <- gsub("Entrepreneurial","Entrepr.", data$IndicatorShort)
+  data$IndicatorShort <- gsub("auditors","audit.", data$IndicatorShort)
+  
+  #keep only periods of interest in data
+  data <- mutate(data, Period = ifelse(Period==thisYear & is.na(CountryCode),as.numeric(thisYear)-1,Period)) %>%
+    filter(Period > (as.numeric(thisYear) - 7) & Period < (as.numeric(thisYear)))
+  data <- mutate(data, ObsScaled = Observation) %>%
+    arrange(Key) %>%
+    select(Key, IndicatorShort, Period, ObsScaled)
+  # restrict to 2 decimal places
+  data$ObsScaled <- round(data$ObsScaled,2)
+  
+  # format numbers
+  data$ObsScaled <- format(data$ObsScaled, digits=2, decimal.mark=".",
+                           big.mark=",",small.mark=".", small.interval=3)
+  
+  # escape reserved characters
+  data$IndicatorShort <- gsub("%", "\\%", data$IndicatorShort, fixed=TRUE)
+  data$IndicatorShort <- gsub("&", "\\&", data$IndicatorShort, fixed=TRUE)
+  
+  data <- distinct(data, Key,Period, .keep_all = TRUE)
+  # final table format
+  data <- spread(data, Period, ObsScaled)
+  data <- data[,-1] #drop the Key column
+  if (ncol(data)>2){ # rid of characters in numeric columns
+    data[,ncol(data)] <- gsub("NA", "---", data[,ncol(data)], fixed=TRUE)
+  } 
+  
+  # dummy columns in to keep the pdf layout
+  if (ncol(data)<=6){
+    for (j in (ncol(data)+1):7){
+      data[,j] <- "---"
+      names(data)[j] <- as.character(as.numeric(thisYear)-6+j)
+    }
+  }
+  # I have to add a dummy column so the alignment works (align)
+  data$dummy <- rep("",nrow(data))
+  # modify column names
+  names(data) <- c("",names(data)[2:(ncol(data)-1)],"")
+  
+  # substitute NAs for "---" em-dash
+  data[is.na(data)] <- "---"
+  rowsSelect <- seq(1,nrow(data)-1,2)
+  
+  if (section %in% c("Culture","Supports")){
+    col <- rep("\\rowcolor{white}", length(rowsSelect))
+  } else {
+    col <- rep("\\rowcolor[gray]{0.95}", length(rowsSelect))
+  }
+  
+  data.table <- xtable(data, digits=rep(1,ncol(data)+1)) #control decimals
+  align(data.table) <- c('l','>{\\raggedright}p{6in}','r',rep('>{\\raggedleft}p{0.8in}',ncol(data.table)-3),'l')
+  print(data.table, include.rownames=FALSE,include.colnames=TRUE, floating=FALSE, 
+        size="\\Large",add.to.row = list(pos = as.list(rowsSelect), command = col),
+        booktabs = FALSE, table.placement="", hline.after = c(0) ,latex.environments = "center",
+        sanitize.text.function = function(x){x}) # include sanitize to control formats
+  
+}

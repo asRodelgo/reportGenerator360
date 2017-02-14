@@ -168,7 +168,7 @@
     \begin{minipage}[c]{0.5\textwidth}
       \hspace{4ex}\small{\textcolor[HTML]{818181}{DIRECT CONTRIBUTION}}
       \vspace{1ex}
-      <<number4,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=10,results="asis">>=  
+      <<number3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=10,results="asis">>=  
       @      
       %\vspace{-1ex}
       \hspace{4ex}\hspace{4ex}\scriptsize{\href{https://tool.wttc.org/}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: WTTC}}}
@@ -176,7 +176,7 @@
     \begin{minipage}[c]{0.5\textwidth}  
       \hspace{4ex}\small{\textcolor[HTML]{818181}{CAPITAL INVESTMENT}}
       \vspace{1ex}
-      <<number3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=10,results="asis">>=  
+      <<number4,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=10,results="asis">>=  
       @      
       %\vspace{-1ex}
       \hspace{4ex}\scriptsize{\href{https://tool.wttc.org/}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: WTTC}}}
@@ -189,36 +189,46 @@
   \begin{flushleft}  
     \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[3]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[3]}}}
   \end{flushleft}
-  \hspace{4ex}\small{\textcolor[HTML]{818181}{TOURISM COMPETITIVENESS INDEX}}
-  \vspace{1ex}
-  <<pie1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2,fig.width=11,results="asis">>=  
-  @      
-  %\vspace{-1ex}
-  \hspace{4ex}\scriptsize{\href{http://www3.weforum.org/docs/TT15/WEF_TTCR_Dataset_2015.xlsx}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: WEF TTCR 2015}}}
-\end{minipage}
-
-\begin{minipage}[c]{0.95\textwidth}
-  \begin{minipage}[c]{0.83\textwidth}
-    \vspace{2ex}
-    \begin{flushleft}  
-      \small{\textcolor[HTML]{818181}{COMPETITIVENESS INDICATORS}}
-    \end{flushleft}
+  \begin{minipage}[c]{0.5\textwidth}
+    \hspace{4ex}\small{\textcolor[HTML]{818181}{TOURISM COMPETITIVENESS INDEX}}
+    \vspace{1ex}
+    <<pie1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=7,fig.width=11,results="asis">>=  
+    @      
+    %\vspace{-1ex}
+    \hspace{4ex}\scriptsize{\href{http://www3.weforum.org/docs/TT15/WEF_TTCR_Dataset_2015.xlsx}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: WEF TTCR 2015}}}
+  \end{minipage}  
+  \begin{minipage}[c]{0.5\textwidth}
     \vspace*{-0.2cm}
     \centering
     \resizebox{\textwidth}{!}{
-    <<table_time_avg1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=  
-    @      
+    <<table_time,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=
+    @
     }
   \end{minipage}
-  \begin{minipage}[c]{0.125\textwidth}
-    \vspace*{+1cm}
-    <<sparklines1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=10.1,fig.width=5.5,results="asis">>=  
-    @
-    \vspace*{-0.5cm}
-  \end{minipage}
-  
-  \scriptsize{\href{http://www3.weforum.org/docs/TT15/WEF_TTCR_Dataset_2015.xlsx}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: WEF TTCR 2015}}}
 \end{minipage}
+
+% \begin{minipage}[c]{0.95\textwidth}
+%   \begin{minipage}[c]{0.83\textwidth}
+%     \vspace{2ex}
+%     \begin{flushleft}  
+%       \small{\textcolor[HTML]{818181}{COMPETITIVENESS INDICATORS}}
+%     \end{flushleft}
+%     \vspace*{-0.2cm}
+%     \centering
+%     \resizebox{\textwidth}{!}{
+%     <<table_time_avg1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=  
+%     @      
+%     }
+%   \end{minipage}
+%   \begin{minipage}[c]{0.125\textwidth}
+%     \vspace*{+1cm}
+%     <<sparklines1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=10.1,fig.width=5.5,results="asis">>=  
+%     @
+%     \vspace*{-0.5cm}
+%   \end{minipage}
+%   
+%   \scriptsize{\href{http://www3.weforum.org/docs/TT15/WEF_TTCR_Dataset_2015.xlsx}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: WEF TTCR 2015}}}
+% \end{minipage}
 
 %% Access & Transport --------------------------------------------
 \begin{minipage}[c]{0.95\textwidth}

@@ -52,31 +52,36 @@ figure_sparkline(couName,"figure2")
 ## ---- spark2 ----
 figure_sparkline(couName,"figure7")
 
-## ---- bar_wrap2 ----
-bar_facewrap_chart(couName,reportConfig$Section[2],"line2", vertical_bars = FALSE)
-
-## ---- bar_wrap3 ----
-bar_facewrap_chart(couName,reportConfig$Section[2],"line4", vertical_bars = FALSE)
-
 ## ---- bar1 ----
 bar_chart(couName, reportConfig$Section[2],"line4",paste_unit=FALSE)
-
-## ---- bar_wrap4 ----
-bar_facewrap_chart(couName, reportConfig$Section[2],"line3",vertical_bars = FALSE, str_wrap_size = 40)
 
 ## ---- bar2 ----
 bar_chart(couName, reportConfig$Section[2],"line3",paste_unit = FALSE)
 
 ## ---- number3 ----
-number_chart(couName,reportConfig$Section[2],"line5",str_wrap_size=36)
+number_chart(couName, reportConfig$Section[2],"line2",str_wrap_size=36)
 
 ## ---- number4 ----
-number_chart(couName, reportConfig$Section[2],"line2",str_wrap_size=36)
+number_chart(couName,reportConfig$Section[2],"line5",str_wrap_size=36)
+
+# 
+# ## ---- bar_wrap2 ----
+# bar_facewrap_chart(couName,reportConfig$Section[2],"line2", vertical_bars = FALSE)
+# 
+# ## ---- bar_wrap3 ----
+# bar_facewrap_chart(couName,reportConfig$Section[2],"line4", vertical_bars = FALSE)
+# 
+# ## ---- bar_wrap4 ----
+# bar_facewrap_chart(couName, reportConfig$Section[2],"line3",vertical_bars = FALSE, str_wrap_size = 40)
+# 
 
 ########## Tourism competitiveness ##########
 
 ## ---- pie1 ----
 pie_chart_region(couName, reportConfig$Section[3],"table1")
+
+## ---- table_time ----
+table_time(couName,reportConfig$Section[3],"radar1")
 
 ## ---- table_time_avg1 ----
 table_time_avg(couName,reportConfig$Section[3],"radar1")
