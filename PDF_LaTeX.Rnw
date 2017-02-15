@@ -43,10 +43,13 @@ month <- substr(Sys.Date(),6,7)
 year <- substr(Sys.Date(),1,4)
 date <- Sys.Date()
 #### custom texts and colors
-title <- reportConfig$Report_Title[1]
-main_color <- reportConfig$Color[1] #722FF5 "722F37"
-section_name <- reportConfig$Section
-section_desc <- reportConfig$Section_Description
+title <- filter(reportConfig, Section_Level == 9)$Section_Description
+main_color <- filter(reportConfig, Section_Level == 9)$Color #722FF5 "722F37"
+section_name <- filter(reportConfig, Section_Level == 1)$Section
+section_desc <- filter(reportConfig, Section_Level == 1)$Section_Description
+subsection_name <- filter(reportConfig, Section_Level == 2)[,c("Section","Order","Section_ID")]
+subsection_source <- filter(reportConfig, Section_Level == 2)[,c("Section_Description","Order","Section_ID")]
+subsection_sourceLink <- filter(reportConfig, Section_Level == 2)[,c("Source_Link","Order","Section_ID")]
 parent_directory <- getwd()
 #test_source <- "Wello hello mellow yellow"
 @

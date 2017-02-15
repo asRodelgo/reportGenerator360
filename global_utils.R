@@ -42,6 +42,13 @@ reportConfig <- read.csv(paste0("templates/",input_reportID, "_ReportConfigurati
 # Read and process data from TCdata360 API ----------------
 source('datapull_TCdata360.R')
 
+# Add source links to reportConfig ------------------------
+reportConfig <- select(dataDesc, Source_Name, Source_Link) %>% 
+  distinct(Source_Name, Source_Link) %>%
+  right_join(reportConfig, by = c("Source_Name" = "Section_Description")) %>%
+  select(everything(), Section_Description = Source_Name) %>%
+  arrange(Section_Level, Order)
+                
 # Auxiliary functions -------------------------------------
 
 .getISO2 <- function(couName){
