@@ -189,15 +189,15 @@
   \begin{flushleft}  
     \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[3]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[3]}}}
   \end{flushleft}
-  \begin{minipage}[c]{0.5\textwidth}
+  \begin{minipage}[c]{0.40\textwidth}
     \hspace{4ex}\small{\textcolor[HTML]{818181}{TOURISM COMPETITIVENESS INDEX}}
     \vspace{1ex}
-    <<pie1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=7,fig.width=11,results="asis">>=  
+    <<pie1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=7,fig.width=11,results="asis">>=  
     @      
     %\vspace{-1ex}
     \hspace{4ex}\scriptsize{\href{http://www3.weforum.org/docs/TT15/WEF_TTCR_Dataset_2015.xlsx}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: WEF TTCR 2015}}}
   \end{minipage}  
-  \begin{minipage}[c]{0.5\textwidth}
+  \begin{minipage}[c]{0.58\textwidth}
     \vspace*{-0.2cm}
     \centering
     \resizebox{\textwidth}{!}{
@@ -233,11 +233,11 @@
 %% Access & Transport --------------------------------------------
 \begin{minipage}[c]{0.95\textwidth}
   \vspace{5ex}
-  \begin{flushleft}  
+  \begin{flushleft} 
     \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[4]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[4]}}}
   \end{flushleft}
   \vspace{1ex}
-  <<bar_wrap5,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2.5,fig.width=11,results="asis">>=  
+  <<bar_wrap5,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=4,fig.width=11,results="asis">>=  
   @      
   %\vspace{-1ex}
   \hspace{4ex}\scriptsize{\href{http://www3.weforum.org/docs/TT15/WEF_TTCR_Dataset_2015.xlsx}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: WEF TTCR 2015}}}

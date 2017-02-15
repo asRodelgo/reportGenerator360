@@ -1559,7 +1559,6 @@ table_time <- function(couName,section,table){
     select(Key, IndicatorShort, Period, ObsScaled)
   # restrict to 2 decimal places
   data$ObsScaled <- round(data$ObsScaled,2)
-  
   # format numbers
   data$ObsScaled <- format(data$ObsScaled, digits=2, decimal.mark=".",
                            big.mark=",",small.mark=".", small.interval=3)
@@ -1577,10 +1576,10 @@ table_time <- function(couName,section,table){
   } 
   
   # dummy columns in to keep the pdf layout
-  if (ncol(data)<=6){
-    for (j in (ncol(data)+1):7){
+  if (ncol(data)<=4){
+    for (j in (ncol(data)+1):5){
       data[,j] <- "---"
-      names(data)[j] <- as.character(as.numeric(thisYear)-6+j)
+      names(data)[j] <- as.character(as.numeric(thisYear)-4+j)
     }
   }
   # I have to add a dummy column so the alignment works (align)
@@ -1599,7 +1598,7 @@ table_time <- function(couName,section,table){
   }
   
   data.table <- xtable(data, digits=rep(1,ncol(data)+1)) #control decimals
-  align(data.table) <- c('l','>{\\raggedright}p{6in}','r',rep('>{\\raggedleft}p{0.8in}',ncol(data.table)-3),'l')
+  align(data.table) <- c('l','>{\\raggedright}p{4.5in}','r',rep('>{\\raggedleft}p{0.8in}',ncol(data.table)-3),'l')
   print(data.table, include.rownames=FALSE,include.colnames=TRUE, floating=FALSE, 
         size="\\Large",add.to.row = list(pos = as.list(rowsSelect), command = col),
         booktabs = FALSE, table.placement="", hline.after = c(0) ,latex.environments = "center",
