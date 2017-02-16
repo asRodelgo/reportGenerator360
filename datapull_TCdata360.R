@@ -12,7 +12,7 @@ indicators <- fromJSON("http://datascope-prod.amida-demo.com/api/v1/indicators?f
                        flatten=TRUE)
 # read data extracted from API. 
 ## ---- Run Writer_Report_data.R to update data from TCdata360 API
-Report_data <- read.csv("/Users/asanchez3/Desktop/Work/TCMN/Entrepreneurship_data/Report_data.csv",stringsAsFactors = FALSE)
+Report_data <- read.csv(paste0("/Users/asanchez3/Desktop/Work/TCMN/reportGenerator360_data/",input_reportID,"_data.csv"),stringsAsFactors = FALSE)
 
 # Read data description file (what goes in the PDF report)
 dataDesc <- read.csv(paste0("templates/",input_reportID,"_DataDescription.csv"), stringsAsFactors = FALSE)
