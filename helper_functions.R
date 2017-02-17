@@ -7,17 +7,19 @@ figure_sparkline <- function(couName,table){
   #table <- "combo1"
   data <- Report_data %>%
     filter(CountryCode==cou, Subsection2==table, !is.na(Observation)) %>%
-    mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear)-1),Period))
+    mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear)-1),Period),
+           Observation = Observation/Scale)
   
   if (table == "figureFin2"){
     data <- filter(data,Observation > 0)
     dataLast <- filter(data, Period == max(Period,na.rm=TRUE))
-    dataLast$Observation <- ifelse(dataLast$Observation>1000000,dataLast$Observation/1000000,dataLast$Observation)
+    #dataLast$Observation <- ifelse(dataLast$Observation>1000000,dataLast$Observation/1000000,dataLast$Observation)
   } else {
     data <- filter(data,!is.na(Observation))
     dataLast <- filter(data, Period == max(Period,na.rm=TRUE))
   }
   # data
+  
   dataPoint <- format(dataLast$Observation, digits=2, decimal.mark=".",
                       big.mark=",",small.mark=".", small.interval=3)
   # period
@@ -30,57 +32,18 @@ figure_sparkline <- function(couName,table){
     mutate(Period = max(Period,na.rm=TRUE)) %>%
     distinct(Period, .keep_all = TRUE) %>%
     as.data.frame()
-#     dataWorld <- merge(dataWorld,countries[,c("CountryCodeISO2","CountryAlternat")],by.x="iso2c",by.y="CountryCodeISO2",all.x = TRUE)
-#     dataWorld <- filter(dataWorld, !(CountryAlternat==""))
+  
   dataWorld <- arrange(dataWorld, desc(Observation))
   # rank in the world
   rank <- which(dataWorld$CountryCode == cou)
   rankedTotal <- nrow(dataWorld)
-  
-  # # Ad-hoc shorten some indicatores and units names:
-  # if (table == "figure1"){
-  #   indicator <- "Tech Startups"
-  #   unit <- "number per million pop"
-  # }
-  # if (table == "figure2"){
-  #   indicator <- "Doing Business"
-  #   unit <- "1=most business-friendly regulat."
-  # }
-  # if (table == "figure3"){
-  #   indicator <- "Broadband Internet"
-  #   unit <- "Subscriptions per 100 pop."
-  # }
-  # if (table == "figure4"){
-  #   indicator <- "Scientists, Engineers"
-  #   unit <- "Availability 1-7, 7=best"
-  # }
-  # if (table == "figure5"){
-  #   indicator <- "Tertiary Education"
-  #   unit <- "Enrollments in percent of pop."
-  # }
-  # if (table == "figure6"){
-  #   indicator <- "Venture Capital"
-  #   unit <- "Availability 1-7, 7=best"
-  # }
-  # if (table == "figure7"){
-  #   indicator <- "Test indicator"
-  #   unit <- "Availability 1-7, 7=best"
-  # }
-  # if (table == "figureFin1"){
-  #   indicator <- "FDI, net inflows"
-  #   unit <- "BoP, current US$, as % GDP"
-  # }
-  # if (table == "figureFin2"){
-  #   indicator <- "Investment in Telecoms w/ Private Part."
-  #   unit <- "Millions, $US"
-  # }
-  # if (table == "figureFin3"){
-  #   indicator <- "Market Capitaliz. of Listed Companies"
-  #   unit <- "% of GDP"
-  # }
-  
+
   indicator <- data$IndicatorShort[1]
   unit <- data$Unit[1]
+  # add the right scale
+  if (data$Scale[1] == 1000000){
+    unit <- paste0(unit, ", million")
+  }
     
   if (nrow(data)>0){
     
@@ -90,11 +53,6 @@ figure_sparkline <- function(couName,table){
     spark <- data %>%
       arrange(Period) %>%
       select(Observation)
-    
-    # text
-    #indicator <- dataLast$IndicatorShort
-    #unit <- dataLast$Unit
-    
     # impute NAs and standardize so all sparklines are scaled
     spark[is.na(spark),1] <- mean(spark[,1],na.rm = TRUE)  #impute NAs to the mean of the column
     if (sum(spark[,1],na.rm = TRUE)==0){ 
@@ -110,11 +68,11 @@ figure_sparkline <- function(couName,table){
     
     # print indicator name
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 1.1,indicator, col=paste0("#",filter(reportConfig, Section_Level == 9)$Color), cex=10)
+    graphics::text(1.5, 1.1,indicator, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=10)
     graphics::text(1.5, 0.7,paste0(unit, " (",dataPeriod,")"), col="#818181", cex=5)
     # print data point and rank
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 0.95,dataPoint, col=paste0("#",filter(reportConfig, Section_Level == 9)$Color), cex=18)
+    graphics::text(1.5, 0.95,dataPoint, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=18)
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
     graphics::text(1.5, 1.1,paste0("(Rank: ",rank,"/",rankedTotal,")"), col="grey", cex=7)
     # plot sparkline  
@@ -155,7 +113,7 @@ figure_sparkline <- function(couName,table){
     
     # print indicator name
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 1.1,indicator, col=paste0("#",filter(reportConfig, Section_Level == 9)$Color), cex=10)
+    graphics::text(1.5, 1.1,indicator, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=10)
     graphics::text(1.5, 0.7,unit, col="#818181", cex=5)
     # print data point and rank
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
@@ -172,74 +130,74 @@ figure_sparkline <- function(couName,table){
 }
 
 ## ---- table_time ----
-table_time <- function(couName,section, table){      
-  
-  cou <- .getCountryCode(couName)
-  #table <- "table1"
-  tableKeys <- unique(filter(Report_data, Section == section, Subsection==table)[,c("Key","IndicatorShort")])
-  data <- filter(Report_data, CountryCode==cou, Section == section, Subsection==table)
-  data <- merge(tableKeys,select(data,-IndicatorShort),by="Key",all.x=TRUE)
-  # keep the latest period (excluding projections further than 2 years)
-  data <- mutate(data, Period = ifelse(is.na(Period),max(as.numeric(Period),na.rm=TRUE),Period))
-  data <- filter(data, Period <= (as.numeric(thisYear) + 1))
-  
-  #keep only periods of interest in data
-  data <- filter(data, Period > (as.numeric(thisYear) - 7))
-  # Scale Observations
-  data <- mutate(data, ObsScaled = ifelse(grepl("current US",Unit),Observation/1000000000,Observation),
-                 Unit = ifelse(grepl("current US",Unit),"USD billions",Unit),
-                 IndicatorShort = paste0(IndicatorShort, ", ",Unit))
-  
-  data <- arrange(data, Key)
-  data <- select(data, Key, IndicatorShort, Period, ObsScaled)
-  # restrict to 2 decimal places
-  data$ObsScaled <- round(data$ObsScaled,2)
-  data[is.na(data)] <- "..."
-  # format numbers
-  data$ObsScaled <- format(data$ObsScaled, digits=2, decimal.mark=".",
-                           big.mark=",",small.mark=".", small.interval=3)
-  
-#   for (i in 1:nrow(data)){
-#     
-#     data$IndicatorShort[i] <- ifelse(!is.na(merge(data,TCMN_indic[TCMN_indic$Subsection==table,], by="Key")$Note[i]),
-#                                      paste0(data$IndicatorShort[i]," \\large{[", merge(data,TCMN_indic[TCMN_indic$Subsection==table,], by="Key")$Note[i],"]}"),
-#                                      data$IndicatorShort[i])  
+# table_time <- function(couName,section, table){      
+#   
+#   cou <- .getCountryCode(couName)
+#   #table <- "table1"
+#   tableKeys <- unique(filter(Report_data, Section == section, Subsection==table)[,c("Key","IndicatorShort")])
+#   data <- filter(Report_data, CountryCode==cou, Section == section, Subsection==table)
+#   data <- merge(tableKeys,select(data,-IndicatorShort),by="Key",all.x=TRUE)
+#   # keep the latest period (excluding projections further than 2 years)
+#   data <- mutate(data, Period = ifelse(is.na(Period),max(as.numeric(Period),na.rm=TRUE),Period))
+#   data <- filter(data, Period <= (as.numeric(thisYear) + 1))
+#   
+#   #keep only periods of interest in data
+#   data <- filter(data, Period > (as.numeric(thisYear) - 7))
+#   # Scale Observations
+#   data <- mutate(data, ObsScaled = ifelse(grepl("current US",Unit),Observation/1000000000,Observation),
+#                  Unit = ifelse(grepl("current US",Unit),"USD billions",Unit),
+#                  IndicatorShort = paste0(IndicatorShort, ", ",Unit))
+#   
+#   data <- arrange(data, Key)
+#   data <- select(data, Key, IndicatorShort, Period, ObsScaled)
+#   # restrict to 2 decimal places
+#   data$ObsScaled <- round(data$ObsScaled,2)
+#   data[is.na(data)] <- "..."
+#   # format numbers
+#   data$ObsScaled <- format(data$ObsScaled, digits=2, decimal.mark=".",
+#                            big.mark=",",small.mark=".", small.interval=3)
+#   
+# #   for (i in 1:nrow(data)){
+# #     
+# #     data$IndicatorShort[i] <- ifelse(!is.na(merge(data,TCMN_indic[TCMN_indic$Subsection==table,], by="Key")$Note[i]),
+# #                                      paste0(data$IndicatorShort[i]," \\large{[", merge(data,TCMN_indic[TCMN_indic$Subsection==table,], by="Key")$Note[i],"]}"),
+# #                                      data$IndicatorShort[i])  
+# #   }
+#   # escape reserved characters
+#   data$IndicatorShort <- gsub("%", "\\%", data$IndicatorShort, fixed=TRUE)
+#   data$IndicatorShort <- gsub("&", "\\&", data$IndicatorShort, fixed=TRUE)
+#   
+#   # final table format
+#   data <- spread(data, Period, ObsScaled)
+#   data <- data[,-1] #drop the Key column
+#   
+#   # remove columns with all NAs
+#   data <- data[,!(colSums(data == "...   ")==nrow(data))]
+#   
+#   # dummy columns in to keep the pdf layout fixed to 6 columns
+#   if (ncol(data)<=5){
+#     for (j in (ncol(data)+1):7){
+#       data[,j] <- "---"
+#       names(data)[j] <- as.character(as.numeric(thisYear)-6+j)
+#     }
 #   }
-  # escape reserved characters
-  data$IndicatorShort <- gsub("%", "\\%", data$IndicatorShort, fixed=TRUE)
-  data$IndicatorShort <- gsub("&", "\\&", data$IndicatorShort, fixed=TRUE)
-  
-  # final table format
-  data <- spread(data, Period, ObsScaled)
-  data <- data[,-1] #drop the Key column
-  
-  # remove columns with all NAs
-  data <- data[,!(colSums(data == "...   ")==nrow(data))]
-  
-  # dummy columns in to keep the pdf layout fixed to 6 columns
-  if (ncol(data)<=5){
-    for (j in (ncol(data)+1):7){
-      data[,j] <- "---"
-      names(data)[j] <- as.character(as.numeric(thisYear)-6+j)
-    }
-  }
-  # I have to add a dummy column so the alignment works (align)
-  data$dummy <- rep("",nrow(data))
-  # modify column names
-  names(data) <- c("",names(data)[2:(ncol(data)-1)],"")
-  
-  # substitute NAs for "---" em-dash
-  data[is.na(data)] <- "---"
-  rowsSelect <- seq(1,nrow(data)-1,2)
-  col <- rep("\\rowcolor[gray]{0.95}", length(rowsSelect))
-  data.table <- xtable(data, digits=rep(1,ncol(data)+1)) #control decimals
-  align(data.table) <- c('l','>{\\raggedright}p{6in}','r',rep('>{\\raggedleft}p{0.8in}',ncol(data.table)-3),'l')
-  print(data.table, include.rownames=FALSE,include.colnames=TRUE, floating=FALSE, 
-        size="\\Large",add.to.row = list(pos = as.list(rowsSelect), command = col),
-        booktabs = FALSE, table.placement="", hline.after = c(0) ,latex.environments = "center",
-        sanitize.text.function = function(x){x}) # include sanitize to control formats
-  
-}
+#   # I have to add a dummy column so the alignment works (align)
+#   data$dummy <- rep("",nrow(data))
+#   # modify column names
+#   names(data) <- c("",names(data)[2:(ncol(data)-1)],"")
+#   
+#   # substitute NAs for "---" em-dash
+#   data[is.na(data)] <- "---"
+#   rowsSelect <- seq(1,nrow(data)-1,2)
+#   col <- rep("\\rowcolor[gray]{0.95}", length(rowsSelect))
+#   data.table <- xtable(data, digits=rep(1,ncol(data)+1)) #control decimals
+#   align(data.table) <- c('l','>{\\raggedright}p{6in}','r',rep('>{\\raggedleft}p{0.8in}',ncol(data.table)-3),'l')
+#   print(data.table, include.rownames=FALSE,include.colnames=TRUE, floating=FALSE, 
+#         size="\\Large",add.to.row = list(pos = as.list(rowsSelect), command = col),
+#         booktabs = FALSE, table.placement="", hline.after = c(0) ,latex.environments = "center",
+#         sanitize.text.function = function(x){x}) # include sanitize to control formats
+#   
+# }
 
 ## ---- line_chart ----
 line_chart <- function(couName, section, table){
@@ -258,6 +216,7 @@ line_chart <- function(couName, section, table){
   
   topNeighbors <- head(arrange(as.data.frame(income), desc(Observation)),15)$CountryCode
   data <- filter(data, CountryCode %in% c(cou,topNeighbors)) %>%
+    mutate(Observation = Observation/Scale) %>%
     arrange(CountryCode,Period)
   
   # order lines in chart and hide elements in legend
@@ -344,7 +303,7 @@ table_time_avg <- function(couName,section,table){
     data <- bind_rows(data, data_avg) %>% # add rows to data
     #data <- as.data.frame(data)
     # Scale Observations
-    mutate(ObsScaled = Observation) %>%
+    mutate(ObsScaled = Observation/Scale) %>%
     arrange(Key) %>%
     select(Key, IndicatorShort, Period, ObsScaled)
     # restrict to 2 decimal places
@@ -500,20 +459,12 @@ bar_chart <- function(couName,section,table,paste_unit){
   data <- filter(Report_data, CountryCode==cou, Section==section, Subsection %in% table)
   data <- data %>%
     filter(!(is.na(Observation))) %>%
+    mutate(Observation = Observation/Scale) %>%
     distinct(Key,Period,.keep_all=TRUE)
   maxPeriod <- filter(data, Period == max(Period,na.rm=TRUE))$Period[1]
-  #couRegion <- as.character(countries[countries$CountryCodeISO3==cou,]$RegionCodeES)  # obtain the region for the selected country
-  #data <- filter(Report_data, CountryCode %in% c(cou,couRegion, "RWe"), Category=="Policy", Subsection=="bar1") #select country, region and world
-  
-  # country, Region, World descriptors
-  #country <- as.character(countries[countries$CountryCodeISO3==cou,]$Country)
-  #region <- as.character(countries[countries$CountryCodeISO3==cou,]$Region) 
-  #world <- "All Countries"
   
   if (nrow(data)>0){
     # order the factors
-    #data$IndicatorShort = factor(as.character(data$IndicatorShort), 
-    #                             levels = data$IndicatorShort[order(data$Observation)])
     if (!any(is.na(data$Period))){
       data <- data %>%
         group_by(Key) %>%
@@ -535,9 +486,9 @@ bar_chart <- function(couName,section,table,paste_unit){
       #data <- mutate(data, id = seq(1,nrow(data),1))
       ggplot(NULL,aes(x=IndicatorShort,y=Observation)) +
         geom_bar(data=data_grey,color="#f1f3f3",fill = "#f1f3f3",stat="identity") +
-        geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 9)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 9)$Color),stat="identity") +
+        geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
         geom_text(data=data, aes(label=round(Observation,1),y=ifelse(Observation<21,Observation + max(Observation)*.1,Observation - max(Observation)*.1)),
-                  size=12,color=ifelse(data$Observation<21,paste0("#",filter(reportConfig, Section_Level == 9)$Color),"white")) + 
+                  size=12,color=ifelse(data$Observation<21,paste0("#",filter(reportConfig, Section_Level == 10)$Color),"white")) + 
         coord_flip()+
         theme(legend.key=element_blank(),
               legend.title=element_blank(),
@@ -552,9 +503,9 @@ bar_chart <- function(couName,section,table,paste_unit){
         )
     } else {
       ggplot(NULL,aes(x=IndicatorShort,y=Observation)) +
-        geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 9)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 9)$Color),stat="identity") +
+        geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
         geom_text(data=data, aes(label=round(Observation,1),y=ifelse(Observation<14,Observation + max(Observation)*.1,Observation - max(Observation)*.1)),
-                  size=6,color=ifelse(data$Observation<14,paste0("#",filter(reportConfig, Section_Level == 9)$Color),"white")) + 
+                  size=6,color=ifelse(data$Observation<14,paste0("#",filter(reportConfig, Section_Level == 10)$Color),"white")) + 
         coord_flip()+
         theme(legend.key=element_blank(),
               legend.title=element_blank(),
@@ -582,14 +533,9 @@ number_chart <- function(couName,section,table,str_wrap_size){
   data <- filter(Report_data, CountryCode==cou, Section==section, Subsection %in% table)
   data <- data %>%
     filter(!(is.na(Observation))) %>%
+    mutate(Observation = Observation/Scale) %>%
     distinct(Key,Period,.keep_all=TRUE)
-  
-  # data
-  #dataPoints <- format(data$Observation, digits=2, decimal.mark=".",
-  #                    big.mark=",",small.mark=".", small.interval=3)
-  # period
-  #dataPeriods <- data$Period
-  
+ 
   dataWorld <- filter(Report_data, Section==section, Subsection %in% table)
   dataWorld <- filter(dataWorld,!is.na(Observation))
   dataWorld <- dataWorld %>%
@@ -628,22 +574,22 @@ number_chart <- function(couName,section,table,str_wrap_size){
         rank[i] <- which(thisKey$CountryCode == cou)
         # print indicator name
         plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-        graphics::text(1, 1.1,thisKey$IndicatorShort[1], col=paste0("#",filter(reportConfig, Section_Level == 9)$Color), cex=3, adj=0)
+        graphics::text(1, 1.1,thisKey$IndicatorShort[1], col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=3, adj=0)
         graphics::text(1, 0.75,paste0(thisKey$Unit[1], " (",thisKey$Period[1],")"), col="#818181", cex=2, adj = 0)
         # print data point and rank
         plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-        graphics::text(1.17, 1,filter(thisKey,CountryCode==cou)$Observation , col=paste0("#",filter(reportConfig, Section_Level == 9)$Color), cex=8)
+        graphics::text(1.17, 1,filter(thisKey,CountryCode==cou)$Observation , col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=8)
         graphics::text(1.42, 0.95,paste0("(Rank: ",rank[i],"/",rankedTotal[i],")"), col="grey", cex=3, adj=0)
       
       } else { # no data for this indicator
         
         # print indicator name
         plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-        graphics::text(1, 1.1,thisKey$IndicatorShort[1], col=paste0("#",filter(reportConfig, Section_Level == 9)$Color), cex=3, adj=0)
+        graphics::text(1, 1.1,thisKey$IndicatorShort[1], col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=3, adj=0)
         graphics::text(1, 0.75,paste0(thisKey$Unit[1], " (",thisKey$Period[1],")"), col="#818181", cex=2, adj = 0)
         # print data point and rank
         plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-        graphics::text(1.17, 1," " , col=paste0("#",filter(reportConfig, Section_Level == 9)$Color), cex=8)
+        graphics::text(1.17, 1," " , col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=8)
         graphics::text(1.42, 0.95,paste0("(Rank: /",rankedTotal[i],")"), col="grey", cex=3, adj=0)
       }
       i <- i + 1
@@ -668,7 +614,8 @@ bar_facewrap_chart <- function(couName, section, table, vertical_bars = TRUE, st
   
   data <- Report_data %>%
     filter(CountryCode %in% c(cou,neighbors), Section==section, Subsection==table) %>%
-    mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear)-1),Period))
+    mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear)-1),Period),
+           Observation = Observation/Scale)
   
   if (nrow(filter(data, CountryCode==cou))>0){
     
@@ -711,7 +658,7 @@ bar_facewrap_chart <- function(couName, section, table, vertical_bars = TRUE, st
         #coord_flip()+
         facet_wrap(~IndicatorShort,scales="free_y") +
         theme(strip.text.x = element_text(family="Times", size = 12, colour = "white"),
-              strip.background = element_rect(colour = paste0("#",filter(reportConfig, Section_Level == 9)$Color), fill = paste0("#",filter(reportConfig, Section_Level == 9)$Color)),
+              strip.background = element_rect(colour = paste0("#",filter(reportConfig, Section_Level == 10)$Color), fill = paste0("#",filter(reportConfig, Section_Level == 10)$Color)),
               legend.key=element_blank(),
               legend.title=element_blank(),
               legend.text = element_text(family="Times", size = 10, colour = "#818181"),
@@ -741,7 +688,7 @@ bar_facewrap_chart <- function(couName, section, table, vertical_bars = TRUE, st
         coord_flip() +
         facet_wrap(~IndicatorShort) +
         theme(strip.text.x = element_text(family="Times", size = 12, colour = "white"),
-              strip.background = element_rect(colour = paste0("#",filter(reportConfig, Section_Level == 9)$Color), fill = paste0("#",filter(reportConfig, Section_Level == 9)$Color)),
+              strip.background = element_rect(colour = paste0("#",filter(reportConfig, Section_Level == 10)$Color), fill = paste0("#",filter(reportConfig, Section_Level == 10)$Color)),
               legend.key=element_blank(),
               legend.title=element_blank(),
               legend.text = element_text(family="Times", size = 10, colour = "#818181"),
@@ -777,10 +724,9 @@ radar_chart <- function(couName,section,table){
   # country and Region descriptors
   country <- as.character(countries[countries$iso3==cou,]$Country)
   region <- as.character(countries[countries$iso3==cou,]$region) 
-  #country <- paste0(country," (Rank: ",round(filter(TCMN_data, CountryCode==cou, Key=="P00b")$Observation,1),")")
-  #region <- paste0(region," (Avg Rank: ",round(filter(TCMN_data, CountryCode==couRegion, Key=="P00b")$Observation,1),")")
   # filter the data
-  data <- filter(Report_data, CountryCode %in% c(cou,neighbors), Section == section, Subsection==table)
+  data <- filter(Report_data, CountryCode %in% c(cou,neighbors), Section == section, Subsection==table) %>%
+    mutate(Observation = Observation/Scale)
   
   if (nrow(filter(data, CountryCode==cou))>0){  
     # calculate the average for the region
@@ -1166,7 +1112,8 @@ pie_chart_double <- function(couName,section,table){
   data <- Report_data %>%
     filter(CountryCode==cou & Section == section & Subsection==table) %>%
     filter(!is.na(Observation)) %>%
-    mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear) - 1),Period))
+    mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear) - 1),Period),
+           Observation = Observation/Scale)
 
   couRegion <- countries[countries$iso3==cou,]$region  # obtain the region for the selected country
   # country and Region descriptors
@@ -1290,7 +1237,8 @@ pie_chart_region <- function(couName,section,table){
   data <- Report_data %>%
     filter(CountryCode==cou & Section == section & Subsection==table) %>%
     filter(!is.na(Observation)) %>%
-    mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear) - 1),Period))
+    mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear) - 1),Period)) %>%
+    mutate(Observation = Observation/Scale)
   
   couRegion <- countries[countries$iso3==cou,]$region  # obtain the region for the selected country
   # country and Region descriptors
@@ -1367,7 +1315,7 @@ pie_chart_region <- function(couName,section,table){
       
       p2 <- ggplot(dataRegion, aes("",Observation,fill=IndicatorShort)) +
         geom_bar(width=1,stat="identity") +
-        scale_fill_manual(values = c("#f1f3f3",paste0("#",filter(reportConfig, Section_Level == 9)$Color)),guide=FALSE) +
+        scale_fill_manual(values = c("#f1f3f3",paste0("#",filter(reportConfig, Section_Level == 10)$Color)),guide=FALSE) +
         coord_polar("y",start = 0) +
         geom_text(aes(label=ObsLabel,y=15),
                   size=12,color="white") + 
@@ -1389,7 +1337,7 @@ pie_chart_region <- function(couName,section,table){
       
       ggplot(data, aes("",Observation,fill=IndicatorShort)) +
         geom_bar(width=1,stat="identity") +
-        scale_fill_manual(values = c("#f1f3f3",paste0("#",filter(reportConfig, Section_Level == 9)$Color)),guide=FALSE) +
+        scale_fill_manual(values = c("#f1f3f3",paste0("#",filter(reportConfig, Section_Level == 10)$Color)),guide=FALSE) +
         coord_polar("y",start = 0) +
         geom_text(aes(label=ObsLabel,y=15),
                   size=12,color="white") + 
@@ -1478,7 +1426,7 @@ pie_chart_regular <- function(couName,section,table){
     
     p1 <- ggplot(data1, aes("",Observation,fill=IndicatorShort)) +
       geom_bar(width=1,stat="identity") +
-      scale_fill_manual(values = c("#f1f3f3",paste0("#",filter(reportConfig, Section_Level == 9)$Color)),guide=FALSE) +
+      scale_fill_manual(values = c("#f1f3f3",paste0("#",filter(reportConfig, Section_Level == 10)$Color)),guide=FALSE) +
       coord_polar("y",start = 0) +
       geom_text(aes(label=ObsLabel,y=10),
                 size=5,color="white") + 
@@ -1496,7 +1444,7 @@ pie_chart_regular <- function(couName,section,table){
     
     p2 <- ggplot(data2, aes("",Observation,fill=IndicatorShort)) +
       geom_bar(width=1,stat="identity") +
-      scale_fill_manual(values = c("#f1f3f3",paste0("#",filter(reportConfig, Section_Level == 9)$Color)),guide=FALSE) +
+      scale_fill_manual(values = c("#f1f3f3",paste0("#",filter(reportConfig, Section_Level == 10)$Color)),guide=FALSE) +
       coord_polar("y",start = 0) +
       geom_text(aes(label=ObsLabel,y=10),
                 size=5,color="white") + 
@@ -1542,7 +1490,8 @@ table_time <- function(couName,section,table){
     data$Period <- as.character(data$Period)
   }
   # keep the latest period (excluding projections further than 2 years)
-  data <- mutate(data, Period = ifelse(is.na(Period),max(as.numeric(Period),na.rm=TRUE),Period)) %>%
+  data <- mutate(data, Period = ifelse(is.na(Period),max(as.numeric(Period),na.rm=TRUE),Period),
+                 Observation = Observation/Scale) %>%
     filter(Period <= (as.numeric(thisYear))) %>%
     # remove NAs rows
     # calculate average for 1st column

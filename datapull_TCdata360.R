@@ -23,7 +23,7 @@ Report_data <- merge(Report_data, countries[,c("iso3","iso2","name","region")],b
 # clean up: remove duplicate columns
 Report_data <- Report_data %>%
   mutate(Period = as.character(Period)) %>%
-  select(Key = id, Country = name, Period, Observation, CountryCode = iso3, iso2,  
+  select(Key = id, Country = name, Period, Observation, Scale, CountryCode = iso3, iso2,  
          IndicatorShort = Indicator_Short, Source_Name, Source_Link, Unit = Unit_Short, 
          Section, Subsection, Subsection2, region, Source_ID)
 
