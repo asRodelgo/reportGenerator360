@@ -20,7 +20,7 @@ tagList(
                    selectInput('inCountry', "Select country:", choices=c("Select a country",countries$name), selectize=FALSE),
                    selectInput('inTopic', "Select topic:", choices=c("Select a topic","Entrepreneurship","Tourism"), selectize=FALSE),
                    actionButton("generateReport", "Generate Report"),
-                   actionButton("previewReport", "Preview Report"),
+                   #actionButton("previewReport", "Preview Report"),
                    uiOutput("previewPDF")
                    #downloadButton('downloadReport', 'Download PDF'),
                    #tags$iframe(src="Tourism_IND.pdf", width="900", height="600")

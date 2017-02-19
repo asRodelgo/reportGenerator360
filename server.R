@@ -6,15 +6,20 @@ source("helper_functions.R", local = TRUE)
 function(input, output, session) {
   # download pre-generated PDF -----------------------------
   
-  observeEvent(input$previewReport,{
-    output$previewPDF <- renderUI({
-      tags$iframe(src=paste0(input$inTopic,"_",.getCountryCode(input$inCountry),".pdf"), width="900", height="600")
-    })
-  })
-    
+  # observeEvent(input$previewReport,{
+  #   output$previewPDF <- renderUI({
+  #     #tags$iframe(src=paste0(input$inTopic,"_",.getCountryCode(input$inCountry),".pdf"), width="600", height="400")
+  #     a(href=paste0(input$inTopic,"_",.getCountryCode(input$inCountry),".pdf"), target="_blank", "Click here for the results...")
+  #   })
+  # })
+  #   
   observeEvent(input$generateReport,{
   
     do.call(.reportGenerator, args = list(couName = input$inCountry, input_reportID = input$inTopic))
+    output$previewPDF <- renderUI({
+      #tags$iframe(src=paste0(input$inTopic,"_",.getCountryCode(input$inCountry),".pdf"), width="600", height="400")
+      a(href=paste0(input$inTopic,"_",.getCountryCode(input$inCountry),".pdf"), target="_blank", "Click here for the results...")
+    })
   })  
     
   # generateThisReport <- eventReactive(input$generateReport,{
