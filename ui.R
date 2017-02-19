@@ -8,7 +8,7 @@ library(V8)
 #object <- get(".shinystan_temp_object", envir = shinystan:::.sso_env)
 source("global_utils.R", local = TRUE)
 
-# tagList(
+tagList(
 #   tags$noscript(style = "color: orange; font-size: 30px; text-align: center;", 
 #                 "Please enable JavaScript to use Trade and Competitiveness Monitoring note and Operations."),
 #   shinyjs::useShinyjs(),
@@ -19,10 +19,14 @@ source("global_utils.R", local = TRUE)
             column(3,
                    selectInput('inCountry', "Select country:", choices=c("Select a country",countries$name), selectize=FALSE),
                    selectInput('inTopic', "Select topic:", choices=c("Select a topic","Entrepreneurship","Tourism"), selectize=FALSE),
-                   downloadButton('downloadReport', 'Download PDF')
+                   actionButton("generateReport", "Generate Report"),
+                   actionButton("previewReport", "Preview Report"),
+                   uiOutput("previewPDF")
+                   #downloadButton('downloadReport', 'Download PDF'),
+                   #tags$iframe(src="Tourism_IND.pdf", width="900", height="600")
         )
       )
     )
-  
+)  
   
   

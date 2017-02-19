@@ -27,7 +27,7 @@ library(knitr) # generate LaTeX PDF report
 #loadfonts(device="postscript")
 library(Cairo)
 cairo_ps("test.eps", family = "Times")
-
+dev.off()
 # avoid scientific notation
 options(scipen=999)
 thisYear <- substr(Sys.Date(),1,4)
@@ -40,7 +40,7 @@ input_reportID <- "Tourism"
 reportConfig <- read.csv(paste0("templates/",input_reportID, "_ReportConfiguration.csv"), stringsAsFactors = FALSE)
 
 # Read and process data from TCdata360 API ----------------
-source('datapull_TCdata360.R')
+source('datapull_TCdata360.R', local = TRUE)
 
 # Add source links to reportConfig ------------------------
 reportConfig <- select(dataDesc, Source_Name, Source_Link) %>% 

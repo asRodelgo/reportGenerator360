@@ -36,7 +36,7 @@ read_chunk(paste0("templates/",input_reportID,"_charts.R"))
 %
 <<params,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE>>=
 thisYear <- substr(Sys.Date(),1,4)
-couName <- countries[countries$name==c,]$name
+couName <- countries[countries$name==couName,]$name
 couISO2 <- countries[countries$Country==couName,]$iso2
 couISO3 <- countries[countries$Country==couName,]$iso3
 month <- substr(Sys.Date(),6,7)
