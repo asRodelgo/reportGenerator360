@@ -190,7 +190,7 @@
   \begin{minipage}[c]{0.40\textwidth}
     \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 1)[1,1]}}}
     \vspace{1ex}
-    <<numberBig,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=7,fig.width=11,results="asis">>=  
+    <<numberBig,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=7,fig.width=14,results="asis">>=  
     @      
     \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 3,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: \Sexpr{filter(subsection_source, Section_ID == 3,Order == 1)[1,1]}}}}
   \end{minipage}  

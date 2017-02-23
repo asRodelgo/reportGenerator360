@@ -131,13 +131,13 @@ figure_sparkline <- function(couName,table){
 }
 
 ## ---- numberBig ----
-numberBig <- function(couName,table){      
+numberBig <- function(couName,section,table){      
   
   cou <- .getCountryCode(couName)
   ## Examples like Edward Tufte's sparklines:
   #table <- "combo1"
   data <- Report_data %>%
-    filter(CountryCode==cou, Subsection2==table, !is.na(Observation)) %>%
+    filter(CountryCode==cou, Section == section, Subsection==table, !is.na(Observation)) %>%
     mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear)-1),Period),
            Observation = Observation/Scale)
   
@@ -150,7 +150,7 @@ numberBig <- function(couName,table){
   # period
   dataPeriod <- dataLast$Period
   
-  dataWorld <- filter(Report_data, Subsection2==table)
+  dataWorld <- filter(Report_data, Section == section, Subsection==table)
   dataWorld <- filter(dataWorld,!is.na(Observation))
   dataWorld <- dataWorld %>%
     group_by(iso2) %>%
@@ -1083,6 +1083,9 @@ table_countries <- function(couName,section,table){
       mutate(IndicatorShort = paste0(IndicatorShort, ",", Unit)) %>%
       select(IndicatorShort, get(couName), everything(), -Unit)
     
+    # keep 4 neighbour countries at most
+    data <- data[,c(1:6)]
+    #
     require(stringr) # to wrap label text
     
     # I have to add a dummy column so the alignment works (align)
