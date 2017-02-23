@@ -80,6 +80,12 @@ number_chart(couName,reportConfig$Section[2],"line5",str_wrap_size=36)
 ## ---- pie1 ----
 pie_chart_region(couName, reportConfig$Section[3],"table1")
 
+## ---- numberBig ----
+numberBig(couName, reportConfig$Section[3],"table1")
+
+## ---- table_countries ----
+table_countries(couName,reportConfig$Section[3],"radar1")
+
 ## ---- table_time ----
 table_time(couName,reportConfig$Section[3],"radar1")
 

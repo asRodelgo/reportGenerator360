@@ -1,5 +1,6 @@
 # Helper functions to generalize charts and tables for LaTeX
-#
+
+## ---- figure_sparkline ----
 figure_sparkline <- function(couName,table){      
   
   cou <- .getCountryCode(couName)
@@ -124,6 +125,84 @@ figure_sparkline <- function(couName,table){
     par(family = 'serif',#sets number of rows in space to number of cols in data frame x
       mar=c(0,5,0,5))#sets margin size for the figures
     #oma=c(0,4,0,4)) #sets outer margin
+    
+  } 
+  
+}
+
+## ---- numberBig ----
+numberBig <- function(couName,table){      
+  
+  cou <- .getCountryCode(couName)
+  ## Examples like Edward Tufte's sparklines:
+  #table <- "combo1"
+  data <- Report_data %>%
+    filter(CountryCode==cou, Subsection2==table, !is.na(Observation)) %>%
+    mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear)-1),Period),
+           Observation = Observation/Scale)
+  
+  data <- filter(data,!is.na(Observation))
+  dataLast <- filter(data, Period == max(Period,na.rm=TRUE))
+
+  # data
+  dataPoint <- format(dataLast$Observation, digits=2, decimal.mark=".",
+                      big.mark=",",small.mark=".", small.interval=3)
+  # period
+  dataPeriod <- dataLast$Period
+  
+  dataWorld <- filter(Report_data, Subsection2==table)
+  dataWorld <- filter(dataWorld,!is.na(Observation))
+  dataWorld <- dataWorld %>%
+    group_by(iso2) %>%
+    mutate(Period = max(Period,na.rm=TRUE)) %>%
+    distinct(Period, .keep_all = TRUE) %>%
+    as.data.frame()
+  
+  dataWorld <- arrange(dataWorld, desc(Observation))
+  # rank in the world
+  rank <- which(dataWorld$CountryCode == cou)
+  rankedTotal <- nrow(dataWorld)
+  
+  indicator <- data$IndicatorShort[1]
+  unit <- data$Unit[1]
+  # add the right scale
+  if (data$Scale[1] == 1000000){
+    unit <- paste0(unit, ", million")
+  }
+  
+  if (nrow(data)>0){
+    
+    # Print the combo -----------------------------------------------
+    par(family = 'serif',mfrow=c(3,1), #sets number of rows in space to number of cols in data frame x
+        mar=c(0,2,0,2), #sets margin size for the figures
+        oma=c(0,1,0,1)) #sets outer margin
+    
+    # print indicator name
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 1.1,indicator, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=10)
+    graphics::text(1.5, 0.7,paste0(unit, " (",dataPeriod,")"), col="#818181", cex=5)
+    # print data point and rank
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 0.95,dataPoint, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=18)
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 1.1,paste0("(Rank: ",rank,"/",rankedTotal,")"), col="grey", cex=7)
+    
+  } else {
+    
+    # Print the combo -----------------------------------------------
+    par(family = 'serif',mfrow=c(5,1), #sets number of rows in space to number of cols in data frame x
+        mar=c(0,2,0,2), #sets margin size for the figures
+        oma=c(0,1,0,1)) #sets outer margin
+    
+    # print indicator name
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 1.1,indicator, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=10)
+    graphics::text(1.5, 0.7,unit, col="#818181", cex=5)
+    # print data point and rank
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 0.95,"No data available", col="grey", cex=10)
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 1.1,paste0("(Rank: /",rankedTotal,")"), col="grey", cex=7)
     
   } 
   
@@ -957,6 +1036,95 @@ table_region <- function(couName,section,table){
   
 }
 
+## ---- table_countries ----
+table_countries <- function(couName,section,table){      
+  
+  cou <- .getCountryCode(couName) # This chart needs to query neighbouring countries also
+  
+  couRegion <- countries[countries$iso3==cou,]$region  # obtain the region for the selected country
+  neighbors <- countries[countries$region==couRegion,]$iso3 # retrieve all countries in that region
+  neighbors <- as.character(neighbors[!(neighbors==cou)]) # exclude the selected country
+  
+  data <- Report_data %>%
+    filter(CountryCode %in% c(cou,neighbors), Section==section, Subsection==table) %>%
+    mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear)-1),Period),
+           Observation = Observation/Scale)
+  
+  if (nrow(filter(data, CountryCode==cou))>0){
+    
+    data <- data %>%
+      filter(!is.na(Observation)) %>%
+      group_by(Key,Country) %>%
+      filter(Period == max(Period,na.rm=TRUE)) %>%
+      distinct(Key,CountryCode, .keep_all = TRUE)
+    # select top 4 countries from the neighborhood based on their income level
+    income <- filter(Report_data, CountryCode %in% neighbors & Section=="aux_income")
+    income <- income %>%
+      group_by(CountryCode) %>%
+      filter(!is.na(Observation), Period < thisYear) %>%
+      filter(Period == max(Period,na.rm=TRUE))
+    
+    topNeighbors <- head(arrange(as.data.frame(income), desc(Observation)),15)$CountryCode
+    data <- filter(data, CountryCode %in% c(cou,topNeighbors))
+    data$IndicatorShort <- gsub(" Index","",data$IndicatorShort)
+    #data <- group_by(Key,Country) %>%
+    #  filter(Period == max(Period))
+    
+    order_legend <- c(couName,as.character(unique(data[data$CountryCode %in% topNeighbors,]$Country)))
+    country_order <- factor(order_legend, levels = c(couName,order_legend[2:length(order_legend)]))
+    my_order <- data.frame(Country = country_order, order = seq(1,length(order_legend),1))
+    data <- merge(data,my_order, by="Country") %>%
+      arrange(order) 
+    
+    thisPeriod <- data$Period[1]
+    # rearrange data to create the table    
+    data <- select(data, Country, Observation, IndicatorShort, Unit) %>%
+      spread(Country, Observation) %>%
+      mutate(IndicatorShort = paste0(IndicatorShort, ",", Unit)) %>%
+      select(IndicatorShort, get(couName), everything(), -Unit)
+    
+    require(stringr) # to wrap label text
+    
+    # I have to add a dummy column so the alignment works (align)
+    data$dummy <- rep("",nrow(data))
+    names(data)[ncol(data)] <-""
+    # remove the column name for the indicators
+    names(data)[1] <- ""
+    # make sure there are always 3 rows on the table to avoid black stripes on following table
+    if (nrow(data)<3){
+      for (r in 1:(3-nrow(data))){
+        data <- rbind(data,c("",rep("",ncol(data))))
+      }
+    }
+    
+    # substitute NAs for "---" em-dash
+    data[is.na(data)] <- "---"
+    if (nrow(data)>1){
+      rowsSelect <- seq(1,nrow(data)-1,2)
+    } else{
+      rowsSelect <- c(1)
+    }
+    col <- rep("\\rowcolor[gray]{0.95}", length(rowsSelect))
+    data.table <- xtable(data)
+    align(data.table) <- c('l','l',rep('>{\\raggedleft}p{1.2in}',(ncol(data)-2)),'l')
+    print(data.table, include.rownames=FALSE,include.colnames=TRUE, floating=FALSE, 
+          size="\\Large",add.to.row = list(pos = as.list(rowsSelect), command = col),
+          booktabs = FALSE, table.placement="", hline.after = c(0) ,latex.environments = "center")
+    
+  } else{
+    
+    data[!is.na(data)] <- ""
+    #data <- select(data, Key)
+    names(data) <- c(" ",rep(" ",ncol(data)-1))
+    data.table <- xtable(data)
+    align(data.table) <- rep('l',ncol(data)+1)
+    print(data.table, include.rownames=FALSE,include.colnames=TRUE, floating=FALSE, 
+          size="\\tiny",
+          booktabs = FALSE, table.placement="", hline.after = c(0) ,latex.environments = "center")
+  } 
+  
+}
+
 ## ---- doing_business_table ----
 doing_business_table <- function(couName){      
   
@@ -1556,6 +1724,11 @@ table_time <- function(couName,section,table){
 }
 
 
+##########################
+# Shiny specific functions -----------------------------------------
+##########################
+
+# Generate report. Store it in www in order to be rendered in a browser
 .reportGenerator <- function(couName, input_reportID){
   #setwd('/Users/asanchez3/Desktop/Work/reportGenerator360/')
   #if (!(substr(c,1,1)=="(") & !(filter(countries, name==couName)$iso3=="")){
@@ -1570,3 +1743,4 @@ table_time <- function(couName,section,table){
     file.remove(paste0(input_reportID,"_",iso3,".tex"))
   #}
 }
+
