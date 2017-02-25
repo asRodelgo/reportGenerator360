@@ -551,6 +551,7 @@ bar_chart <- function(couName,section,table,paste_unit){
     }
     
     require(stringr) # to wrap label text
+    require(scales) # to use thousands separator
     
     if (paste_unit){ # should unit be included in indicator name
       data <- mutate(data, Unit = ifelse(grepl("0-100",Unit),"100=full ownership allowed",Unit))
@@ -581,11 +582,11 @@ bar_chart <- function(couName,section,table,paste_unit){
               axis.text.y = element_text(family="Times", size = 20),
               axis.text = element_text(family="Times", color = "#818181")) + 
         labs(x="",y=""#,title="Top 5 constraints according to 2013 Enterprise Survey (in percent)"
-        )
+        ) 
     } else {
       ggplot(NULL,aes(x=IndicatorShort,y=Observation)) +
         geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
-        geom_text(data=data, aes(label=round(Observation,1),y=ifelse(Observation<max_value*.15,Observation + max(Observation)*.1,Observation - max(Observation)*.1)),
+        geom_text(data=data, aes(label=format(round(Observation,1),big.mark = ","),y=ifelse(Observation<max_value*.15,Observation + max(Observation)*.1,Observation - max(Observation)*.1)),
                   size=6,color=ifelse(data$Observation<max_value*.15,paste0("#",filter(reportConfig, Section_Level == 10)$Color),"white")) + 
         coord_flip()+
         theme(legend.key=element_blank(),
@@ -685,7 +686,7 @@ number_chart <- function(couName,section,table,str_wrap_size){
 
 
 ## ---- bar_facewrap_chart ----
-bar_facewrap_chart <- function(couName, section, table, vertical_bars = TRUE, str_wrap_size = 20){      
+bar_facewrap_chart <- function(couName, section, table, vertical_bars = TRUE, append_unit = TRUE, str_wrap_size = 20){      
   
   cou <- .getCountryCode(couName) # This chart needs to query neighbouring countries also
   
@@ -725,12 +726,17 @@ bar_facewrap_chart <- function(couName, section, table, vertical_bars = TRUE, st
       arrange(order) 
 #     
     require(stringr) # to wrap label text
+    
+    if (append_unit) {
+      data$Unit <- paste0(", ",data$Unit)
+    } else data$Unit <- ""
+    
     if (vertical_bars == TRUE){
 
       data <- data %>%
         group_by(Key) %>%
         filter(Period == max(Period,na.rm=TRUE)) %>%
-        mutate(IndicatorShort = str_wrap(paste0(IndicatorShort," (",Period,")"), width = str_wrap_size)) %>%
+        mutate(IndicatorShort = str_wrap(paste0(IndicatorShort, Unit," (",Period,")"), width = str_wrap_size)) %>%
         filter(order < 6) %>%
         as.data.frame()
       
@@ -760,14 +766,14 @@ bar_facewrap_chart <- function(couName, section, table, vertical_bars = TRUE, st
       data <- data %>%
         group_by(Key) %>%
         filter(Period == max(Period,na.rm=TRUE)) %>%
-        mutate(IndicatorShort = str_wrap(paste0(IndicatorShort," (",Period,")"), width = str_wrap_size)) %>%
+        mutate(IndicatorShort = str_wrap(paste0(IndicatorShort, Unit," (",Period,")"), width = str_wrap_size)) %>%
         filter(order < 6) %>%
         as.data.frame()
       
       ggplot(data, aes(x=reorder(Country,order),y=Observation,fill=reorder(Country,order),alpha=reorder(Country,order))) +
         geom_bar(position="dodge",stat="identity") +
         coord_flip() +
-        facet_wrap(~IndicatorShort) +
+        facet_wrap(~IndicatorShort,scales="free_x") +
         theme(strip.text.x = element_text(family="Times", size = 12, colour = "white"),
               strip.background = element_rect(colour = paste0("#",filter(reportConfig, Section_Level == 10)$Color), fill = paste0("#",filter(reportConfig, Section_Level == 10)$Color)),
               legend.key=element_blank(),
