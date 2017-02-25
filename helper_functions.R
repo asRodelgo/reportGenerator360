@@ -1746,8 +1746,24 @@ table_time <- function(couName,section,table){
 
 # Generate report. Store it in www in order to be rendered in a browser
 .reportGenerator <- function(couName, input_reportID){
-  #setwd('/Users/asanchez3/Desktop/Work/reportGenerator360/')
-  #if (!(substr(c,1,1)=="(") & !(filter(countries, name==couName)$iso3=="")){
+  
+  ### Read data and configurations ---------------
+  
+  # Read template report configuration
+  reportConfig <- read.csv(paste0("templates/",input_reportID, "_ReportConfiguration.csv"), stringsAsFactors = FALSE)
+  
+  # Read and process data from TCdata360 API ----------------
+  source('datapull_TCdata360.R', local = TRUE)
+  
+  # Add source links to reportConfig ------------------------
+  reportConfig <- select(dataDesc, Source_Name, Source_Link) %>% 
+    distinct(Source_Name, Source_Link) %>%
+    right_join(reportConfig, by = c("Source_Name" = "Section_Description")) %>%
+    select(everything(), Section_Description = Source_Name) %>%
+    arrange(Section_Level, Order)
+  #
+  ### Run the report ---------------
+  
     iso3 <- .getCountryCode(couName)
     knit2pdf('PDF_LaTeX.Rnw', clean = TRUE,
              encoding = "UTF-8",
@@ -1757,6 +1773,5 @@ table_time <- function(couName,section,table){
     file.copy(paste0(input_reportID,"_",iso3,".pdf"), "www/",overwrite=TRUE)
     file.remove(paste0(input_reportID,"_",iso3,".pdf"))
     file.remove(paste0(input_reportID,"_",iso3,".tex"))
-  #}
 }
 
