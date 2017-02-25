@@ -552,12 +552,14 @@ bar_chart <- function(couName,section,table,paste_unit){
     
     require(stringr) # to wrap label text
     
-    if (!paste_unit){ # should unit be included in indicator name
+    if (paste_unit){ # should unit be included in indicator name
       data <- mutate(data, Unit = ifelse(grepl("0-100",Unit),"100=full ownership allowed",Unit))
       data <- mutate(data, IndicatorShort = str_wrap(paste0(IndicatorShort,", ",Unit," (",Period,")"), width = 30))
     } else {
       data <- mutate(data, IndicatorShort = str_wrap(paste0(IndicatorShort," (",Period,")"), width = 30))
     }
+    # store max value to better place figures in or out the bars
+    max_value <- max(data$Observation)
     
     if (section == "Markets"){
       
@@ -566,8 +568,8 @@ bar_chart <- function(couName,section,table,paste_unit){
       ggplot(NULL,aes(x=IndicatorShort,y=Observation)) +
         geom_bar(data=data_grey,color="#f1f3f3",fill = "#f1f3f3",stat="identity") +
         geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
-        geom_text(data=data, aes(label=round(Observation,1),y=ifelse(Observation<21,Observation + max(Observation)*.1,Observation - max(Observation)*.1)),
-                  size=12,color=ifelse(data$Observation<21,paste0("#",filter(reportConfig, Section_Level == 10)$Color),"white")) + 
+        geom_text(data=data, aes(label=round(Observation,1),y=ifelse(Observation<max_value*.2,Observation + max(Observation)*.1,Observation - max(Observation)*.1)),
+                  size=12,color=ifelse(data$Observation<max_value*.2,paste0("#",filter(reportConfig, Section_Level == 10)$Color),"white")) + 
         coord_flip()+
         theme(legend.key=element_blank(),
               legend.title=element_blank(),
@@ -583,8 +585,8 @@ bar_chart <- function(couName,section,table,paste_unit){
     } else {
       ggplot(NULL,aes(x=IndicatorShort,y=Observation)) +
         geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
-        geom_text(data=data, aes(label=round(Observation,1),y=ifelse(Observation<14,Observation + max(Observation)*.1,Observation - max(Observation)*.1)),
-                  size=6,color=ifelse(data$Observation<14,paste0("#",filter(reportConfig, Section_Level == 10)$Color),"white")) + 
+        geom_text(data=data, aes(label=round(Observation,1),y=ifelse(Observation<max_value*.15,Observation + max(Observation)*.1,Observation - max(Observation)*.1)),
+                  size=6,color=ifelse(data$Observation<max_value*.15,paste0("#",filter(reportConfig, Section_Level == 10)$Color),"white")) + 
         coord_flip()+
         theme(legend.key=element_blank(),
               legend.title=element_blank(),

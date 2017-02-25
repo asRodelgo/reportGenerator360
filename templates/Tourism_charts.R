@@ -59,14 +59,13 @@ bar_chart(couName, reportConfig$Section[2],"line4",paste_unit=FALSE)
 bar_chart(couName, reportConfig$Section[2],"line3",paste_unit = FALSE)
 
 ## ---- number3 ----
-number_chart(couName, reportConfig$Section[2],"line2",str_wrap_size=36)
+number_chart(couName, reportConfig$Section[2],"line2",str_wrap_size=30)
 
 ## ---- number4 ----
-number_chart(couName,reportConfig$Section[2],"line5",str_wrap_size=36)
+number_chart(couName,reportConfig$Section[2],"line5",str_wrap_size=30)
 
-# 
-# ## ---- bar_wrap2 ----
-# bar_facewrap_chart(couName,reportConfig$Section[2],"line2", vertical_bars = FALSE)
+## ---- bar_wrap2 ----
+bar_facewrap_chart(couName,reportConfig$Section[2],"line2", vertical_bars = FALSE)
 # 
 # ## ---- bar_wrap3 ----
 # bar_facewrap_chart(couName,reportConfig$Section[2],"line4", vertical_bars = FALSE)

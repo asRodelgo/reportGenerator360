@@ -28,6 +28,7 @@ Report_data <- merge(Report_data,dataDesc, by.x = "id", by.y = "tcdata360_id")
 Report_data <- merge(Report_data, countries[,c("iso3","iso2","name","region")],by="iso3",all.x = TRUE)
 # clean up: remove duplicate columns
 Report_data <- Report_data %>%
+  filter(Period <= thisYear) %>%
   mutate(Period = as.character(Period)) %>%
   select(Key = id, Country = name, Period, Observation, Scale, CountryCode = iso3, iso2,  
          IndicatorShort = Indicator_Short, Source_Name, Source_Link, Unit = Unit_Short, 
