@@ -1084,7 +1084,7 @@ table_countries <- function(couName,section,table){
       select(IndicatorShort, get(couName), everything(), -Unit)
     
     # keep 4 neighbour countries at most
-    data <- data[,c(1:6)]
+    if (ncol(data) > 6) data <- data[,c(1:6)]
     #
     require(stringr) # to wrap label text
     
@@ -1109,7 +1109,7 @@ table_countries <- function(couName,section,table){
     }
     col <- rep("\\rowcolor[gray]{0.95}", length(rowsSelect))
     data.table <- xtable(data)
-    align(data.table) <- c('l','l',rep('>{\\raggedleft}p{1.2in}',(ncol(data)-2)),'l')
+    align(data.table) <- c('l','>{\\raggedright}p{2.5in}',rep('>{\\raggedleft}p{0.8in}',(ncol(data)-2)),'l')
     print(data.table, include.rownames=FALSE,include.colnames=TRUE, floating=FALSE, 
           size="\\Large",add.to.row = list(pos = as.list(rowsSelect), command = col),
           booktabs = FALSE, table.placement="", hline.after = c(0) ,latex.environments = "center")

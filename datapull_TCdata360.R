@@ -5,11 +5,17 @@ library(jsonlite)
 # Query data based on ids of filtered indicators
 # loop by country and indicator id. Bind it all in a data.frame
 # Query country metadata:
-countries <- fromJSON("http://datascope-prod.amida-demo.com/api/v1/countries/?fields=id%2Ciso2%2Ciso3%2Cname%2Cregion%2CincomeLevel%2ClendingType%2CcapitalCity%2Cgeo",
-                      flatten = TRUE)
+countries <- tryCatch(fromJSON("http://datascope-prod.amida-demo.com/api/v1/countries/?fields=id%2Ciso2%2Ciso3%2Cname%2Cregion%2CincomeLevel%2ClendingType%2CcapitalCity%2Cgeo",
+                  flatten = TRUE), 
+         error = function(e) {print("Warning: API call to countries returns an error")}, 
+         finally = {countries = read.csv("data/countries.csv", stringsAsFactors = FALSE)})
 # Query indicators:
-indicators <- fromJSON("http://datascope-prod.amida-demo.com/api/v1/indicators?fields=id%2Cname%2Cdataset%2CvalueType%2CdatasetId%2Cnotes%2Cproperties%2Crank%2Cdefinition",
-                       flatten=TRUE)
+# "http://datascope-prod.amida-demo.com/api/v1/indicators?fields=id%2Cname%2Cdataset%2CvalueType%2CdatasetId%2Cnotes%2Cproperties%2Crank%2Cdefinition"
+indicators <- tryCatch(fromJSON("http://datascope-prod.amida-demo.com/api/v1/indicators/?fields=id%2Cname%2CvalueType%2Crank",
+                  flatten=TRUE), 
+         error = function(e) {print("Warning: API call to indicators returns an error")}, 
+         finally = {indicators = read.csv("data/indicators.csv", stringsAsFactors = FALSE)})
+
 # read data extracted from API. 
 ## ---- Run Writer_Report_data.R to update data from TCdata360 API
 Report_data <- read.csv(paste0("/Users/asanchez3/Desktop/Work/TCMN/reportGenerator360_data/",input_reportID,"_data.csv"),stringsAsFactors = FALSE)

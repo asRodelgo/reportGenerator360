@@ -197,7 +197,7 @@
   \begin{minipage}[c]{0.58\textwidth}
     \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 2)[1,1]}}}
     \vspace{1ex}
-    \vspace*{-0.2cm}
+    %\vspace*{-0.2cm}
     \centering
     \resizebox{\textwidth}{!}{
     <<table_countries,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=
