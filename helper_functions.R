@@ -1037,7 +1037,7 @@ table_region <- function(couName,section,table){
 }
 
 ## ---- table_countries ----
-table_countries <- function(couName,section,table){      
+table_countries <- function(couName,section,table,compareCountries = 3,appendUnits = FALSE){      
   
   cou <- .getCountryCode(couName) # This chart needs to query neighbouring countries also
   
@@ -1077,14 +1077,19 @@ table_countries <- function(couName,section,table){
       arrange(order) 
     
     thisPeriod <- data$Period[1]
-    # rearrange data to create the table    
-    data <- select(data, Country, Observation, IndicatorShort, Unit) %>%
-      spread(Country, Observation) %>%
-      mutate(IndicatorShort = paste0(IndicatorShort, ",", Unit)) %>%
-      select(IndicatorShort, get(couName), everything(), -Unit)
-    
-    # keep 4 neighbour countries at most
-    if (ncol(data) > 6) data <- data[,c(1:6)]
+    # rearrange data to create the table and append or not units to indicators    
+    if (appendUnits){
+      data <- select(data, Country, Observation, IndicatorShort, Unit) %>%
+        spread(Country, Observation) %>%
+        mutate(IndicatorShort = paste0(IndicatorShort, ",", Unit)) %>%
+        select(IndicatorShort, get(couName), everything(), -Unit)
+    } else {
+      data <- select(data, Country, Observation, IndicatorShort, Unit) %>%
+        spread(Country, Observation) %>%
+        select(IndicatorShort, get(couName), everything(), -Unit)
+    }
+    # keep compareCountries neighbour countries at most
+    if (ncol(data) > (compareCountries + 2)) data <- data[,c(1:(compareCountries + 2))]
     #
     require(stringr) # to wrap label text
     
@@ -1109,7 +1114,7 @@ table_countries <- function(couName,section,table){
     }
     col <- rep("\\rowcolor[gray]{0.95}", length(rowsSelect))
     data.table <- xtable(data)
-    align(data.table) <- c('l','>{\\raggedright}p{2.5in}',rep('>{\\raggedleft}p{0.8in}',(ncol(data)-2)),'l')
+    align(data.table) <- c('l','>{\\raggedright}p{3in}',rep('>{\\raggedleft}p{0.8in}',(ncol(data)-2)),'l')
     print(data.table, include.rownames=FALSE,include.colnames=TRUE, floating=FALSE, 
           size="\\Large",add.to.row = list(pos = as.list(rowsSelect), command = col),
           booktabs = FALSE, table.placement="", hline.after = c(0) ,latex.environments = "center")
