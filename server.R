@@ -1,7 +1,6 @@
 # Use this: https://shiny.rstudio.com/articles/generating-reports.html
 #setwd('/Users/asanchez3/Desktop/Work/reportGenerator360/')
 source("global_utils.R", local = TRUE) #global functions available for the whole session
-source("helper_functions.R", local = TRUE)
 # 
 function(input, output, session) {
   # download pre-generated PDF -----------------------------

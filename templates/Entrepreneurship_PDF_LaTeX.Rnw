@@ -102,7 +102,7 @@
   \vspace{0.8cm}
   \hspace*{0.4cm} 
   \begin{minipage}[c]{0.50\textwidth} % Doing Business table
-    \hspace{1ex}\small{\textcolor[HTML]{818181}{\Sexpr{paste(filter(subsection_name, Section_ID == 1,Order == 3)[1,1],year)}}
+    \hspace{1ex}\small{\textcolor[HTML]{818181}{\Sexpr{paste(filter(subsection_name, Section_ID == 1,Order == 3)[1,1],year)}}}
    \\[4pt]
       \resizebox{\textwidth}{!}{%
       <<doing_business_table,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=  

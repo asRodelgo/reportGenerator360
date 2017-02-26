@@ -17,7 +17,7 @@ missInd <- select(all.datasets$WB.data, iso2 = iso2c, Period = year, Observation
 Report_data <- bind_rows(Report_data, missInd)
 #
 # Ratio online?in store purchases
-load("/Users/asanchez3/Desktop/Work/TCMN/Entrepreneurship_data/all datasets.rda")
+load("/Users/asanchez3/Desktop/Work/TCMN/reportGenerator360_data/all datasets.rda")
 missInd <- select(all.datasets$consumer.barometer.data, iso2 = iso2c, Observation = one_of("online.ratio")) %>%
   mutate(Source_ID = "online.ratio", Period = 2016, Observation = Observation*100) %>%
   join(dataDesc, by = "Source_ID") %>%

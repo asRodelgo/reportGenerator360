@@ -1749,19 +1749,16 @@ table_time <- function(couName,section,table){
   
   ### Read data and configurations ---------------
   
-  # Read template report configuration
-  reportConfig <- read.csv(paste0("templates/",input_reportID, "_ReportConfiguration.csv"), stringsAsFactors = FALSE)
+  # # Read template report configuration
+  # reportConfig <- read.csv(paste0("templates/",input_reportID, "_ReportConfiguration.csv"), stringsAsFactors = FALSE)
+  # 
+  # # Add source links to reportConfig ------------------------
+  # reportConfig <- select(dataDesc, Source_Name, Source_Link) %>% 
+  #   distinct(Source_Name, Source_Link) %>%
+  #   right_join(reportConfig, by = c("Source_Name" = "Section_Description")) %>%
+  #   select(everything(), Section_Description = Source_Name) %>%
+  #   arrange(Section_Level, Order)
   
-  # Read and process data from TCdata360 API ----------------
-  source('datapull_TCdata360.R', local = TRUE)
-  
-  # Add source links to reportConfig ------------------------
-  reportConfig <- select(dataDesc, Source_Name, Source_Link) %>% 
-    distinct(Source_Name, Source_Link) %>%
-    right_join(reportConfig, by = c("Source_Name" = "Section_Description")) %>%
-    select(everything(), Section_Description = Source_Name) %>%
-    arrange(Section_Level, Order)
-  #
   ### Run the report ---------------
   
     iso3 <- .getCountryCode(couName)
