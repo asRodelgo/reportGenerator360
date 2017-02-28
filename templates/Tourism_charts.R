@@ -8,9 +8,10 @@
 ## ---- parameters ----
 couName <- countryNames[countryNames$Country==c,]$Country
 couISO2 <- .getISO2(couName)
-# Load data
+# Load data. This doesn't work, I'm afraid
 Report_data <- ReportDataList[[input_reportID]]
 ReportConfig <- ReportConfigList[[input_reportID]]
+dataDesc <- dataDescList[[input_reportID]]
 ########## Header ##########
 
 ## ---- figure_sparkline1 ----

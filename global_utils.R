@@ -69,7 +69,6 @@ topics <- c("Entrepreneurship","Tourism")
 
 # Read and process data from TCdata360 API ----------------
 source('datapull_TCdata360.R', local = TRUE)
-
 # Load functions: charts, tables and report generator
 source("helper_functions.R", local = TRUE)
 

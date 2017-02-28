@@ -49,12 +49,16 @@ for (topic in topics){
 }
 
 ReportConfigList <- list()
+dataDescList <- list()
 for (topic in topics){
   # Read template report configuration
-  reportConfig <- read.csv(paste0("templates/",topic, "_ReportConfiguration.csv"), stringsAsFactors = FALSE)
+  reportConfig <- read.csv(paste0("templates/",topic,"_ReportConfiguration.csv"), stringsAsFactors = FALSE)
   
+  # Read data description file (what goes in the PDF report)
+  dataDesc <- read.csv(paste0("templates/",topic,"_DataDescription.csv"), stringsAsFactors = FALSE)
+  dataDescList[[topic]] <- dataDesc
   # Add source links to reportConfig ------------------------
-  reportConfig <- select(dataDesc, Source_Name, Source_Link) %>% 
+  dataDesc <- select(dataDesc, Source_Name, Source_Link) %>% 
     distinct(Source_Name, Source_Link) %>%
     right_join(reportConfig, by = c("Source_Name" = "Section_Description")) %>%
     select(everything(), Section_Description = Source_Name) %>%
