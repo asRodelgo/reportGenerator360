@@ -5,7 +5,7 @@
 load("/Users/asanchez3/Desktop/Data Analysis/Entrepreneurship-Ind/Testapp/all datasets.rda")
 missInd <- select(all.datasets$WB.data, iso2 = iso2c, Period = year, Observation = one_of("SL.SRV.EMPL.ZS")) %>%
   mutate(Source_ID = "SL.SRV.EMPL.ZS") %>%
-  join(dataDesc, by = "Source_ID") %>%
+  join(ThisDataDesc, by = "Source_ID") %>%
   join(countries[,c("iso3","iso2","name","region")], by = "iso2") %>%
   filter(!is.na(iso3)) %>%
   mutate(Period = as.character(Period)) %>%
@@ -14,13 +14,13 @@ missInd <- select(all.datasets$WB.data, iso2 = iso2c, Period = year, Observation
          Section, Subsection, Subsection2, region, Source_ID)
 
 # # Append to master data file
-Report_data <- bind_rows(Report_data, missInd)
+ThisReport_data <- bind_rows(ThisReport_data, missInd)
 #
 # Ratio online?in store purchases
 load("/Users/asanchez3/Desktop/Work/TCMN/reportGenerator360_data/all datasets.rda")
 missInd <- select(all.datasets$consumer.barometer.data, iso2 = iso2c, Observation = one_of("online.ratio")) %>%
   mutate(Source_ID = "online.ratio", Period = 2016, Observation = Observation*100) %>%
-  join(dataDesc, by = "Source_ID") %>%
+  join(ThisDataDesc, by = "Source_ID") %>%
   join(countries[,c("iso3","iso2","name","region")], by = "iso2") %>%
   filter(!is.na(iso3)) %>%
   mutate(Period = as.character(Period)) %>%
@@ -29,5 +29,5 @@ missInd <- select(all.datasets$consumer.barometer.data, iso2 = iso2c, Observatio
          Section, Subsection, Subsection2, region, Source_ID)
 
 # Append to master data file
-Report_data <- bind_rows(Report_data, missInd)
+ThisReport_data <- bind_rows(ThisReport_data, missInd)
 

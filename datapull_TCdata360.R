@@ -21,16 +21,16 @@ require(jsonlite)
 ReportDataList <- list()
 for (topic in topics){
 
-  Report_data <- read.csv(paste0("/Users/asanchez3/Desktop/Work/TCMN/reportGenerator360_data/",topic,"_data.csv"),stringsAsFactors = FALSE)
+  ThisReport_data <- read.csv(paste0("/Users/asanchez3/Desktop/Work/TCMN/reportGenerator360_data/",topic,"_data.csv"),stringsAsFactors = FALSE)
 
   # Read data description file (what goes in the PDF report)
-  dataDesc <- read.csv(paste0("templates/",topic,"_DataDescription.csv"), stringsAsFactors = FALSE)
+  ThisDataDesc <- read.csv(paste0("templates/",topic,"_DataDescription.csv"), stringsAsFactors = FALSE)
 
   # Add descriptors and source fields
-  Report_data <- merge(Report_data,dataDesc, by.x = "id", by.y = "tcdata360_id")
-  Report_data <- merge(Report_data, countries[,c("iso3","iso2","name","region")],by="iso3",all.x = TRUE)
+  ThisReport_data <- merge(ThisReport_data,ThisDataDesc, by.x = "id", by.y = "tcdata360_id")
+  ThisReport_data <- merge(ThisReport_data, countries[,c("iso3","iso2","name","region")],by="iso3",all.x = TRUE)
   # clean up: remove duplicate columns
-  Report_data <- Report_data %>%
+  ThisReport_data <- ThisReport_data %>%
     filter(Period <= thisYear) %>%
     mutate(Period = as.character(Period)) %>%
     select(Key = id, Country = name, Period, Observation, Scale, CountryCode = iso3, iso2,
@@ -44,7 +44,7 @@ for (topic in topics){
   if (file.exists(paste0("templates/",topic,"_extraData.R")))
     source(paste0("templates/",topic,"_extraData.R"), local = TRUE)
 
-  ReportDataList[[topic]] <- Report_data
+  ReportDataList[[topic]] <- ThisReport_data
 
 }
 
@@ -52,19 +52,17 @@ ReportConfigList <- list()
 dataDescList <- list()
 for (topic in topics){
   # Read template report configuration
-  reportConfig <- read.csv(paste0("templates/",topic,"_ReportConfiguration.csv"), stringsAsFactors = FALSE)
+  ThisReportConfig <- read.csv(paste0("templates/",topic,"_ReportConfiguration.csv"), stringsAsFactors = FALSE)
   
   # Read data description file (what goes in the PDF report)
-  dataDesc <- read.csv(paste0("templates/",topic,"_DataDescription.csv"), stringsAsFactors = FALSE)
-  dataDescList[[topic]] <- dataDesc
+  ThisDataDesc <- read.csv(paste0("templates/",topic,"_DataDescription.csv"), stringsAsFactors = FALSE)
+  dataDescList[[topic]] <- ThisDataDesc
   # Add source links to reportConfig ------------------------
-  dataDesc <- select(dataDesc, Source_Name, Source_Link) %>% 
-    distinct(Source_Name, Source_Link) %>%
-    right_join(reportConfig, by = c("Source_Name" = "Section_Description")) %>%
-    select(everything(), Section_Description = Source_Name) %>%
+  ThisReportConfig <- left_join(ThisReportConfig,ThisDataDesc[,c("Source_Name", "Source_Link")], by = c("Section_Description" = "Source_Name")) %>%
+    #distinct(Section_Description, Source_Link, .keep_all = TRUE) %>%
     arrange(Section_Level, Order)
   
-  ReportConfigList[[topic]] <- reportConfig
+  ReportConfigList[[topic]] <- ThisReportConfig
   
 }
 

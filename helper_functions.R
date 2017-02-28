@@ -1,12 +1,12 @@
 # Helper functions to generalize charts and tables for LaTeX
 
 ## ---- figure_sparkline ----
-figure_sparkline <- function(couName,table){      
+figure_sparkline <- function(Report_data,reportConfig,couName,table){      
   
   cou <- .getCountryCode(couName)
   ## Examples like Edward Tufte's sparklines:
   #table <- "combo1"
-  data <- ReportDataList[[input_reportID]] %>%
+  data <- Report_data %>%
     filter(CountryCode==cou, Subsection2==table, !is.na(Observation)) %>%
     mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear)-1),Period),
            Observation = Observation/Scale)
@@ -26,7 +26,7 @@ figure_sparkline <- function(couName,table){
   # period
   dataPeriod <- dataLast$Period
   
-  dataWorld <- filter(ReportDataList[[input_reportID]], Subsection2==table)
+  dataWorld <- filter(Report_data, Subsection2==table)
   dataWorld <- filter(dataWorld,!is.na(Observation))
   dataWorld <- dataWorld %>%
     group_by(iso2) %>%
@@ -69,11 +69,11 @@ figure_sparkline <- function(couName,table){
     
     # print indicator name
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 1.1,indicator, col=paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color), cex=10)
+    graphics::text(1.5, 1.1,indicator, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=10)
     graphics::text(1.5, 0.7,paste0(unit, " (",dataPeriod,")"), col="#818181", cex=5)
     # print data point and rank
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 0.95,dataPoint, col=paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color), cex=18)
+    graphics::text(1.5, 0.95,dataPoint, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=18)
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
     graphics::text(1.5, 1.1,paste0("(Rank: ",rank,"/",rankedTotal,")"), col="grey", cex=7)
     # plot sparkline  
@@ -114,7 +114,7 @@ figure_sparkline <- function(couName,table){
     
     # print indicator name
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 1.1,indicator, col=paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color), cex=10)
+    graphics::text(1.5, 1.1,indicator, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=10)
     graphics::text(1.5, 0.7,unit, col="#818181", cex=5)
     # print data point and rank
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
@@ -131,12 +131,12 @@ figure_sparkline <- function(couName,table){
 }
 
 ## ---- numberBig ----
-numberBig <- function(couName,section,table){      
+numberBig <- function(Report_data,reportConfig,couName,section,table){      
   
   cou <- .getCountryCode(couName)
   ## Examples like Edward Tufte's sparklines:
   #table <- "combo1"
-  data <- ReportDataList[[input_reportID]] %>%
+  data <- Report_data %>%
     filter(CountryCode==cou, Section == section, Subsection==table, !is.na(Observation)) %>%
     mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear)-1),Period),
            Observation = Observation/Scale)
@@ -150,7 +150,7 @@ numberBig <- function(couName,section,table){
   # period
   dataPeriod <- dataLast$Period
   
-  dataWorld <- filter(ReportDataList[[input_reportID]], Section == section, Subsection==table)
+  dataWorld <- filter(Report_data, Section == section, Subsection==table)
   dataWorld <- filter(dataWorld,!is.na(Observation))
   dataWorld <- dataWorld %>%
     group_by(iso2) %>%
@@ -179,11 +179,11 @@ numberBig <- function(couName,section,table){
     
     # print indicator name
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 1.1,indicator, col=paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color), cex=10)
+    graphics::text(1.5, 1.1,indicator, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=10)
     graphics::text(1.5, 0.7,paste0(unit, " (",dataPeriod,")"), col="#818181", cex=5)
     # print data point and rank
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 0.95,dataPoint, col=paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color), cex=18)
+    graphics::text(1.5, 0.95,dataPoint, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=18)
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
     graphics::text(1.5, 1.1,paste0("(Rank: ",rank,"/",rankedTotal,")"), col="grey", cex=7)
     
@@ -196,7 +196,7 @@ numberBig <- function(couName,section,table){
     
     # print indicator name
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 1.1,indicator, col=paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color), cex=10)
+    graphics::text(1.5, 1.1,indicator, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=10)
     graphics::text(1.5, 0.7,unit, col="#818181", cex=5)
     # print data point and rank
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
@@ -209,12 +209,12 @@ numberBig <- function(couName,section,table){
 }
 
 ## ---- table_time ----
-# table_time <- function(couName,section, table){      
+# table_time <- function(Report_data,reportConfig,couName,section, table){      
 #   
 #   cou <- .getCountryCode(couName)
 #   #table <- "table1"
-#   tableKeys <- unique(filter(ReportDataList[[input_reportID]], Section == section, Subsection==table)[,c("Key","IndicatorShort")])
-#   data <- filter(ReportDataList[[input_reportID]], CountryCode==cou, Section == section, Subsection==table)
+#   tableKeys <- unique(filter(Report_data, Section == section, Subsection==table)[,c("Key","IndicatorShort")])
+#   data <- filter(Report_data, CountryCode==cou, Section == section, Subsection==table)
 #   data <- merge(tableKeys,select(data,-IndicatorShort),by="Key",all.x=TRUE)
 #   # keep the latest period (excluding projections further than 2 years)
 #   data <- mutate(data, Period = ifelse(is.na(Period),max(as.numeric(Period),na.rm=TRUE),Period))
@@ -279,15 +279,15 @@ numberBig <- function(couName,section,table){
 # }
 
 ## ---- line_chart ----
-line_chart <- function(couName, section, table){
+line_chart <- function(Report_data,reportConfig,couName, section, table){
   
   cou <- .getCountryCode(couName)
   couRegion <- as.character(countries[countries$iso3==cou,]$region)  # obtain the region for the selected country
   
-  data <- filter(ReportDataList[[input_reportID]], region==couRegion, Section == section, Subsection == table, !(is.na(Observation))) #select country, region and world
+  data <- filter(Report_data, region==couRegion, Section == section, Subsection == table, !(is.na(Observation))) #select country, region and world
   #data <- merge(data, countries[,c("CountryCodeISO3","Country")],by.x = "CountryCode", by.y="CountryCodeISO3")
   #data$Country <- gsub("(ES) ","",data$Country,fixed=TRUE)
-  income <- filter(ReportDataList[[input_reportID]], region==couRegion & Section=="aux_income")
+  income <- filter(Report_data, region==couRegion & Section=="aux_income")
   income <- income %>%
     group_by(CountryCode) %>%
     filter(!is.na(Observation), Period < thisYear, !(CountryCode==cou)) %>%
@@ -334,12 +334,12 @@ line_chart <- function(couName, section, table){
 }
 
 ## ---- table_time_avg ----
-table_time_avg <- function(couName,section,table){      
+table_time_avg <- function(Report_data,reportConfig,couName,section,table){      
   
   cou <- .getCountryCode(couName)
   #table <- "table1"
-  tableKeys <- unique(filter(ReportDataList[[input_reportID]], Section == section, Subsection==table)[,c("Key","IndicatorShort")])
-  data <- filter(ReportDataList[[input_reportID]], CountryCode==cou, Section == section, Subsection==table)
+  tableKeys <- unique(filter(Report_data, Section == section, Subsection==table)[,c("Key","IndicatorShort")])
+  data <- filter(Report_data, CountryCode==cou, Section == section, Subsection==table)
   data <- merge(tableKeys,select(data,-IndicatorShort),by="Key",all.x=TRUE)
   
   if (sum(data$Observation,na.rm=TRUE)==0){ # in case this country has no data
@@ -441,12 +441,12 @@ table_time_avg <- function(couName,section,table){
 }
 
 ## ---- sparklines ----
-sparklines <- function(couName,section,table){      
+sparklines <- function(Report_data,reportConfig,couName,section,table){      
   
   cou <- .getCountryCode(couName)
   #table <- "table1"
-  tableKeys <- unique(filter(ReportDataList[[input_reportID]], Section == section, Subsection==table)[,c("Key","IndicatorShort")])
-  data <- filter(ReportDataList[[input_reportID]], CountryCode==cou, Section == section, Subsection==table)
+  tableKeys <- unique(filter(Report_data, Section == section, Subsection==table)[,c("Key","IndicatorShort")])
+  data <- filter(Report_data, CountryCode==cou, Section == section, Subsection==table)
   data <- merge(tableKeys,select(data,-IndicatorShort),by="Key",all.x=TRUE)
   
   if (sum(data$Observation,na.rm=TRUE)==0){ # in case this country has no data
@@ -532,10 +532,10 @@ sparklines <- function(couName,section,table){
 }
 
 ## ---- bar_chart ----
-bar_chart <- function(couName,section,table,paste_unit){      
+bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit){      
   
   cou <- .getCountryCode(couName)
-  data <- filter(ReportDataList[[input_reportID]], CountryCode==cou, Section==section, Subsection %in% table)
+  data <- filter(Report_data, CountryCode==cou, Section==section, Subsection %in% table)
   data <- data %>%
     filter(!(is.na(Observation))) %>%
     mutate(Observation = Observation/Scale) %>%
@@ -568,9 +568,9 @@ bar_chart <- function(couName,section,table,paste_unit){
       #data <- mutate(data, id = seq(1,nrow(data),1))
       ggplot(NULL,aes(x=IndicatorShort,y=Observation)) +
         geom_bar(data=data_grey,color="#f1f3f3",fill = "#f1f3f3",stat="identity") +
-        geom_bar(data=data,color=paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color),fill=paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color),stat="identity") +
+        geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
         geom_text(data=data, aes(label=round(Observation,1),y=ifelse(Observation<max_value*.2,Observation + max(Observation)*.1,Observation - max(Observation)*.1)),
-                  size=12,color=ifelse(data$Observation<max_value*.2,paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color),"white")) + 
+                  size=12,color=ifelse(data$Observation<max_value*.2,paste0("#",filter(reportConfig, Section_Level == 10)$Color),"white")) + 
         coord_flip()+
         theme(legend.key=element_blank(),
               legend.title=element_blank(),
@@ -585,9 +585,9 @@ bar_chart <- function(couName,section,table,paste_unit){
         ) 
     } else {
       ggplot(NULL,aes(x=IndicatorShort,y=Observation)) +
-        geom_bar(data=data,color=paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color),fill=paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color),stat="identity") +
+        geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
         geom_text(data=data, aes(label=format(round(Observation,1),big.mark = ","),y=ifelse(Observation<max_value*.15,Observation + max(Observation)*.1,Observation - max(Observation)*.1)),
-                  size=6,color=ifelse(data$Observation<max_value*.15,paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color),"white")) + 
+                  size=6,color=ifelse(data$Observation<max_value*.15,paste0("#",filter(reportConfig, Section_Level == 10)$Color),"white")) + 
         coord_flip()+
         theme(legend.key=element_blank(),
               legend.title=element_blank(),
@@ -609,16 +609,16 @@ bar_chart <- function(couName,section,table,paste_unit){
 }
 
 ## ---- number_chart ----
-number_chart <- function(couName,section,table,str_wrap_size){      
+number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap_size){      
   
   cou <- .getCountryCode(couName)
-  data <- filter(ReportDataList[[input_reportID]], CountryCode==cou, Section==section, Subsection %in% table)
+  data <- filter(Report_data, CountryCode==cou, Section==section, Subsection %in% table)
   data <- data %>%
     filter(!(is.na(Observation))) %>%
     mutate(Observation = Observation/Scale) %>%
     distinct(Key,Period,.keep_all=TRUE)
  
-  dataWorld <- filter(ReportDataList[[input_reportID]], Section==section, Subsection %in% table)
+  dataWorld <- filter(Report_data, Section==section, Subsection %in% table)
   dataWorld <- filter(dataWorld,!is.na(Observation))
   dataWorld <- dataWorld %>%
     group_by(Country,Key) %>%
@@ -656,22 +656,22 @@ number_chart <- function(couName,section,table,str_wrap_size){
         rank[i] <- which(thisKey$CountryCode == cou)
         # print indicator name
         plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-        graphics::text(1, 1.1,thisKey$IndicatorShort[1], col=paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color), cex=3, adj=0)
+        graphics::text(1, 1.1,thisKey$IndicatorShort[1], col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=3, adj=0)
         graphics::text(1, 0.75,paste0(thisKey$Unit[1], " (",thisKey$Period[1],")"), col="#818181", cex=2, adj = 0)
         # print data point and rank
         plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-        graphics::text(1.17, 1,filter(thisKey,CountryCode==cou)$Observation , col=paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color), cex=8)
+        graphics::text(1.17, 1,filter(thisKey,CountryCode==cou)$Observation , col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=8)
         graphics::text(1.42, 0.95,paste0("(Rank: ",rank[i],"/",rankedTotal[i],")"), col="grey", cex=3, adj=0)
       
       } else { # no data for this indicator
         
         # print indicator name
         plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-        graphics::text(1, 1.1,thisKey$IndicatorShort[1], col=paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color), cex=3, adj=0)
+        graphics::text(1, 1.1,thisKey$IndicatorShort[1], col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=3, adj=0)
         graphics::text(1, 0.75,paste0(thisKey$Unit[1], " (",thisKey$Period[1],")"), col="#818181", cex=2, adj = 0)
         # print data point and rank
         plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-        graphics::text(1.17, 1," " , col=paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color), cex=8)
+        graphics::text(1.17, 1," " , col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=8)
         graphics::text(1.42, 0.95,paste0("(Rank: /",rankedTotal[i],")"), col="grey", cex=3, adj=0)
       }
       i <- i + 1
@@ -686,7 +686,7 @@ number_chart <- function(couName,section,table,str_wrap_size){
 
 
 ## ---- bar_facewrap_chart ----
-bar_facewrap_chart <- function(couName, section, table, vertical_bars = TRUE, append_unit = TRUE, str_wrap_size = 20){      
+bar_facewrap_chart <- function(Report_data,reportConfig,couName, section, table, vertical_bars = TRUE, append_unit = TRUE, str_wrap_size = 20){      
   
   cou <- .getCountryCode(couName) # This chart needs to query neighbouring countries also
   
@@ -694,7 +694,7 @@ bar_facewrap_chart <- function(couName, section, table, vertical_bars = TRUE, ap
   neighbors <- countries[countries$region==couRegion,]$iso3 # retrieve all countries in that region
   neighbors <- as.character(neighbors[!(neighbors==cou)]) # exclude the selected country
   
-  data <- ReportDataList[[input_reportID]] %>%
+  data <- Report_data %>%
     filter(CountryCode %in% c(cou,neighbors), Section==section, Subsection==table) %>%
     mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear)-1),Period),
            Observation = Observation/Scale)
@@ -707,7 +707,7 @@ bar_facewrap_chart <- function(couName, section, table, vertical_bars = TRUE, ap
       filter(Period == max(Period,na.rm=TRUE)) %>%
       distinct(Key,CountryCode, .keep_all = TRUE)
     # select top 4 countries from the neighborhood based on their income level
-    income <- filter(ReportDataList[[input_reportID]], CountryCode %in% neighbors & Section=="aux_income")
+    income <- filter(Report_data, CountryCode %in% neighbors & Section=="aux_income")
     income <- income %>%
       group_by(CountryCode) %>%
       filter(!is.na(Observation), Period < thisYear) %>%
@@ -745,7 +745,7 @@ bar_facewrap_chart <- function(couName, section, table, vertical_bars = TRUE, ap
         #coord_flip()+
         facet_wrap(~IndicatorShort,scales="free_y") +
         theme(strip.text.x = element_text(family="Times", size = 12, colour = "white"),
-              strip.background = element_rect(colour = paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color), fill = paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color)),
+              strip.background = element_rect(colour = paste0("#",filter(reportConfig, Section_Level == 10)$Color), fill = paste0("#",filter(reportConfig, Section_Level == 10)$Color)),
               legend.key=element_blank(),
               legend.title=element_blank(),
               legend.text = element_text(family="Times", size = 10, colour = "#818181"),
@@ -775,7 +775,7 @@ bar_facewrap_chart <- function(couName, section, table, vertical_bars = TRUE, ap
         coord_flip() +
         facet_wrap(~IndicatorShort,scales="free_x") +
         theme(strip.text.x = element_text(family="Times", size = 12, colour = "white"),
-              strip.background = element_rect(colour = paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color), fill = paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color)),
+              strip.background = element_rect(colour = paste0("#",filter(reportConfig, Section_Level == 10)$Color), fill = paste0("#",filter(reportConfig, Section_Level == 10)$Color)),
               legend.key=element_blank(),
               legend.title=element_blank(),
               legend.text = element_text(family="Times", size = 10, colour = "#818181"),
@@ -800,7 +800,7 @@ bar_facewrap_chart <- function(couName, section, table, vertical_bars = TRUE, ap
 
 
 ## ---- radar_chart ----
-radar_chart <- function(couName,section,table){      
+radar_chart <- function(Report_data,reportConfig,couName,section,table){      
   
   cou <- .getCountryCode(couName) # This chart needs to query neighbouring countries also
   
@@ -812,7 +812,7 @@ radar_chart <- function(couName,section,table){
   country <- as.character(countries[countries$iso3==cou,]$Country)
   region <- as.character(countries[countries$iso3==cou,]$region) 
   # filter the data
-  data <- filter(ReportDataList[[input_reportID]], CountryCode %in% c(cou,neighbors), Section == section, Subsection==table) %>%
+  data <- filter(Report_data, CountryCode %in% c(cou,neighbors), Section == section, Subsection==table) %>%
     mutate(Observation = Observation/Scale)
   
   if (nrow(filter(data, CountryCode==cou))>0){  
@@ -863,11 +863,11 @@ radar_chart <- function(couName,section,table){
 
 
 ## ---- combo_percent ----
-combo_percent <- function(couName,section,table){      
+combo_percent <- function(Report_data,reportConfig,couName,section,table){      
   
   cou <- .getCountryCode(couName)
   
-  data <- filter(ReportDataList[[input_reportID]], CountryCode==cou, Section == section, Subsection==table)
+  data <- filter(Report_data, CountryCode==cou, Section == section, Subsection==table)
   if (is.na(data$Period)) data$Period <- as.character(as.numeric(thisYear) - 1)
   
   if (nrow(filter(data, CountryCode==cou))>0){
@@ -909,11 +909,11 @@ combo_percent <- function(couName,section,table){
 
 
 ## ---- combo_rate ----
-combo_rate <- function(couName){      
+combo_rate <- function(Report_data,reportConfig,couName){      
   
   cou <- .getCountryCode(couName)
   
-  data <- filter(ReportDataList[[input_reportID]], CountryCode==cou, Section == "Human capital", Subsection=="combo1")
+  data <- filter(Report_data, CountryCode==cou, Section == "Human capital", Subsection=="combo1")
   if (is.na(data$Period)) data$Period <- as.character(as.numeric(thisYear) - 1)
   
   if (nrow(filter(data, CountryCode==cou))>0){
@@ -954,14 +954,14 @@ combo_rate <- function(couName){
 }
 
 ## ---- table_region ----
-table_region <- function(couName,section,table){      
+table_region <- function(Report_data,reportConfig,couName,section,table){      
   
   cou <- .getCountryCode(couName)
-  data <- filter(ReportDataList[[input_reportID]], CountryCode==cou, Section == section, Subsection==table) #select country, region and world
+  data <- filter(Report_data, CountryCode==cou, Section == section, Subsection==table) #select country, region and world
   if (nrow(data[data$CountryCode==cou,])>0){
     
     couRegion <- as.character(countries[countries$CountryCodeISO3==cou,]$RegionCodeES)  # obtain the region for the selected country
-    data <- filter(ReportDataList[[input_reportID]], CountryCode %in% c(cou,couRegion, "RWe"), Section == section, Subsection==table) #select country, region and world
+    data <- filter(Report_data, CountryCode %in% c(cou,couRegion, "RWe"), Section == section, Subsection==table) #select country, region and world
     
     # country, Region, World descriptors
     country <- as.character(countries[countries$CountryCodeISO3==cou,]$Country)
@@ -1045,7 +1045,7 @@ table_region <- function(couName,section,table){
 }
 
 ## ---- table_countries ----
-table_countries <- function(couName,section,table,compareCountries = 3,appendUnits = FALSE){      
+table_countries <- function(Report_data,reportConfig,couName,section,table,compareCountries = 3,appendUnits = FALSE){      
   
   cou <- .getCountryCode(couName) # This chart needs to query neighbouring countries also
   
@@ -1053,7 +1053,7 @@ table_countries <- function(couName,section,table,compareCountries = 3,appendUni
   neighbors <- countries[countries$region==couRegion,]$iso3 # retrieve all countries in that region
   neighbors <- as.character(neighbors[!(neighbors==cou)]) # exclude the selected country
   
-  data <- ReportDataList[[input_reportID]] %>%
+  data <- Report_data %>%
     filter(CountryCode %in% c(cou,neighbors), Section==section, Subsection==table) %>%
     mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear)-1),Period),
            Observation = Observation/Scale)
@@ -1066,7 +1066,7 @@ table_countries <- function(couName,section,table,compareCountries = 3,appendUni
       filter(Period == max(Period,na.rm=TRUE)) %>%
       distinct(Key,CountryCode, .keep_all = TRUE)
     # select top 4 countries from the neighborhood based on their income level
-    income <- filter(ReportDataList[[input_reportID]], CountryCode %in% neighbors & Section=="aux_income")
+    income <- filter(Report_data, CountryCode %in% neighbors & Section=="aux_income")
     income <- income %>%
       group_by(CountryCode) %>%
       filter(!is.na(Observation), Period < thisYear) %>%
@@ -1142,10 +1142,10 @@ table_countries <- function(couName,section,table,compareCountries = 3,appendUni
 }
 
 ## ---- doing_business_table ----
-doing_business_table <- function(couName){      
+doing_business_table <- function(Report_data,reportConfig,couName){      
   
   cou <- .getCountryCode(couName)
-  data <- filter(ReportDataList[[input_reportID]], CountryCode == cou, grepl("dbtable",Subsection), !is.na(Observation)) #select country, region and world
+  data <- filter(Report_data, CountryCode == cou, grepl("dbtable",Subsection), !is.na(Observation)) #select country, region and world
   
   if (nrow(data[data$CountryCode==cou,])>0){
     
@@ -1234,7 +1234,7 @@ doing_business_table <- function(couName){
 }
 
 ## ---- macroInd ----
-macroInd <- function(couName){      
+macroInd <- function(Report_data,reportConfig,couName){      
   
   cou <- .getCountryCode(couName)
   
@@ -1289,11 +1289,11 @@ macroInd <- function(couName){
 }
 
 ## ---- pie_chart_double ----
-pie_chart_double <- function(couName,section,table){      
+pie_chart_double <- function(Report_data,reportConfig,couName,section,table){      
   
   cou <- .getCountryCode(couName)
   
-  data <- ReportDataList[[input_reportID]] %>%
+  data <- Report_data %>%
     filter(CountryCode==cou & Section == section & Subsection==table) %>%
     filter(!is.na(Observation)) %>%
     mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear) - 1),Period),
@@ -1304,7 +1304,7 @@ pie_chart_double <- function(couName,section,table){
   country <- as.character(countries[countries$iso3==cou,]$Country)
   region <- as.character(countries[countries$iso3==cou,]$region) 
   # filter the data
-  dataRegion <- ReportDataList[[input_reportID]] %>%
+  dataRegion <- Report_data %>%
     filter(region==couRegion & Section == section & Subsection==table) %>%
     filter(!is.na(Observation)) %>%
     mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear) - 1),Period))
@@ -1414,11 +1414,11 @@ pie_chart_double <- function(couName,section,table){
 }
 
 ## ---- pie_chart_region ----
-pie_chart_region <- function(couName,section,table){      
+pie_chart_region <- function(Report_data,reportConfig,couName,section,table){      
   
   cou <- .getCountryCode(couName)
   
-  data <- ReportDataList[[input_reportID]] %>%
+  data <- Report_data %>%
     filter(CountryCode==cou & Section == section & Subsection==table) %>%
     filter(!is.na(Observation)) %>%
     mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear) - 1),Period)) %>%
@@ -1429,7 +1429,7 @@ pie_chart_region <- function(couName,section,table){
   country <- as.character(countries[countries$iso3==cou,]$Country)
   region <- as.character(countries[countries$iso3==cou,]$region) 
   # filter the data
-  dataRegion <- ReportDataList[[input_reportID]] %>%
+  dataRegion <- Report_data %>%
     filter(region==couRegion & Section == section & Subsection==table) %>%
     filter(!is.na(Observation)) %>%
     mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear) - 1),Period))
@@ -1499,7 +1499,7 @@ pie_chart_region <- function(couName,section,table){
       
       p2 <- ggplot(dataRegion, aes("",Observation,fill=IndicatorShort)) +
         geom_bar(width=1,stat="identity") +
-        scale_fill_manual(values = c("#f1f3f3",paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color)),guide=FALSE) +
+        scale_fill_manual(values = c("#f1f3f3",paste0("#",filter(reportConfig, Section_Level == 10)$Color)),guide=FALSE) +
         coord_polar("y",start = 0) +
         geom_text(aes(label=ObsLabel,y=15),
                   size=12,color="white") + 
@@ -1521,7 +1521,7 @@ pie_chart_region <- function(couName,section,table){
       
       ggplot(data, aes("",Observation,fill=IndicatorShort)) +
         geom_bar(width=1,stat="identity") +
-        scale_fill_manual(values = c("#f1f3f3",paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color)),guide=FALSE) +
+        scale_fill_manual(values = c("#f1f3f3",paste0("#",filter(reportConfig, Section_Level == 10)$Color)),guide=FALSE) +
         coord_polar("y",start = 0) +
         geom_text(aes(label=ObsLabel,y=15),
                   size=12,color="white") + 
@@ -1548,11 +1548,11 @@ pie_chart_region <- function(couName,section,table){
 }
 
 ## ---- pie_chart_regular ----
-pie_chart_regular <- function(couName,section,table){      
+pie_chart_regular <- function(Report_data,reportConfig,couName,section,table){      
   
   cou <- .getCountryCode(couName)
   
-  data <- ReportDataList[[input_reportID]] %>%
+  data <- Report_data %>%
     filter(CountryCode==cou & Section == section & Subsection %in% table)
   data <- filter(data, !(is.na(Observation)))
   data <- mutate(data, Period = ifelse(is.na(Period),as.character(as.numeric(thisYear) - 1),Period))
@@ -1610,7 +1610,7 @@ pie_chart_regular <- function(couName,section,table){
     
     p1 <- ggplot(data1, aes("",Observation,fill=IndicatorShort)) +
       geom_bar(width=1,stat="identity") +
-      scale_fill_manual(values = c("#f1f3f3",paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color)),guide=FALSE) +
+      scale_fill_manual(values = c("#f1f3f3",paste0("#",filter(reportConfig, Section_Level == 10)$Color)),guide=FALSE) +
       coord_polar("y",start = 0) +
       geom_text(aes(label=ObsLabel,y=10),
                 size=5,color="white") + 
@@ -1628,7 +1628,7 @@ pie_chart_regular <- function(couName,section,table){
     
     p2 <- ggplot(data2, aes("",Observation,fill=IndicatorShort)) +
       geom_bar(width=1,stat="identity") +
-      scale_fill_manual(values = c("#f1f3f3",paste0("#",filter(ReportConfigList[[input_reportID]], Section_Level == 10)$Color)),guide=FALSE) +
+      scale_fill_manual(values = c("#f1f3f3",paste0("#",filter(reportConfig, Section_Level == 10)$Color)),guide=FALSE) +
       coord_polar("y",start = 0) +
       geom_text(aes(label=ObsLabel,y=10),
                 size=5,color="white") + 
@@ -1654,12 +1654,12 @@ pie_chart_regular <- function(couName,section,table){
 }
 
 ## ---- table_time ----
-table_time <- function(couName,section,table){      
+table_time <- function(Report_data,reportConfig,couName,section,table){      
   
   cou <- .getCountryCode(couName)
   #table <- "table1"
-  tableKeys <- unique(filter(ReportDataList[[input_reportID]], Section == section, Subsection==table)[,c("Key","IndicatorShort")])
-  data <- filter(ReportDataList[[input_reportID]], CountryCode==cou, Section == section, Subsection==table)
+  tableKeys <- unique(filter(Report_data, Section == section, Subsection==table)[,c("Key","IndicatorShort")])
+  data <- filter(Report_data, CountryCode==cou, Section == section, Subsection==table)
   data <- merge(tableKeys,select(data,-IndicatorShort),by="Key",all.x=TRUE)
   
   if (sum(data$Observation,na.rm=TRUE)==0){ # in case this country has no data
@@ -1750,14 +1750,15 @@ table_time <- function(couName,section,table){
   ### Read data and configurations ---------------
   
   # # Read template report configuration
-  # ReportConfigList[[input_reportID]] <- read.csv(paste0("templates/",input_reportID, "_ReportConfigList[[input_reportID]]uration.csv"), stringsAsFactors = FALSE)
+  # reportConfig <- read.csv(paste0("templates/",input_reportID, "_reportConfiguration.csv"), stringsAsFactors = FALSE)
   # 
-  # # Add source links to ReportConfigList[[input_reportID]] ------------------------
-  # ReportConfigList[[input_reportID]] <- select(dataDesc, Source_Name, Source_Link) %>% 
+  # # Add source links to reportConfig ------------------------
+  # reportConfig <- select(dataDesc, Source_Name, Source_Link) %>% 
   #   distinct(Source_Name, Source_Link) %>%
-  #   right_join(ReportConfigList[[input_reportID]], by = c("Source_Name" = "Section_Description")) %>%
+  #   right_join(reportConfig, by = c("Source_Name" = "Section_Description")) %>%
   #   select(everything(), Section_Description = Source_Name) %>%
   #   arrange(Section_Level, Order)
+  # Load data. This doesn't work, I'm afraid
   
   ### Run the report ---------------
   
