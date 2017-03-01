@@ -32,7 +32,7 @@ for (topic in topics){
   # clean up: remove duplicate columns
   ThisReport_data <- ThisReport_data %>%
     filter(Period <= thisYear) %>%
-    mutate(Period = as.character(Period)) %>%
+    mutate(Period = as.character(Period), Scale = ifelse(is.na(Scale),1,Scale)) %>%
     select(Key = id, Country = name, Period, Observation, Scale, CountryCode = iso3, iso2,
            IndicatorShort = Indicator_Short, Source_Name, Source_Link, Unit = Unit_Short,
            Section, Subsection, Subsection2, region, Source_ID)

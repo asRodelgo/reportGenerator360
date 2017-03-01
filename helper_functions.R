@@ -9,7 +9,7 @@ figure_sparkline <- function(Report_data,reportConfig,couName,table){
   data <- Report_data %>%
     filter(CountryCode==cou, Subsection2==table, !is.na(Observation)) %>%
     mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear)-1),Period),
-           Observation = Observation/Scale)
+           Observation = Observation/ifelse(is.na(Scale),1,Scale))
   
   if (table == "figureFin2"){
     data <- filter(data,Observation > 0)
@@ -139,7 +139,7 @@ numberBig <- function(Report_data,reportConfig,couName,section,table){
   data <- Report_data %>%
     filter(CountryCode==cou, Section == section, Subsection==table, !is.na(Observation)) %>%
     mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear)-1),Period),
-           Observation = Observation/Scale)
+           Observation = Observation/ifelse(is.na(Scale),1,Scale))
   
   data <- filter(data,!is.na(Observation))
   dataLast <- filter(data, Period == max(Period,na.rm=TRUE))
@@ -295,7 +295,7 @@ line_chart <- function(Report_data,reportConfig,couName, section, table){
   
   topNeighbors <- head(arrange(as.data.frame(income), desc(Observation)),15)$CountryCode
   data <- filter(data, CountryCode %in% c(cou,topNeighbors)) %>%
-    mutate(Observation = Observation/Scale) %>%
+    mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
     arrange(CountryCode,Period)
   
   # order lines in chart and hide elements in legend
@@ -382,7 +382,7 @@ table_time_avg <- function(Report_data,reportConfig,couName,section,table){
     data <- bind_rows(data, data_avg) %>% # add rows to data
     #data <- as.data.frame(data)
     # Scale Observations
-    mutate(ObsScaled = Observation/Scale) %>%
+    mutate(ObsScaled = Observation/ifelse(is.na(Scale),1,Scale)) %>%
     arrange(Key) %>%
     select(Key, IndicatorShort, Period, ObsScaled)
     # restrict to 2 decimal places
@@ -538,7 +538,7 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit)
   data <- filter(Report_data, CountryCode==cou, Section==section, Subsection %in% table)
   data <- data %>%
     filter(!(is.na(Observation))) %>%
-    mutate(Observation = Observation/Scale) %>%
+    mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
     distinct(Key,Period,.keep_all=TRUE)
   maxPeriod <- filter(data, Period == max(Period,na.rm=TRUE))$Period[1]
   
@@ -562,7 +562,7 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit)
     # store max value to better place figures in or out the bars
     max_value <- max(data$Observation)
     
-    if (section == "Markets"){
+    if (section == "MARKETS"){
       
       data_grey <- data.frame(IndicatorShort=data$IndicatorShort,Observation=rep(100,length(table)))
       #data <- mutate(data, id = seq(1,nrow(data),1))
@@ -615,7 +615,7 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
   data <- filter(Report_data, CountryCode==cou, Section==section, Subsection %in% table)
   data <- data %>%
     filter(!(is.na(Observation))) %>%
-    mutate(Observation = Observation/Scale) %>%
+    mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
     distinct(Key,Period,.keep_all=TRUE)
  
   dataWorld <- filter(Report_data, Section==section, Subsection %in% table)
@@ -697,7 +697,7 @@ bar_facewrap_chart <- function(Report_data,reportConfig,couName, section, table,
   data <- Report_data %>%
     filter(CountryCode %in% c(cou,neighbors), Section==section, Subsection==table) %>%
     mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear)-1),Period),
-           Observation = Observation/Scale)
+           Observation = Observation/ifelse(is.na(Scale),1,Scale))
   
   if (nrow(filter(data, CountryCode==cou))>0){
     
@@ -813,7 +813,7 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table){
   region <- as.character(countries[countries$iso3==cou,]$region) 
   # filter the data
   data <- filter(Report_data, CountryCode %in% c(cou,neighbors), Section == section, Subsection==table) %>%
-    mutate(Observation = Observation/Scale)
+    mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
   
   if (nrow(filter(data, CountryCode==cou))>0){  
     # calculate the average for the region
@@ -1056,7 +1056,7 @@ table_countries <- function(Report_data,reportConfig,couName,section,table,compa
   data <- Report_data %>%
     filter(CountryCode %in% c(cou,neighbors), Section==section, Subsection==table) %>%
     mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear)-1),Period),
-           Observation = Observation/Scale)
+           Observation = Observation/ifelse(is.na(Scale),1,Scale))
   
   if (nrow(filter(data, CountryCode==cou))>0){
     
@@ -1297,7 +1297,7 @@ pie_chart_double <- function(Report_data,reportConfig,couName,section,table){
     filter(CountryCode==cou & Section == section & Subsection==table) %>%
     filter(!is.na(Observation)) %>%
     mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear) - 1),Period),
-           Observation = Observation/Scale)
+           Observation = Observation/ifelse(is.na(Scale),1,Scale))
 
   couRegion <- countries[countries$iso3==cou,]$region  # obtain the region for the selected country
   # country and Region descriptors
@@ -1422,7 +1422,7 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table){
     filter(CountryCode==cou & Section == section & Subsection==table) %>%
     filter(!is.na(Observation)) %>%
     mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear) - 1),Period)) %>%
-    mutate(Observation = Observation/Scale)
+    mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
   
   couRegion <- countries[countries$iso3==cou,]$region  # obtain the region for the selected country
   # country and Region descriptors
@@ -1675,7 +1675,7 @@ table_time <- function(Report_data,reportConfig,couName,section,table){
   }
   # keep the latest period (excluding projections further than 2 years)
   data <- mutate(data, Period = ifelse(is.na(Period),max(as.numeric(Period),na.rm=TRUE),Period),
-                 Observation = Observation/Scale) %>%
+                 Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
     filter(Period <= (as.numeric(thisYear))) %>%
     # remove NAs rows
     # calculate average for 1st column

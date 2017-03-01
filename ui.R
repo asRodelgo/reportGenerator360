@@ -5,7 +5,6 @@ library(shinyBS)
 library(shinyjs)
 library(V8)
 
-#object <- get(".shinystan_temp_object", envir = shinystan:::.sso_env)
 source("global_utils.R", local = TRUE)
 
 tagList(

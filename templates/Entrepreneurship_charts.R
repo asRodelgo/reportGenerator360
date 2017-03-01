@@ -15,7 +15,7 @@ dataDesc <- dataDescList[[input_reportID]]
 ########## Header ##########
 
 ## ---- figure_sparkline1 ----
-figure_sparkline(Report_data,reportConfig,reportConfig,couName,"figure1")
+figure_sparkline(Report_data,reportConfig,couName,"figure1")
 
 ## ---- figure_sparkline2 ----
 figure_sparkline(Report_data,reportConfig,couName, "figure2")
@@ -63,7 +63,7 @@ line_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"figure5")
 table_time(Report_data,reportConfig,couName,reportConfig$Section[1],"table1")
 
 ## ---- doing_business_table ----
-doing_business_table(couName)
+doing_business_table(Report_data,reportConfig,couName)
 
 
 ########## Human capital ##########
@@ -104,7 +104,7 @@ line_chart(Report_data,reportConfig,couName,reportConfig$Section[3],"line2")
 radar_chart(Report_data,reportConfig,couName, reportConfig$Section[4],"radar1")
 
 ## ---- bar_chart_Markets ----
-bar_chart(Report_data,reportConfig,couName, reportConfig$Section[4],"radar1",paste_unit=TRUE)
+bar_chart(Report_data,reportConfig,couName, reportConfig$Section[4],"radar1",paste_unit=FALSE)
 
 ## ---- table_region_Markets ----
 table_region(Report_data,reportConfig,couName, reportConfig$Section[4],"table1")

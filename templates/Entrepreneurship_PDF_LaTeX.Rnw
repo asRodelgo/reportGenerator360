@@ -113,6 +113,7 @@
   \end{minipage}
     \begin{minipage}[c]{0.42\textwidth} 
     \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 4)[1,1]}}}
+    
     \vspace{1ex}
     %\hspace{4ex}\footnotesize{\textcolor[HTML]{818181}{\% of GNI per capita}}
     <<line_chart_Policy,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=3.5,fig.width=7.5,results="asis">>=  
@@ -130,6 +131,7 @@
    \end{flushleft} 
   \begin{minipage}[c]{0.55\textwidth} % WEF Radar
     \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 1)[1,1]}}}
+    
     \vspace{1ex}
     %\hspace{4ex}\footnotesize{\textcolor[HTML]{818181}{(1-7, 7 = best)}}
       <<bar_facewrap_chart_Human,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=3.1,fig.width=7,results="asis">>=  
