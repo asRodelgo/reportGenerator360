@@ -5,8 +5,10 @@ require(jsonlite)
 # my local mac vs shiny-server
 if (getwd() == "/Users/asanchez3/Desktop/Work/reportGenerator360"){
   file_root <- "/Users/asanchez3/Desktop/Work/TCMN/reportGenerator360_data/"
+  file_extra_root <- file_root
 } else {
   file_root <- "/srv/shiny-server/reportGenerator360_data/"
+  file_extra_root <- "data/"
 }
 # read data extracted from API.
 ## ---- Run Writer_Report_data.R to update data from TCdata360 API
