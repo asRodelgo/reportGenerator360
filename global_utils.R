@@ -57,12 +57,14 @@ library(jsonlite)
 # Query country metadata:
 countries <- tryCatch(fromJSON("http://datascope-prod.amida-demo.com/api/v1/countries/?fields=id%2Ciso2%2Ciso3%2Cname%2Cregion%2CincomeLevel%2ClendingType%2CcapitalCity%2Cgeo",
                                flatten = TRUE), 
-                      error = function(e) {print("Warning: API call to countries returns an error")}, 
+                      error = function(e) {print("Warning: API call to countries returns an error");
+                        countries = read.csv("data/countries.csv", stringsAsFactors = FALSE)}, 
                       finally = {countries = read.csv("data/countries.csv", stringsAsFactors = FALSE)})
 # Query indicators:
 indicators <- tryCatch(fromJSON("http://datascope-prod.amida-demo.com/api/v1/indicators/?fields=id%2Cname%2CvalueType%2Crank",
                                 flatten=TRUE), 
-                       error = function(e) {print("Warning: API call to indicators returns an error")}, 
+                       error = function(e) {print("Warning: API call to indicators returns an error");
+                         countries = read.csv("data/countries.csv", stringsAsFactors = FALSE)}, 
                        finally = {indicators = read.csv("data/indicators.csv", stringsAsFactors = FALSE)})
 # List topics
 topics <- c("Entrepreneurship","Tourism")

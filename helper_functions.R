@@ -42,9 +42,9 @@ figure_sparkline <- function(Report_data,reportConfig,couName,table){
   indicator <- data$IndicatorShort[1]
   unit <- data$Unit[1]
   # add the right scale
-  if (data$Scale[1] == 1000000){
-    unit <- paste0(unit, ", million")
-  }
+  # if (data$Scale[1] == 1000000){
+  #   unit <- paste0(unit, ", million")
+  # }
     
   if (nrow(data)>0){
     
