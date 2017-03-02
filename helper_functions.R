@@ -1767,7 +1767,7 @@ table_time <- function(Report_data,reportConfig,couName,section,table){
              encoding = "UTF-8",
              output = paste0(input_reportID,"_",iso3,".tex"))
     # copy file to pdf directory
-    file.copy(paste0(input_reportID,"_",iso3,".pdf"), paste0("templates/",input_reportID,"_final_pdf/"),overwrite=TRUE)
+    #file.copy(paste0(input_reportID,"_",iso3,".pdf"), paste0("templates/",input_reportID,"_final_pdf/"),overwrite=TRUE)
     file.copy(paste0(input_reportID,"_",iso3,".pdf"), "www/",overwrite=TRUE)
     file.remove(paste0(input_reportID,"_",iso3,".pdf"))
     file.remove(paste0(input_reportID,"_",iso3,".tex"))
