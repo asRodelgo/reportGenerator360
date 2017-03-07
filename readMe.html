@@ -127,38 +127,49 @@ $(document).ready(function () {
 <div id="pre-requisites" class="section level1">
 <h1>Pre-requisites:</h1>
 <ul>
-<li>The R packages called in: <strong>generic_functions.R</strong> plus <strong>jsonlite</strong> to process the TCdata360’s API responses.</li>
-<li>Tex installation (To be able to knit LaTeX code into PDF)</li>
+<li>Install the R packages listed in: <strong>global_utils.R</strong> plus <strong>jsonlite</strong> to process the TCdata360’s API responses.</li>
+<li>TexLive installation (To be able to knit LaTeX code into PDF): <a href="https://www.tug.org/texlive/quickinstall.html" class="uri">https://www.tug.org/texlive/quickinstall.html</a></li>
 </ul>
 </div>
 <div id="setup" class="section level1">
 <h1>Setup</h1>
-<p>This is meant to be run on a local environment, for now. So download this project and change accordingly all local paths in:</p>
+<ol style="list-style-type: decimal">
+<li>This is meant to be run on a local environment, for now. So download this project and change accordingly all local paths in:</li>
+</ol>
 <ul>
 <li><strong>Writer_Report_data.R</strong></li>
 <li><strong>Report_Generator.R</strong></li>
 <li><strong>datapull_TCdata360.R</strong></li>
 </ul>
-<p>Tell the report what indicators and what charts you will use. For this, a configuration file is needed: <strong>DataDescription.csv</strong> Most of the columns are optional except for: Section, Subsection, Subsection2 and tcdata360_id.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>The <strong>templates</strong> folder contains the custom report for instance, Entrepreneurship. Ideally you don’t need to change anything outside of this <strong>templates</strong> folder. The parameter <strong>input_reportID</strong> defines what report you are working with. To edit an existing report or to create a new one, you must create 4 files within the templates folder:</li>
+</ol>
+<ul>
+<li><strong>input_reportID_charts.R</strong> calls to functions in helper_functions.R (charts, tables, etc.)</li>
+<li><p><strong>input_reportID_DataDescription.csv</strong> tell the report what indicators, units, sections, sources you will use. In more detail:</p>
 <ul>
 <li><strong>Section</strong>: Main topics within the report</li>
 <li><strong>Subsection</strong>: group tag indicators. Example: Use the same name for indicators you want to appear in the same chart/table.</li>
 <li><strong>Subsection2</strong>: in case indicators are used in more than 1 place. In case indicators are used in 3 places, then a new column would need to be added (Subsection3), although I’m not sure this will work without further changes.</li>
 <li><strong>tcdata360_id</strong>: TCdata360 indicator ID per the API.</li>
-</ul>
-<p>Other important columns (not needed just yet but good to have. For now, they are hardcoded into the report, working on this)</p>
-<ul>
 <li><strong>Source_Name</strong>: Name of data source to appear on report footnotes. Ex: WDI</li>
 <li><strong>Source_Link</strong>: URL pointing to data source (as hyperlink to Source_Name)</li>
 </ul>
-<p>Pick a main theme color for background and main titles. Fixed to blue now, working on it</p>
+<p>The rest of the columns should be self explanatory</p></li>
+<li><p><strong>input_reportID_ReportConfiguration.csv</strong> configuration file needed for the overall attributes of each report. Includes font color and header background color. The latter is constraint to the available images in www. Files: <strong>header_background_[hexacolor].png</strong></p></li>
+<li><p><strong>input_reportID_PDF_LaTeX.Rnw</strong> layout of the report. Here you will layout the elements you described on **_charts.R**</p></li>
+</ul>
+<p>If you get lost please take a look at the 2 examples built in the project right now (Entrepreneurship and Tourism). This should help.</p>
 </div>
-<div id="steps-to-generate-pdf-reports-once-setup-is-complete" class="section level1">
-<h1>Steps to generate PDF reports: (Once setup is complete)</h1>
+<div id="steps-to-generate-pdf-reports" class="section level1">
+<h1>Steps to generate PDF reports:</h1>
 <ol style="list-style-type: decimal">
-<li>Run <strong>Writer_Report_data.R</strong> to pull and store the data from TCdata360’s API. Important: If you change the downloaded data file location, it is usually a good practice to keep it outside the project directory (especially if you keep versions on Github, large files will make it crash)</li>
-<li>Run <strong>Report_Generator.R</strong></li>
+<li><p>Run <strong>Writer_Report_data.R</strong> to pull and store the data from TCdata360’s API. Important: If you change the downloaded data file location, it is usually a good practice to keep it outside the project directory (especially if you keep versions on Github, large files will make it crash)</p></li>
+<li><p>The program is prepared to ingest data from other sources as well, you will have to define it in a similar way as in <strong>Entrepreneurship_extraData.R</strong></p></li>
+<li><p>Update the List topics on global_utils.R: topics &lt;- c(“Entrepreneurship”,“Tourism”,<strong>“my_new_report”</strong>)</p></li>
+<li><p>Launch the shiny app and generate your desired report.</p></li>
 </ol>
+<p>Note: In order to generate report for all countries in one go you can use a loop in <strong>Report_Generator.R</strong></p>
 </div>
 
 

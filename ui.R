@@ -17,7 +17,7 @@ tagList(
     fluidRow(
             column(3,
                    selectInput('inCountry', "Select country:", choices=c("Select a country",countries$name), selectize=FALSE),
-                   selectInput('inTopic', "Select topic:", choices=c("Select a topic","Entrepreneurship","Tourism"), selectize=FALSE),
+                   selectInput('inTopic', "Select topic:", choices=c("Select a topic",topics), selectize=FALSE),
                    actionButton("generateReport", "Generate Report"),
                    #actionButton("previewReport", "Preview Report"),
                    uiOutput("previewPDF")
