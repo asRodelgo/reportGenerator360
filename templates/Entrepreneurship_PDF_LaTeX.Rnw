@@ -154,7 +154,7 @@
 %% Finance --------------------------------------------
 \begin{figure}
   \vspace{108ex} % move down this figure
-  \includegraphics[width=21.7cm,height=11cm]{/Users/asanchez3/Desktop/Work/TCMN/ReportGenerators/www/bottom_background_lightgrey.png}
+  \includegraphics[width=21.7cm,height=11cm]{\Sexpr{paste0(parent_directory,"/www/bottom_background_lightgrey.png")}}
 \end{figure}
 
 \begin{figure}
