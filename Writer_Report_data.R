@@ -3,6 +3,8 @@
 # ------------------------
 library(jsonlite)
 library(tidyverse)
+library(dplyr)
+library(tidyr)
 # Query data based on ids of filtered indicators
 # loop by country and indicator id. Bind it all in a data.frame
 # Query country metadata:

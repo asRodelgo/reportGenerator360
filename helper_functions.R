@@ -1,7 +1,7 @@
 # Helper functions to generalize charts and tables for LaTeX
 
 ## ---- figure_sparkline ----
-figure_sparkline <- function(Report_data,reportConfig,couName,table){      
+figure_sparkline <- function(Report_data,reportConfig,couName,table,rankBig=FALSE){      
   
   cou <- .getCountryCode(couName)
   ## Examples like Edward Tufte's sparklines:
@@ -41,10 +41,6 @@ figure_sparkline <- function(Report_data,reportConfig,couName,table){
 
   indicator <- data$IndicatorShort[1]
   unit <- data$Unit[1]
-  # add the right scale
-  # if (data$Scale[1] == 1000000){
-  #   unit <- paste0(unit, ", million")
-  # }
     
   if (nrow(data)>0){
     
@@ -72,10 +68,18 @@ figure_sparkline <- function(Report_data,reportConfig,couName,table){
     graphics::text(1.5, 1.1,indicator, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=10)
     graphics::text(1.5, 0.7,paste0(unit, " (",dataPeriod,")"), col="#818181", cex=5)
     # print data point and rank
-    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 0.95,dataPoint, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=18)
-    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 1.1,paste0("(Rank: ",rank,"/",rankedTotal,")"), col="grey", cex=7)
+    if (!rankBig){
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 0.95,dataPoint, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=18)
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 1.1,paste0("(Rank: ",rank,"/",rankedTotal,")"), col="grey", cex=7)
+    } else {
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 0.95,paste0(rank,"/",rankedTotal), col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=18)
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 1.1,paste0("Value: ",dataPoint), col="grey", cex=7)
+    }
+    
     # plot sparkline  
     par(family = 'serif',#sets number of rows in space to number of cols in data frame x
         mar=c(0,5,0,5))#sets margin size for the figures
@@ -131,7 +135,7 @@ figure_sparkline <- function(Report_data,reportConfig,couName,table){
 }
 
 ## ---- numberBig ----
-numberBig <- function(Report_data,reportConfig,couName,section,table){      
+numberBig <- function(Report_data,reportConfig,couName,section,table,rankBig=FALSE){      
   
   cou <- .getCountryCode(couName)
   ## Examples like Edward Tufte's sparklines:
@@ -182,10 +186,17 @@ numberBig <- function(Report_data,reportConfig,couName,section,table){
     graphics::text(1.5, 1.1,indicator, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=10)
     graphics::text(1.5, 0.7,paste0(unit, " (",dataPeriod,")"), col="#818181", cex=5)
     # print data point and rank
-    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 0.95,dataPoint, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=18)
-    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 1.1,paste0("(Rank: ",rank,"/",rankedTotal,")"), col="grey", cex=7)
+    if (!rankBig){ # rank bigger than actual value
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 0.95,dataPoint, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=18)
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 1.1,paste0("(Rank: ",rank,"/",rankedTotal,")"), col="grey", cex=7)
+    } else {
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 0.95,paste0(rank,"/",rankedTotal), col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=18)
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 1.1,paste0("Value: ",dataPoint), col="grey", cex=7)
+    }
     
   } else {
     
@@ -609,7 +620,7 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit)
 }
 
 ## ---- number_chart ----
-number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap_size){      
+number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap_size,rankBig=FALSE){      
   
   cou <- .getCountryCode(couName)
   data <- filter(Report_data, CountryCode==cou, Section==section, Subsection %in% table)
@@ -625,8 +636,7 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
     mutate(Period = max(Period,na.rm=TRUE)) %>%
     distinct(Key, Period, .keep_all = TRUE) %>%
     as.data.frame()
-  #dataWorld <- merge(dataWorld,countries[,c("CountryCodeISO2","CountryAlternat")],by.x="iso2c",by.y="CountryCodeISO2",all.x = TRUE)
-  #dataWorld <- filter(dataWorld, !(CountryAlternat==""))
+  
   dataWorld <- dataWorld %>%
     group_by(Key) %>%
     mutate(Observation = round(Observation,1)) %>%
@@ -659,9 +669,16 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
         graphics::text(1, 1.1,thisKey$IndicatorShort[1], col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=3, adj=0)
         graphics::text(1, 0.75,paste0(thisKey$Unit[1], " (",thisKey$Period[1],")"), col="#818181", cex=2, adj = 0)
         # print data point and rank
-        plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-        graphics::text(1.17, 1,filter(thisKey,CountryCode==cou)$Observation , col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=8)
-        graphics::text(1.42, 0.95,paste0("(Rank: ",rank[i],"/",rankedTotal[i],")"), col="grey", cex=3, adj=0)
+        if (!rankBig){ # rank bigger than actual value
+          plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+          graphics::text(1.17, 1,filter(thisKey,CountryCode==cou)$Observation , col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=8)
+          graphics::text(1.42, 0.95,paste0("(Rank: ",rank[i],"/",rankedTotal[i],")"), col="grey", cex=3, adj=0)
+        } else {
+          plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+          graphics::text(1.17, 1,paste0(rank[i],"/",rankedTotal[i]) , col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=5)
+          graphics::text(1.5, 1,paste0("Value: ",filter(thisKey,CountryCode==cou)$Observation), col="grey", cex=4, adj=0)
+        }
+        
       
       } else { # no data for this indicator
         
@@ -670,9 +687,15 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
         graphics::text(1, 1.1,thisKey$IndicatorShort[1], col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=3, adj=0)
         graphics::text(1, 0.75,paste0(thisKey$Unit[1], " (",thisKey$Period[1],")"), col="#818181", cex=2, adj = 0)
         # print data point and rank
-        plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-        graphics::text(1.17, 1," " , col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=8)
-        graphics::text(1.42, 0.95,paste0("(Rank: /",rankedTotal[i],")"), col="grey", cex=3, adj=0)
+        if (!rankBig){ # rank bigger than actual value
+          plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+          graphics::text(1.17, 1," " , col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=8)
+          graphics::text(1.42, 0.95,paste0("(Rank: /",rankedTotal[i],")"), col="grey", cex=3, adj=0)
+        } else {
+          plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+          graphics::text(1.17, 1,paste0("NA/",rankedTotal[i]), col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=5)
+          graphics::text(1.5, 1," ", col="grey", cex=4, adj=0)
+        }
       }
       i <- i + 1
     }
@@ -827,8 +850,10 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table){
       as.data.frame()
   
     # I must add the max and min columns to make it work:
-    max<-100
-    min <-1
+    obs_allCountries <- filter(Report_data, Section == section, Subsection==table) %>%
+      mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
+    max <- ceiling(max(obs_allCountries$Observation, na.rm = TRUE))
+    min <- floor(min(obs_allCountries$Observation, na.rm = TRUE))
     data <- as.data.frame(data)
     data <- cbind(data,max,min)
     
@@ -844,7 +869,7 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table){
     #       col.axis="red",col.lab=c("red","red"),col.main="red",col.sub="red",family="serif")
     par(mar=c(0,1,3,1),family="serif")
     
-    radarchart(dataTrans, axistype=1, centerzero = FALSE,seg=4, caxislabels=c(" ","","50%","","100%"),
+    radarchart(dataTrans, axistype=1, centerzero = FALSE,seg=4, caxislabels=c(min,"",(min+max)/2,"",max),
                      plty=c(1,1),plwd=c(6,3),pcol=c("orange","lightblue"),pdensity=c(0, 0),
                      cglwd=2,axislabcol="lightgrey", vlabels=data$IndicatorShort, cex.main=1,cex=2.5)
           
@@ -861,6 +886,83 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table){
   
 }
 
+## ---- radar_chart_widget ----
+radar_chart_widget <- function(Report_data,reportConfig,couName,section,table){      
+  
+  library(radarchart)
+  cou <- .getCountryCode(couName) # This chart needs to query neighbouring countries also
+  
+  couRegion <- countries[countries$iso3==cou,]$region  # obtain the region for the selected country
+  neighbors <- countries[countries$region==couRegion,]$iso3 # retrieve all countries in that region
+  neighbors <- as.character(neighbors[!(neighbors==cou)]) # exclude the selected country
+  
+  # country and Region descriptors
+  country <- as.character(countries[countries$iso3==cou,]$Country)
+  region <- as.character(countries[countries$iso3==cou,]$region) 
+  # filter the data
+  data <- filter(Report_data, CountryCode %in% c(cou,neighbors), Section == section, Subsection==table) %>%
+    mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
+  
+  if (nrow(filter(data, CountryCode==cou))>0){  
+    # calculate the average for the region
+    data <- data %>%
+      filter(!is.na(Observation)) %>%
+      group_by(Key) %>%
+      mutate(Observation = ifelse(Observation > 0 & Observation < 1, Observation*100,Observation)) %>%
+      filter(Period == max(Period)) %>%
+      mutate(regionAvg = mean(Observation, na.rm=TRUE)) %>%
+      filter(CountryCode==cou) %>%
+      as.data.frame()
+    
+    # I must add the max and min columns to make it work:
+    obs_allCountries <- filter(Report_data, Section == section, Subsection==table) %>%
+      mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
+    max <- ceiling(max(obs_allCountries$Observation, na.rm = TRUE))
+    min <- floor(min(obs_allCountries$Observation, na.rm = TRUE))
+    data <- as.data.frame(data)
+    data <- cbind(data,max,min)
+    
+    # order labels ad-hoc:
+    order <- c(1,3,4,6,2,5)
+    data <- cbind(data,order)
+    
+    data <- arrange(data,order) %>%
+      select(IndicatorShort, max, min, Observation, regionAvg)
+    
+    # plot radarchart
+    labs <- c("Communicator", "Data Wangler", "Programmer",
+              "Technologist",  "Modeller", "Visualizer")
+    
+    scores <- list(
+      "Rich" = c(9, 7, 4, 5, 3, 7),
+      "Andy" = c(7, 6, 6, 2, 6, 9),
+      "Aimee" = c(6, 5, 8, 4, 7, 6)
+    )
+    
+    chartJSRadar(scores = scores, labs = labs, maxScale = 10)
+    
+    # transpose the data for radarchart to read
+    # dataTrans <- as.data.frame(t(data[,2:ncol(data)]))
+    # layout(matrix(c(1,2),ncol=1), heights =c(4,1))
+    # #       col.axis="red",col.lab=c("red","red"),col.main="red",col.sub="red",family="serif")
+    # par(mar=c(0,1,3,1),family="serif")
+    
+    # radarchart(dataTrans, axistype=1, centerzero = FALSE,seg=4, caxislabels=c(min,"",(min+max)/2,"",max),
+    #            plty=c(1,1),plwd=c(6,3),pcol=c("orange","lightblue"),pdensity=c(0, 0),
+    #            cglwd=2,axislabcol="lightgrey", vlabels=data$IndicatorShort, cex.main=1,cex=2.5)
+    
+    #title="WEF Competitiveness Indicators, stage of development (1-7)",
+    # par(family = 'serif',mar=c(0,1,1,1))
+    # plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    # legend(1,1.5, legend=c(couName,region), seg.len=0.5, pch=19, inset=50, 
+    #        bty="n" ,lwd=3, x.intersp=0.5, horiz=TRUE, col=c("orange","lightblue"))
+    # 
+  } else {
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
+  }  
+  
+}
 
 ## ---- combo_percent ----
 combo_percent <- function(Report_data,reportConfig,couName,section,table){      
@@ -1740,6 +1842,29 @@ table_time <- function(Report_data,reportConfig,couName,section,table){
 }
 
 
+## ---- text_box ----
+text_box <- function(title, body, str_wrap_size=55){      
+  
+  title <- str_wrap(title, width = str_wrap_size)
+  body <- str_wrap(body, width = str_wrap_size)
+  # Reads title and text vectors and prints them iteratively
+  if (length(title) > 0){
+    par(family = 'serif',mfrow=c(length(title),1), #sets number of rows in space to number of cols in data frame x
+        mar=c(0,2,0,2), #sets margin size for the figures
+        oma=c(0,1,0,1)) #sets outer margin
+    
+    # print text
+    for (i in 1:length(title)){
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1, 1.3, title[i], col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), adj = c(0,0), cex=1.5)
+      graphics::text(1, 1, body[i], col="#818181",  adj = c(0,0), cex=1.5)
+    }
+  } else {
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 1.1," ", col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=2)
+  }
+  
+}
 ##########################
 # Shiny specific functions -----------------------------------------
 ##########################

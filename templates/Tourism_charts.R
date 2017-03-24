@@ -15,22 +15,22 @@ dataDesc <- dataDescList[[input_reportID]]
 ########## Header ##########
 
 ## ---- figure_sparkline1 ----
-figure_sparkline(Report_data,reportConfig,couName,"figure1")
+figure_sparkline(Report_data,reportConfig,couName,"figure1",rankBig=TRUE)
 
 ## ---- figure_sparkline2 ----
-figure_sparkline(Report_data,reportConfig,couName, "figure2")
+figure_sparkline(Report_data,reportConfig,couName, "figure2",rankBig=TRUE)
 
 ## ---- figure_sparkline3 ----
-figure_sparkline(Report_data,reportConfig,couName, "figure3")
+figure_sparkline(Report_data,reportConfig,couName, "figure3",rankBig=TRUE)
 
 ## ---- figure_sparkline4 ----
-figure_sparkline(Report_data,reportConfig,couName, "figure4")
+figure_sparkline(Report_data,reportConfig,couName, "figure4",rankBig=TRUE)
 
 ## ---- figure_sparkline5 ----
-figure_sparkline(Report_data,reportConfig,couName, "figure5")
+figure_sparkline(Report_data,reportConfig,couName, "figure5",rankBig=TRUE)
 
 ## ---- figure_sparkline6 ----
-figure_sparkline(Report_data,reportConfig,couName, "figure6")
+figure_sparkline(Report_data,reportConfig,couName, "figure6",rankBig=TRUE)
 
 
 ########## Tourism Demand and Supply ##########
@@ -42,10 +42,10 @@ line_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"line1")
 bar_facewrap_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"line2")
 
 ## ---- number1 ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"radar1",str_wrap_size=30)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"radar1",str_wrap_size=30,rankBig=TRUE)
 
 ## ---- number2 ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"radar2",str_wrap_size=30)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"radar2",str_wrap_size=30,rankBig=TRUE)
 
 ########## Tourism Economic Indicators ##########
 
@@ -62,10 +62,10 @@ bar_chart(Report_data,reportConfig,couName, reportConfig$Section[2],"line4",past
 bar_chart(Report_data,reportConfig,couName, reportConfig$Section[2],"line3",paste_unit = FALSE)
 
 ## ---- number3 ----
-number_chart(Report_data,reportConfig,couName, reportConfig$Section[2],"line2",str_wrap_size=30)
+number_chart(Report_data,reportConfig,couName, reportConfig$Section[2],"line2",str_wrap_size=30,rankBig=TRUE)
 
 ## ---- number4 ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[2],"line5",str_wrap_size=30)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[2],"line5",str_wrap_size=30,rankBig=TRUE)
 
 ## ---- bar_wrap2 ----
 bar_facewrap_chart(Report_data,reportConfig,couName,reportConfig$Section[2],"line2", vertical_bars = FALSE)
@@ -83,10 +83,16 @@ bar_facewrap_chart(Report_data,reportConfig,couName,reportConfig$Section[2],"lin
 pie_chart_region(Report_data,reportConfig,couName, reportConfig$Section[3],"table1")
 
 ## ---- numberBig ----
-numberBig(Report_data,reportConfig,couName, reportConfig$Section[3],"table1")
+numberBig(Report_data,reportConfig,couName, reportConfig$Section[3],"table1",rankBig = TRUE)
 
 ## ---- table_countries ----
 table_countries(Report_data,reportConfig,couName,reportConfig$Section[3],"radar1")
+
+## ---- radar_chart ----
+radar_chart(Report_data,reportConfig,couName,reportConfig$Section[3],"radar1")
+
+## ---- radar_chart_widget ----
+radar_chart_widget(Report_data,reportConfig,couName,reportConfig$Section[3],"radar1")
 
 ## ---- table_time ----
 table_time(Report_data,reportConfig,couName,reportConfig$Section[3],"radar1")
@@ -96,6 +102,12 @@ table_time_avg(Report_data,reportConfig,couName,reportConfig$Section[3],"radar1"
 
 ## ---- sparklines1 ----
 sparklines(Report_data,reportConfig,couName,reportConfig$Section[3],"radar1")
+
+## ---- text_box ----
+text_box(title=c("Receipt for travel items:","Receipts for passenger transport items:"),
+         body=c("These expenditures by international inbound visitors, or in their behalf,  to purchase goods and services in the reporting economy",
+                "These are expenditures by international inbound visitors for all services provided in the international transportation by resident carriers and passenger services performed within an economy by nonresident carriers."),
+         str_wrap_size=50)
 
 ########## Access & Transport ##########
 
