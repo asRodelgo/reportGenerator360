@@ -21,14 +21,14 @@ for (topic in topics){
 
   # Add descriptors and source fields
   ThisReport_data <- merge(ThisReport_data,ThisDataDesc, by.x = "id", by.y = "tcdata360_id")
-  ThisReport_data <- merge(ThisReport_data, countries[,c("iso3","iso2","name","region")],by="iso3",all.x = TRUE)
+  ThisReport_data <- merge(ThisReport_data, countries[,c("iso3","iso2","name","region","incomeLevel")],by="iso3",all.x = TRUE)
   # clean up: remove duplicate columns
   ThisReport_data <- ThisReport_data %>%
     filter(Period <= thisYear) %>%
     mutate(Period = as.character(Period), Scale = ifelse(is.na(Scale),1,Scale)) %>%
     select(Key = id, Country = name, Period, Observation, Scale, CountryCode = iso3, iso2,
            IndicatorShort = Indicator_Short, Source_Name, Source_Link, Unit = Unit_Short,
-           Section, Subsection, Subsection2, region, Source_ID)
+           Section, Subsection, Subsection2, region, incomeLevel, Source_ID)
 
   # ---------------------------------
   # Extra data: When indicators are not available in the API there will be an extraData file

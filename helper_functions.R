@@ -290,12 +290,17 @@ numberBig <- function(Report_data,reportConfig,couName,section,table,rankBig=FAL
 # }
 
 ## ---- line_chart ----
-line_chart <- function(Report_data,reportConfig,couName, section, table){
+line_chart <- function(Report_data,reportConfig,couName, section, table, minTime=NULL){
   
   cou <- .getCountryCode(couName)
   couRegion <- as.character(countries[countries$iso3==cou,]$region)  # obtain the region for the selected country
   
-  data <- filter(Report_data, region==couRegion, Section == section, Subsection == table, !(is.na(Observation))) #select country, region and world
+  if (!is.null(minTime)){
+    data <- filter(Report_data, region==couRegion, Section == section, Subsection == table, !(is.na(Observation)), Period >= minTime) #select country, region and world
+  } else {
+    data <- filter(Report_data, region==couRegion, Section == section, Subsection == table, !(is.na(Observation))) #select country, region and world
+  }
+  
   #data <- merge(data, countries[,c("CountryCodeISO3","Country")],by.x = "CountryCode", by.y="CountryCodeISO3")
   #data$Country <- gsub("(ES) ","",data$Country,fixed=TRUE)
   income <- filter(Report_data, region==couRegion & Section=="aux_income")
@@ -317,6 +322,84 @@ line_chart <- function(Report_data,reportConfig,couName, section, table){
     my_order <- data.frame(Country = country_order, order = seq(1,length(order_legend),1))
     data <- merge(data,my_order, by="Country") %>%
       filter(order < 6) %>% # keep 5 countries
+      arrange(order,Period)
+    
+    ggplot(data, aes(x=Period, y=Observation)) +
+      geom_line(stat="identity",aes(group=factor(order), colour=factor(order), size=factor(order), alpha=factor(order))) +
+      theme(legend.key=element_blank(),
+            legend.title=element_blank(),
+            legend.position="top",
+            legend.text = element_text(family="Times", size = 10, colour = "#818181"),
+            panel.border = element_blank(),
+            panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+            axis.line = element_line(size=0.1, colour = "lightgrey"),
+            axis.text.x = element_text(family="Times", color="#818181",hjust = 1),
+            axis.text.y = element_text(family="Times", color="#818181")) +
+      labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
+      ) + 
+      scale_color_manual(labels = order_legend, values = c("orange","brown","lightblue","lightgreen","pink")) +
+      scale_alpha_manual(labels = order_legend,values = c(1, rep(0.6,4))) + 
+      scale_size_manual(labels = order_legend,values = c(2, rep(1,4))) + 
+      scale_x_discrete(breaks = unique(arrange(data,Period)$Period)[seq(1,length(unique(data$Period)),4)])
+    
+  } else {
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
+  }
+  
+}
+
+## ---- line_chart ----
+line_chart <- function(Report_data,reportConfig,couName, section, table, minTime="1900",neighbor="region",max_neighbors=4){
+  # if max_neighbors = 0, plot only selected country
+  # if max_neighbors = 1, plot selected country vs average of all countries
+  # if max_neighbors > 1, plot selected country vs the rest of the individual countries
+  cou <- .getCountryCode(couName)
+  if (neighbor=="region"){ # region level
+    couRegion <- as.character(countries[countries$iso3==cou,]$region)  # obtain the region for the selected country
+    data <- filter(Report_data, region==couRegion, Section == section, Subsection == table, !(is.na(Observation)), Period >= minTime) #select country, region and world
+  } else { # income level 
+    couRegion <- as.character(countries[countries$iso3==cou,]$incomeLevel)  # obtain the region for the selected country
+    data <- filter(Report_data, incomeLevel==couRegion, Section == section, Subsection == table, !(is.na(Observation)), Period >= minTime) #select country, region and world
+  }
+  
+  if (max_neighbors == 1){ # use the average of all neighbors
+    
+    region_avg <- group_by(data, Key,Period) %>%
+      mutate(Observation = mean(Observation/ifelse(is.na(Scale),1,Scale),na.rm=TRUE)) %>%
+      distinct(Key,Period,.keep_all=TRUE) %>%
+      mutate(Country = incomeLevel, CountryCode = incomeLevel) %>%
+      #select(Key,Period,CountryCode) %>%
+      as.data.frame()
+    topNeighbors <- region_avg$CountryCode
+    data <- filter(data, CountryCode == cou) %>%
+      mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
+      arrange(CountryCode,Period) %>%
+      bind_rows(region_avg)
+    
+  } else { # compare against top incomes wihtin region 
+    # select top neighbors according to income
+    income <- filter(Report_data, region==couRegion & Section=="aux_income")
+    income <- income %>%
+      group_by(CountryCode) %>%
+      filter(!is.na(Observation), Period < thisYear, !(CountryCode==cou)) %>%
+      filter(Period == max(Period,na.rm=TRUE))
+    
+    topNeighbors <- head(arrange(as.data.frame(income), desc(Observation)),15)$CountryCode
+    data <- filter(data, CountryCode %in% c(cou,topNeighbors)) %>%
+      mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
+      arrange(CountryCode,Period)
+  }
+  
+  
+  # order lines in chart and hide elements in legend
+  if (nrow(filter(data,CountryCode==cou))>0){
+    
+    order_legend <- c(couName,as.character(unique(data[data$CountryCode %in% topNeighbors,]$Country)))
+    country_order <- factor(order_legend, levels = c(couName,order_legend[2:length(order_legend)]))
+    my_order <- data.frame(Country = country_order, order = seq(1,length(order_legend),1))
+    data <- merge(data,my_order, by="Country") %>%
+      filter(order <= (max_neighbors+1)) %>% # keep some countries
       arrange(order,Period)
     
     ggplot(data, aes(x=Period, y=Observation)) +
@@ -543,7 +626,7 @@ sparklines <- function(Report_data,reportConfig,couName,section,table){
 }
 
 ## ---- bar_chart ----
-bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit){      
+bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,percentBar = FALSE){      
   
   cou <- .getCountryCode(couName)
   data <- filter(Report_data, CountryCode==cou, Section==section, Subsection %in% table)
@@ -573,7 +656,7 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit)
     # store max value to better place figures in or out the bars
     max_value <- max(data$Observation)
     
-    if (section == "MARKETS"){
+    if (percentBar){
       
       data_grey <- data.frame(IndicatorShort=data$IndicatorShort,Observation=rep(100,length(table)))
       #data <- mutate(data, id = seq(1,nrow(data),1))

@@ -66,6 +66,19 @@ indicators <- tryCatch(fromJSON("http://datascope-prod.amida-demo.com/api/v1/ind
                        error = function(e) {print("Warning: API call to indicators returns an error");
                          countries = read.csv("data/countries.csv", stringsAsFactors = FALSE)}, 
                        finally = {indicators = read.csv("data/indicators.csv", stringsAsFactors = FALSE)})
+# # Query WB country classification:
+# require(readxl)
+# tryCatch(download.file("http://databank.worldbank.org/data/download/site-content/CLASS.xls",
+#                                     "data/CLASS.xls"), 
+#                       error = function(e) {print("Warning: WB country classification download returns an error");
+#                         wb_class = read_excel("data/CLASS.xls", 1)}, 
+#                       finally = {wb_class = read_excel("data/CLASS.xls", 1)})
+# # clean up
+# wb_class <- wb_class[rowSums(is.na(wb_class))<ncol(wb_class),c(3,5)]
+# names(wb_class) <- wb_class[2,]
+# wb_class <- wb_class[-c(1,2),]
+# wb_class <- wb_class[!(is.na(wb_class$`Income group`)),]
+
 # List topics
 topics <- c("Entrepreneurship","Tourism")
 

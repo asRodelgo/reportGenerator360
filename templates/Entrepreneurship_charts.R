@@ -104,7 +104,7 @@ line_chart(Report_data,reportConfig,couName,reportConfig$Section[3],"line2")
 radar_chart(Report_data,reportConfig,couName, reportConfig$Section[4],"radar1")
 
 ## ---- bar_chart_Markets ----
-bar_chart(Report_data,reportConfig,couName, reportConfig$Section[4],"radar1",paste_unit=FALSE)
+bar_chart(Report_data,reportConfig,couName, reportConfig$Section[4],"radar1",paste_unit=FALSE,percentBar=TRUE)
 
 ## ---- table_region_Markets ----
 table_region(Report_data,reportConfig,couName, reportConfig$Section[4],"table1")
