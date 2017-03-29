@@ -32,84 +32,49 @@ figure_sparkline(Report_data,reportConfig,couName, "figure5",rankBig=TRUE)
 ## ---- figure_sparkline6 ----
 figure_sparkline(Report_data,reportConfig,couName, "figure6",rankBig=TRUE)
 
-
 ########## Tourism Demand and Supply ##########
 
-## ---- line1 ----
+## ---- line1.1 ----
 line_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"line1")
 
-## ---- bar_wrap1 ----
-bar_facewrap_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"line2")
+## ---- line1.2 ----
+line_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"line2")
 
-## ---- number1 ----
+## ---- number1.1 ----
 number_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"radar1",str_wrap_size=30,rankBig=TRUE)
 
-## ---- number2 ----
+## ---- number1.2 ----
 number_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"radar2",str_wrap_size=30,rankBig=TRUE)
 
 ########## Tourism Economic Indicators ##########
 
-## ---- spark1 ----
-figure_sparkline(Report_data,reportConfig,couName,"figure2")
+## ---- pie2.1 ----
+pie_chart_regular(Report_data,reportConfig,couName, reportConfig$Section[2],"line4")
 
-## ---- spark2 ----
-figure_sparkline(Report_data,reportConfig,couName,"figure7")
+## ---- numberBig2.1 ----
+numberBig(Report_data,reportConfig,couName, reportConfig$Section[2],"number2",rankBig = TRUE)
 
-## ---- bar1 ----
-bar_chart(Report_data,reportConfig,couName, reportConfig$Section[2],"line4",paste_unit=FALSE)
+## ---- bar2.1 ----
+bar_chart(Report_data,reportConfig,couName, reportConfig$Section[2],c("bar1","bar2","bar3"),paste_unit = FALSE, percentBar = TRUE)
 
-## ---- bar2 ----
-bar_chart(Report_data,reportConfig,couName, reportConfig$Section[2],"line3",paste_unit = FALSE)
-
-## ---- number3 ----
-number_chart(Report_data,reportConfig,couName, reportConfig$Section[2],"line2",str_wrap_size=30,rankBig=TRUE)
-
-## ---- number4 ----
+## ---- number2.1 ----
 number_chart(Report_data,reportConfig,couName,reportConfig$Section[2],"line5",str_wrap_size=30,rankBig=TRUE)
 
-## ---- bar_wrap2 ----
-bar_facewrap_chart(Report_data,reportConfig,couName,reportConfig$Section[2],"line2", vertical_bars = FALSE)
-# 
-# ## ---- bar_wrap3 ----
-# bar_facewrap_chart(Report_data,reportConfig,couName,reportConfig$Section[2],"line4", vertical_bars = FALSE)
-# 
-# ## ---- bar_wrap4 ----
-# bar_facewrap_chart(Report_data,reportConfig,couName, reportConfig$Section[2],"line3",vertical_bars = FALSE, str_wrap_size = 40)
-# 
+## ---- bar2.2 ----
+bar_chart(Report_data,reportConfig,couName, reportConfig$Section[2],"line3",paste_unit = FALSE)
 
-########## Tourism competitiveness ##########
-
-## ---- pie1 ----
-pie_chart_region(Report_data,reportConfig,couName, reportConfig$Section[3],"table1")
-
-## ---- numberBig ----
-numberBig(Report_data,reportConfig,couName, reportConfig$Section[3],"table1",rankBig = TRUE)
-
-## ---- table_countries ----
-table_countries(Report_data,reportConfig,couName,reportConfig$Section[3],"radar1")
-
-## ---- radar_chart ----
-radar_chart(Report_data,reportConfig,couName,reportConfig$Section[3],"radar1")
-
-## ---- radar_chart_widget ----
-radar_chart_widget(Report_data,reportConfig,couName,reportConfig$Section[3],"radar1")
-
-## ---- table_time ----
-table_time(Report_data,reportConfig,couName,reportConfig$Section[3],"radar1")
-
-## ---- table_time_avg1 ----
-table_time_avg(Report_data,reportConfig,couName,reportConfig$Section[3],"radar1")
-
-## ---- sparklines1 ----
-sparklines(Report_data,reportConfig,couName,reportConfig$Section[3],"radar1")
-
-## ---- text_box ----
+## ---- text2.1 ----
 text_box(title=c("Receipt for travel items:","Receipts for passenger transport items:"),
          body=c("These expenditures by international inbound visitors, or in their behalf,  to purchase goods and services in the reporting economy",
                 "These are expenditures by international inbound visitors for all services provided in the international transportation by resident carriers and passenger services performed within an economy by nonresident carriers."),
          str_wrap_size=50)
 
+########## Tourism competitiveness ##########
+
+## ---- radar_chart ----
+radar_chart(Report_data,reportConfig,couName,reportConfig$Section[3],"radar1")
+
 ########## Access & Transport ##########
 
-## ---- bar_wrap5 ----
-bar_facewrap_chart(Report_data,reportConfig,couName,reportConfig$Section[4],"radar1")
+## ---- number4.1 ----
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[4],"radar1",str_wrap_size=30,rankBig=TRUE)
