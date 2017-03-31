@@ -305,10 +305,10 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
   
   if (max_neighbors == 1){ # use the average of all neighbors
     
-    region_avg <- group_by(data, Key,Period) %>%
-      mutate(Observation = mean(Observation/ifelse(is.na(Scale),1,Scale),na.rm=TRUE)) %>%
+    region_avg <- dplyr::group_by(data, Key,Period) %>%
+      dplyr::mutate(Observation = mean(Observation/ifelse(is.na(Scale),1,Scale),na.rm=TRUE)) %>%
       distinct(Key,Period,.keep_all=TRUE) %>%
-      mutate(Country = incomeLevel, CountryCode = incomeLevel) %>%
+      dplyr::mutate(Country = incomeLevel, CountryCode = incomeLevel) %>%
       #select(Key,Period,CountryCode) %>%
       as.data.frame()
     topNeighbors <- region_avg$CountryCode
@@ -357,8 +357,8 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
               axis.text.y = element_text(family="Times", color="#818181")) +
         labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
         ) + 
-        scale_color_manual(labels = unique(data$IndicatorShort), values = c("lightblue","lightgreen","purple","pink","lightred")) +
-        scale_alpha_manual(labels = unique(data$IndicatorShort),values = c(1, rep(1,4))) + 
+        scale_color_manual(labels = unique(data$IndicatorShort), values = c("purple","maroon","lightblue","lightgreen","pink")) +
+        scale_alpha_manual(labels = unique(data$IndicatorShort),values = c(0.6, rep(0.6,4))) + 
         scale_size_manual(labels = unique(data$IndicatorShort),values = c(2, rep(2,4))) + 
         scale_x_discrete(breaks = unique(arrange(data,Period)$Period)[seq(1,length(unique(data$Period)),4)])
       
@@ -631,23 +631,28 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,
         
         gdp <- as.numeric(filter(data, Key == 949)$Observation)
         employ <- as.numeric(filter(data, Key == 1177)$Observation)
-        
+       
+        require(stringr) 
         data <- filter(data, !(Key %in% c(949,1177))) %>%
-          mutate(Observation = ifelse(Key %in% c(3778,3770), Observation*100/gdp, ifelse(Key==3769,Observation*100/employ,Observation))) %>%
+          mutate(ObservationPerc = ifelse(Key %in% c(3778,3770), Observation*100/gdp, ifelse(Key==3769,Observation*100/employ,Observation))) %>%
           mutate(IndicatorShort = ifelse(Key==3778, "Total contribution to GDP", 
                                          ifelse(Key==3770,"Direct contribution to GDP",
                                                 ifelse(Key==3769,"Direct contribution to employment","Total contribution to employment")))) %>%
+          mutate(IndicatorShort = str_wrap(paste0(IndicatorShort,", ",Unit), width = 25)) %>%
           as.data.frame()
         
+        max_valuePerc <- max(data$ObservationPerc)
       }
       
-      data_grey <- data.frame(IndicatorShort=data$IndicatorShort,Observation=rep(100,nrow(data)))
+      data_grey <- data.frame(IndicatorShort=data$IndicatorShort,ObservationPerc=rep(100,nrow(data)))
       #data <- mutate(data, id = seq(1,nrow(data),1))
-      ggplot(NULL,aes(x=IndicatorShort,y=Observation)) +
+      ggplot(NULL,aes(x=IndicatorShort,y=ObservationPerc)) +
         geom_bar(data=data_grey,color="#f1f3f3",fill = "#f1f3f3",stat="identity") +
         geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
-        geom_text(data=data, aes(label=round(Observation,1),y=ifelse(Observation<max_value*.2,Observation + max(Observation)*.1,Observation - max(Observation)*.1)),
-                  size=12,color=ifelse(data$Observation<max_value*.2,paste0("#",filter(reportConfig, Section_Level == 10)$Color),"white")) + 
+        geom_text(data=data, aes(label=paste0(round(ObservationPerc,1),"%"),y=ifelse(ObservationPerc<100,110,ObservationPerc*1.15)),
+                  size=10,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color)) + 
+        geom_text(data=data, aes(label=format(round(Observation,1),big.mark = ","),y=ifelse(ObservationPerc<max_valuePerc*.2,ObservationPerc + max(ObservationPerc)*.1,ObservationPerc - max(ObservationPerc)*.2)),
+                  size=8,color=ifelse(data$ObservationPerc<max_valuePerc*.2,paste0("#",filter(reportConfig, Section_Level == 10)$Color),"white")) + 
         coord_flip()+
         theme(legend.key=element_blank(),
               legend.title=element_blank(),
@@ -660,11 +665,12 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,
               axis.text = element_text(family="Times", color = "#818181")) + 
         labs(x="",y=""#,title="Top 5 constraints according to 2013 Enterprise Survey (in percent)"
         ) 
+      
     } else {
       ggplot(NULL,aes(x=IndicatorShort,y=Observation)) +
         geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
         geom_text(data=data, aes(label=format(round(Observation,1),big.mark = ","),y=ifelse(Observation<max_value*.15,Observation + max(Observation)*.1,Observation - max(Observation)*.1)),
-                  size=6,color=ifelse(data$Observation<max_value*.15,paste0("#",filter(reportConfig, Section_Level == 10)$Color),"white")) + 
+                  size=8,color=ifelse(data$Observation<max_value*.15,paste0("#",filter(reportConfig, Section_Level == 10)$Color),"white")) + 
         coord_flip()+
         theme(legend.key=element_blank(),
               legend.title=element_blank(),
@@ -673,7 +679,7 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,
               panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
               axis.ticks.x = element_blank(),
               axis.text.x = element_blank(),
-              axis.text.y = element_text(family="Times", size = 15)) + 
+              axis.text.y = element_text(family="Times", color = "#818181", size = 20)) + 
         labs(x="",y=""#,title="Top 5 constraints according to 2013 Enterprise Survey (in percent)"
         )
     }
@@ -944,7 +950,7 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
     
     radarchart(dataTrans, axistype=1, centerzero = FALSE,seg=4, caxislabels=c(min,"",(min+max)/2,"",max),
                      plty=c(1,1),plwd=c(6,3),pcol=c("orange","lightblue"),pdensity=c(0, 0),
-                     cglwd=2,axislabcol="lightgrey", vlabels=data$IndicatorShort, cex.main=1,cex=2.5)
+                     cglwd=2,axislabcol="lightgrey", vlabels=data$IndicatorShort, cex.main=1,cex=2.5,vlcex = 1.2)
           
     #title="WEF Competitiveness Indicators, stage of development (1-7)",
     par(family = 'serif',mar=c(0,1,1,1))
@@ -1693,7 +1699,7 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table,regi
       
       ggplot(data, aes("",Observation,fill=IndicatorShort)) +
         geom_bar(width=1,stat="identity") +
-        scale_fill_manual(values = c("#f1f3f3",paste0("#",filter(reportConfig, Section_Level == 10)$Color)),guide=FALSE) +
+        scale_fill_manual(values = c("#f1f3f3","orange"),guide=FALSE) +
         coord_polar("y",start = 0) +
         geom_text(aes(label=ObsLabel,y=10),
                   size=12,color="white") + 
@@ -1913,7 +1919,7 @@ table_time <- function(Report_data,reportConfig,couName,section,table){
 
 
 ## ---- text_box ----
-text_box <- function(title, body, str_wrap_size=55){      
+text_box <- function(title, body, str_wrap_size=75){      
   
   title <- str_wrap(title, width = str_wrap_size)
   body <- str_wrap(body, width = str_wrap_size)
@@ -1926,8 +1932,8 @@ text_box <- function(title, body, str_wrap_size=55){
     # print text
     for (i in 1:length(title)){
       plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-      graphics::text(1, 1.3, title[i], col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), adj = c(0,0), cex=1.5)
-      graphics::text(1, 1, body[i], col="#818181",  adj = c(0,0), cex=1.5)
+      graphics::text(1, 1.2, title[i], col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), adj = c(0,0), cex=2)
+      graphics::text(1, 0.8, body[i], col="#818181",  adj = c(0,0), cex=1.7)
     }
   } else {
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)

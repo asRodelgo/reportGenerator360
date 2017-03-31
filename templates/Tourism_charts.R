@@ -67,7 +67,7 @@ bar_chart(Report_data,reportConfig,couName, reportConfig$Section[2],"line3",past
 text_box(title=c("Receipt for travel items:","Receipts for passenger transport items:"),
          body=c("These expenditures by international inbound visitors, or in their behalf,  to purchase goods and services in the reporting economy",
                 "These are expenditures by international inbound visitors for all services provided in the international transportation by resident carriers and passenger services performed within an economy by nonresident carriers."),
-         str_wrap_size=50)
+         str_wrap_size=75)
 
 ########## Access & Transport & Tourism competitiveness ##########
 
