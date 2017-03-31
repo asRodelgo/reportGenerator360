@@ -915,10 +915,10 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
     data <- data %>%
       filter(!is.na(Observation)) %>%
       #group_by(Key) %>%
-      mutate(Observation = ifelse(Observation > 0 & Observation < 1, Observation*100,Observation)) %>%
+      #mutate(Observation = ifelse(Observation > 0 & Observation < 1, Observation*100,Observation)) %>%
       filter(Period == max(Period)) %>%
-      group_by(as.factor(Key)) %>%
-      mutate(regionAvg = mean(Observation, na.rm=TRUE)) %>%
+      dplyr::group_by(IndicatorShort) %>%
+      dplyr::mutate(regionAvg = mean(Observation)) %>%
       filter(CountryCode==cou) %>%
       as.data.frame()
   
