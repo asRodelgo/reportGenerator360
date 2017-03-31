@@ -357,7 +357,7 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
               axis.text.y = element_text(family="Times", color="#818181")) +
         labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
         ) + 
-        scale_color_manual(labels = unique(data$IndicatorShort), values = c("darkblue","green","purple","pink","red")) +
+        scale_color_manual(labels = unique(data$IndicatorShort), values = c("lightblue","lightgreen","purple","pink","lightred")) +
         scale_alpha_manual(labels = unique(data$IndicatorShort),values = c(1, rep(1,4))) + 
         scale_size_manual(labels = unique(data$IndicatorShort),values = c(2, rep(2,4))) + 
         scale_x_discrete(breaks = unique(arrange(data,Period)$Period)[seq(1,length(unique(data$Period)),4)])
@@ -889,28 +889,35 @@ bar_facewrap_chart <- function(Report_data,reportConfig,couName, section, table,
 
 
 ## ---- radar_chart ----
-radar_chart <- function(Report_data,reportConfig,couName,section,table){      
+radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor = "region"){      
   
   cou <- .getCountryCode(couName) # This chart needs to query neighbouring countries also
-  
-  couRegion <- countries[countries$iso3==cou,]$region  # obtain the region for the selected country
-  neighbors <- countries[countries$region==couRegion,]$iso3 # retrieve all countries in that region
-  neighbors <- as.character(neighbors[!(neighbors==cou)]) # exclude the selected country
-  
-  # country and Region descriptors
   country <- as.character(countries[countries$iso3==cou,]$Country)
-  region <- as.character(countries[countries$iso3==cou,]$region) 
-  # filter the data
-  data <- filter(Report_data, CountryCode %in% c(cou,neighbors), Section == section, Subsection==table) %>%
-    mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
+  
+  if (neighbor=="region"){ # region level
+    couRegion <- as.character(countries[countries$iso3==cou,]$region)  # obtain the region for the selected country
+    data <- filter(Report_data, CountryCode %in% c(cou,neighbors), Section == section, Subsection==table) %>%
+      mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
+    neighbors <- countries[countries$region==couRegion,]$iso3 # retrieve all countries in that region
+    neighbors <- as.character(neighbors[!(neighbors==cou)]) # exclude the selected country
+    region <- as.character(countries[countries$iso3==cou,]$region) 
+  } else { # income level 
+    couRegion <- as.character(countries[countries$iso3==cou,]$incomeLevel)  # obtain the region for the selected country
+    data <- filter(Report_data, CountryCode %in% c(cou,neighbors), Section == section, Subsection==table) %>%
+      mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
+    neighbors <- countries[countries$incomeLevel==couRegion,]$iso3 # retrieve all countries in that region
+    neighbors <- as.character(neighbors[!(neighbors==cou)]) # exclude the selected country
+    region <- as.character(countries[countries$iso3==cou,]$incomeLevel) 
+  }
   
   if (nrow(filter(data, CountryCode==cou))>0){  
     # calculate the average for the region
     data <- data %>%
       filter(!is.na(Observation)) %>%
-      group_by(Key) %>%
+      #group_by(Key) %>%
       mutate(Observation = ifelse(Observation > 0 & Observation < 1, Observation*100,Observation)) %>%
       filter(Period == max(Period)) %>%
+      group_by(as.factor(Key)) %>%
       mutate(regionAvg = mean(Observation, na.rm=TRUE)) %>%
       filter(CountryCode==cou) %>%
       as.data.frame()
@@ -924,11 +931,11 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table){
     data <- cbind(data,max,min)
     
     # order labels ad-hoc:
-    order <- c(1,3,4,6,2,5)
-    data <- cbind(data,order)
+    #order <- c(1,3,4,6,2,5)
+    #data <- cbind(data,order)
     
-    data <- arrange(data,order) %>%
-    select(IndicatorShort, max, min, Observation, regionAvg)
+    #data <- arrange(data,order) %>%
+    data <- select(data, IndicatorShort, max, min, Observation, regionAvg)
     # transpose the data for radarchart to read
     dataTrans <- as.data.frame(t(data[,2:ncol(data)]))
     layout(matrix(c(1,2),ncol=1), heights =c(4,1))
@@ -1582,7 +1589,7 @@ pie_chart_double <- function(Report_data,reportConfig,couName,section,table){
 }
 
 ## ---- pie_chart_region ----
-pie_chart_region <- function(Report_data,reportConfig,couName,section,table){      
+pie_chart_region <- function(Report_data,reportConfig,couName,section,table,region = TRUE){      
   
   cou <- .getCountryCode(couName)
   
@@ -1622,7 +1629,7 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table){
     
     data$ObsLabel[2] <- ""
     
-    if (nrow(dataRegion)>0){ # make sure dataRegion is not empty, so I show only 1 pie
+    if (nrow(dataRegion)>0 && region == TRUE){ # make sure dataRegion is not empty, so I show only 1 pie
       
       dataRegion <- filter(dataRegion, Period==maxPeriod) %>% #max period for the selected country
         mutate(Observation = mean(Observation, is.na=TRUE)) %>%
@@ -1644,9 +1651,6 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table){
       
       dataRegion$ObsLabel[2] <- ""
         
-    #  if (section=="Markets")  thisColor = "blue"
-    #  else thisColor = "darkgreen"
-      
       p1 <- ggplot(data, aes("",Observation,fill=IndicatorShort)) +
         geom_bar(width=1,stat="identity") +
         scale_fill_manual(values = c("#f1f3f3","orange"),guide=FALSE) +
@@ -1683,7 +1687,7 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table){
               axis.text.y = element_blank()) + 
         labs(x="",y="")
       
-      grid.arrange(p1,p2,ncol=2)
+        grid.arrange(p1,p2,ncol=2)
     
     } else {
       
@@ -1691,7 +1695,7 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table){
         geom_bar(width=1,stat="identity") +
         scale_fill_manual(values = c("#f1f3f3",paste0("#",filter(reportConfig, Section_Level == 10)$Color)),guide=FALSE) +
         coord_polar("y",start = 0) +
-        geom_text(aes(label=ObsLabel,y=15),
+        geom_text(aes(label=ObsLabel,y=10),
                   size=12,color="white") + 
         ggtitle(country) + 
         theme(legend.key=element_blank(),

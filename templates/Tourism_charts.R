@@ -49,7 +49,7 @@ number_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"radar2",s
 ########## Tourism Economic Indicators ##########
 
 ## ---- pie2.1 ----
-pie_chart_regular(Report_data,reportConfig,couName, reportConfig$Section[2],"pie2")
+pie_chart_region(Report_data,reportConfig,couName, reportConfig$Section[2],"pie2",region=FALSE)
 
 ## ---- numberBig2.1 ----
 numberBig(Report_data,reportConfig,couName, reportConfig$Section[2],"number2",rankBig = TRUE)
@@ -76,6 +76,6 @@ text_box(title=c("Receipt for travel items:","Receipts for passenger transport i
 number_chart(Report_data,reportConfig,couName,reportConfig$Section[3],"number3",str_wrap_size=30,rankBig=TRUE)
 
 ## ---- radar3.1 ----
-radar_chart(Report_data,reportConfig,couName,reportConfig$Section[3],"radar1")
+radar_chart(Report_data,reportConfig,couName,reportConfig$Section[3],"radar1",neighbor = "incomeLevel")
 
 
