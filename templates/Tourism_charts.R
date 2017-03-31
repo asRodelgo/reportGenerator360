@@ -15,22 +15,22 @@ dataDesc <- dataDescList[[input_reportID]]
 ########## Header ##########
 
 ## ---- figure_sparkline1 ----
-figure_sparkline(Report_data,reportConfig,couName,"figure1",rankBig=TRUE)
+figure_sparkline(Report_data,reportConfig,couName,"figure1",rankBig=FALSE)
 
 ## ---- figure_sparkline2 ----
-figure_sparkline(Report_data,reportConfig,couName, "figure2",rankBig=TRUE)
+figure_sparkline(Report_data,reportConfig,couName, "figure2",rankBig=FALSE)
 
 ## ---- figure_sparkline3 ----
-figure_sparkline(Report_data,reportConfig,couName, "figure3",rankBig=TRUE)
+figure_sparkline(Report_data,reportConfig,couName, "figure3",rankBig=FALSE)
 
 ## ---- figure_sparkline4 ----
-figure_sparkline(Report_data,reportConfig,couName, "figure4",rankBig=TRUE)
+figure_sparkline(Report_data,reportConfig,couName, "figure4",rankBig=FALSE)
 
 ## ---- figure_sparkline5 ----
 figure_sparkline(Report_data,reportConfig,couName, "figure5",rankBig=TRUE)
 
 ## ---- figure_sparkline6 ----
-figure_sparkline(Report_data,reportConfig,couName, "figure6",rankBig=TRUE)
+figure_sparkline(Report_data,reportConfig,couName, "figure6",rankBig=FALSE)
 
 ########## Tourism Demand and Supply ##########
 
@@ -49,10 +49,13 @@ number_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"radar2",s
 ########## Tourism Economic Indicators ##########
 
 ## ---- pie2.1 ----
-pie_chart_region(Report_data,reportConfig,couName, reportConfig$Section[2],"pie2",region=FALSE)
+pie_chart_region(Report_data,reportConfig,couName, reportConfig$Section[2],"pie2",neighbor = "incomeLevel", region=TRUE)
 
-## ---- numberBig2.1 ----
-numberBig(Report_data,reportConfig,couName, reportConfig$Section[2],"number2",rankBig = TRUE)
+## ---- pie2.2 ----
+pie_chart_region(Report_data,reportConfig,couName, reportConfig$Section[2],"number2",neighbor = "incomeLevel",region=TRUE)
+
+# ## ---- numberBig2.1 ----
+# numberBig(Report_data,reportConfig,couName, reportConfig$Section[2],"number2",rankBig = TRUE)
 
 ## ---- bar2.1 ----
 bar_chart(Report_data,reportConfig,couName, reportConfig$Section[2],c("bar1","bar2","bar3"),paste_unit = FALSE, percentBar = TRUE)
@@ -67,7 +70,7 @@ bar_chart(Report_data,reportConfig,couName, reportConfig$Section[2],"line3",past
 text_box(title=c("Receipt for travel items:","Receipts for passenger transport items:"),
          body=c("These expenditures by international inbound visitors, or in their behalf,  to purchase goods and services in the reporting economy",
                 "These are expenditures by international inbound visitors for all services provided in the international transportation by resident carriers and passenger services performed within an economy by nonresident carriers."),
-         str_wrap_size=75)
+         str_wrap_size=70)
 
 ########## Access & Transport & Tourism competitiveness ##########
 
@@ -76,6 +79,7 @@ text_box(title=c("Receipt for travel items:","Receipts for passenger transport i
 number_chart(Report_data,reportConfig,couName,reportConfig$Section[3],"number3",str_wrap_size=30,rankBig=TRUE)
 
 ## ---- radar3.1 ----
-radar_chart(Report_data,reportConfig,couName,reportConfig$Section[3],"radar1",neighbor = "incomeLevel")
+radar_chart(Report_data,reportConfig,couName,reportConfig$Section[3],"radar1",neighbor = "region")
+
 
 

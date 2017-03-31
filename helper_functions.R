@@ -638,6 +638,8 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,
           mutate(IndicatorShort = ifelse(Key==3778, "Total contribution to GDP", 
                                          ifelse(Key==3770,"Direct contribution to GDP",
                                                 ifelse(Key==3769,"Direct contribution to employment","Total contribution to employment")))) %>%
+          mutate(Observation = ifelse(Key == 3777, Observation*ObservationPerc, Observation),
+                 Unit = ifelse(Key == 3777, "employed, in millions", Unit)) %>%
           mutate(IndicatorShort = str_wrap(paste0(IndicatorShort,", ",Unit), width = 25)) %>%
           as.data.frame()
         
@@ -650,7 +652,7 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,
         geom_bar(data=data_grey,color="#f1f3f3",fill = "#f1f3f3",stat="identity") +
         geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
         geom_text(data=data, aes(label=paste0(round(ObservationPerc,1),"%"),y=ifelse(ObservationPerc<100,110,ObservationPerc*1.15)),
-                  size=10,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color)) + 
+                  size=10,color="grey") + 
         geom_text(data=data, aes(label=format(round(Observation,1),big.mark = ","),y=ifelse(ObservationPerc<max_valuePerc*.2,ObservationPerc + max(ObservationPerc)*.1,ObservationPerc - max(ObservationPerc)*.2)),
                   size=8,color=ifelse(data$ObservationPerc<max_valuePerc*.2,paste0("#",filter(reportConfig, Section_Level == 10)$Color),"white")) + 
         coord_flip()+
@@ -949,7 +951,7 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
     par(mar=c(0,1,3,1),family="serif")
     
     radarchart(dataTrans, axistype=1, centerzero = FALSE,seg=4, caxislabels=c(min,"",(min+max)/2,"",max),
-                     plty=c(1,1),plwd=c(6,3),pcol=c("orange","lightblue"),pdensity=c(0, 0),
+                     plty=c(1,1),plwd=c(6,4),pcol=c("orange","blue"),pdensity=c(0, 0),
                      cglwd=2,axislabcol="lightgrey", vlabels=data$IndicatorShort, cex.main=1,cex=2.5,vlcex = 1.2)
           
     #title="WEF Competitiveness Indicators, stage of development (1-7)",
@@ -1595,7 +1597,7 @@ pie_chart_double <- function(Report_data,reportConfig,couName,section,table){
 }
 
 ## ---- pie_chart_region ----
-pie_chart_region <- function(Report_data,reportConfig,couName,section,table,region = TRUE){      
+pie_chart_region <- function(Report_data,reportConfig,couName,section,table,neighbor="region",region=TRUE){      
   
   cou <- .getCountryCode(couName)
   
@@ -1605,15 +1607,23 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table,regi
     mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear) - 1),Period)) %>%
     mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
   
-  couRegion <- countries[countries$iso3==cou,]$region  # obtain the region for the selected country
-  # country and Region descriptors
   country <- as.character(countries[countries$iso3==cou,]$Country)
-  region <- as.character(countries[countries$iso3==cou,]$region) 
-  # filter the data
-  dataRegion <- Report_data %>%
-    filter(region==couRegion & Section == section & Subsection==table) %>%
-    filter(!is.na(Observation)) %>%
-    mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear) - 1),Period))
+  
+  if (neighbor=="region"){
+    couRegion <- countries[countries$iso3==cou,]$region  # obtain the region for the selected country
+    # filter the data
+    dataRegion <- Report_data %>%
+      filter(region==couRegion & Section == section & Subsection==table) %>%
+      filter(!is.na(Observation)) %>%
+      mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear) - 1),Period))
+  } else {
+    couRegion <- countries[countries$iso3==cou,]$incomeLevel  # obtain the region for the selected country
+    # filter the data
+    dataRegion <- Report_data %>%
+      filter(incomeLevel==couRegion & Section == section & Subsection==table) %>%
+      filter(!is.na(Observation)) %>%
+      mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear) - 1),Period))
+  }
   
   if (nrow(filter(data, CountryCode==cou))>0){
     data <- filter(data, Period==max(Period))
@@ -1662,7 +1672,7 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table,regi
         scale_fill_manual(values = c("#f1f3f3","orange"),guide=FALSE) +
         coord_polar("y",start = 0) +
         geom_text(aes(label=ObsLabel,y=15),
-                  size=12,color="white") + 
+                  size=12,color=ifelse(data$Observation[1] > 15,"white","darkgrey")) + 
         ggtitle(paste0(couName," (",maxPeriod,")")) + 
         theme(legend.key=element_blank(),
               legend.title=element_blank(),
@@ -1680,8 +1690,8 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table,regi
         scale_fill_manual(values = c("#f1f3f3",paste0("#",filter(reportConfig, Section_Level == 10)$Color)),guide=FALSE) +
         coord_polar("y",start = 0) +
         geom_text(aes(label=ObsLabel,y=15),
-                  size=12,color="white") + 
-        ggtitle(paste0(region," (simple average, ",maxPeriod,")")) + 
+                  size=12,color=ifelse(dataRegion$Observation[1] > 15,"white","darkgrey")) + 
+        ggtitle(paste0(couRegion," (simple average, ",maxPeriod,")")) + 
         theme(legend.key=element_blank(),
               legend.title=element_blank(),
               panel.border = element_blank(),
@@ -1702,7 +1712,7 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table,regi
         scale_fill_manual(values = c("#f1f3f3","orange"),guide=FALSE) +
         coord_polar("y",start = 0) +
         geom_text(aes(label=ObsLabel,y=10),
-                  size=12,color="white") + 
+                  size=12,color=ifelse(data$Observation[1] > 15,"white","darkgrey")) + 
         ggtitle(country) + 
         theme(legend.key=element_blank(),
               legend.title=element_blank(),
@@ -1714,7 +1724,7 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table,regi
               axis.ticks.y = element_blank(),
               axis.text.y = element_blank(),
               plot.margin=unit(c(0,0,0,0), "cm"),
-              panel.margin=unit(c(0,0,0,0), "cm")) + 
+              panel.spacing=unit(c(0,0,0,0), "cm")) + 
         labs(x="",y="")
     }
     
@@ -1933,7 +1943,7 @@ text_box <- function(title, body, str_wrap_size=75){
     for (i in 1:length(title)){
       plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
       graphics::text(1, 1.2, title[i], col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), adj = c(0,0), cex=2)
-      graphics::text(1, 0.8, body[i], col="#818181",  adj = c(0,0), cex=1.7)
+      graphics::text(1, 0.8, body[i], col="#818181",  adj = c(0,0.3), cex=1.7)
     }
   } else {
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
