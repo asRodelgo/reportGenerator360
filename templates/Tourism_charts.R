@@ -35,10 +35,10 @@ figure_sparkline(Report_data,reportConfig,couName, "figure6",rankBig=TRUE)
 ########## Tourism Demand and Supply ##########
 
 ## ---- line1.1 ----
-line_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"line1")
+line_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"line1",minTime="2005",neighbor="incomeLevel",max_neighbors = 1)
 
 ## ---- line1.2 ----
-line_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"line2")
+line_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"line2",minTime="2005",neighbor="incomeLevel",max_neighbors = 0)
 
 ## ---- number1.1 ----
 number_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"radar1",str_wrap_size=30,rankBig=TRUE)

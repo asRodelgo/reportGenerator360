@@ -335,30 +335,59 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
   # order lines in chart and hide elements in legend
   if (nrow(filter(data,CountryCode==cou))>0){
     
-    order_legend <- c(couName,as.character(unique(data[data$CountryCode %in% topNeighbors,]$Country)))
-    country_order <- factor(order_legend, levels = c(couName,order_legend[2:length(order_legend)]))
-    my_order <- data.frame(Country = country_order, order = seq(1,length(order_legend),1))
-    data <- merge(data,my_order, by="Country") %>%
-      filter(order <= (max_neighbors+1)) %>% # keep some countries
-      arrange(order,Period)
-    
-    ggplot(data, aes(x=Period, y=Observation)) +
-      geom_line(stat="identity",aes(group=factor(order), colour=factor(order), size=factor(order), alpha=factor(order))) +
-      theme(legend.key=element_blank(),
-            legend.title=element_blank(),
-            legend.position="top",
-            legend.text = element_text(family="Times", size = 10, colour = "#818181"),
-            panel.border = element_blank(),
-            panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
-            axis.line = element_line(size=0.1, colour = "lightgrey"),
-            axis.text.x = element_text(family="Times", color="#818181",hjust = 1),
-            axis.text.y = element_text(family="Times", color="#818181")) +
-      labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
-      ) + 
-      scale_color_manual(labels = order_legend, values = c("orange","brown","lightblue","lightgreen","pink")) +
-      scale_alpha_manual(labels = order_legend,values = c(1, rep(0.6,4))) + 
-      scale_size_manual(labels = order_legend,values = c(2, rep(1,4))) + 
-      scale_x_discrete(breaks = unique(arrange(data,Period)$Period)[seq(1,length(unique(data$Period)),4)])
+    if (length(unique(data$Key))>1){ # plot several indicators for 1 country
+      
+      order_legend <- c(couName,as.character(unique(data[data$CountryCode %in% topNeighbors,]$Country)))
+      country_order <- factor(order_legend, levels = c(couName,order_legend[2:length(order_legend)]))
+      my_order <- data.frame(Country = country_order, order = seq(1,length(order_legend),1))
+      data <- merge(data,my_order, by="Country") %>%
+        filter(order <= (max_neighbors+1)) %>% # keep some countries
+        arrange(order,Period)
+      
+      ggplot(data, aes(x=Period, y=Observation)) +
+        geom_line(stat="identity",aes(group=factor(Key), colour=factor(Key), size=factor(Key), alpha=factor(Key))) +
+        theme(legend.key=element_blank(),
+              legend.title=element_blank(),
+              legend.position="top",
+              legend.text = element_text(family="Times", size = 10, colour = "#818181"),
+              panel.border = element_blank(),
+              panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+              axis.line = element_line(size=0.1, colour = "lightgrey"),
+              axis.text.x = element_text(family="Times", color="#818181",hjust = 1),
+              axis.text.y = element_text(family="Times", color="#818181")) +
+        labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
+        ) + 
+        scale_color_manual(labels = unique(data$IndicatorShort), values = c("darkblue","green","purple","pink","red")) +
+        scale_alpha_manual(labels = unique(data$IndicatorShort),values = c(1, rep(1,4))) + 
+        scale_size_manual(labels = unique(data$IndicatorShort),values = c(2, rep(2,4))) + 
+        scale_x_discrete(breaks = unique(arrange(data,Period)$Period)[seq(1,length(unique(data$Period)),4)])
+      
+    } else { # plot 1 indicator for 1 country and perhaps region or other countries
+      order_legend <- c(couName,as.character(unique(data[data$CountryCode %in% topNeighbors,]$Country)))
+      country_order <- factor(order_legend, levels = c(couName,order_legend[2:length(order_legend)]))
+      my_order <- data.frame(Country = country_order, order = seq(1,length(order_legend),1))
+      data <- merge(data,my_order, by="Country") %>%
+        filter(order <= (max_neighbors+1)) %>% # keep some countries
+        arrange(order,Period)
+      
+      ggplot(data, aes(x=Period, y=Observation)) +
+        geom_line(stat="identity",aes(group=factor(order), colour=factor(order), size=factor(order), alpha=factor(order))) +
+        theme(legend.key=element_blank(),
+              legend.title=element_blank(),
+              legend.position="top",
+              legend.text = element_text(family="Times", size = 10, colour = "#818181"),
+              panel.border = element_blank(),
+              panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+              axis.line = element_line(size=0.1, colour = "lightgrey"),
+              axis.text.x = element_text(family="Times", color="#818181",hjust = 1),
+              axis.text.y = element_text(family="Times", color="#818181")) +
+        labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
+        ) + 
+        scale_color_manual(labels = order_legend, values = c("orange","brown","lightblue","lightgreen","pink")) +
+        scale_alpha_manual(labels = order_legend,values = c(1, rep(0.6,4))) + 
+        scale_size_manual(labels = order_legend,values = c(2, rep(1,4))) + 
+        scale_x_discrete(breaks = unique(arrange(data,Period)$Period)[seq(1,length(unique(data$Period)),4)])
+    }
     
   } else {
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)

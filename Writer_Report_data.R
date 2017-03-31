@@ -17,7 +17,7 @@ countries <- tryCatch(fromJSON("http://datascope-prod.amida-demo.com/api/v1/coun
 indicators <- tryCatch(fromJSON("http://datascope-prod.amida-demo.com/api/v1/indicators/?fields=id%2Cname%2CvalueType%2Crank",
                                 flatten=TRUE), 
                        error = function(e) {print("Warning: API call to indicators returns an error");
-                         countries = read.csv("data/countries.csv", stringsAsFactors = FALSE)}, 
+                         indicators = read.csv("data/indicators.csv", stringsAsFactors = FALSE)}, 
                        finally = {indicators = read.csv("data/indicators.csv", stringsAsFactors = FALSE)})
 
 write.csv(countries, "data/countries.csv", row.names = FALSE)
@@ -36,13 +36,17 @@ indicators_selected <- indicators %>%
 
 Report_data <- data.frame()
 specialchars <- paste(c("[-]","[.]"),collapse = "|")
-for (cou in c("IND")){
+for (cou in c("IND","ARM")){
+#for (cou in filter(countries,incomeLevel == "LMC")$iso3){
 #for (cou in countries$id){
   for (ind in indicators_selected$id){
     print(paste0("Processing...",cou," ",ind))
-    thisQuery <- fromJSON(paste0("http://datascope-prod.amida-demo.com/api/v1/data?countries=",cou,
+    thisQuery <- tryCatch(fromJSON(paste0("http://datascope-prod.amida-demo.com/api/v1/data?countries=",cou,
                                  "&indicators=",ind),
-                          flatten = TRUE)
+                          flatten = TRUE),
+                          error = function(e) {print(paste0("Warning: API data call returns an error for country ",cou," and indicator ",ind));
+                            thisQuery = data.frame()}, 
+                          finally = {thisQuery = data.frame()})
     if (length(thisQuery$data)>0){
       thisQuery <- flatten(thisQuery$data$indicators[[1]])
       if (!is.null(thisQuery$estimated)){
