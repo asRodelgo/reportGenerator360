@@ -357,7 +357,7 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
               axis.text.y = element_text(family="Times", color="#818181")) +
         labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
         ) + 
-        scale_color_manual(labels = unique(data$IndicatorShort), values = c("purple","maroon","lightblue","lightgreen","pink")) +
+        scale_color_manual(labels = unique(data$IndicatorShort), values = c("blue","green","lightblue","lightgreen","pink")) +
         scale_alpha_manual(labels = unique(data$IndicatorShort),values = c(0.6, rep(0.6,4))) + 
         scale_size_manual(labels = unique(data$IndicatorShort),values = c(2, rep(2,4))) + 
         scale_x_discrete(breaks = unique(arrange(data,Period)$Period)[seq(1,length(unique(data$Period)),4)])
@@ -634,13 +634,13 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,
        
         require(stringr) 
         data <- filter(data, !(Key %in% c(949,1177))) %>%
-          mutate(ObservationPerc = ifelse(Key %in% c(3778,3770), Observation*100/gdp, ifelse(Key==3769,Observation*100/employ,Observation))) %>%
-          mutate(IndicatorShort = ifelse(Key==3778, "Total contribution to GDP", 
-                                         ifelse(Key==3770,"Direct contribution to GDP",
-                                                ifelse(Key==3769,"Direct contribution to employment","Total contribution to employment")))) %>%
-          mutate(Observation = ifelse(Key == 3777, Observation*ObservationPerc, Observation),
-                 Unit = ifelse(Key == 3777, "employed, in millions", Unit)) %>%
-          mutate(IndicatorShort = str_wrap(paste0(IndicatorShort,", ",Unit), width = 25)) %>%
+          mutate(ObservationPerc = ifelse(Key %in% c(24695,24650), Observation/gdp, Observation/(10*employ))) %>%
+          mutate(IndicatorShort = ifelse(Key==24695, "Total contribution to GDP", 
+                                         ifelse(Key==24650,"Direct contribution to GDP",
+                                                ifelse(Key==24643,"Direct contribution to employment","Total contribution to employment")))) %>%
+          #mutate(Observation = ifelse(Key == 24644, Observation*ObservationPerc, Observation),
+          #       Unit = ifelse(Key == 24644, "employed, in millions", Unit)) %>%
+          mutate(IndicatorShort = str_wrap(paste0(IndicatorShort,", ",Unit, " (", Period,")"), width = 25)) %>%
           as.data.frame()
         
         max_valuePerc <- max(data$ObservationPerc)
@@ -651,10 +651,10 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,
       ggplot(NULL,aes(x=IndicatorShort,y=ObservationPerc)) +
         geom_bar(data=data_grey,color="#f1f3f3",fill = "#f1f3f3",stat="identity") +
         geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
-        geom_text(data=data, aes(label=paste0(round(ObservationPerc,1),"%"),y=ifelse(ObservationPerc<100,110,ObservationPerc*1.15)),
+        geom_text(data=data, aes(label=paste0(round(ObservationPerc,1),"%"),y=ifelse(ObservationPerc<70,90,ObservationPerc*1.15)),
                   size=10,color="grey") + 
-        geom_text(data=data, aes(label=format(round(Observation,1),big.mark = ","),y=ifelse(ObservationPerc<max_valuePerc*.2,ObservationPerc + max(ObservationPerc)*.1,ObservationPerc - max(ObservationPerc)*.2)),
-                  size=8,color=ifelse(data$ObservationPerc<max_valuePerc*.2,paste0("#",filter(reportConfig, Section_Level == 10)$Color),"white")) + 
+        geom_text(data=data, aes(label=format(round(Observation,1),big.mark = ","),y=ifelse(ObservationPerc > 40, 5, ObservationPerc + 15)),
+                  size=8,color=ifelse(data$ObservationPerc > 40, "white", paste0("#",filter(reportConfig, Section_Level == 10)$Color))) + 
         coord_flip()+
         theme(legend.key=element_blank(),
               legend.title=element_blank(),
@@ -904,18 +904,18 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
   
   if (neighbor=="region"){ # region level
     couRegion <- as.character(countries[countries$iso3==cou,]$region)  # obtain the region for the selected country
-    data <- filter(Report_data, CountryCode %in% c(cou,neighbors), Section == section, Subsection==table) %>%
-      mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
     neighbors <- countries[countries$region==couRegion,]$iso3 # retrieve all countries in that region
     neighbors <- as.character(neighbors[!(neighbors==cou)]) # exclude the selected country
     region <- as.character(countries[countries$iso3==cou,]$region) 
-  } else { # income level 
-    couRegion <- as.character(countries[countries$iso3==cou,]$incomeLevel)  # obtain the region for the selected country
     data <- filter(Report_data, CountryCode %in% c(cou,neighbors), Section == section, Subsection==table) %>%
       mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
+  } else { # income level 
+    couRegion <- as.character(countries[countries$iso3==cou,]$incomeLevel)  # obtain the region for the selected country
     neighbors <- countries[countries$incomeLevel==couRegion,]$iso3 # retrieve all countries in that region
     neighbors <- as.character(neighbors[!(neighbors==cou)]) # exclude the selected country
     region <- as.character(countries[countries$iso3==cou,]$incomeLevel) 
+    data <- filter(Report_data, CountryCode %in% c(cou,neighbors), Section == section, Subsection==table) %>%
+      mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
   }
   
   if (nrow(filter(data, CountryCode==cou))>0){  
@@ -943,6 +943,7 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
     #data <- cbind(data,order)
     
     #data <- arrange(data,order) %>%
+    thisPeriod <- data$Period[1]
     data <- select(data, IndicatorShort, max, min, Observation, regionAvg)
     # transpose the data for radarchart to read
     dataTrans <- as.data.frame(t(data[,2:ncol(data)]))
@@ -951,14 +952,14 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
     par(mar=c(0,1,3,1),family="serif")
     
     radarchart(dataTrans, axistype=1, centerzero = FALSE,seg=4, caxislabels=c(min,"",(min+max)/2,"",max),
-                     plty=c(1,1),plwd=c(6,4),pcol=c("orange","blue"),pdensity=c(0, 0),
+                     plty=c(1,1),plwd=c(8,5),pcol=c("orange","blue"),pdensity=c(0, 0),
                      cglwd=2,axislabcol="lightgrey", vlabels=data$IndicatorShort, cex.main=1,cex=2.5,vlcex = 1.2)
           
     #title="WEF Competitiveness Indicators, stage of development (1-7)",
     par(family = 'serif',mar=c(0,1,1,1))
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    legend(1,1.5, legend=c(couName,region), seg.len=0.5, pch=19, inset=50, 
-           bty="n" ,lwd=3, x.intersp=0.5, horiz=TRUE, col=c("orange","lightblue"))
+    legend(1,1.5, legend=c(paste0(couName," (",thisPeriod,")"),region), seg.len=0.5, pch=19, inset=50, 
+           bty="n" ,lwd=3, cex = 1.5, x.intersp=0.5, horiz=TRUE, col=c("orange","blue"))
     
   } else {
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
@@ -1929,7 +1930,7 @@ table_time <- function(Report_data,reportConfig,couName,section,table){
 
 
 ## ---- text_box ----
-text_box <- function(title, body, str_wrap_size=75){      
+text_box <- function(reportConfig,title, body, str_wrap_size=75){      
   
   title <- str_wrap(title, width = str_wrap_size)
   body <- str_wrap(body, width = str_wrap_size)

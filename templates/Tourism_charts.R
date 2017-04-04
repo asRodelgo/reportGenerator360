@@ -67,7 +67,7 @@ number_chart(Report_data,reportConfig,couName,reportConfig$Section[2],"line5",st
 bar_chart(Report_data,reportConfig,couName, reportConfig$Section[2],"line3",paste_unit = FALSE)
 
 ## ---- text2.1 ----
-text_box(title=c("Receipt for travel items:","Receipts for passenger transport items:"),
+text_box(reportConfig, title=c("Receipt for travel items:","Receipts for passenger transport items:"),
          body=c("These expenditures by international inbound visitors, or in their behalf,  to purchase goods and services in the reporting economy",
                 "These are expenditures by international inbound visitors for all services provided in the international transportation by resident carriers and passenger services performed within an economy by nonresident carriers."),
          str_wrap_size=70)
@@ -79,7 +79,7 @@ text_box(title=c("Receipt for travel items:","Receipts for passenger transport i
 number_chart(Report_data,reportConfig,couName,reportConfig$Section[3],"number3",str_wrap_size=30,rankBig=TRUE)
 
 ## ---- radar3.1 ----
-radar_chart(Report_data,reportConfig,couName,reportConfig$Section[3],"radar1",neighbor = "region")
+radar_chart(Report_data,reportConfig,couName,reportConfig$Section[3],"radar1",neighbor = "incomeLevel")
 
 
 
