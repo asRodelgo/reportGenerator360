@@ -43,7 +43,7 @@ line_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"line2",minT
 ########## Resource Base ###############
 
 ## ---- number1.1 ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[2],c("radar6"),str_wrap_size=30,rankBig=TRUE)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[2],c("radar6","radar7"),str_wrap_size=30,rankBig=TRUE)
 
 ## ---- number1.2 ----
 number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],"radar2",str_wrap_size=30,rankBig=TRUE)
@@ -84,10 +84,10 @@ text_box(reportConfig, title=c("Receipt for travel items:","Receipts for passeng
 number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],"radar3",str_wrap_size=30,rankBig=TRUE)
 
 ## ---- number4.2 ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],"radar4",str_wrap_size=30,rankBig=TRUE)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],c("radar4"),str_wrap_size=30,rankBig=TRUE)
 
 ## ---- number4.3 ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],"radar5",str_wrap_size=30,rankBig=TRUE)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],c("radar5","radar7"),str_wrap_size=30,rankBig=TRUE)
 
 
 

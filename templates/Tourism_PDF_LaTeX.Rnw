@@ -84,34 +84,35 @@
   \begin{minipage}[b]{0.5\textwidth}
       \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 1)[1,1]}}}
       \vspace{1ex}
-      <<line1.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=3,fig.width=6,results="asis">>=  
+      <<line1.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=2.5,fig.width=6,results="asis">>=  
       @      
      \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 1,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 1,Order == 1)[1,1]}}}}
   \end{minipage}
   \begin{minipage}[b]{0.5\textwidth}  
       \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 2)[1,1]}}}
       \vspace{1ex}
-      <<line1.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=3,fig.width=6,results="asis">>=  
+      <<line1.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=2.5,fig.width=6,results="asis">>=  
       @      
      \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 1,Order == 2)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 1,Order == 2)[1,1]}}}}
   \end{minipage}
 \end{minipage}
 
 \begin{minipage}[c]{0.95\textwidth}
+  \vspace{5ex}
   \begin{flushleft}  
     \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[2]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[2]}}}
   \end{flushleft}
   \begin{minipage}[c]{0.5\textwidth}
     \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 1)[1,1]}}}
     \vspace{1ex}
-    <<number1.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=4,fig.width=11,results="asis">>=  
+    <<number1.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=3.5,fig.width=11,results="asis">>=  
     @
     \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 2,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 2,Order == 1)[1,1]}}}}
   \end{minipage}
   \begin{minipage}[c]{0.5\textwidth}
     \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 2)[1,1]}}}
     \vspace{1ex}
-    <<number1.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=4,fig.width=11,results="asis">>=  
+    <<number1.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=3.5,fig.width=11,results="asis">>=  
     @
     \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 2,Order == 2)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 2,Order == 2)[1,1]}}}}
   \end{minipage}
@@ -124,18 +125,28 @@
     \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[3]}}}\hspace{2ex}\small{\textcolor[HTML]{818181} {\Sexpr{section_desc[3]}}}
   \end{flushleft} 
   \begin{minipage}[c]{0.5\textwidth}
-  \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 1)[1,1]}}}
-    \vspace{1ex}
-      <<pie2.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=9,results="asis">>=  
-      @      
-  \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 3,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 2,Order == 1)[1,1]}}}}
+    \begin{minipage}[c]{0.95\textwidth}
+      \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 1)[1,1]}}}
+      \vspace{1ex}
+        <<pie2.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2.5,fig.width=9,results="asis">>=  
+        @      
+      \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 3,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 3,Order == 1)[1,1]}}}}
+    \end{minipage}
+    
+    \begin{minipage}[c]{0.95\textwidth}
+      \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 2)[1,1]}}}
+      \vspace{1ex}
+        <<pie2.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2.5,fig.width=9,results="asis">>=  
+        @      
+      \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 3,Order == 2)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 3,Order == 2)[1,1]}}}}
+    \end{minipage}
   \end{minipage}
   \begin{minipage}[c]{0.5\textwidth}
-  \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 2)[1,1]}}}
+  \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 3)[1,1]}}}
     \vspace{1ex}
-    <<radar3.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=9,results="asis">>=  
+    <<radar3.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=6,fig.width=9,results="asis">>=  
     @
-  \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 3,Order == 2)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 2,Order == 2)[1,1]}}}}
+  \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 3,Order == 3)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 3,Order == 3)[1,1]}}}}
   \end{minipage}
 \end{minipage}
 
@@ -204,9 +215,14 @@
   \end{minipage}
 \end{minipage}
 
-Receipt for travel items: These expenditures by international inbound visitors, or in their behalf,  to purchase goods and services in the reporting economy.
-
-Receipts for passenger transport items: These are expenditures by international inbound visitors for all services provided in the international transportation by resident carriers and passenger services performed within an economy by nonresident carriers.
+\begin{minipage}[c]{0.95\textwidth}
+  \vspace{5ex}
+  \hspace{4ex}\small{\textcolor[HTML]{818181}{(*) Receipt for travel items: These expenditures by international inbound visitors, or in their behalf,  to purchase goods and services in the reporting economy.}}
+  \vspace{2ex}
+  
+  \hspace{4ex}\small{\textcolor[HTML]{818181}{Receipts for passenger transport items: These are expenditures by international inbound visitors for all services provided in the international transportation by resident carriers and passenger services performed within an economy by nonresident carriers.}}
+  
+\end{minipage}
 
 %%% footer ----------------------------------
   \vspace{4ex}

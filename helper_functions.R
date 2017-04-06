@@ -1708,7 +1708,8 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table,neig
               axis.text.y = element_blank()) + 
         labs(x="",y="")
       
-        grid.arrange(p1,p2,p1,p2,ncol=2,nrow=2)
+        #grid.arrange(p1,p2,p1,p2,ncol=2,nrow=2)
+      grid.arrange(p1,p2,ncol=2)
     
     } else {
       
