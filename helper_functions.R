@@ -907,14 +907,14 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
     neighbors <- countries[countries$region==couRegion,]$iso3 # retrieve all countries in that region
     neighbors <- as.character(neighbors[!(neighbors==cou)]) # exclude the selected country
     region <- as.character(countries[countries$iso3==cou,]$region) 
-    data <- filter(Report_data, CountryCode %in% c(cou,neighbors), Section == section, Subsection==table) %>%
+    data <- filter(Report_data, CountryCode %in% c(cou,neighbors), Section %in% section, Subsection %in% table) %>%
       mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
   } else { # income level 
     couRegion <- as.character(countries[countries$iso3==cou,]$incomeLevel)  # obtain the region for the selected country
     neighbors <- countries[countries$incomeLevel==couRegion,]$iso3 # retrieve all countries in that region
     neighbors <- as.character(neighbors[!(neighbors==cou)]) # exclude the selected country
     region <- as.character(countries[countries$iso3==cou,]$incomeLevel) 
-    data <- filter(Report_data, CountryCode %in% c(cou,neighbors), Section == section, Subsection==table) %>%
+    data <- filter(Report_data, CountryCode %in% c(cou,neighbors), Section %in% section, Subsection %in% table) %>%
       mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
   }
   
@@ -931,7 +931,7 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
       as.data.frame()
   
     # I must add the max and min columns to make it work:
-    obs_allCountries <- filter(Report_data, Section == section, Subsection==table) %>%
+    obs_allCountries <- filter(Report_data, Section %in% section, Subsection %in% table) %>%
       mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
     max <- ceiling(max(obs_allCountries$Observation, na.rm = TRUE))
     min <- floor(min(obs_allCountries$Observation, na.rm = TRUE))
@@ -1603,7 +1603,7 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table,neig
   cou <- .getCountryCode(couName)
   
   data <- Report_data %>%
-    filter(CountryCode==cou & Section == section & Subsection==table) %>%
+    filter(CountryCode==cou & Section == section & Subsection %in% table) %>%
     filter(!is.na(Observation)) %>%
     mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear) - 1),Period)) %>%
     mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
@@ -1614,14 +1614,14 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table,neig
     couRegion <- countries[countries$iso3==cou,]$region  # obtain the region for the selected country
     # filter the data
     dataRegion <- Report_data %>%
-      filter(region==couRegion & Section == section & Subsection==table) %>%
+      filter(region==couRegion & Section == section & Subsection %in% table) %>%
       filter(!is.na(Observation)) %>%
       mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear) - 1),Period))
   } else {
     couRegion <- countries[countries$iso3==cou,]$incomeLevel  # obtain the region for the selected country
     # filter the data
     dataRegion <- Report_data %>%
-      filter(incomeLevel==couRegion & Section == section & Subsection==table) %>%
+      filter(incomeLevel==couRegion & Section == section & Subsection %in% table) %>%
       filter(!is.na(Observation)) %>%
       mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear) - 1),Period))
   }

@@ -36,9 +36,9 @@ indicators_selected <- indicators %>%
 
 Report_data <- data.frame()
 specialchars <- paste(c("[-]","[.]"),collapse = "|")
-for (cou in c("IND","ARM")){
+#for (cou in c("IND","ARM")){
 #for (cou in filter(countries,incomeLevel == "LMC")$iso3){
-#for (cou in countries$id){
+for (cou in countries$id){
   for (ind in indicators_selected$id){
     print(paste0("Processing...",cou," ",ind))
     thisQuery <- tryCatch(fromJSON(paste0("http://datascope-prod.amida-demo.com/api/v1/data?countries=",cou,
