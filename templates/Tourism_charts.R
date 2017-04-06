@@ -43,7 +43,7 @@ line_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"line2",minT
 ########## Resource Base ###############
 
 ## ---- number1.1 ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[2],c("radar1","radar4"),str_wrap_size=30,rankBig=TRUE)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[2],c("radar6"),str_wrap_size=30,rankBig=TRUE)
 
 ## ---- number1.2 ----
 number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],"radar2",str_wrap_size=30,rankBig=TRUE)
