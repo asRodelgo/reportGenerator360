@@ -72,12 +72,12 @@ figure_sparkline <- function(Report_data,reportConfig,couName,table,rankBig=FALS
       plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
       graphics::text(1.5, 0.95,dataPoint, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=18)
       plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-      graphics::text(1.5, 1.1,paste0("(Rank: ",rank,"/",rankedTotal,")"), col="grey", cex=7)
+      graphics::text(1.5, 1.1,paste0("(Rank: ",rank,"/",rankedTotal,")"), col="#818181", cex=10)
     } else {
       plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
       graphics::text(1.5, 0.95,paste0(rank,"/",rankedTotal), col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=18)
       plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-      graphics::text(1.5, 1.1,paste0("Value: ",dataPoint), col="grey", cex=7)
+      graphics::text(1.5, 1.1,paste0("Value: ",dataPoint), col="#818181", cex=10)
     }
     
     # plot sparkline  
@@ -102,10 +102,10 @@ figure_sparkline <- function(Report_data,reportConfig,couName,table,rankBig=FALS
       points(x=c(tmin,tmax),y=c(ymin,ymax),pch=19,col=c("red","green"),cex=7) # add coloured points at max and min
       plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
       if (minPeriod==maxPeriod){
-        graphics::text(1.5, 1.2,minPeriod, col="grey", cex=5)
+        graphics::text(1.5, 1.2,minPeriod, col="#818181", cex=5)
       } else{
-        graphics::text(1.05, 1.2,minPeriod, col="grey", cex=5)
-        graphics::text(1.95, 1.2,maxPeriod, col="grey", cex=5)
+        graphics::text(1.05, 1.2,minPeriod, col="#818181", cex=5)
+        graphics::text(1.95, 1.2,maxPeriod, col="#818181", cex=5)
       }
     }
     
@@ -122,9 +122,9 @@ figure_sparkline <- function(Report_data,reportConfig,couName,table,rankBig=FALS
     graphics::text(1.5, 0.7,unit, col="#818181", cex=5)
     # print data point and rank
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 0.95,"No data available", col="grey", cex=10)
+    graphics::text(1.5, 0.95,"No data available", col="#818181", cex=10)
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 1.1,paste0("(Rank: /",rankedTotal,")"), col="grey", cex=7)
+    graphics::text(1.5, 1.1,paste0("(Rank: /",rankedTotal,")"), col="#818181", cex=7)
     # plot sparkline  
     par(family = 'serif',#sets number of rows in space to number of cols in data frame x
       mar=c(0,5,0,5))#sets margin size for the figures
@@ -598,7 +598,7 @@ sparklines <- function(Report_data,reportConfig,couName,section,table){
 bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,percentBar = FALSE){      
   
   cou <- .getCountryCode(couName)
-  data <- filter(Report_data, CountryCode==cou, Section==section, Subsection %in% table)
+  data <- filter(Report_data, CountryCode==cou, Section %in% section, Subsection %in% table)
   data <- data %>%
     filter(!(is.na(Observation))) %>%
     mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
@@ -697,13 +697,13 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,
 number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap_size,rankBig=FALSE){      
   
   cou <- .getCountryCode(couName)
-  data <- filter(Report_data, CountryCode==cou, Section==section, Subsection %in% table)
+  data <- filter(Report_data, CountryCode==cou,  Subsection %in% table)
   data <- data %>%
     filter(!(is.na(Observation))) %>%
     mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
     distinct(Key,Period,.keep_all=TRUE)
  
-  dataWorld <- filter(Report_data, Section==section, Subsection %in% table)
+  dataWorld <- filter(Report_data,  Subsection %in% table)
   dataWorld <- filter(dataWorld,!is.na(Observation))
   dataWorld <- dataWorld %>%
     group_by(Country,Key) %>%
@@ -746,11 +746,11 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
         if (!rankBig){ # rank bigger than actual value
           plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
           graphics::text(1.17, 1,filter(thisKey,CountryCode==cou)$Observation , col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=8)
-          graphics::text(1.42, 0.95,paste0("(Rank: ",rank[i],"/",rankedTotal[i],")"), col="grey", cex=3, adj=0)
+          graphics::text(1.42, 0.95,paste0("(Rank: ",rank[i],"/",rankedTotal[i],")"), col="#818181", cex=3, adj=0)
         } else {
           plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
           graphics::text(1.17, 1,paste0(rank[i],"/",rankedTotal[i]) , col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=5)
-          graphics::text(1.5, 1,paste0("Value: ",filter(thisKey,CountryCode==cou)$Observation), col="grey", cex=4, adj=0)
+          graphics::text(1.5, 1,paste0("Value: ",filter(thisKey,CountryCode==cou)$Observation), col="#818181", cex=4, adj=0)
         }
         
       
@@ -764,11 +764,11 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
         if (!rankBig){ # rank bigger than actual value
           plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
           graphics::text(1.17, 1," " , col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=8)
-          graphics::text(1.42, 0.95,paste0("(Rank: /",rankedTotal[i],")"), col="grey", cex=3, adj=0)
+          graphics::text(1.42, 0.95,paste0("(Rank: /",rankedTotal[i],")"), col="#818181", cex=3, adj=0)
         } else {
           plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
           graphics::text(1.17, 1,paste0("NA/",rankedTotal[i]), col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=5)
-          graphics::text(1.5, 1," ", col="grey", cex=4, adj=0)
+          graphics::text(1.5, 1," ", col="#818181", cex=4, adj=0)
         }
       }
       i <- i + 1
@@ -907,14 +907,14 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
     neighbors <- countries[countries$region==couRegion,]$iso3 # retrieve all countries in that region
     neighbors <- as.character(neighbors[!(neighbors==cou)]) # exclude the selected country
     region <- as.character(countries[countries$iso3==cou,]$region) 
-    data <- filter(Report_data, CountryCode %in% c(cou,neighbors), Section %in% section, Subsection %in% table) %>%
+    data <- filter(Report_data, CountryCode %in% c(cou,neighbors), Subsection %in% table) %>%
       mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
   } else { # income level 
     couRegion <- as.character(countries[countries$iso3==cou,]$incomeLevel)  # obtain the region for the selected country
     neighbors <- countries[countries$incomeLevel==couRegion,]$iso3 # retrieve all countries in that region
     neighbors <- as.character(neighbors[!(neighbors==cou)]) # exclude the selected country
     region <- as.character(countries[countries$iso3==cou,]$incomeLevel) 
-    data <- filter(Report_data, CountryCode %in% c(cou,neighbors), Section %in% section, Subsection %in% table) %>%
+    data <- filter(Report_data, CountryCode %in% c(cou,neighbors), Subsection %in% table) %>%
       mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
   }
   
@@ -931,7 +931,7 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
       as.data.frame()
   
     # I must add the max and min columns to make it work:
-    obs_allCountries <- filter(Report_data, Section %in% section, Subsection %in% table) %>%
+    obs_allCountries <- filter(Report_data, Subsection %in% table) %>%
       mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
     max <- ceiling(max(obs_allCountries$Observation, na.rm = TRUE))
     min <- floor(min(obs_allCountries$Observation, na.rm = TRUE))
@@ -1673,7 +1673,7 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table,neig
         scale_fill_manual(values = c("#f1f3f3","orange"),guide=FALSE) +
         coord_polar("y",start = 0) +
         geom_text(aes(label=ObsLabel,y=15),
-                  size=12,color=ifelse(data$Observation[1] > 15,"white","darkgrey")) + 
+                  size=12,color=ifelse(data$Observation[1] > 15,"white","darkblue")) + 
         ggtitle(paste0(couName," (",maxPeriod,")")) + 
         theme(legend.key=element_blank(),
               legend.title=element_blank(),
@@ -1691,7 +1691,7 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table,neig
         scale_fill_manual(values = c("#f1f3f3",paste0("#",filter(reportConfig, Section_Level == 10)$Color)),guide=FALSE) +
         coord_polar("y",start = 0) +
         geom_text(aes(label=ObsLabel,y=15),
-                  size=12,color=ifelse(dataRegion$Observation[1] > 15,"white","darkgrey")) + 
+                  size=12,color=ifelse(dataRegion$Observation[1] > 15,"white","darkblue")) + 
         ggtitle(paste0(couRegion," (simple average, ",maxPeriod,")")) + 
         theme(legend.key=element_blank(),
               legend.title=element_blank(),
@@ -1704,7 +1704,7 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table,neig
               axis.text.y = element_blank()) + 
         labs(x="",y="")
       
-        grid.arrange(p1,p2,ncol=2)
+        grid.arrange(p1,p2,p1,p2,ncol=2,nrow=2)
     
     } else {
       
@@ -1713,7 +1713,7 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table,neig
         scale_fill_manual(values = c("#f1f3f3","orange"),guide=FALSE) +
         coord_polar("y",start = 0) +
         geom_text(aes(label=ObsLabel,y=10),
-                  size=12,color=ifelse(data$Observation[1] > 15,"white","darkgrey")) + 
+                  size=12,color=ifelse(data$Observation[1] > 15,"white","darkblue")) + 
         ggtitle(country) + 
         theme(legend.key=element_blank(),
               legend.title=element_blank(),

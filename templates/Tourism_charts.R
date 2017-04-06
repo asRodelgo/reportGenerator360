@@ -40,11 +40,13 @@ line_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"line1",minT
 ## ---- line1.2 ----
 line_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"line2",minTime="2005",neighbor="incomeLevel",max_neighbors = 0)
 
+########## Resource Base ###############
+
 ## ---- number1.1 ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"radar1",str_wrap_size=30,rankBig=TRUE)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[2],c("radar1","radar4"),str_wrap_size=30,rankBig=TRUE)
 
 ## ---- number1.2 ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"radar2",str_wrap_size=30,rankBig=TRUE)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],"radar2",str_wrap_size=30,rankBig=TRUE)
 
 ########## Tourism Economic Indicators ##########
 
@@ -55,19 +57,19 @@ pie_chart_region(Report_data,reportConfig,couName, reportConfig$Section[3],"pie2
 pie_chart_region(Report_data,reportConfig,couName, reportConfig$Section[3],"number2",neighbor = "incomeLevel",region=TRUE)
 
 ## ---- radar3.1 ----
-radar_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],c("radar1","radar2","radar3"),neighbor = "incomeLevel")
+radar_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],c("radar1","radar2","radar3","radar4","radar5"),neighbor = "incomeLevel")
 
 # ## ---- numberBig2.1 ----
 # numberBig(Report_data,reportConfig,couName, reportConfig$Section[2],"number2",rankBig = TRUE)
 
 ## ---- bar2.1 ----
-bar_chart(Report_data,reportConfig,couName, reportConfig$Section[2],c("bar1","bar2","bar3"),paste_unit = FALSE, percentBar = TRUE)
+bar_chart(Report_data,reportConfig,couName, reportConfig$Section[1:4],c("bar1","bar2","bar3"),paste_unit = FALSE, percentBar = TRUE)
 
 ## ---- number2.1 ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[2],"line5",str_wrap_size=30,rankBig=TRUE)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],"line5",str_wrap_size=30,rankBig=FALSE)
 
 ## ---- bar2.2 ----
-bar_chart(Report_data,reportConfig,couName, reportConfig$Section[2],"line3",paste_unit = FALSE)
+bar_chart(Report_data,reportConfig,couName, reportConfig$Section[1:4],"line3",paste_unit = FALSE)
 
 ## ---- text2.1 ----
 text_box(reportConfig, title=c("Receipt for travel items:","Receipts for passenger transport items:"),
@@ -79,7 +81,13 @@ text_box(reportConfig, title=c("Receipt for travel items:","Receipts for passeng
 
 
 ## ---- number4.1 ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[3],"radar3",str_wrap_size=30,rankBig=TRUE)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],"radar3",str_wrap_size=30,rankBig=TRUE)
+
+## ---- number4.2 ----
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],"radar4",str_wrap_size=30,rankBig=TRUE)
+
+## ---- number4.3 ----
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],"radar5",str_wrap_size=30,rankBig=TRUE)
 
 
 
