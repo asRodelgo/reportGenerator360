@@ -83,11 +83,13 @@ bar_chart(Report_data,reportConfig,couName, reportConfig$Section[1:4],"line3",pa
 ## ---- number4.1 ----
 number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],"radar3",str_wrap_size=30,rankBig=TRUE)
 
+########## Other Competitiveness Indicators
+
 ## ---- number4.2 ----
 number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],c("radar4","radar8"),str_wrap_size=30,rankBig=TRUE)
 
 ## ---- number4.3 ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],c("radar5","radar7"),str_wrap_size=30,rankBig=TRUE)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],c("radar5"),str_wrap_size=30,rankBig=TRUE)
 
 
 

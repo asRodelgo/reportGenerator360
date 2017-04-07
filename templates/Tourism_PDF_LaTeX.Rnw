@@ -197,7 +197,7 @@
 \begin{minipage}[c]{0.95\textwidth}
   \vspace{5ex}
   \begin{flushleft}  
-    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[3]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[5]}}}
+    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[5]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[5]}}}
   \end{flushleft}
   \begin{minipage}[c]{0.5\textwidth}
     \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 5,Order == 1)[1,1]}}}

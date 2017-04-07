@@ -965,15 +965,16 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
     par(mar=c(0,1,3,1),family="serif")
     
     radarchart(dataTrans, axistype=1, centerzero = FALSE,seg=4, caxislabels=c(min,"",(min+max)/2,"",max),
-                     plty=c(1,2,4),plwd=c(8,5,5),pcol=c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"darkgreen"),pdensity=c(0, 0, 0),
+                     plty=c(1,2,4),plwd=c(8,4,4),pcol=c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"darkgreen"),pdensity=c(0, 0, 0),
                      cglwd=2,axislabcol="lightgrey", vlabels=data$IndicatorShort, cex.main=1,cex=2.5,vlcex = 1.2)
           
     #title="WEF Competitiveness Indicators, stage of development (1-7)",
     par(family = 'serif',mar=c(0,1,1,1))
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    legend(1,1.5, legend=c(paste0(couName," (",thisPeriod,")"),region,"World"), seg.len=0.5, pch=19, inset=50, 
+    # legend(1,1.5, legend=c(paste0(couName," (",thisPeriod,")"),region,"World"), seg.len=0.5, pch=19, inset=50, 
+    #        bty="n" ,lwd=3, cex = 1.5, x.intersp=0.5, horiz=TRUE, col=c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"darkgreen"))
+    legend(1,1.5, legend=c(couName,region,"World"), seg.len=0.5, pch=19, inset=50, 
            bty="n" ,lwd=3, cex = 1.5, x.intersp=0.5, horiz=TRUE, col=c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"darkgreen"))
-    
   } else {
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
     graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
