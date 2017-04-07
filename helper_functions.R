@@ -308,7 +308,7 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
     region_avg <- dplyr::group_by(data, Key,Period) %>%
       dplyr::mutate(Observation = mean(Observation/ifelse(is.na(Scale),1,Scale),na.rm=TRUE)) %>%
       distinct(Key,Period,.keep_all=TRUE) %>%
-      dplyr::mutate(Country = incomeLevel, CountryCode = incomeLevel) %>%
+      dplyr::mutate(Country = couRegion, CountryCode = couRegion) %>%
       #select(Key,Period,CountryCode) %>%
       as.data.frame()
     topNeighbors <- region_avg$CountryCode
@@ -357,7 +357,7 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
               axis.text.y = element_text(family="Times", color="#818181")) +
         labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
         ) + 
-        scale_color_manual(labels = unique(data$IndicatorShort), values = c("blue","green","lightblue","lightgreen","pink")) +
+        scale_color_manual(labels = unique(data$IndicatorShort), values = c("darkgreen","green","lightblue","lightgreen","pink")) +
         scale_alpha_manual(labels = unique(data$IndicatorShort),values = c(0.6, rep(0.6,4))) + 
         scale_size_manual(labels = unique(data$IndicatorShort),values = c(2, rep(2,4))) + 
         scale_x_discrete(breaks = unique(arrange(data,Period)$Period)[seq(1,length(unique(data$Period)),4)])
@@ -383,7 +383,7 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
               axis.text.y = element_text(family="Times", color="#818181")) +
         labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
         ) + 
-        scale_color_manual(labels = order_legend, values = c("orange","brown","lightblue","lightgreen","pink")) +
+        scale_color_manual(labels = order_legend, values = c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"lightblue","lightgreen","pink")) +
         scale_alpha_manual(labels = order_legend,values = c(1, rep(0.6,4))) + 
         scale_size_manual(labels = order_legend,values = c(2, rep(1,4))) + 
         scale_x_discrete(breaks = unique(arrange(data,Period)$Period)[seq(1,length(unique(data$Period)),4)])
@@ -649,7 +649,7 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,
       data_grey <- data.frame(IndicatorShort=data$IndicatorShort,ObservationPerc=rep(100,nrow(data)))
       #data <- mutate(data, id = seq(1,nrow(data),1))
       ggplot(NULL,aes(x=IndicatorShort,y=ObservationPerc)) +
-        geom_bar(data=data_grey,color="#abadad",fill = "#abadad",stat="identity") +
+        geom_bar(data=data_grey,color="#DCDCDC",fill = "#DCDCDC",stat="identity") +
         geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
         geom_text(data=data, aes(label=paste0(round(ObservationPerc,1),"%"),y=ifelse(ObservationPerc<70,90,ObservationPerc*1.15)),
                   size=10,color="darkblue") + 
@@ -703,10 +703,6 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
     mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
     distinct(Key,Period,.keep_all=TRUE)
   
-  if (!includeUnit) { # Remove unit from final output
-    data <- mutate(data, Unit = "") %>% as.data.frame()
-  }
- 
   dataWorld <- filter(Report_data,  Subsection %in% table)
   dataWorld <- filter(dataWorld,!is.na(Observation))
   dataWorld <- dataWorld %>%
@@ -734,6 +730,9 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
     rank <- c()
     for (ind in unique(dataWorld$Key)){
       thisKey <- filter(dataWorld, Key == ind)
+      if (!includeUnit) { # Remove unit from final output
+        thisKey <- mutate(thisKey, Unit = "") %>% as.data.frame()
+      }
       
       thisKey <- mutate(thisKey, Unit = ifelse(grepl("0-100",Unit),"100=full ownership allowed",Unit))
       thisKey <- mutate(thisKey, IndicatorShort = str_wrap(paste0(IndicatorShort), width = str_wrap_size))
@@ -923,6 +922,7 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
   }
   
   if (nrow(filter(data, CountryCode==cou))>0){  
+    
     # calculate the average for the region
     data <- data %>%
       filter(!is.na(Observation)) %>%
@@ -942,13 +942,22 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
     data <- as.data.frame(data)
     data <- cbind(data,max,min)
     
+    dataWorld <- obs_allCountries %>%
+      filter(!is.na(Observation)) %>%
+      filter(Period == max(Period)) %>%
+      dplyr::group_by(IndicatorShort) %>%
+      dplyr::mutate(worldAvg = mean(Observation)) %>%
+      filter(CountryCode==cou) %>%
+      as.data.frame()
+    # add the world average to data
+    data <- merge(data, dataWorld[,c("Key","worldAvg")], by="Key")
     # order labels ad-hoc:
     #order <- c(1,3,4,6,2,5)
     #data <- cbind(data,order)
     
     #data <- arrange(data,order) %>%
     thisPeriod <- data$Period[1]
-    data <- select(data, IndicatorShort, max, min, Observation, regionAvg)
+    data <- select(data, IndicatorShort, max, min, Observation, regionAvg, worldAvg)
     # transpose the data for radarchart to read
     dataTrans <- as.data.frame(t(data[,2:ncol(data)]))
     layout(matrix(c(1,2),ncol=1), heights =c(4,1))
@@ -956,14 +965,14 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
     par(mar=c(0,1,3,1),family="serif")
     
     radarchart(dataTrans, axistype=1, centerzero = FALSE,seg=4, caxislabels=c(min,"",(min+max)/2,"",max),
-                     plty=c(1,1),plwd=c(8,5),pcol=c("orange","blue"),pdensity=c(0, 0),
+                     plty=c(1,2,4),plwd=c(8,5,5),pcol=c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"darkgreen"),pdensity=c(0, 0, 0),
                      cglwd=2,axislabcol="lightgrey", vlabels=data$IndicatorShort, cex.main=1,cex=2.5,vlcex = 1.2)
           
     #title="WEF Competitiveness Indicators, stage of development (1-7)",
     par(family = 'serif',mar=c(0,1,1,1))
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    legend(1,1.5, legend=c(paste0(couName," (",thisPeriod,")"),region), seg.len=0.5, pch=19, inset=50, 
-           bty="n" ,lwd=3, cex = 1.5, x.intersp=0.5, horiz=TRUE, col=c("orange","blue"))
+    legend(1,1.5, legend=c(paste0(couName," (",thisPeriod,")"),region,"World"), seg.len=0.5, pch=19, inset=50, 
+           bty="n" ,lwd=3, cex = 1.5, x.intersp=0.5, horiz=TRUE, col=c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"darkgreen"))
     
   } else {
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
@@ -1637,7 +1646,7 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table,neig
     pickColor <- ifelse(data$Observation > 50,"green","red")
     data <- rbind(data, c(" ",0)) # add "Other" category
     data$Observation <- round(as.numeric(data$Observation),2)
-    data$color <- c(pickColor,"#abadad") # add the color
+    data$color <- c(pickColor,"#DCDCDC") # add the color
     data[data$IndicatorShort==" ",]$Observation <- 100 - sum(data$Observation)
     
     # format numbers
@@ -1659,7 +1668,7 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table,neig
       pickColor <- ifelse(dataRegion$Observation > 50,"green","red")
       dataRegion <- rbind(dataRegion, c(" ",0)) # add "Other" category
       dataRegion$Observation <- round(as.numeric(dataRegion$Observation),2)
-      dataRegion$color <- c(pickColor,"#abadad") # add the color
+      dataRegion$color <- c(pickColor,"#DCDCDC") # add the color
       dataRegion[dataRegion$IndicatorShort==" ",]$Observation <- 100 - sum(dataRegion$Observation)
       
       # format numbers
@@ -1674,7 +1683,7 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table,neig
         
       p1 <- ggplot(data, aes("",Observation,fill=IndicatorShort)) +
         geom_bar(width=1,stat="identity") +
-        scale_fill_manual(values = c("#abadad","orange"),guide=FALSE) +
+        scale_fill_manual(values = c("#DCDCDC","orange"),guide=FALSE) +
         coord_polar("y",start = 0) +
         geom_text(aes(label=ObsLabel,y=15),
                   size=12,color=ifelse(data$Observation[1] > 15,"darkblue","darkblue")) + 
@@ -1692,7 +1701,7 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table,neig
       
       p2 <- ggplot(dataRegion, aes("",Observation,fill=IndicatorShort)) +
         geom_bar(width=1,stat="identity") +
-        scale_fill_manual(values = c("#abadad",paste0("#",filter(reportConfig, Section_Level == 10)$Color)),guide=FALSE) +
+        scale_fill_manual(values = c("#DCDCDC",paste0("#",filter(reportConfig, Section_Level == 10)$Color)),guide=FALSE) +
         coord_polar("y",start = 0) +
         geom_text(aes(label=ObsLabel,y=15),
                   size=12,color=ifelse(dataRegion$Observation[1] > 15,"darkblue","darkblue")) + 
@@ -1715,7 +1724,7 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table,neig
       
       ggplot(data, aes("",Observation,fill=IndicatorShort)) +
         geom_bar(width=1,stat="identity") +
-        scale_fill_manual(values = c("#abadad","orange"),guide=FALSE) +
+        scale_fill_manual(values = c("#DCDCDC","orange"),guide=FALSE) +
         coord_polar("y",start = 0) +
         geom_text(aes(label=ObsLabel,y=10),
                   size=12,color=ifelse(data$Observation[1] > 15,"darkblue","darkblue")) + 
