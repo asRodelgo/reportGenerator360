@@ -59,9 +59,6 @@ pie_chart_region(Report_data,reportConfig,couName, reportConfig$Section[3],"numb
 ## ---- radar3.1 ----
 radar_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],c("radar1","radar2","radar4","radar5"),neighbor = "region")
 
-# ## ---- numberBig2.1 ----
-# numberBig(Report_data,reportConfig,couName, reportConfig$Section[2],"number2",rankBig = TRUE)
-
 ## ---- bar2.1 ----
 bar_chart(Report_data,reportConfig,couName, reportConfig$Section[1:4],c("bar1","bar2","bar3"),paste_unit = FALSE, percentBar = TRUE)
 
@@ -70,15 +67,6 @@ number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],"line5",
 
 ## ---- bar2.2 ----
 bar_chart(Report_data,reportConfig,couName, reportConfig$Section[1:4],"line3",paste_unit = FALSE)
-
-# ## ---- text2.1 ----
-# text_box(reportConfig, title=c("Receipt for travel items:","Receipts for passenger transport items:"),
-#          body=c("These expenditures by international inbound visitors, or in their behalf,  to purchase goods and services in the reporting economy",
-#                 "These are expenditures by international inbound visitors for all services provided in the international transportation by resident carriers and passenger services performed within an economy by nonresident carriers."),
-#          str_wrap_size=70)
-
-########## Access & Transport & Tourism competitiveness ##########
-
 
 ## ---- number4.1 ----
 number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],"radar3",str_wrap_size=30,rankBig=TRUE)
