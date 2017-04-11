@@ -625,7 +625,7 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,
     # store max value to better place figures in or out the bars
     max_value <- max(data$Observation)
     
-    if (percentBar & nrow(filter(data, Key %in% c(949,1177)))>1){
+    if (percentBar & nrow(filter(data, Key %in% c(949,1177)))>1 & nrow(filter(data, !(Key %in% c(949,1177))))>1){
       
       if (data$Section[1]=="TOURISM ECONOMIC INDICATORS"){
         
