@@ -37,8 +37,8 @@ indicators_selected <- indicators %>%
 Report_data <- data.frame()
 specialchars <- paste(c("[-]","[.]"),collapse = "|")
 #for (cou in c("IND","ARM")){
-#for (cou in filter(countries,incomeLevel == "LMC")$iso3){
-for (cou in countries$id){
+for (cou in filter(countries,!(iso3 %in% unique(thisData$iso3)))$iso3){
+#for (cou in countries$id){
   for (ind in indicators_selected$id){
     print(paste0("Processing...",cou," ",ind))
     thisQuery <- tryCatch(fromJSON(paste0("http://datascope-prod.amida-demo.com/api/v1/data?countries=",cou,
@@ -80,4 +80,7 @@ Report_data <- gather(Report_data, Period, Observation, -iso3,-id)
 write.csv(Report_data,paste0("/Users/asanchez3/Desktop/Work/TCMN/reportGenerator360_data/",input_reportID,"_data.csv"),row.names = FALSE)
 # -----------------------------------------------------------
 #
-
+# oldReport_data <- read.csv("/Users/asanchez3/Desktop/Work/TCMN/reportGenerator360_data/Tourism_data.csv")
+# oldReport_data <- mutate(oldReport_data, iso3 = as.character(iso3), Period=as.character(Period))
+# Report_data <- bind_rows(Report_data,oldReport_data)
+# Report_data <- distinct(Report_data, id,iso3,Period,.keep_all = TRUE)

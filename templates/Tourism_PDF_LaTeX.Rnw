@@ -20,7 +20,7 @@
   
     \begin{minipage}[b]{0.99\textwidth} 
       \vspace{4ex}
-      \hspace{5ex}{\fontsize{40}{42}\selectfont{\color{white}\Sexpr{couName}}}
+      \hspace{5ex}{\fontsize{28}{26}\selectfont{\color{white}\Sexpr{couName}}}
     \end{minipage}
     
     \begin{minipage}[t]{0.99\textwidth} % top section
@@ -105,14 +105,14 @@
   \begin{minipage}[c]{0.5\textwidth}
     \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 1)[1,1]}}}
     \vspace{1ex}
-    <<number1.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=3.5,fig.width=11,results="asis">>=  
+    <<number1.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=3.5,fig.width=12,results="asis">>=  
     @
     \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 2,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 2,Order == 1)[1,1]}}}}
   \end{minipage}
   \begin{minipage}[c]{0.5\textwidth}
     \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 2)[1,1]}}}
     \vspace{1ex}
-    <<number1.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=3.5,fig.width=11,results="asis">>=  
+    <<number1.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=3.5,fig.width=12,results="asis">>=  
     @
     \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 2,Order == 2)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 2,Order == 2)[1,1]}}}}
   \end{minipage}
@@ -187,7 +187,7 @@
     \begin{minipage}[c]{0.5\textwidth}  
       \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 4)[1,1]}}}
     \vspace{1ex}
-      <<number4.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=10,results="asis">>=  
+      <<number4.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=11,results="asis">>=  
       @      
       \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 4)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 4)[1,1]}}}}
     \end{minipage}
@@ -202,14 +202,14 @@
   \begin{minipage}[c]{0.5\textwidth}
     \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 5,Order == 1)[1,1]}}}
     \vspace{1ex}
-    <<number4.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=5,fig.width=10,results="asis">>=  
+    <<number4.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=5,fig.width=11,results="asis">>=  
     @      
     \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 5,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 5,Order == 1)[1,1]}}}}
   \end{minipage}  
   \begin{minipage}[c]{0.5\textwidth}
     \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 5,Order == 2)[1,1]}}}
     \vspace{1ex}
-    <<number4.3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=5,fig.width=10,results="asis">>=  
+    <<number4.3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=5,fig.width=11,results="asis">>=  
     @ 
   \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 5,Order == 2)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 5,Order == 2)[1,1]}}}}
   \end{minipage}

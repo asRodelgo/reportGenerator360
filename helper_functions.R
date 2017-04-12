@@ -634,7 +634,7 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,
        
         require(stringr) 
         data <- filter(data, !(Key %in% c(949,1177))) %>%
-          mutate(ObservationPerc = ifelse(Key %in% c(24695,24650), Observation/gdp, Observation/(10*employ))) %>%
+          mutate(ObservationPerc = ifelse(Key %in% c(24695,24650), Observation/(10*gdp), Observation/(10*employ))) %>%
           mutate(IndicatorShort = ifelse(Key==24695, "Total contribution to GDP", 
                                          ifelse(Key==24650,"Direct contribution to GDP",
                                                 ifelse(Key==24643,"Direct contribution to employment","Total contribution to employment")))) %>%
@@ -651,9 +651,9 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,
       ggplot(NULL,aes(x=IndicatorShort,y=ObservationPerc)) +
         geom_bar(data=data_grey,color="#DCDCDC",fill = "#DCDCDC",stat="identity") +
         geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
-        geom_text(data=data, aes(label=paste0(round(ObservationPerc,1),"%"),y=ifelse(ObservationPerc<70,90,ObservationPerc*1.15)),
+        geom_text(data=data, aes(label=paste0(round(ObservationPerc,1),"%"),y=ifelse(ObservationPerc<70,90,ifelse(ObservationPerc > 80, 70, ObservationPerc*1.15))),
                   size=10,color="darkblue") + 
-        geom_text(data=data, aes(label=format(round(Observation,1),big.mark = ","),y=ifelse(ObservationPerc > 40, 5, ObservationPerc + 15)),
+        geom_text(data=data, aes(label=format(round(Observation,1),big.mark = ","),y=ifelse(ObservationPerc > 40, 15, ObservationPerc + 15)),
                   size=8,color=ifelse(data$ObservationPerc > 40, "white", paste0("#",filter(reportConfig, Section_Level == 10)$Color))) + 
         coord_flip()+
         theme(legend.key=element_blank(),
@@ -668,7 +668,10 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,
         labs(x="",y=""#,title="Top 5 constraints according to 2013 Enterprise Survey (in percent)"
         ) 
       
-    } else {
+    } else if (nrow(filter(data, !(Key %in% c(949,1177))))>0){
+      
+      data <- filter(data, !(Key %in% c(949,1177))) # make sure gdp and employ don't show up here
+      
       ggplot(NULL,aes(x=IndicatorShort,y=Observation)) +
         geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
         geom_text(data=data, aes(label=format(round(Observation,1),big.mark = ","),y=ifelse(Observation<max_value*.15,Observation + max(Observation)*.1,Observation - max(Observation)*.1)),
@@ -684,6 +687,9 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,
               axis.text.y = element_text(family="Times", color = "#818181", size = 20)) + 
         labs(x="",y=""#,title="Top 5 constraints according to 2013 Enterprise Survey (in percent)"
         )
+    } else {
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
     }
     
   } else {
@@ -752,7 +758,7 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
           graphics::text(1.42, 0.95,paste0("(Rank: ",rank[i],"/",rankedTotal[i],")"), col="#818181", cex=3, adj=0)
         } else {
           plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-          graphics::text(1.17, 1,paste0(rank[i],"/",rankedTotal[i]) , col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=5)
+          graphics::text(1.2, 1,paste0(rank[i],"/",rankedTotal[i]) , col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=5)
           graphics::text(1.5, 1,paste0("Value: ",filter(thisKey,CountryCode==cou)$Observation), col="#818181", cex=3, adj=0)
         }
         
