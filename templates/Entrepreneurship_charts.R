@@ -113,7 +113,7 @@ table_region(Report_data,reportConfig,couName, reportConfig$Section[4],"table1")
 #pie_chart_regular(Report_data,reportConfig,couName, "Markets",c("combo1","combo2"))
 
 ## ---- number_chart_Markets ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[4],c("table1","combo1","combo2"),str_wrap_size=36)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[4],c("table4","combo1","combo2"),str_wrap_size=36)
 
 # ## ---- combo_percent_Markets1 ----
 # combo_percent(Report_data,reportConfig,couName, "Markets","combo1")
