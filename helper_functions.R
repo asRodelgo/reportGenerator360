@@ -15,6 +15,9 @@ figure_sparkline <- function(Report_data,reportConfig,couName,table,rankBig=FALS
     data <- filter(data,Observation > 0)
     dataLast <- filter(data, Period == max(Period,na.rm=TRUE))
     #dataLast$Observation <- ifelse(dataLast$Observation>1000000,dataLast$Observation/1000000,dataLast$Observation)
+  } else if (table == "figure3" | table =="figure6"){
+    data <- filter(data,!is.na(Observation))
+    dataLast <- filter(data, Period == max(data[data$Period!=max(data$Period,na.rm=TRUE), "Period"]))
   } else {
     data <- filter(data,!is.na(Observation))
     dataLast <- filter(data, Period == max(Period,na.rm=TRUE))
@@ -713,7 +716,7 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
   dataWorld <- filter(dataWorld,!is.na(Observation))
   dataWorld <- dataWorld %>%
     group_by(Country,Key) %>%
-    mutate(Period = max(Period,na.rm=TRUE)) %>%
+    filter( Period == max(Period,na.rm=TRUE))%>%     # mutate(Period = max(Period,na.rm=TRUE)) %>%
     distinct(Key, Period, .keep_all = TRUE) %>%
     as.data.frame()
   
@@ -937,7 +940,8 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
       filter(Period == max(Period)) %>%
       dplyr::group_by(IndicatorShort) %>%
       dplyr::mutate(regionAvg = mean(Observation)) %>%
-      filter(CountryCode==cou) %>%
+      filter(region==couRegion) %>%
+      #filter(CountryCode==cou) %>%
       as.data.frame()
   
     # I must add the max and min columns to make it work:
@@ -953,7 +957,7 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
       filter(Period == max(Period)) %>%
       dplyr::group_by(IndicatorShort) %>%
       dplyr::mutate(worldAvg = mean(Observation)) %>%
-      filter(CountryCode==cou) %>%
+      #filter(CountryCode==cou) %>%
       as.data.frame()
     # add the world average to data
     data <- merge(data, dataWorld[,c("Key","worldAvg")], by="Key")
@@ -963,7 +967,9 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
     
     #data <- arrange(data,order) %>%
     thisPeriod <- data$Period[1]
-    data <- select(data, IndicatorShort, max, min, Observation, regionAvg, worldAvg)
+    data <- data%>%filter(CountryCode==cou)
+    data <- unique(data)
+    data <- select(data,IndicatorShort, max, min, Observation, regionAvg, worldAvg)
     # transpose the data for radarchart to read
     dataTrans <- as.data.frame(t(data[,2:ncol(data)]))
     layout(matrix(c(1,2),ncol=1), heights =c(4,1))
