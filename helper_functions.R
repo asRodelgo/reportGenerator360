@@ -1371,8 +1371,10 @@ doing_business_table <- function(Report_data,reportConfig,couName){
       filter(grepl("R",Subsection)) %>%
       select(-Subsection)
     
+    # adjusted thisYear by 2 years (instead of 1) since TCdata360 Doing Business data displays year when data was collected
+    # instead of year Doing Business report was released
     dataDTF <- data %>%
-      filter(grepl("DTF",Subsection), Period >= as.numeric(thisYear)-1) %>%
+      filter(grepl("DTF",Subsection), Period >= as.numeric(thisYear)-2) %>%
       select(-Subsection)
     
     dataR <- spread(dataR, Period, Observation)
