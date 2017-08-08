@@ -99,7 +99,7 @@
 \end{minipage}
 
 \begin{minipage}[b]{0.95\textwidth}
-  \vspace{0.8cm}
+  \vspace{2ex}
   \hspace*{0.4cm} 
   \begin{minipage}[c]{0.50\textwidth} % Doing Business table
     \hspace{1ex}\small{\textcolor[HTML]{818181}{\Sexpr{paste(filter(subsection_name, Section_ID == 1,Order == 3)[1,1],year)}}}
@@ -125,7 +125,7 @@
 %% Human capital --------------------------------------------
 
 \begin{minipage}[b]{0.95\textwidth}
-   \vspace{5ex}
+   \vspace{2ex}
    \begin{flushleft}  
      \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[2]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[2]}}}
    \end{flushleft} 
@@ -146,7 +146,21 @@
     \vspace{-1ex} 
     \scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 2,Order == 2)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 2,Order == 2)[1,1]}}}}
   \end{minipage}
-\end{minipage}  
+\end{minipage}
+
+%%% footer ----------------------------------
+\vspace{1.5ex}
+\begin{minipage}[c]{0.23\textwidth}
+  \hspace*{+0.3cm} \includegraphics[width=4cm,left]{\Sexpr{paste0(parent_directory,"/www/WBlogo_Transparent.png")}}
+\end{minipage}
+\begin{minipage}[c]{0.35\textwidth}
+  \vspace*{-0.1cm}
+  \raggedleft{\color{white!40!black} \scriptsize Visit \href{http://tcdata360.worldbank.org}{tcdata360.worldbank.org} for more Trade and Competitiveness Data}
+\end{minipage}
+\begin{minipage}[c]{0.35\textwidth}
+  \vspace*{-0.1cm}
+  \raggedleft{\color{white!40!black} \scriptsize \Sexpr{title} - LAST UPDATED \Sexpr{date}}
+\end{minipage}
 % END OF FIRST PAGE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -272,11 +286,15 @@
 
   %%% footer ----------------------------------
   \vspace{4ex}
-  \begin{minipage}[c]{0.33\textwidth}
+  \begin{minipage}[c]{0.23\textwidth}
     \hspace*{+0.3cm} \includegraphics[width=4cm,left]{\Sexpr{paste0(parent_directory,"/www/WBlogo_Transparent.png")}}
   \end{minipage}
-  \begin{minipage}[c]{0.65\textwidth}
+  \begin{minipage}[c]{0.35\textwidth}
     \vspace*{-0.1cm}
-    \raggedleft{\color{white!40!black} \footnotesize \Sexpr{title} - LAST UPDATED \Sexpr{date}}
+    \raggedleft{\color{white!40!black} \scriptsize Visit \href{http://tcdata360.worldbank.org}{tcdata360.worldbank.org} for more Trade and Competitiveness Data}
+  \end{minipage}
+  \begin{minipage}[c]{0.35\textwidth}
+    \vspace*{-0.1cm}
+    \raggedleft{\color{white!40!black} \scriptsize \Sexpr{title} - LAST UPDATED \Sexpr{date}}
   \end{minipage}
 \end{figure}
