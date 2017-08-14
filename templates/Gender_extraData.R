@@ -5,9 +5,9 @@
 
 ## ---- Downloading WBG API data ----
 
-Report_data <- read.csv(paste0("/Users/mrpso/Documents/GitHub/reportGenerator360_data/",input_reportID,"_data.csv"))
-Report_data$Period <- as.character(Report_data$Period)
-Report_data$Observation <- as.character(Report_data$Observation)
+# Report_data <- read.csv(paste0("/Users/mrpso/Documents/GitHub/reportGenerator360_data/",input_reportID,"_data.csv"))
+ThisReport_data$Period <- as.character(ThisReport_data$Period)
+ThisReport_data$Observation <- as.character(ThisReport_data$Observation)
 
 dataDesc <- read.csv(paste0("templates/",input_reportID,"_DataDescription.csv"), stringsAsFactors = FALSE)
 dataDesc_extra <- subset(dataDesc,dataDesc$Source_ID!="") 
@@ -32,7 +32,7 @@ for(ind in wbg_ind_list){
            Section, Subsection, Subsection2, region, Source_ID)
   
   # Append to master data file
-  Report_data <- bind_rows(Report_data, missInd)
+  ThisReport_data <- bind_rows(ThisReport_data, missInd)
 }
 
 ### ---- Loading prepared WEF Global Gender Gap Report (GGGR) data that is not callable via API ----
@@ -49,4 +49,4 @@ dataExtra <-  join(dataExtra, dataDesc, by = "Source_ID") %>%
          Section, Subsection, Subsection2, region, Source_ID)
 
 # Append to master data file
-Report_data <- bind_rows(Report_data, dataExtra)
+ThisReport_data <- bind_rows(ThisReport_data, dataExtra)
