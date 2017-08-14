@@ -80,7 +80,7 @@ indicators <- tryCatch(fromJSON("http://datascope-prod.amida-demo.com/api/v1/ind
 # wb_class <- wb_class[!(is.na(wb_class$`Income group`)),]
 
 # List topics
-topics <- c("Entrepreneurship","Tourism")
+topics <- c("Entrepreneurship","Tourism", "Gender")
 
 # Read and process data from TCdata360 API ----------------
 source('datapull_TCdata360.R', local = TRUE)
