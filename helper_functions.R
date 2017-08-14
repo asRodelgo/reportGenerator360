@@ -341,7 +341,11 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
     if (length(unique(data$Key))>1){ # plot several indicators for 1 country
       
       order_legend <- c(couName,as.character(unique(data[data$CountryCode %in% topNeighbors,]$Country)))
-      country_order <- factor(order_legend, levels = c(couName,order_legend[2:length(order_legend)]))
+      # catch errors for multiple indicators
+      temp_unique_order <- c(couName,order_legend[2:length(order_legend)])
+      temp_unique_order <- unique(temp_unique_order[!is.na(temp_unique_order)])
+      country_order <- factor(order_legend, levels = temp_unique_order)
+
       my_order <- data.frame(Country = country_order, order = seq(1,length(order_legend),1))
       data <- merge(data,my_order, by="Country") %>%
         filter(order <= (max_neighbors+1)) %>% # keep some countries
@@ -367,7 +371,11 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
       
     } else { # plot 1 indicator for 1 country and perhaps region or other countries
       order_legend <- c(couName,as.character(unique(data[data$CountryCode %in% topNeighbors,]$Country)))
-      country_order <- factor(order_legend, levels = c(couName,order_legend[2:length(order_legend)]))
+      # catch errors for multiple indicators
+      temp_unique_order <- c(couName,order_legend[2:length(order_legend)])
+      temp_unique_order <- unique(temp_unique_order[!is.na(temp_unique_order)])
+      country_order <- factor(order_legend, levels = temp_unique_order)
+      
       my_order <- data.frame(Country = country_order, order = seq(1,length(order_legend),1))
       data <- merge(data,my_order, by="Country") %>%
         filter(order <= (max_neighbors+1)) %>% # keep some countries
@@ -786,6 +794,106 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
       i <- i + 1
     }
 
+  } else {
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
+  }
+  
+}
+
+## ---- number_chart_yesno ----
+number_chart_yesno <- function(Report_data,reportConfig,couName,section,table,str_wrap_size,rankBig=FALSE,includeUnit=TRUE){      
+  
+  cou <- .getCountryCode(couName)
+  data <- filter(Report_data, CountryCode==cou,  Subsection %in% table)
+  data <- data %>%
+    filter(!(is.na(Observation))) %>%
+    mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
+    distinct(Key,Period,.keep_all=TRUE)
+  
+  dataWorld <- filter(Report_data,  Subsection %in% table)
+  dataWorld <- filter(dataWorld,!is.na(Observation))
+  dataWorld <- dataWorld %>%
+    group_by(Country,Key) %>%
+    filter( Period == max(Period,na.rm=TRUE))%>%     # mutate(Period = max(Period,na.rm=TRUE)) %>%
+    distinct(Key, Period, .keep_all = TRUE) %>%
+    as.data.frame()
+  
+  dataWorld <- dataWorld %>%
+    group_by(Key) %>%
+    mutate(Observation = round(Observation,1)) %>%
+    arrange(desc(Observation)) %>%
+    as.data.frame()
+  
+  if (nrow(data)>0){
+    
+    require(stringr) # to wrap label text
+    # Print the combo -----------------------------------------------
+    par(family = 'serif',mfrow=c(length(unique(dataWorld$Key)),2), #sets number of rows in space to number of cols in data frame x
+        mar=c(0,2,0,2), #sets margin size for the figures
+        oma=c(0,1,0,1)) #sets outer margin
+    
+    i <- 1
+    rankedTotal <- c()
+    rank <- c()
+    for (ind in unique(dataWorld$Key)){
+      thisKey <- filter(dataWorld, Key == ind)
+      if (!includeUnit) { # Remove unit from final output
+        thisKey <- mutate(thisKey, Unit = "") %>% as.data.frame()
+      }
+      
+      thisKey <- mutate(thisKey, Unit = ifelse(grepl("0-100",Unit),"100=full ownership allowed",Unit))
+      thisKey <- mutate(thisKey, IndicatorShort = str_wrap(paste0(IndicatorShort), width = str_wrap_size))
+      rankedTotal[i] <- nrow(thisKey)
+      
+      if (nrow(filter(thisKey, CountryCode == cou))>0){# country has data for this indicator
+        
+        rank[i] <- which(thisKey$CountryCode == cou)
+        # print indicator name
+        plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+        graphics::text(1, 1.1,thisKey$IndicatorShort[1], col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=3, adj=0)
+        graphics::text(1, 0.75,paste0(thisKey$Unit[1], " (",thisKey$Period[1],")"), col="#818181", cex=2, adj = 0)
+        # print data point and rank
+        if (!rankBig){ # rank bigger than actual value
+          plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+          graphics::text(1.17, 1,filter(thisKey,CountryCode==cou)$Observation , col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=5)
+          graphics::text(1.42, 0.95,paste0("(Rank: ",rank[i],"/",rankedTotal[i],")"), col="#818181", cex=3, adj=0)
+        } else {
+          plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+          graphics::text(1.2, 1,paste0(rank[i],"/",rankedTotal[i]) , col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=5)
+          
+          #remap 1/0 back to Yes/No
+          temp_val <- filter(thisKey,CountryCode==cou)$Observation
+          if (temp_val == 1){
+            temp_val <- "Yes"
+          } else if (temp_val == 0){
+            temp_val <- "No"
+          }
+          
+          graphics::text(1.5, 1,paste0("Value: ",temp_val), col="#818181", cex=3, adj=0)
+        }
+        
+        
+      } else { # no data for this indicator
+        
+        # print indicator name
+        plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+        graphics::text(1, 1.1,thisKey$IndicatorShort[1], col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=3, adj=0)
+        graphics::text(1, 0.75,paste0(thisKey$Unit[1], " (",thisKey$Period[1],")"), col="#818181", cex=2, adj = 0)
+        # print data point and rank
+        if (!rankBig){ # rank bigger than actual value
+          plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+          graphics::text(1.17, 1," " , col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=8)
+          graphics::text(1.42, 0.95,paste0("(Rank: /",rankedTotal[i],")"), col="#818181", cex=3, adj=0)
+        } else {
+          plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+          graphics::text(1.17, 1,paste0("NA/",rankedTotal[i]), col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=5)
+          graphics::text(1.5, 1," ", col="#818181", cex=4, adj=0)
+        }
+      }
+      i <- i + 1
+    }
+    
   } else {
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
     graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
