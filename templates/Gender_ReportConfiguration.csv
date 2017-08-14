@@ -1,0 +1,25 @@
+Section_ID,Order,Color,Section,Section_Description,Section_Level
+1,1,,ECONOMIC PARTICIPATION,,1
+1,1,,"OVERALL GLOBAL GENDER GAP INDEX, score (0-1)",SOURCE: WEF Global Gender Gap Report,2
+1,2,,"RATIO OF FEMALE TO MALE LABOR FORCE PARTICIPATION RATE (\%, modeled ILO estimate)",SOURCE: World Development Indicators,2
+1,3,,FORMAL AND INFORMAL EMPLOYMENT RATES,SOURCE: World Development Indicators,2
+1,4,,"WAGE EQUALITY FOR SIMILAR WORK, Survey data, 0-1 scale",SOURCE: WEF Global Gender Gap Report,2
+2,2,,WAGE EMPLOYMENT,,1
+2,1,,"EMPLOYMENT BY SECTOR, percent of employment",SOURCE: World Development Indicators,2
+2,2,,"CHANGE IN WOMEN’S SHARE IN WAGE EMPLOYMENT, percent of total non-agricultural employment",SOURCE: World Development Indicators,2
+3,3,,ENTREPRENEURSHIP,,1
+3,1,,"EMPLOYMENT BY SECTOR, percent of employment",SOURCE: Enterprise Surveys,2
+3,2,,,SOURCE: TBD (care of Gender team),2
+4,4,,BUSINESS ENVIRONMENT FOR WOMEN,,1
+4,1,,"STARTING A BUSINESS, by gender",SOURCE: Doing Business,2
+4,2,,HIRING AND PROPERTY,"SOURCE: Women, Business, and the Law",2
+4,3,,LEGISLATION AND EQUALITY,"SOURCE: Women, Business, and the Law",2
+4,4,,FAMILY AND CHILDREN,"SOURCE: Women, Business, and the Law",2
+5,5,,"ASSET OWNERSHIP, CONTROL, AND TIME ALLOCATION",,1
+5,1,,"BANK ACCOUNT OWNERSHIP, by gender",SOURCE: World Development Indicators,2
+5,2,,CONTROL AND TIME ALLOCATION,SOURCE: Gender Statistics,2
+6,6,,SOCIAL AND POLITICAL NORMS,,1
+6,1,,"EDUCATIONAL ATTAINMENT, by gender",SOURCE: Education Statistics,2
+6,2,,LITERACY AND FERTILITY RATES,"SOURCE: WEF GGGR, Education Statistics, World Development Indicators",2
+9,9,FF582D,Gender,Gender 360,9
+9,10,FF582D,Gender,Gender 360,10
