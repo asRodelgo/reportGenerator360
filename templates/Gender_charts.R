@@ -20,14 +20,14 @@ figure_sparkline(Report_data,reportConfig,couName, "figure1",rankBig=FALSE)
 ## ---- figure_sparkline2 ----
 figure_sparkline(Report_data,reportConfig,couName, "figure2",rankBig=FALSE)
 
-# ## ---- figure_sparkline3 ----
-# figure_sparkline(Report_data,reportConfig,couName, "figure3",rankBig=FALSE)
+## ---- figure_sparkline3 ----
+figure_sparkline(Report_data,reportConfig,couName, "figure3",rankBig=FALSE)
 
 ## ---- figure_sparkline4 ----
 figure_sparkline(Report_data,reportConfig,couName, "figure4",rankBig=FALSE)
 
 ## ---- figure_sparkline5 ----
-figure_sparkline(Report_data,reportConfig,couName, "figure5",rankBig=TRUE)
+figure_sparkline(Report_data,reportConfig,couName, "figure5",rankBig=FALSE)
 
 ## ---- figure_sparkline6 ----
 figure_sparkline(Report_data,reportConfig,couName, "figure6",rankBig=FALSE)

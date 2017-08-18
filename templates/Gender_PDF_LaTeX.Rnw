@@ -20,7 +20,7 @@
   
     \begin{minipage}[b]{0.99\textwidth} 
       \vspace{4ex}
-      \hspace{5ex}{\fontsize{28}{26}\selectfont{\color{white}\Sexpr{couName}}}
+      \hspace{5ex}{\fontsize{40}{42}\selectfont{\color{white}\Sexpr{couName}}}
     \end{minipage}
     
     \begin{minipage}[t]{0.99\textwidth} % top section
@@ -44,13 +44,13 @@
     \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure2")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: \Sexpr{filter(dataDesc, Subsection2 == "figure2")$Source_Name}}}}
     \vspace{3ex}
     \end{minipage}
-  %   \begin{minipage}[c]{0.30\textwidth}
-  % <<figure_sparkline3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=  
-  %   @      
-  %   \vspace{-2ex}
-  %   \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure3")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: \Sexpr{filter(dataDesc, Subsection2 == "figure3")$Source_Name}}}}
-  %   \vspace{3ex}
-  %   \end{minipage}
+    \begin{minipage}[c]{0.30\textwidth}
+  <<figure_sparkline3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=
+    @
+    \vspace{-2ex}
+    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure3")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: \Sexpr{filter(dataDesc, Subsection2 == "figure3")$Source_Name}}}}
+    \vspace{3ex}
+    \end{minipage}
     
     \begin{minipage}[c]{0.30\textwidth}
   <<figure_sparkline4,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=  
