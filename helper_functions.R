@@ -975,7 +975,7 @@ bar_facewrap_chart <- function(Report_data,reportConfig,couName, section, table,
               ) + 
         labs(x="",y="")+#,title="World Governance Indicators")+
         scale_fill_manual(breaks = order_legend,values = c("orange","brown","lightblue","lightgreen","pink")) +
-        scale_alpha_manual(labels = order_legend,values = c(1, rep(0.4,4)),guide=FALSE)
+        scale_alpha_manual(labels = order_legend,values = c(1, rep(1,4)),guide=FALSE)
       
     } else{
       
@@ -1004,7 +1004,7 @@ bar_facewrap_chart <- function(Report_data,reportConfig,couName, section, table,
               axis.text.x = element_text(family="Times", color="#818181")) + 
         labs(x="",y="")+#,title="World Governance Indicators")+
         scale_fill_manual(breaks=order_legend,values = c("orange","brown","lightblue","lightgreen","pink")) +
-        scale_alpha_manual(labels = order_legend,values = c(1, rep(0.4,4)),guide=FALSE)
+        scale_alpha_manual(labels = order_legend,values = c(1, rep(1,4)),guide=FALSE)
     }
     
     
