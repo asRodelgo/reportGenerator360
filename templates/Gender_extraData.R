@@ -36,14 +36,14 @@ ThisReport_data$Key <- as.character(ThisReport_data$Key)
 #   ThisReport_data <- bind_rows(ThisReport_data, missInd)
 # }
 
-load(paste0("data/",input_reportID,"_Extra_2.rda"))
+load(paste0("data/Gender_Extra_2.rda"))
 extraData_wbgapi$Period <- as.character(extraData_wbgapi$Period)
 extraData_wbgapi$Observation <- as.character(extraData_wbgapi$Observation)
 # Append to master data file
 ThisReport_data <- bind_rows(ThisReport_data, extraData_wbgapi)
 
 ### ---- Loading prepared WEF Global Gender Gap Report (GGGR) data that is not callable via API ----
-load(paste0("data/",input_reportID,"_Extra.rda"))
+load(paste0("data/Gender_Extra.rda"))
 dataExtra$Period <- as.character(dataExtra$Period)
 dataExtra$Observation <- as.character(dataExtra$Observation)
 
