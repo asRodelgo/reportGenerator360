@@ -15,9 +15,9 @@ figure_sparkline <- function(Report_data,reportConfig,couName,table,rankBig=FALS
     data <- filter(data,Observation > 0)
     dataLast <- filter(data, Period == max(Period,na.rm=TRUE))
     #dataLast$Observation <- ifelse(dataLast$Observation>1000000,dataLast$Observation/1000000,dataLast$Observation)
-  } else if (table == "figure3" | table =="figure6"){
-    data <- filter(data,!is.na(Observation))
-    dataLast <- filter(data, Period == max(data[data$Period!=max(data$Period,na.rm=TRUE), "Period"]))
+  # } else if (table == "figure3" | table =="figure6"){
+  #   data <- filter(data,!is.na(Observation))
+  #   dataLast <- filter(data, Period == max(data[data$Period!=max(data$Period,na.rm=TRUE), "Period"]))
   } else {
     data <- filter(data,!is.na(Observation))
     dataLast <- filter(data, Period == max(Period,na.rm=TRUE))
@@ -1080,21 +1080,28 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
     data <- select(data,IndicatorShort, max, min, Observation, regionAvg, worldAvg)
     # transpose the data for radarchart to read
     dataTrans <- as.data.frame(t(data[,2:ncol(data)]))
-    layout(matrix(c(1,2),ncol=1), heights =c(4,1))
-    #       col.axis="red",col.lab=c("red","red"),col.main="red",col.sub="red",family="serif")
-    par(mar=c(0,1,3,1),family="serif")
     
-    radarchart(dataTrans, axistype=1, centerzero = FALSE,seg=4, caxislabels=c(min,"",(min+max)/2,"",max),
-                     plty=c(1,2,4),plwd=c(8,4,4),pcol=c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"darkgreen"),pdensity=c(0, 0, 0),
-                     cglwd=2,axislabcol="lightgrey", vlabels=data$IndicatorShort, cex.main=1,cex=2.5,vlcex = 1.2)
-          
-    #title="WEF Competitiveness Indicators, stage of development (1-7)",
-    par(family = 'serif',mar=c(0,1,1,1))
-    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    # legend(1,1.5, legend=c(paste0(couName," (",thisPeriod,")"),region,"World"), seg.len=0.5, pch=19, inset=50, 
-    #        bty="n" ,lwd=3, cex = 1.5, x.intersp=0.5, horiz=TRUE, col=c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"darkgreen"))
-    legend(1,1.5, legend=c(couName,region,"World"), seg.len=0.5, pch=19, inset=50, 
-           bty="n" ,lwd=3, cex = 1.5, x.intersp=0.5, horiz=TRUE, col=c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"darkgreen"))
+    # catch error if number of variables is less than 3 (radarchart requires 3 or more non-NULL variables).
+    if (ncol(dataTrans) > 2){
+      layout(matrix(c(1,2),ncol=1), heights =c(4,1))
+      #       col.axis="red",col.lab=c("red","red"),col.main="red",col.sub="red",family="serif")
+      par(mar=c(0,1,3,1),family="serif")
+      
+      radarchart(dataTrans, axistype=1, centerzero = FALSE,seg=4, caxislabels=c(min,"",(min+max)/2,"",max),
+                       plty=c(1,2,4),plwd=c(8,4,4),pcol=c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"darkgreen"),pdensity=c(0, 0, 0),
+                       cglwd=2,axislabcol="lightgrey", vlabels=data$IndicatorShort, cex.main=1,cex=2.5,vlcex = 1.2)
+            
+      #title="WEF Competitiveness Indicators, stage of development (1-7)",
+      par(family = 'serif',mar=c(0,1,1,1))
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      # legend(1,1.5, legend=c(paste0(couName," (",thisPeriod,")"),region,"World"), seg.len=0.5, pch=19, inset=50, 
+      #        bty="n" ,lwd=3, cex = 1.5, x.intersp=0.5, horiz=TRUE, col=c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"darkgreen"))
+      legend(1,1.5, legend=c(couName,region,"World"), seg.len=0.5, pch=19, inset=50, 
+             bty="n" ,lwd=3, cex = 1.5, x.intersp=0.5, horiz=TRUE, col=c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"darkgreen"))
+    } else{
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
+    }
   } else {
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
     graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
