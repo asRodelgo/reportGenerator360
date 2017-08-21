@@ -34,21 +34,21 @@
   <<figure_sparkline1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='right',results="asis">>=  
     @      
     \vspace{-2ex}
-    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure1")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: \Sexpr{filter(dataDesc, Subsection2 == "figure1")$Source_Name}}}}
+    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure1")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(dataDesc, Subsection2 == "figure1")$Source_Name}}}}
     \vspace{3ex}
     \end{minipage}
     \begin{minipage}[c]{0.30\textwidth}
   <<figure_sparkline2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=  
     @      
     \vspace{-2ex}
-    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure2")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: \Sexpr{filter(dataDesc, Subsection2 == "figure2")$Source_Name}}}}
+    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure2")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(dataDesc, Subsection2 == "figure2")$Source_Name}}}}
     \vspace{3ex}
     \end{minipage}
     \begin{minipage}[c]{0.30\textwidth}
   <<figure_sparkline3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=
     @
     \vspace{-2ex}
-    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure3")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: \Sexpr{filter(dataDesc, Subsection2 == "figure3")$Source_Name}}}}
+    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure3")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(dataDesc, Subsection2 == "figure3")$Source_Name}}}}
     \vspace{3ex}
     \end{minipage}
     
@@ -56,19 +56,19 @@
   <<figure_sparkline4,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=  
     @      
     \vspace{-2ex}
-    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure4")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: \Sexpr{filter(dataDesc, Subsection2 == "figure4")$Source_Name}}}}
+    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure4")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(dataDesc, Subsection2 == "figure4")$Source_Name}}}}
     \end{minipage}
     \begin{minipage}[c]{0.30\textwidth}
   <<figure_sparkline5,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=  
     @      
     \vspace{-2ex}
-    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure5")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: \Sexpr{filter(dataDesc, Subsection2 == "figure5")$Source_Name}}}}
+    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure5")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(dataDesc, Subsection2 == "figure5")$Source_Name}}}}
     \end{minipage}
     \begin{minipage}[c]{0.30\textwidth}
   <<figure_sparkline6,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=  
     @      
     \vspace{-2ex}
-    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure6")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{SOURCE: \Sexpr{filter(dataDesc, Subsection2 == "figure6")$Source_Name}}}}
+    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure6")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(dataDesc, Subsection2 == "figure6")$Source_Name}}}}
     \end{minipage}
   \end{minipage}
 \end{minipage}
