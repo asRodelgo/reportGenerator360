@@ -8,13 +8,13 @@ library(tidyr)
 # Query data based on ids of filtered indicators
 # loop by country and indicator id. Bind it all in a data.frame
 # Query country metadata:
-countries <- tryCatch(fromJSON("http://datascope-prod.amida-demo.com/api/v1/countries/?fields=id%2Ciso2%2Ciso3%2Cname%2Cregion%2CincomeLevel%2ClendingType%2CcapitalCity%2Cgeo",
+countries <- tryCatch(fromJSON("https://tcdata360-backend.worldbank.org/api/v1/countries/?fields=id%2Ciso2%2Ciso3%2Cname%2Cregion%2CincomeLevel%2ClendingType%2CcapitalCity%2Cgeo",
                                flatten = TRUE), 
                       error = function(e) {print("Warning: API call to countries returns an error");
                         countries = read.csv("data/countries.csv", stringsAsFactors = FALSE)}, 
                       finally = {countries = read.csv("data/countries.csv", stringsAsFactors = FALSE)})
 # Query indicators:
-indicators <- tryCatch(fromJSON("http://datascope-prod.amida-demo.com/api/v1/indicators/?fields=id%2Cname%2CvalueType%2Crank",
+indicators <- tryCatch(fromJSON("https://tcdata360-backend.worldbank.org/api/v1/indicators/?fields=id%2Cname%2CvalueType%2Crank",
                                 flatten=TRUE), 
                        error = function(e) {print("Warning: API call to indicators returns an error");
                          indicators = read.csv("data/indicators.csv", stringsAsFactors = FALSE)}, 
@@ -41,7 +41,7 @@ for (cou in filter(countries,(iso3 %in% unique(countries$iso3)))$iso3){
 #for (cou in countries$id){
   for (ind in indicators_selected$id){
   print(paste0("Processing...",cou," ",ind))
-  thisQuery <- tryCatch(fromJSON(paste0("http://datascope-prod.amida-demo.com/api/v1/data?countries=",cou,
+  thisQuery <- tryCatch(fromJSON(paste0("https://tcdata360-backend.worldbank.org/api/v1/data?countries=",cou,
                                "&indicators=",ind),
                         flatten = TRUE),
                         error = function(e) {print(paste0("Warning: API data call returns an error for country ",cou," and indicator ",ind));
