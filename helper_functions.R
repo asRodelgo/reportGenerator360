@@ -1,5 +1,93 @@
 # Helper functions to generalize charts and tables for LaTeX
 
+## ---- figure_number_rank_only ----
+figure_number_rank_only <- function(Report_data,reportConfig,couName,table, str_wrap_size=30,useRank=TRUE){      
+  
+  cou <- .getCountryCode(couName)
+  ## Examples like Edward Tufte's sparklines:
+  #table <- "combo1"
+  data <- Report_data %>%
+    filter(CountryCode==cou, Subsection2==table, !is.na(Observation)) %>%
+    mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear)-1),Period),
+           Observation = Observation/ifelse(is.na(Scale),1,Scale))
+  
+  data <- filter(data,!is.na(Observation))
+  dataLast <- filter(data, Period == max(Period,na.rm=TRUE))
+  # data
+  
+  dataPoint <- format(dataLast$Observation, digits=2, decimal.mark=".",
+                      big.mark=",",small.mark=".", small.interval=3)
+  # period
+  dataPeriod <- dataLast$Period
+  
+  dataWorld <- filter(Report_data, Subsection2==table)
+  dataWorld <- filter(dataWorld,!is.na(Observation))
+  dataWorld <- dataWorld %>%
+    group_by(iso2) %>%
+    mutate(Period = max(Period,na.rm=TRUE)) %>%
+    distinct(Period, .keep_all = TRUE) %>%
+    as.data.frame()
+  
+  dataWorld <- arrange(dataWorld, desc(Observation))
+  # rank in the world
+  rank <- which(dataWorld$CountryCode == cou)
+  rankedTotal <- nrow(dataWorld)
+  
+  indicator <- data$IndicatorShort[1]
+  indicator <- str_wrap(paste0(indicator), width = str_wrap_size)
+  unit <- data$Unit[1]
+  
+  if (nrow(data)>0){
+    
+    # Print the combo -----------------------------------------------
+    par(family = 'serif',mfrow=c(5,1), #sets number of rows in space to number of cols in data frame x
+        mar=c(0,2,0,2), #sets margin size for the figures
+        oma=c(0,1,0,1)) #sets outer margin
+    
+    # print indicator name
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 1.0,indicator, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=7)
+    
+    # print data point and rank
+    if (useRank){
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 1.0,paste0("Rank (",dataPeriod,")"), col="#818181", cex=5)
+      # print data point and rank
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 1.0,paste0(rank,"/",rankedTotal), col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=18)
+    } else {
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 1.0,paste0(unit, " (",dataPeriod,")"), col="#818181", cex=5)
+      # print data point and rank
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 1.0,dataPoint, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=18)
+    }
+    
+  } else {
+    
+    # Print the combo -----------------------------------------------
+    par(family = 'serif',mfrow=c(5,1), #sets number of rows in space to number of cols in data frame x
+        mar=c(0,2,0,2), #sets margin size for the figures
+        oma=c(0,1,0,1)) #sets outer margin
+    
+    # print indicator name
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 1.1,indicator, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=10)
+    graphics::text(1.5, 0.7,unit, col="#818181", cex=5)
+    # print data point and rank
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 0.95,"No data available", col="#818181", cex=10)
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    # graphics::text(1.5, 1.1,paste0("(Rank: /",rankedTotal,")"), col="#818181", cex=7)
+    # plot sparkline  
+    # par(family = 'serif',#sets number of rows in space to number of cols in data frame x
+    #     mar=c(0,5,0,5))#sets margin size for the figures
+    #oma=c(0,4,0,4)) #sets outer margin
+    
+  } 
+  
+}
+
 ## ---- figure_sparkline ----
 figure_sparkline <- function(Report_data,reportConfig,couName,table,rankBig=FALSE){      
   
@@ -292,6 +380,182 @@ numberBig <- function(Report_data,reportConfig,couName,section,table,rankBig=FAL
 #   
 # }
 
+## ---- line_chart_avg ----
+line_chart_avg <- function(Report_data,reportConfig,couName, section, table, minTime="1900",neighbor="region",max_neighbors=4, gender=FALSE){
+  # if max_neighbors = 0, plot only selected country
+  # if max_neighbors = 1, plot selected country vs average of all countries
+  # if max_neighbors > 1, plot selected country vs the rest of the individual countries
+  cou <- .getCountryCode(couName)
+  if (neighbor=="region"){ # region level
+    # get region mapping excluding HIC (if available)
+    if (!is.null(as.character(countries[countries$iso3==cou,]$region_excl_HIC))){
+      couRegion <- as.character(countries[countries$iso3==cou,]$region_excl_HIC)  # obtain the region for the selected country
+      data <- filter(Report_data, region_excl_HIC==couRegion, Section == section, Subsection == table, !(is.na(Observation)), Period >= minTime)
+    } else {
+      couRegion <- as.character(countries[countries$iso3==cou,]$region)  # obtain the region for the selected country
+      data <- filter(Report_data, region==couRegion, Section == section, Subsection == table, !(is.na(Observation)), Period >= minTime) #select country, region and world
+    }
+  } else { # income level 
+    couRegion <- as.character(countries[countries$iso3==cou,]$incomeLevel)  # obtain the region for the selected country
+    data <- filter(Report_data, incomeLevel==couRegion, Section == section, Subsection == table, !(is.na(Observation)), Period >= minTime) #select country, region and world
+  }
+  
+  if (max_neighbors == 1){ # use the average of all neighbors
+    
+    region_avg <- dplyr::group_by(data, Key,Period) %>%
+      dplyr::mutate(Observation = mean(Observation/ifelse(is.na(Scale),1,Scale),na.rm=TRUE)) %>%
+      distinct(Key,Period,.keep_all=TRUE) %>%
+      dplyr::mutate(Country = couRegion, CountryCode = couRegion) %>%
+      #select(Key,Period,CountryCode) %>%
+      as.data.frame()
+    topNeighbors <- region_avg$CountryCode
+    data <- filter(data, CountryCode == cou) %>%
+      mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
+      arrange(CountryCode,Period) %>%
+      bind_rows(region_avg)
+    
+  } else { # compare against top incomes wihtin region 
+    # select top neighbors according to income
+    if (!is.null(as.character(countries[countries$iso3==cou,]$region_excl_HIC))){
+      income <- filter(Report_data, region_excl_HIC==couRegion & Section=="aux_income")
+    } else {income <- filter(Report_data, region==couRegion & Section=="aux_income")}
+    
+    income <- income %>%
+      group_by(CountryCode) %>%
+      filter(!is.na(Observation), Period < thisYear, !(CountryCode==cou)) %>%
+      filter(Period == max(Period,na.rm=TRUE))
+    
+    topNeighbors <- head(arrange(as.data.frame(income), desc(Observation)),15)$CountryCode
+    data <- filter(data, CountryCode %in% c(cou,topNeighbors)) %>%
+      mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
+      arrange(CountryCode,Period)
+  }
+  
+  windowsFonts(Times=windowsFont("TT Times New Roman"))
+  par(mar=c(1,1,1,1))
+  # order lines in chart and hide elements in legend
+  if (nrow(filter(data,CountryCode==cou))>0){
+    
+    if (length(unique(data$Key))>1){ # plot several indicators for 1 country
+      
+      order_legend <- c(couName,as.character(unique(data[data$CountryCode %in% topNeighbors,]$Country)))
+      # catch errors for multiple indicators
+      temp_unique_order <- c(couName,order_legend[2:length(order_legend)])
+      temp_unique_order <- unique(temp_unique_order[!is.na(temp_unique_order)])
+      country_order <- factor(order_legend, levels = temp_unique_order)
+      
+      my_order <- data.frame(Country = country_order, order = seq(1,length(order_legend),1))
+      data <- merge(data,my_order, by="Country") %>%
+        filter(order <= (max_neighbors+1)) %>% # keep some countries
+        arrange(order,Period)
+      
+      # ggplot(data, aes(x=Period, y=Observation)) +
+      #   geom_line(stat="identity",aes(group=factor(Key), colour=factor(Key), size=factor(Key), alpha=factor(Key))) +
+      #   theme(legend.key=element_blank(),
+      #         legend.title=element_blank(),
+      #         legend.position="top",
+      #         legend.text = element_text(family="Times", size = 10, colour = "#818181"),
+      #         panel.border = element_blank(),
+      #         panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+      #         axis.line = element_line(size=0.1, colour = "lightgrey"),
+      #         axis.text.x = element_text(family="Times", color="#818181",hjust = 1),
+      #         axis.text.y = element_text(family="Times", color="#818181")) +
+      #   labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
+      #   ) + 
+      #   scale_color_manual(labels = unique(data$IndicatorShort), values = c("darkgreen","green","lightblue","lightgreen","pink")) +
+      #   scale_alpha_manual(labels = unique(data$IndicatorShort),values = c(0.6, rep(0.6,4))) + 
+      #   scale_size_manual(labels = unique(data$IndicatorShort),values = c(2, rep(2,4)))
+      # 
+      if(!gender){
+      ggplot(data, aes(x=Period, y=Observation)) +
+        geom_line(stat="identity",aes(group=factor(Key), colour=factor(Key), size=factor(Key), alpha=factor(Key))) +
+        theme(legend.key=element_blank(),
+              legend.title=element_blank(),
+              legend.position="top",
+              legend.text = element_text(family="Times", size = 10, colour = "#818181"),
+              panel.border = element_blank(),
+              panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+              axis.line = element_line(size=0.1, colour = "lightgrey"),
+              axis.text.x = element_text(family="Times", color="#818181",hjust = 1),
+              axis.text.y = element_text(family="Times", color="#818181")) +
+        labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
+        ) + 
+        scale_color_manual(labels = unique(data$IndicatorShort), values = c("darkgray",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"lightblue","lightgreen","pink")) +
+        scale_alpha_manual(labels = unique(data$IndicatorShort),values = c(1, rep(0.6,4))) + 
+        scale_size_manual(labels = unique(data$IndicatorShort),values = c(2, rep(1,4))) +
+        geom_point(size = 3, aes(colour = factor(Key))) +
+        geom_label(aes(Period, Observation, colour = factor(Key), label = sprintf('%0.1f', Observation)),
+                   data = rbind(tail(filter(data, Key==1), 1), tail(filter(data, Key==2), 1)),                 
+                   show.legend = FALSE)
+        } else{
+          
+          toMatch <- c("female", "girl")
+          matches <- unique (grep(paste(toMatch,collapse="|"), data$IndicatorShort, value=TRUE))
+          data[data$IndicatorShort %in% matches, "gender"] <- "Female"
+          data[!data$IndicatorShort %in% matches, "gender"] <- "Male"
+          data$IndicatorShort <- gsub("\nfemale| female|, female|,female|\nmale| male|,male|, male", "", data$IndicatorShort)
+          
+          ggplot(data, aes(x=Period, y=Observation)) +
+            geom_line(stat="identity",aes(group=factor(gender), colour=factor(gender))) +
+            labs(x="",y="",title=data$IndicatorShort[1]) +
+            theme(legend.key=element_blank(),
+                  legend.title=element_blank(),
+                  legend.position="top",
+                  legend.text = element_text(family="Times", size = 10, colour = "#818181"),
+                  panel.border = element_blank(),
+                  panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+                  axis.line = element_line(size=0.1, colour = "lightgrey"),
+                  axis.text.x = element_text(family="Times", color="#818181",hjust = 1),
+                  axis.text.y = element_text(family="Times", color="#818181")) +
+            geom_point(size = 3, aes(colour = factor(gender))) +
+            geom_label(aes(Period, Observation, colour = factor(gender), label = sprintf('%0.1f', Observation)),
+                       data = rbind(tail(filter(data, gender=='Female'), 1), tail(filter(data, gender=='Male'), 1)),                 
+                       show.legend = FALSE)
+      }
+      
+    } else { # plot 1 indicator for 1 country and perhaps region or other countries
+      order_legend <- c(couName,as.character(unique(data[data$CountryCode %in% topNeighbors,]$Country)))
+      # catch errors for multiple indicators
+      temp_unique_order <- c(couName,order_legend[2:length(order_legend)])
+      temp_unique_order <- unique(temp_unique_order[!is.na(temp_unique_order)])
+      country_order <- factor(order_legend, levels = temp_unique_order)
+      
+      my_order <- data.frame(Country = country_order, order = seq(1,length(order_legend),1))
+      data <- merge(data,my_order, by="Country") %>%
+        filter(order <= (max_neighbors+1)) %>% # keep some countries
+        arrange(order,Period)
+      
+      order_legend[2] <- paste0(order_legend[2], " (average)", collapse=NULL)
+      
+      ggplot(data, aes(x=Period, y=Observation)) +
+        geom_line(stat="identity",aes(group=factor(order), colour=factor(order), size=factor(order), alpha=factor(order))) +
+        theme(legend.key=element_blank(),
+              legend.title=element_blank(),
+              legend.position="top",
+              legend.text = element_text(family="Times", size = 10, colour = "#818181"),
+              panel.border = element_blank(),
+              panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+              axis.line = element_line(size=0.1, colour = "lightgrey"),
+              axis.text.x = element_text(family="Times", color="#818181",hjust = 1),
+              axis.text.y = element_text(family="Times", color="#818181")) +
+        labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
+        ) + 
+        scale_color_manual(labels = order_legend, values = c("darkgray",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"lightblue","lightgreen","pink")) +
+        scale_alpha_manual(labels = order_legend,values = c(1, rep(0.6,4))) + 
+        scale_size_manual(labels = order_legend,values = c(2, rep(1,4))) +
+        geom_point(size = 3, aes(colour = factor(order))) +
+        geom_label(aes(Period, Observation, colour = factor(order), label = sprintf('%0.1f', Observation)),
+                   data = rbind(tail(filter(data, order==1), 1), tail(filter(data, order==2), 1)),                 
+                        show.legend = FALSE)
+      # + scale_x_discrete(breaks = unique(arrange(data,Period)$Period)[seq(1,length(unique(data$Period)),4)])
+    }
+    
+  } else {
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
+  }
+  
+}
 ## ---- line_chart ----
 line_chart <- function(Report_data,reportConfig,couName, section, table, minTime="1900",neighbor="region",max_neighbors=4){
   # if max_neighbors = 0, plot only selected country
@@ -605,6 +869,136 @@ sparklines <- function(Report_data,reportConfig,couName,section,table){
   
 }
 
+## ---- bar_chart_gender ----
+bar_chart_gender <- function(Report_data,reportConfig,couName,section,table,paste_unit,percentBar = FALSE, stackedbar = FALSE, single_indicator=FALSE){      
+  
+  cou <- .getCountryCode(couName)
+  data <- filter(Report_data, CountryCode==cou, Section %in% section, Subsection %in% table)
+  data <- data %>%
+    filter(!(is.na(Observation))) %>%
+    mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
+    distinct(Key,Period,.keep_all=TRUE)
+  maxPeriod <- filter(data, Period == max(Period,na.rm=TRUE))$Period[1]
+  
+  if (nrow(data)>0){
+    # order the factors
+    if (!any(is.na(data$Period))){
+      data <- data %>%
+        group_by(Key) %>%
+        filter(Period == max(Period))
+    }
+    
+    require(stringr) # to wrap label text
+    require(scales) # to use thousands separator
+    
+    if (paste_unit){ # should unit be included in indicator name
+      data <- mutate(data, Unit = ifelse(grepl("0-100",Unit),"100=full ownership allowed",Unit))
+      data <- mutate(data, IndicatorShort = str_wrap(paste0(IndicatorShort,", ",Unit," (",Period,")"), width = 30))
+    } else {
+      data <- mutate(data, IndicatorShort = str_wrap(paste0(IndicatorShort," (",Period,")"), width = 30))
+    }
+    # store max value to better place figures in or out the bars
+    max_value <- max(data$Observation)
+    
+    # if (percentBar & nrow(filter(data, Key %in% c(949,1177)))>1 & nrow(filter(data, !(Key %in% c(949,1177))))>1){
+      
+      # data_grey <- data.frame(IndicatorShort=data$IndicatorShort,ObservationPerc=rep(100,nrow(data)))
+      # #data <- mutate(data, id = seq(1,nrow(data),1))
+      # ggplot(NULL,aes(x=IndicatorShort,y=ObservationPerc)) +
+      #   geom_bar(data=data_grey,color="#DCDCDC",fill = "#DCDCDC",stat="identity") +
+      #   geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
+      #   geom_text(data=data, aes(label=paste0(round(ObservationPerc,1),"%"),y=ifelse(ObservationPerc<70,90,ifelse(ObservationPerc > 80, 70, ObservationPerc*1.15))),
+      #             size=10,color="darkblue") + 
+      #   geom_text(data=data, aes(label=format(round(Observation,1),big.mark = ","),y=ifelse(ObservationPerc > 40, 15, ObservationPerc + 15)),
+      #             size=8,color=ifelse(data$ObservationPerc > 40, "white", paste0("#",filter(reportConfig, Section_Level == 10)$Color))) + 
+      #   coord_flip()+
+      #   theme(legend.key=element_blank(),
+      #         legend.title=element_blank(),
+      #         legend.position='none',
+      #         panel.border = element_blank(),
+      #         panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+      #         axis.ticks.x = element_blank(),
+      #         axis.text.x = element_blank(),
+      #         axis.text.y = element_text(family="Times", size = 20),
+      #         axis.text = element_text(family="Times", color = "#818181")) + 
+      #   labs(x="",y=""#,title="Top 5 constraints according to 2013 Enterprise Survey (in percent)"
+        # ) 
+      
+    # } else 
+      if (nrow(filter(data, !(Key %in% c(949,1177))))>0){
+      
+      data <- filter(data, !(Key %in% c(949,1177))) # make sure gdp and employ don't show up here
+      
+      
+      # remapping indicator names based on "female"
+      toMatch <- c("female", "girl")
+      matches <- unique (grep(paste(toMatch,collapse="|"), data$IndicatorShort, value=TRUE))
+      data[data$IndicatorShort %in% matches, "gender"] <- "Female"
+      data[!data$IndicatorShort %in% matches, "gender"] <- "Male"
+      
+      data$IndicatorShort <- gsub("\nfemale| female|, female|,female|\nmale| male|,male|, male", "", data$IndicatorShort)
+      
+      if (stackedbar){
+        ggplot(data, aes(x = gender, y = Observation, fill = IndicatorShort)) + 
+          geom_bar(stat = "identity") + coord_flip() + labs(y = "", x="", fill="") +
+          theme(panel.border = element_blank(),
+                panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+                axis.text.x = element_text(family="Times", color = "#818181", size = 7),
+                axis.text.y = element_text(family="Times", color = "#818181", size = 7),
+                legend.text=element_text(family="Times", color = "#818181", size = 10))}
+      else if(single_indicator){
+        ggplot(data, aes(x=IndicatorShort, y=Observation, group=gender, fill=gender)) +
+          geom_bar(stat="identity",position="dodge", colour="black") +
+          coord_flip() +
+          labs(y = "", x="", fill="Gender") +
+          theme(panel.border = element_blank(),
+                panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+                axis.text.x = element_text(family="Times", color = "#818181", size = 7),
+                axis.text.y = element_blank(),
+                legend.text=element_text(family="Times", color = "#818181", size = 10))+
+          geom_text(data=data, aes(label=sprintf('%0.1f', Observation)), position = position_dodge(width=1), hjust=-0.25)
+      }
+      else {
+        ggplot(data, aes(x=IndicatorShort, y=Observation, group=gender, fill=gender)) +
+          geom_bar(stat="identity",position="dodge", colour="black") +
+          coord_flip() +
+          labs(y = "", x="", fill="Gender") +
+          theme(panel.border = element_blank(),
+                      panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+                      axis.text.x = element_text(family="Times", color = "#818181", size = 7),
+                      axis.text.y = element_text(family="Times", color = "#818181", size = 7),
+                legend.text=element_text(family="Times", color = "#818181", size = 10))+
+                geom_text(data=data, aes(label=sprintf('%0.1f', Observation)), position = position_dodge(width=1), hjust=-0.1)
+        
+       }
+      
+      # ggplot(NULL,aes(x=IndicatorShort,y=Observation)) +
+      #   geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
+      #   geom_text(data=data, aes(label=format(round(Observation,1),big.mark = ","),y=ifelse(Observation<max_value*.15,Observation + max(Observation)*.1,Observation - max(Observation)*.1)),
+      #             size=8,color=ifelse(data$Observation<max_value*.15,paste0("#",filter(reportConfig, Section_Level == 10)$Color),"white")) + 
+      #   coord_flip()+
+      #   theme(legend.key=element_blank(),
+      #         legend.title=element_blank(),
+      #         legend.position='none',
+      #         panel.border = element_blank(),
+      #         panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+      #         axis.ticks.x = element_blank(),
+      #         axis.text.x = element_blank(),
+      #         axis.text.y = element_text(family="Times", color = "#818181", size = 20)) + 
+      #   labs(x="",y=""#,title="Top 5 constraints according to 2013 Enterprise Survey (in percent)"
+        # )
+    } else {
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
+    }
+    
+  } else {
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
+  }
+  
+}
+
 ## ---- bar_chart ----
 bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,percentBar = FALSE){      
   
@@ -761,7 +1155,7 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
         # print indicator name
         plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
         graphics::text(1, 1.1,thisKey$IndicatorShort[1], col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=3, adj=0)
-        graphics::text(1, 0.75,paste0(thisKey$Unit[1], " (",thisKey$Period[1],")"), col="#818181", cex=2, adj = 0)
+        graphics::text(1, 0.75,str_wrap(paste0(thisKey$Unit[1], " (",thisKey$Period[1],")"), width = str_wrap_size+8), col="#818181", cex=2, adj = 0)
         # print data point and rank
         if (!rankBig){ # rank bigger than actual value
           plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
@@ -802,7 +1196,7 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
 }
 
 ## ---- number_chart_yesno ----
-number_chart_yesno <- function(Report_data,reportConfig,couName,section,table,str_wrap_size,rankBig=FALSE,includeUnit=TRUE){      
+number_chart_yesno <- function(Report_data,reportConfig,couName,section,table,str_wrap_size){      
   
   cou <- .getCountryCode(couName)
   data <- filter(Report_data, CountryCode==cou,  Subsection %in% table)
@@ -830,18 +1224,14 @@ number_chart_yesno <- function(Report_data,reportConfig,couName,section,table,st
     require(stringr) # to wrap label text
     # Print the combo -----------------------------------------------
     par(family = 'serif',mfrow=c(length(unique(dataWorld$Key)),2), #sets number of rows in space to number of cols in data frame x
-        mar=c(0,2,0,2), #sets margin size for the figures
-        oma=c(0,1,0,1)) #sets outer margin
+        mar=c(0,2,0,0), #sets margin size for the figures
+        oma=c(0,1,0,0)) #sets outer margin
     
     i <- 1
     rankedTotal <- c()
     rank <- c()
     for (ind in unique(dataWorld$Key)){
       thisKey <- filter(dataWorld, Key == ind)
-      if (!includeUnit) { # Remove unit from final output
-        thisKey <- mutate(thisKey, Unit = "") %>% as.data.frame()
-      }
-      
       thisKey <- mutate(thisKey, Unit = ifelse(grepl("0-100",Unit),"100=full ownership allowed",Unit))
       thisKey <- mutate(thisKey, IndicatorShort = str_wrap(paste0(IndicatorShort), width = str_wrap_size))
       rankedTotal[i] <- nrow(thisKey)
@@ -852,16 +1242,7 @@ number_chart_yesno <- function(Report_data,reportConfig,couName,section,table,st
         # print indicator name
         plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
         graphics::text(1, 1.1,thisKey$IndicatorShort[1], col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=3, adj=0)
-        graphics::text(1, 0.75,paste0(thisKey$Unit[1], " (",thisKey$Period[1],")"), col="#818181", cex=2, adj = 0)
         # print data point and rank
-        if (!rankBig){ # rank bigger than actual value
-          plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-          graphics::text(1.17, 1,filter(thisKey,CountryCode==cou)$Observation , col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=5)
-          graphics::text(1.42, 0.95,paste0("(Rank: ",rank[i],"/",rankedTotal[i],")"), col="#818181", cex=3, adj=0)
-        } else {
-          plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-          graphics::text(1.2, 1,paste0(rank[i],"/",rankedTotal[i]) , col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=5)
-          
           #remap 1/0 back to Yes/No
           temp_val <- filter(thisKey,CountryCode==cou)$Observation
           if (temp_val == 1){
@@ -869,12 +1250,13 @@ number_chart_yesno <- function(Report_data,reportConfig,couName,section,table,st
           } else if (temp_val == 0){
             temp_val <- "No"
           }
-          
-          graphics::text(1.5, 1,paste0("Value: ",temp_val), col="#818181", cex=3, adj=0)
-        }
+          plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+          if (temp_val == 'Yes'){
+            temp_col="darkgreen"
+          } else {temp_col="red"}
+          graphics::text(1, 1,paste0(temp_val), col=temp_col, cex=3, adj=0)
         
-        
-      } else { # no data for this indicator
+        } else { # no data for this indicator
         
         # print indicator name
         plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
@@ -892,9 +1274,8 @@ number_chart_yesno <- function(Report_data,reportConfig,couName,section,table,st
         }
       }
       i <- i + 1
-    }
-    
-  } else {
+    } 
+    } else {
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
     graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
   }
@@ -1083,21 +1464,24 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
     
     # catch error if number of variables is less than 3 (radarchart requires 3 or more non-NULL variables).
     if (ncol(dataTrans) > 2){
-      layout(matrix(c(1,2),ncol=1), heights =c(4,1))
+      layout(matrix(c(2,1), ncol=2), widths = c(7,2))
       #       col.axis="red",col.lab=c("red","red"),col.main="red",col.sub="red",family="serif")
-      par(mar=c(0,1,3,1),family="serif")
+      
+      par(family = 'serif',mar=c(0,0,0,0))
+      plot(c(1.75,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      # legend(1,1.5, legend=c(paste0(couName," (",thisPeriod,")"),region,"World"), seg.len=0.5, pch=19, inset=50, 
+      #        bty="n" ,lwd=3, cex = 1.5, x.intersp=0.5, horiz=TRUE, col=c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"darkgreen"))
+      legend(1,1.5, legend=c(couName,region,"World"), seg.len=0.5, pch=19, inset=50, cex=1.5,
+             bty="n" ,lwd=3, x.intersp=0.5, horiz=FALSE, col=c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"darkgreen"))
+      
+      par(mar=c(1,1,1,1),family="serif")
       
       radarchart(dataTrans, axistype=1, centerzero = FALSE,seg=4, caxislabels=c(min,"",(min+max)/2,"",max),
                        plty=c(1,2,4),plwd=c(8,4,4),pcol=c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"darkgreen"),pdensity=c(0, 0, 0),
-                       cglwd=2,axislabcol="lightgrey", vlabels=data$IndicatorShort, cex.main=1,cex=2.5,vlcex = 1.2)
+                       cglwd=2,axislabcol="lightgrey", vlabels=data$IndicatorShort, cex.main=1,cex=2.5,vlcex = 1.1)
             
-      #title="WEF Competitiveness Indicators, stage of development (1-7)",
-      par(family = 'serif',mar=c(0,1,1,1))
-      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-      # legend(1,1.5, legend=c(paste0(couName," (",thisPeriod,")"),region,"World"), seg.len=0.5, pch=19, inset=50, 
-      #        bty="n" ,lwd=3, cex = 1.5, x.intersp=0.5, horiz=TRUE, col=c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"darkgreen"))
-      legend(1,1.5, legend=c(couName,region,"World"), seg.len=0.5, pch=19, inset=50, 
-             bty="n" ,lwd=3, cex = 1.5, x.intersp=0.5, horiz=TRUE, col=c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"darkgreen"))
+      # title="WEF Competitiveness Indicators, stage of development (1-7)",
+      
     } else{
       plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
       graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
