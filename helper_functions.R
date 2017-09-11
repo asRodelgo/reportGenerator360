@@ -388,9 +388,9 @@ line_chart_avg <- function(Report_data,reportConfig,couName, section, table, min
   cou <- .getCountryCode(couName)
   if (neighbor=="region"){ # region level
     # get region mapping excluding HIC (if available)
-    if (!is.null(as.character(countries[countries$iso3==cou,]$region_excl_HIC))){
-      couRegion <- as.character(countries[countries$iso3==cou,]$region_excl_HIC)  # obtain the region for the selected country
-      data <- filter(Report_data, region_excl_HIC==couRegion, Section == section, Subsection == table, !(is.na(Observation)), Period >= minTime)
+    if (!is.null(as.character(countries[countries$iso3==cou,]$adminRegion))){
+      couRegion <- as.character(countries[countries$iso3==cou,]$adminRegion)  # obtain the region for the selected country
+      data <- filter(Report_data, adminRegion==couRegion, Section == section, Subsection == table, !(is.na(Observation)), Period >= minTime)
     } else {
       couRegion <- as.character(countries[countries$iso3==cou,]$region)  # obtain the region for the selected country
       data <- filter(Report_data, region==couRegion, Section == section, Subsection == table, !(is.na(Observation)), Period >= minTime) #select country, region and world
@@ -416,8 +416,8 @@ line_chart_avg <- function(Report_data,reportConfig,couName, section, table, min
     
   } else { # compare against top incomes wihtin region 
     # select top neighbors according to income
-    if (!is.null(as.character(countries[countries$iso3==cou,]$region_excl_HIC))){
-      income <- filter(Report_data, region_excl_HIC==couRegion & Section=="aux_income")
+    if (!is.null(as.character(countries[countries$iso3==cou,]$adminRegion))){
+      income <- filter(Report_data, adminRegion==couRegion & Section=="aux_income")
     } else {income <- filter(Report_data, region==couRegion & Section=="aux_income")}
     
     income <- income %>%
@@ -779,7 +779,7 @@ table_time_avg <- function(Report_data,reportConfig,couName,section,table){
 }
 
 ## ---- sparklines ----
-sparklines <- function(Report_data,reportConfig,couName,section,table){      
+sparklines <- function(Report_data,reportConfig,couName,section,table, num_period=5){      
   
   cou <- .getCountryCode(couName)
   #table <- "table1"
@@ -792,7 +792,7 @@ sparklines <- function(Report_data,reportConfig,couName,section,table){
     data$Period <- as.numeric(thisYear)-1
     # To create table's reference points in the LaTeX output
     data_initial <- data
-    for (per in (as.numeric(thisYear)-7):(as.numeric(thisYear)-2)){
+    for (per in (as.numeric(thisYear)-2-num_period):(as.numeric(thisYear)-2)){
       data_plus <- mutate(data_initial,Period = per)
       data <- bind_rows(data, data_plus)
     }
@@ -808,7 +808,7 @@ sparklines <- function(Report_data,reportConfig,couName,section,table){
     # keep the latest period (excluding projections further than 2 years)
     data <- data %>%
       mutate(Period = ifelse(Period==thisYear & is.na(CountryCode),as.numeric(thisYear)-1,Period)) %>%
-      filter(Period > (as.numeric(thisYear) - 7) & Period < (as.numeric(thisYear))) %>%
+      filter(Period > (as.numeric(thisYear) - 2-num_period) & Period < (as.numeric(thisYear))) %>%
       mutate(Period = ifelse(is.na(Period),max(as.numeric(Period),na.rm=TRUE),Period)) %>%
       filter(Period <= (as.numeric(thisYear) - 1), Period > (as.numeric(thisYear) - 15)) %>%
       select(Key, Period, Observation) %>%
