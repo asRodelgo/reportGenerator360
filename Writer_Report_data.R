@@ -8,7 +8,7 @@ library(tidyr)
 # Query data based on ids of filtered indicators
 # loop by country and indicator id. Bind it all in a data.frame
 # Query country metadata:
-countries <- tryCatch(fromJSON("https://tcdata360-backend.worldbank.org/api/v1/countries/?fields=id%2Ciso2%2Ciso3%2Cname%2Cregion%2CincomeLevel%2ClendingType%2CcapitalCity%2Cgeo",
+countries <- tryCatch(fromJSON("https://tcdata360-backend.worldbank.org/api/v1/countries/",
                                flatten = TRUE), 
                       error = function(e) {print("Warning: API call to countries returns an error");
                         countries = read.csv("data/countries.csv", stringsAsFactors = FALSE)}, 
