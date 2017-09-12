@@ -1,5 +1,45 @@
 # Helper functions to generalize charts and tables for LaTeX
 
+## ---- get_fcv_comparators ---
+get_fcv_comparators <- function(couName, countries){
+  
+  cou <- .getCountryCode(couName)
+  # get country's FCV class
+  fcv_class <- countries[countries$name == couName, 'FCVclass']
+  
+  # Get FCV comparators using logic provided by WBG IC-FCS team (Kunxiang Dao)
+  if (fcv_class == "FCV"){
+    
+    # Check if country is SIDS or not
+    if (countries[countries$name == couName, 'sids']){
+      # If Country A is FCS also Small Island Developing States, then Comparators = SIDS FCS (top4)
+      neighbors <- filter(countries, sids_long == "Yes", FCVclass == "FCV")$iso3
+    } else {
+      # If Country A is FCS but not Small Island Developing States, then Comparators= FCS in same region, and same income group (top4)
+      couRegion <- as.character(countries[countries$iso3==cou,]$region)
+      couIncomeLevel <- as.character(countries[countries$iso3==cou,]$incomeLevel)
+      neighbors <- filter(countries, FCVclass == "FCV", region == couRegion, incomeLevel == couIncomeLevel)$iso3
+    }
+    
+  } else if (fcv_class == "Past-FCV"){
+    # If Country A = past-FCS, then Comparators=past-FCS in same income group (top4)
+    couIncomeLevel <- as.character(countries[countries$iso3==cou,]$incomeLevel)
+    neighbors <- filter(countries, FCVclass == "Past-FCV", incomeLevel == couIncomeLevel)$iso3
+    
+  } else if (fcv_class == "Non-FCV"){
+    # If Country A = Non-FCS, then Comparators = 4 Non-FCS with least nominal GDP gap (countries with similar market size)
+    couNominalGDP <- as.character(countries[countries$iso3==cou,]$latestNominalGDP)
+    neighbors <- filter(countries, FCVclass == "Non-FCV") %>%
+      mutate(GDPgap = abs(latestNominalGDP - as.numeric(couNominalGDP))) %>%
+      arrange(-desc(GDPgap))
+    neighbors <- head(neighbors, 5)$iso3
+  }
+  
+  neighbors <- as.character(neighbors[!(neighbors==cou)]) # exclude the selected country
+  return(neighbors)
+}
+
+
 ## ---- figure_number_rank_only ----
 figure_number_rank_only <- function(Report_data,reportConfig,couName,table, str_wrap_size=30,useRank=TRUE){      
   
@@ -395,6 +435,10 @@ line_chart_avg <- function(Report_data,reportConfig,couName, section, table, min
       couRegion <- as.character(countries[countries$iso3==cou,]$region)  # obtain the region for the selected country
       data <- filter(Report_data, region==couRegion, Section == section, Subsection == table, !(is.na(Observation)), Period >= minTime) #select country, region and world
     }
+  } else if (neighbor == "fcv"){
+    couRegion <- as.character(countries[countries$iso3==cou,]$FCVclass)  # obtain the region for the selected country
+    FCV_classmates <- countries[countries$FCVclass == couRegion, 'iso2']
+    data <- filter(Report_data, iso2 %in% FCV_classmates, Section == section, Subsection == table, !(is.na(Observation)), Period >= minTime)
   } else { # income level 
     couRegion <- as.character(countries[countries$iso3==cou,]$incomeLevel)  # obtain the region for the selected country
     data <- filter(Report_data, incomeLevel==couRegion, Section == section, Subsection == table, !(is.na(Observation)), Period >= minTime) #select country, region and world
@@ -448,24 +492,7 @@ line_chart_avg <- function(Report_data,reportConfig,couName, section, table, min
       data <- merge(data,my_order, by="Country") %>%
         filter(order <= (max_neighbors+1)) %>% # keep some countries
         arrange(order,Period)
-      
-      # ggplot(data, aes(x=Period, y=Observation)) +
-      #   geom_line(stat="identity",aes(group=factor(Key), colour=factor(Key), size=factor(Key), alpha=factor(Key))) +
-      #   theme(legend.key=element_blank(),
-      #         legend.title=element_blank(),
-      #         legend.position="top",
-      #         legend.text = element_text(family="Times", size = 10, colour = "#818181"),
-      #         panel.border = element_blank(),
-      #         panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
-      #         axis.line = element_line(size=0.1, colour = "lightgrey"),
-      #         axis.text.x = element_text(family="Times", color="#818181",hjust = 1),
-      #         axis.text.y = element_text(family="Times", color="#818181")) +
-      #   labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
-      #   ) + 
-      #   scale_color_manual(labels = unique(data$IndicatorShort), values = c("darkgreen","green","lightblue","lightgreen","pink")) +
-      #   scale_alpha_manual(labels = unique(data$IndicatorShort),values = c(0.6, rep(0.6,4))) + 
-      #   scale_size_manual(labels = unique(data$IndicatorShort),values = c(2, rep(2,4)))
-      # 
+
       if(!gender){
       ggplot(data, aes(x=Period, y=Observation)) +
         geom_line(stat="identity",aes(group=factor(Key), colour=factor(Key), size=factor(Key), alpha=factor(Key))) +
@@ -672,7 +699,7 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
 }
 
 ## ---- table_time_avg ----
-table_time_avg <- function(Report_data,reportConfig,couName,section,table){      
+table_time_avg <- function(Report_data,reportConfig,couName,section,table, GDPgrowthrate=FALSE){      
   
   cou <- .getCountryCode(couName)
   #table <- "table1"
@@ -700,6 +727,18 @@ table_time_avg <- function(Report_data,reportConfig,couName,section,table){
                    IndicatorShort = paste0(IndicatorShort,", ",Unit))
     data$IndicatorShort <- gsub("Entrepreneurial","Entrepr.", data$IndicatorShort)
     data$IndicatorShort <- gsub("auditors","audit.", data$IndicatorShort)
+    
+    if (GDPgrowthrate & 28107 %in% data$Key){
+      gdp_growth <- filter(data, Key == 28107) %>% arrange(Period) %>%
+        mutate(GDPgrowth=Observation/lag(Observation,1))
+      gdp_growth$Observation <- gdp_growth$GDPgrowth
+      gdp_growth$IndicatorShort <- "GDP Growth Rate %"
+      gdp_growth$Key <- 'gdp_growth'
+      gdp_growth$Scale <- 1
+      gdp_growth$Unit <- NA
+      gdp_growth <- subset(gdp_growth, select = -c(GDPgrowth) )
+      data <- rbind(data, gdp_growth)
+    }
     
     data_avg <- data %>%
       group_by(Key) %>%
@@ -779,7 +818,7 @@ table_time_avg <- function(Report_data,reportConfig,couName,section,table){
 }
 
 ## ---- sparklines ----
-sparklines <- function(Report_data,reportConfig,couName,section,table, num_period=5){      
+sparklines <- function(Report_data,reportConfig,couName,section,table, num_period=5, GDPgrowthrate=FALSE){      
   
   cou <- .getCountryCode(couName)
   #table <- "table1"
@@ -804,6 +843,18 @@ sparklines <- function(Report_data,reportConfig,couName,section,table, num_perio
     data <- mutate(data, Period = ifelse(is.na(Period),max(as.numeric(Period),na.rm=TRUE),Period)) %>%
       filter(Period <= (as.numeric(thisYear))) %>%
       mutate(Period = ifelse(Period < 1900, 1900, Period))
+    
+    if (GDPgrowthrate & 28107 %in% data$Key){
+      gdp_growth <- filter(data, Key == 28107) %>% arrange(Period) %>%
+        mutate(GDPgrowth=Observation/lag(Observation,1))
+      gdp_growth$Observation <- gdp_growth$GDPgrowth
+      gdp_growth$IndicatorShort <- "GDP Growth Rate %"
+      gdp_growth$Key <- 'gdp_growth'
+      gdp_growth$Scale <- 1
+      gdp_growth$Unit <- NA
+      gdp_growth <- subset(gdp_growth, select = -c(GDPgrowth) )
+      data <- rbind(data, gdp_growth)
+    }
     
     # keep the latest period (excluding projections further than 2 years)
     data <- data %>%
@@ -1104,6 +1155,122 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,
   
 }
 
+## ---- bar_chart_fcv ----
+bar_chart_fcv <- function(Report_data,reportConfig,couName,section,table){      
+  
+  cou <- .getCountryCode(couName)
+  data <- filter(Report_data, CountryCode==cou, Section %in% section, Subsection %in% table)
+  data <- data %>%
+    filter(!(is.na(Observation))) %>%
+    mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
+    distinct(Key,Period,.keep_all=TRUE)
+  maxPeriod <- filter(data, Period == max(Period,na.rm=TRUE))$Period[1]
+  
+  if (nrow(data)>0){
+    # order the factors
+    if (!any(is.na(data$Period))){
+      data <- data %>%
+        group_by(Key) %>%
+        filter(Period == max(Period))
+    }
+    
+    #get top 5 obstacles
+    data <- head(arrange(data, desc(Observation)),5)
+    
+    require(stringr) # to wrap label text
+    require(scales) # to use thousands separator
+    
+    data <- mutate(data, IndicatorShort = str_wrap(paste0(IndicatorShort," (",Period,")"), width = 30))
+    # store max value to better place figures in or out the bars
+    max_value <- max(data$Observation)
+    
+    ggplot(data,aes(x=reorder(IndicatorShort, Observation),y=Observation)) +
+      geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
+      geom_text(data=data, aes(label=format(round(Observation,1),big.mark = ","),y=ifelse(Observation<max_value*.15,Observation + max(Observation)*.1,Observation - max(Observation)*.1)),
+                size=8,color=ifelse(data$Observation<max_value*.15,paste0("#",filter(reportConfig, Section_Level == 10)$Color),"white")) + 
+      coord_flip()+
+      theme(legend.key=element_blank(),
+            legend.title=element_blank(),
+            legend.position='none',
+            panel.border = element_blank(),
+            panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+            axis.ticks.x = element_blank(),
+            axis.text.x = element_blank(),
+            axis.text.y = element_text(family="Times", color = "#818181", size = 20)) + 
+      labs(x="",y=""#,title="Top 5 constraints according to 2013 Enterprise Survey (in percent)"
+      )
+    } else {
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
+    }
+}
+
+## ---- bar_chart_fcv_class ----
+bar_chart_fcv_class <- function(Report_data,reportConfig,couName,section,table){      
+  
+  cou <- .getCountryCode(couName)
+  # data <- filter(Report_data, CountryCode==cou, Section %in% section, Subsection %in% table)
+  couFCV <- as.character(countries[countries$iso3==cou,]$FCVclass)  # obtain the region for the selected country
+  FCV_classmates <- countries[countries$FCVclass == couFCV, 'iso2']
+  data <- filter(Report_data, iso2 %in% FCV_classmates, Section == section, Subsection == table)
+  
+  data <- data %>%
+    filter(!(is.na(Observation))) %>%
+    mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
+    distinct(Key,Period,.keep_all=TRUE)
+  maxPeriod <- filter(data, Period == max(Period,na.rm=TRUE))$Period[1]
+  
+  region_avg <- dplyr::group_by(data, Key,Period) %>%
+    dplyr::mutate(Observation = mean(Observation/ifelse(is.na(Scale),1,Scale),na.rm=TRUE)) %>%
+    distinct(Key,Period,.keep_all=TRUE) %>%
+    dplyr::mutate(Country = couRegion, CountryCode = couRegion) %>%
+    #select(Key,Period,CountryCode) %>%
+    as.data.frame()
+  topNeighbors <- region_avg$CountryCode
+  data <- filter(data, CountryCode == cou) %>%
+    mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
+    arrange(CountryCode,Period) %>%
+    bind_rows(region_avg)
+  
+  if (nrow(data)>0){
+    # order the factors
+    if (!any(is.na(data$Period))){
+      data <- data %>%
+        group_by(Key) %>%
+        filter(Period == max(Period))
+    }
+    
+    #get top 5 obstacles
+    data <- head(arrange(data, desc(Observation)),5)
+    
+    require(stringr) # to wrap label text
+    require(scales) # to use thousands separator
+    
+    data <- mutate(data, IndicatorShort = str_wrap(paste0(IndicatorShort," (",Period,")"), width = 30))
+    # store max value to better place figures in or out the bars
+    max_value <- max(data$Observation)
+    
+    ggplot(data,aes(x=reorder(IndicatorShort, Observation),y=Observation)) +
+      geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
+      geom_text(data=data, aes(label=format(round(Observation,1),big.mark = ","),y=ifelse(Observation<max_value*.15,Observation + max(Observation)*.1,Observation - max(Observation)*.1)),
+                size=8,color=ifelse(data$Observation<max_value*.15,paste0("#",filter(reportConfig, Section_Level == 10)$Color),"white")) + 
+      coord_flip()+
+      theme(legend.key=element_blank(),
+            legend.title=element_blank(),
+            legend.position='none',
+            panel.border = element_blank(),
+            panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+            axis.ticks.x = element_blank(),
+            axis.text.x = element_blank(),
+            axis.text.y = element_text(family="Times", color = "#818181", size = 20)) + 
+      labs(x="",y=""#,title="Top 5 constraints according to 2013 Enterprise Survey (in percent)"
+      )
+  } else {
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
+  }
+}
+
 ## ---- number_chart ----
 number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap_size,rankBig=FALSE,includeUnit=TRUE){      
   
@@ -1282,6 +1449,91 @@ number_chart_yesno <- function(Report_data,reportConfig,couName,section,table,st
   
 }
 
+## ---- bar_facewrap_chart_fcv ----
+bar_facewrap_chart_fcv <- function(Report_data,reportConfig,couName, section, table, append_unit = TRUE, max_num_comparators = 4, dataset, str_wrap_size = 20, range_vals){      
+  
+  cou <- .getCountryCode(couName) # This chart needs to query neighbouring countries also
+  country <- as.character(countries[countries$iso3==cou,]$Country)
+  
+  # Get all possible neighbors
+  neighbors <- get_fcv_comparators(couName, countries)
+  
+  # Get top neighbors based on identified dataset
+  dataNeighbor <- filter(Report_data, CountryCode %in% c(neighbors), Subsection2 %in% dataset, !is.na(Observation))
+  
+  if (nrow(filter(dataNeighbor))>0){ 
+    # maxPeriod <- max(dataNeighbor[complete.cases(dataNeighbor$Observation),]$Period)
+    maxPeriod <- max(filter(Report_data, CountryCode==cou, Subsection2 %in% dataset, !is.na(Observation))$Period)
+    dataNeighbor <- filter(dataNeighbor, Period==maxPeriod)
+    dataset_ave <- aggregate(dataNeighbor$Observation, list(dataNeighbor$CountryCode), mean) %>%
+      arrange(desc(x))
+    topNeighbors <- head(dataset_ave, max_num_comparators)$Group.1
+    
+    # Get data for bar chart
+    data <- filter(Report_data, CountryCode %in% c(cou,topNeighbors), Subsection %in% table) %>%
+      mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear)-1),Period),
+             Observation = Observation/ifelse(is.na(Scale),1,Scale))
+    
+    if (nrow(filter(data, CountryCode==cou))>0){
+      
+      data <- data %>%
+        filter(!is.na(Observation)) %>%
+        group_by(Key,Country) %>%
+        filter(Period == maxPeriod) %>%
+        distinct(Key,CountryCode, .keep_all = TRUE)
+      
+      if (nrow(filter(data, CountryCode==cou))>0){
+        order_legend <- c(couName,as.character(unique(data[data$CountryCode %in% topNeighbors,]$Country)))
+        country_order <- factor(order_legend, levels = c(couName,order_legend[2:length(order_legend)]))
+        my_order <- data.frame(Country = country_order, order = seq(1,length(order_legend),1))
+        data <- merge(data,my_order, by="Country") %>%
+          arrange(order) 
+            
+        require(stringr) # to wrap label text
+        
+        if (append_unit) {
+          data$Unit <- paste0(", ",data$Unit)
+        } else data$Unit <- ""
+          
+        maxPeriod_thisCou <- filter(data, CountryCode==cou)$Period[1]
+        data <- data %>%
+          group_by(Key) %>%
+          filter(Period == max(Period,na.rm=TRUE)) %>%
+          mutate(IndicatorShort = str_wrap(paste0(IndicatorShort, Unit," (",Period,")"), width = str_wrap_size)) %>%
+          filter(order < 6) %>%
+          as.data.frame()
+        
+        ggplot(data, aes(x=reorder(Country,order),y=Observation,fill=reorder(Country,order),alpha=reorder(Country,order))) +
+          geom_bar(position="dodge",stat="identity") +
+          scale_y_discrete(limits=range_vals) +
+          coord_flip(ylim = range_vals) +
+          facet_wrap(~IndicatorShort,scales="fixed", ncol=length(unique(data$IndicatorShort))) +
+          theme(strip.text.x = element_text(family="Times", size = 12, colour = "white"),
+                strip.background = element_rect(colour = paste0("#",filter(reportConfig, Section_Level == 10)$Color), fill = paste0("#",filter(reportConfig, Section_Level == 10)$Color)),
+                legend.key=element_blank(),
+                legend.title=element_blank(),
+                legend.text = element_text(family="Times", size = 10, colour = "#818181"),
+                panel.border = element_blank(),
+                panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+                #axis.ticks.y = element_blank(),
+                axis.ticks.y = element_blank(),
+                axis.text.y = element_blank(),
+                axis.text.x = element_text(family="Times", color="#818181")) + 
+          labs(x="",y="")+#,title="World Governance Indicators")+
+          scale_fill_manual(breaks=order_legend,values = c("orange","brown","lightblue","lightgreen","pink")) +
+          scale_alpha_manual(labels = order_legend,values = c(1, rep(1,4)),guide=FALSE)
+        } else {
+          plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+          graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)}
+      } else {
+        plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+        graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)}
+    } else {
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
+  }
+  
+}
 
 ## ---- bar_facewrap_chart ----
 bar_facewrap_chart <- function(Report_data,reportConfig,couName, section, table, vertical_bars = TRUE, append_unit = TRUE, str_wrap_size = 20){      
@@ -1396,6 +1648,81 @@ bar_facewrap_chart <- function(Report_data,reportConfig,couName, section, table,
   
 }
 
+## --- radar_chart_fcv ---
+radar_chart_fcv <- function(Report_data,reportConfig,couName,section,table,max_num_comparators = 4, shortlist_tcdata360_id, radar_fontsize=1.1){      
+  
+  cou <- .getCountryCode(couName) # This chart needs to query neighbouring countries also
+  country <- as.character(countries[countries$iso3==cou,]$Country)
+  
+  # Get all possible neighbors
+  neighbors <- get_fcv_comparators(couName, countries)
+  
+  # Get top neighbors based on indicator identified in shortlist_tcdata360_id
+  dataNeighbor <- filter(Report_data, CountryCode %in% c(neighbors), Key %in% shortlist_tcdata360_id, !is.na(Observation))
+  maxPeriod <- max(filter(Report_data, CountryCode==cou, Key %in% shortlist_tcdata360_id, !is.na(Observation))$Period)
+  dataNeighbor <- filter(dataNeighbor, Period==maxPeriod) %>%
+    arrange(desc(Observation))
+  topNeighbors <- head(dataNeighbor, max_num_comparators)$CountryCode
+  
+  # Get data for radar chart
+  data <- filter(Report_data, CountryCode %in% c(cou,topNeighbors), Subsection %in% table) %>%
+    mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
+  
+  if (nrow(filter(data, CountryCode==cou))>0){  
+
+    # add the max and min columns to make it work:
+    obs_allCountries <- filter(Report_data, Subsection %in% table) %>%
+      mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale))
+    max <- ceiling(max(obs_allCountries$Observation, na.rm = TRUE))
+    min <- floor(min(obs_allCountries$Observation, na.rm = TRUE))
+    data <- as.data.frame(data)
+    data <- cbind(data,max,min)
+    data <- filter(data, Period == maxPeriod)
+    
+    thisPeriod <- data$Period[1]
+    ind_name <- data[data$Country == couName, 'IndicatorShort']
+    dataTrans <- reshape(data[c('Country', 'Key', 'Observation')], idvar = "Country", timevar = "Key", direction = "wide")
+    new_col_names <- c(dataTrans$Country, "max", "min")
+    order_legend <- c(couName,as.character(dataTrans$Country[!(dataTrans$Country==couName)]))
+    dataTrans <- rbind(dataTrans, max, min)
+    dataTrans$Country  <- new_col_names
+    
+    #reorder dataTrans based on order_legend
+    dataTrans <- dataTrans[match(c("max", "min", order_legend), dataTrans$Country),]
+    rownames(dataTrans) <- dataTrans$Country
+    dataTrans$Country <- NULL
+    
+    color_list <- c(paste0("#",filter(reportConfig, Section_Level == 10)$Color), "red", "orange", "darkgreen", "darkgray")
+    num_countries <- nrow(dataTrans)-2
+    
+    # catch error if number of variables is less than 3 (radarchart requires 3 or more non-NULL variables).
+    if (ncol(dataTrans) > 2){
+      layout(matrix(c(2,1), ncol=2), widths = c(7,2))
+      
+      # plot legend
+      par(family = 'serif',mar=c(0,0,0,0))
+      plot(c(1.75,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      legend(1,1.5, legend=unique(order_legend), seg.len=0.5, pch=19, inset=50, cex=1.5,
+             bty="n" ,lwd=3, x.intersp=0.5, horiz=FALSE, col=color_list[1:num_countries])
+      
+      par(mar=c(1,1,1,1),family="serif")
+      
+      radarchart(dataTrans, axistype=1, centerzero = FALSE,seg=4, caxislabels=c(min,"",(min+max)/2,"",max),
+                 pcol=color_list[1:num_countries], cglwd=2,axislabcol="lightgrey",
+                 plty=c(1,rep(1,as.numeric(num_countries-1))),plwd=c(8,rep(3,as.numeric(num_countries-1))),
+                 pdensity=rep(0,num_countries),
+                 vlabels=ind_name, cex.main=1,cex=2.5,vlcex = radar_fontsize)
+      
+    } else{
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
+    }
+  } else {
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
+  }  
+  
+}
 
 ## ---- radar_chart ----
 radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor = "region"){      
@@ -2456,6 +2783,140 @@ table_time <- function(Report_data,reportConfig,couName,section,table){
   
 }
 
+## ---- fcvtable ----
+fcvtable <- function(Report_data,reportConfig,couName,section,table, minTime='2006'){      
+  
+  cou <- .getCountryCode(couName)
+  tableKeys <- unique(filter(Report_data, Section == section, Subsection==table)[,c("Key","IndicatorShort")])
+  data <- filter(Report_data, CountryCode==cou, Section == section, Subsection==table)
+  data <- merge(tableKeys,select(data,-IndicatorShort),by="Key",all.x=TRUE)
+  
+  if (sum(data$Observation,na.rm=TRUE)==0){ # in case this country has no data
+    data$Observation <- 0
+    data$Period <- as.numeric(thisYear)-1
+    # To create table's reference points in the LaTeX output
+    data_initial <- data
+    for (per in (as.numeric(minTime)):(as.numeric(thisYear)-2)){
+      data_plus <- mutate(data_initial,Period = per)
+      data <- bind_rows(data, data_plus)
+    }
+    data$Period <- as.character(data$Period)
+  }
+  
+  data$Observation[data$Observation %in% 0] <- "\\textcolor[HTML]{818181}{N}"
+  data$Observation[data$Observation %in% 1] <- "\\textbf{\\textcolor[HTML]{722FF5}{Y}}"
+  
+  # keep the latest period (excluding projections further than 2 years)
+  data <- mutate(data, Period = ifelse(is.na(Period),max(as.numeric(Period),na.rm=TRUE),Period),
+                 Observation = Observation) %>%
+    filter(Period <= (as.numeric(thisYear))) %>%
+    # remove NAs rows
+    # calculate average for 1st column
+    mutate(Unit = ifelse(grepl("Active population",Unit),"% of TEA",Unit),
+           IndicatorShort = paste0(IndicatorShort,", ",Unit))
+  data$IndicatorShort <- gsub("Entrepreneurial","Entrepr.", data$IndicatorShort)
+  data$IndicatorShort <- gsub("auditors","audit.", data$IndicatorShort)
+  
+  #keep only periods of interest in data
+  data <- mutate(data, Period = ifelse(Period==thisYear & is.na(CountryCode),as.numeric(thisYear)-1,Period)) %>%
+    filter(Period >= (as.numeric(minTime)) & Period <= (as.numeric(thisYear)))
+  data <- mutate(data, ObsScaled = Observation) %>%
+    arrange(Key) %>%
+    select(Key, IndicatorShort, Period, ObsScaled)
+  
+  # escape reserved characters
+  data$IndicatorShort <- gsub("%", "\\%", data$IndicatorShort, fixed=TRUE)
+  data$IndicatorShort <- gsub("&", "\\&", data$IndicatorShort, fixed=TRUE)
+  
+  data <- distinct(data, Key,Period, .keep_all = TRUE)
+  # final table format
+  data <- spread(data, Period, ObsScaled)
+  data <- data[,-1] #drop the Key column
+  if (ncol(data)>2){ # rid of characters in numeric columns
+    data[,ncol(data)] <- gsub("NA", "---", data[,ncol(data)], fixed=TRUE)
+  } 
+  
+  # dummy columns in to keep the pdf layout
+  if (ncol(data)<=4){
+    for (j in (ncol(data)+1):5){
+      data[,j] <- "---"
+      names(data)[j] <- as.character(as.numeric(thisYear)-4+j)
+    }
+  }
+  # I have to add a dummy column so the alignment works (align)
+  data$dummy <- rep("",nrow(data))
+  # modify column names
+  names(data) <- c("",names(data)[2:(ncol(data)-1)],"")
+  
+  if (section %in% c("Culture","Supports")){
+    col <- rep("\\rowcolor{white}", length(rowsSelect))
+  } else {
+    col <- rep("\\rowcolor[gray]{0.95}", length(rowsSelect))
+  }
+  
+  data.table <- xtable(data, digits=rep(1,ncol(data)+1)) #control decimals
+  align(data.table) <- c('l','>{\\raggedright}p{4.5in}','r',rep('>{\\raggedleft}p{0.8in}',ncol(data.table)-3),'l')
+  print(data.table, include.rownames=FALSE,include.colnames=TRUE, floating=FALSE, 
+        size="\\Large",
+        booktabs = FALSE, table.placement="", hline.after = c(0) ,latex.environments = "center",
+        sanitize.text.function = function(x){x}) # include sanitize to control formats
+  
+}
+
+## ---- fcvtext ----
+fcvtext <- function(countries, couName){      
+  
+  title <- c("Income Group", "Resource Rich", "Fragility Class", "Land Locked",  "Small Island Developing States", "Region")
+  cols <- c("incomeLevel_long", "ResourceRich", "FCVclass", "landlocked_long", "sids_long")
+  body <- as.character(as.vector(countries[countries$name == couName,][cols]))
+  
+  if (is.na(countries[countries$name == couName, 'adminRegion'])){
+    region <- countries[countries$name == couName, 'region']
+  } else{
+    region <- countries[countries$name == couName, 'adminRegion']
+  }
+  
+  body <- append(body, region)
+  
+  # Reads title and text vectors and prints them iteratively
+  if (length(title) > 0){
+    par(family = 'serif',mfrow=c(length(title),1), #sets number of rows in space to number of cols in data frame x
+        mar=c(0,2,0,2), #sets margin size for the figures
+        oma=c(0,1,0,1)) #sets outer margin
+    
+    # print text
+    for (i in 1:length(title)){
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1, 1, paste0(title[i],": ", body[i]), col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), adj = c(0,0), cex=2)
+    }
+  } else {
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1, 1," ", col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=2)
+  }
+}
+
+## ---- fcvtext_cpia ----
+fcvtext_cpia <- function(countries, couName, dataset="cpia"){      
+  
+  cou <- .getCountryCode(couName) # This chart needs to query neighbouring countries also
+  country <- as.character(countries[countries$iso3==cou,]$Country)
+  fcv_class <- as.character(countries[countries$iso3==cou,]$FCVclass)
+  
+  # Get all possible neighbors
+  FCV_classmates <- filter(countries, FCVclass == fcv_class)$iso3
+  
+  # Get top neighbors based on identified dataset
+  dataNeighbor <- filter(Report_data, CountryCode %in% c(FCV_classmates), Subsection2 %in% dataset)
+  maxPeriod <- max(filter(Report_data, CountryCode==cou, Subsection2 %in% dataset, !is.na(Observation))$Period)
+  dataNeighbor <- filter(dataNeighbor, Period==maxPeriod)
+  dataset_ave <- mean(aggregate(dataNeighbor$Observation, list(dataNeighbor$CountryCode), mean)$x, na.rm=TRUE)
+  country_ave <- mean(filter(Report_data, CountryCode == cou, Subsection2 %in% dataset, Period == maxPeriod)$Observation, na.rm=TRUE)
+  
+  # Print text
+  par(family = 'serif')
+  plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+  graphics::text(1, 1, sprintf("Country Overall CPIA: %0.2f ; Class Average Overall CPIA: %0.2f", country_ave, dataset_ave), col="#818181", adj = c(0,0), cex=2)
+}
 
 ## ---- text_box ----
 text_box <- function(reportConfig,title, body, str_wrap_size=75){      
