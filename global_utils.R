@@ -55,16 +55,22 @@ library(jsonlite)
 # Query data based on ids of filtered indicators
 # loop by country and indicator id. Bind it all in a data.frame
 # Query country metadata:
-countries <- tryCatch(fromJSON("http://datascope-prod.amida-demo.com/api/v1/countries/?fields=id%2Ciso2%2Ciso3%2Cname%2Cregion%2CincomeLevel%2ClendingType%2CcapitalCity%2Cgeo",
-                               flatten = TRUE), 
+# countries <- tryCatch(fromJSON("https://tcdata360-backend.worldbank.org/api/v1/countries/?fields=id%2Ciso2%2Ciso3%2Cname%2Cregion%2CincomeLevel%2ClendingType%2CcapitalCity%2Cgeo",
+#                                flatten = TRUE), 
+#                       error = function(e) {print("Warning: API call to countries returns an error");
+#                         countries = read.csv("data/countries.csv", stringsAsFactors = FALSE)}, 
+#                       finally = {countries = read.csv("data/countries.csv", stringsAsFactors = FALSE)})
+
+countries <- tryCatch(fromJSON("https://tcdata360-backend.worldbank.org/api/v1/countries/",
+                               flatten = TRUE),
                       error = function(e) {print("Warning: API call to countries returns an error");
-                        countries = read.csv("data/countries.csv", stringsAsFactors = FALSE)}, 
+                        countries = read.csv("data/countries.csv", stringsAsFactors = FALSE)},
                       finally = {countries = read.csv("data/countries.csv", stringsAsFactors = FALSE)})
 # Query indicators:
-indicators <- tryCatch(fromJSON("http://datascope-prod.amida-demo.com/api/v1/indicators/?fields=id%2Cname%2CvalueType%2Crank",
+indicators <- tryCatch(fromJSON("https://tcdata360-backend.worldbank.org/api/v1/indicators/?fields=id%2Cname%2CvalueType%2Crank",
                                 flatten=TRUE), 
                        error = function(e) {print("Warning: API call to indicators returns an error");
-                         countries = read.csv("data/countries.csv", stringsAsFactors = FALSE)}, 
+                         indicators = read.csv("data/indicators.csv", stringsAsFactors = FALSE)}, 
                        finally = {indicators = read.csv("data/indicators.csv", stringsAsFactors = FALSE)})
 # # Query WB country classification:
 # require(readxl)
@@ -80,7 +86,7 @@ indicators <- tryCatch(fromJSON("http://datascope-prod.amida-demo.com/api/v1/ind
 # wb_class <- wb_class[!(is.na(wb_class$`Income group`)),]
 
 # List topics
-topics <- c("Entrepreneurship","Tourism", "Gender")
+topics <- c("Entrepreneurship","Tourism", "Gender", "FCV")
 
 # Read and process data from TCdata360 API ----------------
 source('datapull_TCdata360.R', local = TRUE)
