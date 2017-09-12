@@ -921,7 +921,7 @@ sparklines <- function(Report_data,reportConfig,couName,section,table, num_perio
 }
 
 ## ---- bar_chart_gender ----
-bar_chart_gender <- function(Report_data,reportConfig,couName,section,table,paste_unit,percentBar = FALSE, stackedbar = FALSE, single_indicator=FALSE){      
+bar_chart_gender <- function(Report_data,reportConfig,couName,section,table,paste_unit, kind="normal"){      
   
   cou <- .getCountryCode(couName)
   data <- filter(Report_data, CountryCode==cou, Section %in% section, Subsection %in% table)
@@ -950,32 +950,7 @@ bar_chart_gender <- function(Report_data,reportConfig,couName,section,table,past
     }
     # store max value to better place figures in or out the bars
     max_value <- max(data$Observation)
-    
-    # if (percentBar & nrow(filter(data, Key %in% c(949,1177)))>1 & nrow(filter(data, !(Key %in% c(949,1177))))>1){
-      
-      # data_grey <- data.frame(IndicatorShort=data$IndicatorShort,ObservationPerc=rep(100,nrow(data)))
-      # #data <- mutate(data, id = seq(1,nrow(data),1))
-      # ggplot(NULL,aes(x=IndicatorShort,y=ObservationPerc)) +
-      #   geom_bar(data=data_grey,color="#DCDCDC",fill = "#DCDCDC",stat="identity") +
-      #   geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
-      #   geom_text(data=data, aes(label=paste0(round(ObservationPerc,1),"%"),y=ifelse(ObservationPerc<70,90,ifelse(ObservationPerc > 80, 70, ObservationPerc*1.15))),
-      #             size=10,color="darkblue") + 
-      #   geom_text(data=data, aes(label=format(round(Observation,1),big.mark = ","),y=ifelse(ObservationPerc > 40, 15, ObservationPerc + 15)),
-      #             size=8,color=ifelse(data$ObservationPerc > 40, "white", paste0("#",filter(reportConfig, Section_Level == 10)$Color))) + 
-      #   coord_flip()+
-      #   theme(legend.key=element_blank(),
-      #         legend.title=element_blank(),
-      #         legend.position='none',
-      #         panel.border = element_blank(),
-      #         panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
-      #         axis.ticks.x = element_blank(),
-      #         axis.text.x = element_blank(),
-      #         axis.text.y = element_text(family="Times", size = 20),
-      #         axis.text = element_text(family="Times", color = "#818181")) + 
-      #   labs(x="",y=""#,title="Top 5 constraints according to 2013 Enterprise Survey (in percent)"
-        # ) 
-      
-    # } else 
+
       if (nrow(filter(data, !(Key %in% c(949,1177))))>0){
       
       data <- filter(data, !(Key %in% c(949,1177))) # make sure gdp and employ don't show up here
@@ -989,7 +964,67 @@ bar_chart_gender <- function(Report_data,reportConfig,couName,section,table,past
       
       data$IndicatorShort <- gsub("\nfemale| female|, female|,female|\nmale| male|,male|, male", "", data$IndicatorShort)
       
-      if (stackedbar){
+      if (kind == "pie"){
+        obs <- data[1,"Observation"]$Observation/24.0
+        gender <- data[1,"gender"]$gender
+        
+        # make dataframe
+        df <- data.frame(
+          group = c("Female", ""),
+          value = c(obs, 1-obs)
+        )
+        
+        p1 <- ggplot(df, aes(x="", y=value, fill=group))+
+          geom_bar(width = 1, stat = "identity") +
+          coord_polar("y", start=0)+
+          ggtitle("Female") +
+          scale_fill_manual(values=c("#818181", "pink")) +
+          theme(legend.key=element_blank(),
+                legend.title=element_blank(),
+                panel.border = element_blank(),
+                panel.background = element_blank(),
+                plot.title = element_text(family="Times", lineheight=.8, size = 20, colour = "darkgrey"),
+                axis.ticks.x = element_blank(),
+                axis.text.x = element_blank(),
+                axis.ticks.y = element_blank(),
+                axis.text.y = element_blank(),
+                legend.position="none") + 
+          labs(x="",y="") +
+        geom_text(aes(label=percent(obs),y=0),
+                  size=12,color="white")
+
+        obs2 <- data[2,"Observation"]$Observation/24.0
+        gender <- data[2,"gender"]$gender
+
+        # make dataframe
+        df <- data.frame(
+          group = c("Male", ""),
+          value = c(obs2, 1-obs2)
+        )
+        
+        p2 <- ggplot(df, aes(x="", y=value, fill=group))+
+          geom_bar(width = 1, stat = "identity") +
+          coord_polar("y", start=0)+
+          ggtitle("Male") +
+          scale_fill_manual(values=c("#818181", "blue")) +
+          theme(legend.key=element_blank(),
+                legend.title=element_blank(),
+                panel.border = element_blank(),
+                panel.background = element_blank(),
+                plot.title = element_text(family="Times", lineheight=.8, size = 20, colour = "darkgrey"),
+                axis.ticks.x = element_blank(),
+                axis.text.x = element_blank(),
+                axis.ticks.y = element_blank(),
+                axis.text.y = element_blank(),
+                legend.position="none") + 
+          labs(x="",y="") +
+          geom_text(aes(label=percent(obs2),y=0),
+                    size=12,color="white")
+        
+        grid.arrange(p1,p2,ncol=2)
+        
+        
+      } else if (kind == "stackedbar"){
         ggplot(data, aes(x = gender, y = Observation, fill = IndicatorShort)) + 
           geom_bar(stat = "identity") + coord_flip() + labs(y = "", x="", fill="") +
           theme(panel.border = element_blank(),
@@ -997,7 +1032,7 @@ bar_chart_gender <- function(Report_data,reportConfig,couName,section,table,past
                 axis.text.x = element_text(family="Times", color = "#818181", size = 7),
                 axis.text.y = element_text(family="Times", color = "#818181", size = 7),
                 legend.text=element_text(family="Times", color = "#818181", size = 10))}
-      else if(single_indicator){
+      else if(kind=="single_indicator"){
         ggplot(data, aes(x=IndicatorShort, y=Observation, group=gender, fill=gender)) +
           geom_bar(stat="identity",position="dodge", colour="black") +
           coord_flip() +
@@ -1008,8 +1043,7 @@ bar_chart_gender <- function(Report_data,reportConfig,couName,section,table,past
                 axis.text.y = element_blank(),
                 legend.text=element_text(family="Times", color = "#818181", size = 10))+
           geom_text(data=data, aes(label=sprintf('%0.1f', Observation)), position = position_dodge(width=1), hjust=-0.25)
-      }
-      else {
+      } else if (kind=="normal") {
         ggplot(data, aes(x=IndicatorShort, y=Observation, group=gender, fill=gender)) +
           geom_bar(stat="identity",position="dodge", colour="black") +
           coord_flip() +
@@ -1023,21 +1057,6 @@ bar_chart_gender <- function(Report_data,reportConfig,couName,section,table,past
         
        }
       
-      # ggplot(NULL,aes(x=IndicatorShort,y=Observation)) +
-      #   geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
-      #   geom_text(data=data, aes(label=format(round(Observation,1),big.mark = ","),y=ifelse(Observation<max_value*.15,Observation + max(Observation)*.1,Observation - max(Observation)*.1)),
-      #             size=8,color=ifelse(data$Observation<max_value*.15,paste0("#",filter(reportConfig, Section_Level == 10)$Color),"white")) + 
-      #   coord_flip()+
-      #   theme(legend.key=element_blank(),
-      #         legend.title=element_blank(),
-      #         legend.position='none',
-      #         panel.border = element_blank(),
-      #         panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
-      #         axis.ticks.x = element_blank(),
-      #         axis.text.x = element_blank(),
-      #         axis.text.y = element_text(family="Times", color = "#818181", size = 20)) + 
-      #   labs(x="",y=""#,title="Top 5 constraints according to 2013 Enterprise Survey (in percent)"
-        # )
     } else {
       plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
       graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
