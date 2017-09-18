@@ -25,7 +25,8 @@ countries <- merge(countries, resource_rich, by="iso2", all.x=TRUE)
 fcv_coutyp <- filter(Report_data, Key %in% c(28150, 28151, 28152)) %>%
   subset(Period == max(Period,na.rm = TRUE)) %>%
   subset(Observation == 1)
-fcv_coutyp$FCVclass <- sub("^Fragility Class: ", "", fcv_coutyp$IndicatorShort)
+# fcv_coutyp$FCVclass <- sub("^Fragility Class: ", "", fcv_coutyp$IndicatorShort)
+fcv_coutyp$FCVclass <- fcv_coutyp$IndicatorShort
 fcv_coutyp <- fcv_coutyp[c("iso2", "FCVclass")]
 countries <- merge(countries, fcv_coutyp, by="iso2", all.x=TRUE)
 
@@ -44,6 +45,7 @@ nominal_gdp <- nominal_gdp[c('iso2','latestNominalGDP')]
 countries <- merge(countries, nominal_gdp, by="iso2", all.x=TRUE)
 
 
+text_color <- "black"
 ########## Header ##########
 
 ## ---- fcvtext ----
@@ -56,7 +58,7 @@ fcvtable(Report_data,reportConfig,couName,reportConfig$Section[1],"fcvtable")
 
 ########## Macroeconomic Trend ##########
 ## ---- table_time_avg_1.1 ----
-table_time_avg(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.1", GDPgrowthrate=TRUE)
+table_time_avg(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.1", GDPgrowthrate=TRUE, fcv=TRUE)
 
 ## ---- sparklines1.1 ----
 sparklines(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.1", num_period=10, GDPgrowthrate=TRUE)
@@ -64,14 +66,14 @@ sparklines(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.1", 
 
 ########## Investment Trend ##########
 ## ---- table_time_avg_1.2 ----
-table_time_avg(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.2")
+table_time_avg(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.2", fcv=TRUE)
 
 ## ---- sparklines1.2 ----
 sparklines(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.2", num_period=10)
 
 ########## Crossborder Flow Trend ##########
 ## ---- table_time_avg_1.3 ----
-table_time_avg(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.3")
+table_time_avg(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.3", fcv=TRUE)
 
 ## ---- sparklines1.3 ----
 sparklines(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.3", num_period=10)
@@ -90,7 +92,7 @@ radar_chart_fcv(Report_data,reportConfig,couName,reportConfig$Section[2],"radar2
 ########## WEF GLOBAL COMPETITIVENESS INDEX ##########
 
 ## ---- radar2.2 ----
-radar_chart_fcv(Report_data,reportConfig,couName,reportConfig$Section[2],"radar2.2",max_num_comparators = 4, shortlist_tcdata360_id=631, radar_fontsize=0.5)
+radar_chart_fcv(Report_data,reportConfig,couName,reportConfig$Section[2],"radar2.2",max_num_comparators = 4, shortlist_tcdata360_id=631, radar_fontsize=0.75)
 
 ########## WORLDWIDE GOVERNANCE INDICATORS ##########
 

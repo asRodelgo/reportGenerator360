@@ -29,9 +29,28 @@
     \end{minipage}  
   \end{minipage}
   \begin{minipage}[t]{0.56\textwidth} % overview section
-  \vspace{-4ex}
-  <<fcvtext,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=5,fig.width=12,fig.align='center',results="asis">>=  
-    @      
+    \vspace*{-2ex}
+    \hspace*{0.5ex}
+       <<echo=FALSE, results='asis', warning = FALSE>>=
+  title_box <- c("Income Group", "Resource Rich", "Fragility Class", "Land Locked",  "Small Island Developing States", "Region")
+  cols <- c("incomeLevel_long", "ResourceRich", "FCVclass", "landlocked_long", "sids_long")
+  body <- as.character(as.vector(countries[countries$name == couName,][cols]))
+  
+  if (is.na(countries[countries$name == couName, 'adminRegion'])){
+    region <- countries[countries$name == couName, 'region']
+  } else{
+    region <- countries[countries$name == couName, 'adminRegion']
+  }
+  body <- append(body, region)
+  # Reads title and text vectors and prints them iteratively
+  for (i in 1:length(title_box)){
+    cat("\\hspace*{4ex}\\large{\\color{black}") 
+    cat(paste(sprintf("\\textbf{\\textcolor[HTML]{722FF5}{%s:}} %s", title_box[i],body[i])))
+    cat("}\\par")
+    cat("\\vspace*{2ex}")
+  }
+@
+    
   \end{minipage}
 \end{minipage}
 \end{figure}
@@ -40,100 +59,105 @@
 
 %%%% OVERVIEW --------------------------------------------
 \begin{minipage}[c]{0.95\textwidth}
-\resizebox{\textwidth}{!}{
-  <<fcvtable,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=  
-  @      
-}
+\vspace*{-2ex}
+  \resizebox{\textwidth}{!}{{\color{black}
+    <<fcvtable,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=  
+    @      
+  }}
 \end{minipage}
 
 %% Macroeconomic Trend --------------------------------------------
 \begin{minipage}[c]{0.72\textwidth}
   \begin{flushleft}
-      \small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 1)[1,1]}}}
+    \vspace*{0.2cm}
+      \textbf{\small{\color{black}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 1)[1,1]}}}}
   \end{flushleft}
-  \vspace*{-0.2cm}
+  \vspace*{-0.7cm}
   \centering
-  \resizebox{\textwidth}{!}{
+  \resizebox{\textwidth}{!}{{\color{black}
   <<table_time_avg_1.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=  
   @      
-  }
+  }}
 \end{minipage}
 \begin{minipage}[c]{0.25\textwidth}
-  \vspace*{+0.5cm}
-  <<sparklines1.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=10,results="asis">>=  
+  \vspace*{+0.4cm}
+  <<sparklines1.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=6.5,fig.width=10,results="asis">>=  
   @
-  \vspace*{-0.5cm}
+  \vspace*{-0.4cm}
 \end{minipage}
 
 %% Investment Trend --------------------------------------------
 \begin{minipage}[c]{0.72\textwidth}
   \begin{flushleft}  
-      \small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 2)[1,1]}}}
+    \vspace*{0.2cm}
+      \textbf{\small{\color{black}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 2)[1,1]}}}}
   \end{flushleft}
-  \vspace*{-0.2cm}
+  \vspace*{-0.7cm}
   \centering
-  \resizebox{\textwidth}{!}{
+  \resizebox{\textwidth}{!}{{\color{black}
   <<table_time_avg_1.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=  
   @      
-  }
+  }}
 \end{minipage}
 \begin{minipage}[c]{0.25\textwidth}
-  \vspace*{+0.5cm}
-  <<sparklines1.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=4,fig.width=10,results="asis">>=  
+  \vspace*{+0.4cm}
+  <<sparklines1.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=4.33,fig.width=10,results="asis">>=  
   @
-  \vspace*{-0.5cm}
+  \vspace*{-0.4cm}
 \end{minipage}
 
 %% Crossborder Flow Trend --------------------------------------------
 \begin{minipage}[c]{0.72\textwidth}
   \begin{flushleft}  
-      \small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 3)[1,1]}}}
+    \vspace*{0.2cm}
+      \textbf{\small{\color{black}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 3)[1,1]}}}}
   \end{flushleft}
-  \vspace*{-0.2cm}
+  \vspace*{-0.7cm}
   \centering
-  \resizebox{\textwidth}{!}{
+  \resizebox{\textwidth}{!}{{\color{black}
   <<table_time_avg_1.3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=  
   @      
-  }
+  }}
 \end{minipage}
 \begin{minipage}[c]{0.25\textwidth}
-  \vspace*{+0.5cm}
-  <<sparklines1.3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=3,fig.width=10,results="asis">>=  
+  \vspace*{+0.4cm}
+  <<sparklines1.3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=3.25,fig.width=10,results="asis">>=  
   @
-  \vspace*{-0.5cm}
+  \vspace*{-0.4cm}
 \end{minipage}
-
+\hspace*{4ex}\textit{\scriptsize{\color{black}{* ODA means "Official Development Assistance"}}}}
 
 %%%% INVESTMENT COMPETITIVENESS --------------------------------------------
 %% DOING BUSINESS --------------------------------------------
 \begin{minipage}[c]{0.95\textwidth}
   \vspace{3ex}
   \begin{flushleft}  
-    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[2]}}}\hspace{2ex}\small{\textcolor[HTML]{818181} {\Sexpr{section_desc[2]}}}\newline
+    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[2]}}}\hspace{2ex}\small{\color{black} {\Sexpr{section_desc[2]}}}\newline
     \vspace*{1ex}
-    \hspace*{4ex}\large{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 1)[1,1]}}}
+    \hspace*{4ex}\large{\color{black}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 1)[1,1]}}}
   \end{flushleft} 
   \begin{minipage}[c]{0.4\textwidth}
     \begin{minipage}[c]{0.95\textwidth}
-      \hspace{4ex}\small{\textcolor[HTML]{818181}Ease of Doing Business: Rank}
-        <<slope2.1rank,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2.2,fig.width=5,results="asis">>=  
+      \hspace{4ex}\small{\color{black}Ease of Doing Business: Rank}
+        <<slope2.1rank,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=1.75,fig.width=5,results="asis">>=  
         @      
     \end{minipage}
     
     \begin{minipage}[c]{0.95\textwidth}
-    \hspace{4ex}\small{\textcolor[HTML]{818181}Ease of Doing Business: Distance to Frontier}
-        <<slope2.1dtf,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2.2,fig.width=5,results="asis">>=  
+    \hspace{4ex}\small{\color{black}Ease of Doing Business: Distance to Frontier}
+        <<slope2.1dtf,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=1.75,fig.width=5,results="asis">>=  
         @      
     \end{minipage}
   \end{minipage}
   \begin{minipage}[c]{0.57\textwidth}
-    <<radar2.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=9,results="asis">>=  
+    \vspace*{-3ex}
+    <<radar2.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=9,results="asis",out.height='2.5in', out.width='4.5in'>>=  
     @
   \end{minipage}
 \end{minipage}
 
 \begin{minipage}[c]{0.95\textwidth}
-  \scriptsize{\textcolor[HTML]{818181}{Class averages are computed by getting the average of all countries having the same FCV class as that of \textbf{\Sexpr{couName}}. Country comparators are determined depending whether \textbf{\Sexpr{couName}} is: 
+  \scriptsize{\color{black}{\textbf{General Note:} Class averages are computed by getting the average of all countries having the same FCV class as that of \textbf{\Sexpr{couName}}. Country comparators are determined depending whether \textbf{\Sexpr{couName}} is: 
   \begin{itemize}
     \setlength \itemsep{0.25ex}
     \item \textbf{FCS and SIDS:} Comparators are the top 4 SIDS FCS
@@ -165,8 +189,8 @@
 %%%% WEF GLOBAL COMPETITIVENESS INDEX --------------------------------------------
 \vspace*{2ex}
 \begin{minipage}[c]{0.95\textwidth}
-  \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 2)[1,1]}}}
-    <<radar2.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=3.25,fig.width=9,results="asis">>=  
+  \hspace{4ex}\small{\color{black}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 2)[1,1]}}}
+    <<radar2.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=9,results="asis", out.height='2.5in', out.width='4.5in'>>=  
     @
 \end{minipage}
 
@@ -175,9 +199,9 @@
 \begin{minipage}[c]{0.95\textwidth}
   \vspace{3ex}
   \begin{flushleft}  
-    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[3]}}}\hspace{2ex}\small{\textcolor[HTML]{818181} {\Sexpr{section_desc[3]}}} \newline
+    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[3]}}}\hspace{2ex}\small{\color{black} {\Sexpr{section_desc[3]}}} \newline
     \vspace*{1ex}
-    \hspace{4ex}\large{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 1)[1,1]}}}
+    \hspace{4ex}\large{\color{black}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 1)[1,1]}}}
   \end{flushleft} 
     <<bar_facewrap3.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2,fig.width=12,results="asis">>=  
     @
@@ -187,7 +211,7 @@
 
 \vspace{2ex}
 \begin{minipage}[c]{0.95\textwidth}
-  \hspace{4ex}\large{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 2)[1,1]}}}
+  \hspace{4ex}\large{\color{black}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 2)[1,1]}}}
   \newline
   \vspace*{1ex}
   \hspace*{2ex}
@@ -225,18 +249,26 @@
 %% TOP 5 OBSTACLES --------------------------------------------
 \begin{minipage}[c]{0.95\textwidth}
   \vspace*{0.5ex}
-  \hspace{4ex}\large{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 3)[1,1]}}}
+  \hspace{4ex}\large{\color{black}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 3)[1,1]}}}
   \newline
   
   \begin{minipage}[c]{0.48\textwidth}
   \vspace*{0.5ex}
-  \hspace{4ex}\textbf{\small{\textcolor[HTML]{818181}\Sexpr{couName}}}
+  \hspace{4ex}\textbf{\small{\color{black}\Sexpr{couName}}}
     <<bar3.3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2.5,fig.width=10,results="asis">>=  
     @
   \end{minipage}
     \begin{minipage}[c]{0.48\textwidth}
+    % \hspace{4ex}\textbf{\small{\color{black}FCV Class Average}}
+     <<echo=FALSE, results='asis', warning = FALSE>>=
+  cou <- .getCountryCode(couName)
+  fcv_class <- as.character(countries[countries$iso3==cou,]$FCVclass)
+  cat("\\hspace{4ex}\\textbf{\\small{\\color{black}") 
+  cat(paste(sprintf("Class Average (%s)", fcv_class)))
+  cat("}}")
+@
     
-    \hspace{4ex}\textbf{\small{\textcolor[HTML]{818181}FCV Class Average}}
+    
     <<barclass3.3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2.5,fig.width=10,results="asis">>=  
     @
   \end{minipage}
