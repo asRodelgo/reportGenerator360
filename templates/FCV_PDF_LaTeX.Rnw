@@ -228,7 +228,7 @@
     dataNeighbor <- filter(dataNeighbor, Period==maxPeriod)
     dataset_ave <- mean(aggregate(dataNeighbor$Observation, list(dataNeighbor$CountryCode), mean)$x, na.rm=TRUE)
     country_ave <-mean(filter(Report_data, CountryCode == cou, Subsection2 %in% dataset, Period == maxPeriod)$Observation, na.rm=TRUE)
-    cat("\\small{") 
+    cat("\\small{\\color{black}") 
     cat(paste(sprintf("Country Overall CPIA: \\textbf{%0.2f} ; Class Average Overall CPIA: \\textbf{%0.2f}", country_ave, dataset_ave)))
     cat("}")
   }
