@@ -41,7 +41,7 @@ get_fcv_comparators <- function(couName, countries){
 
 
 ## ---- figure_number_rank_only ----
-figure_number_rank_only <- function(Report_data,reportConfig,couName,table, str_wrap_size=30,useRank=TRUE){      
+figure_number_rank_only <- function(Report_data,reportConfig,couName,table, str_wrap_size=30,useRank=TRUE, paste_unit=TRUE){      
   
   cou <- .getCountryCode(couName)
   ## Examples like Edward Tufte's sparklines:
@@ -81,39 +81,47 @@ figure_number_rank_only <- function(Report_data,reportConfig,couName,table, str_
     
     # Print the combo -----------------------------------------------
     par(family = 'serif',mfrow=c(5,1), #sets number of rows in space to number of cols in data frame x
-        mar=c(0,2,0,2), #sets margin size for the figures
-        oma=c(0,1,0,1)) #sets outer margin
-    
+        mar=c(0,0,0,0), #sets margin size for the figures
+        oma=c(0,0,0,0)) #sets outer margin
+    if (paste_unit){
     # print indicator name
-    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 1.0,indicator, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=7)
-    
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE, uniform=TRUE,margin=0.1)
+      graphics::text(1.5, 1.0,str_wrap(indicator, width = 30), col="black", cex=7)
+    } else{
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE, uniform=TRUE,margin=0.1)
+      graphics::text(1.5, 1.0,str_wrap(paste0(indicator, " (",dataPeriod,")"), width = 30), col="black", cex=7)
+    }
     # print data point and rank
     if (useRank){
-      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-      graphics::text(1.5, 1.0,paste0("Rank (",dataPeriod,")"), col=text_color, cex=5)
+      if (paste_unit){
+        plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE, uniform=TRUE,margin=0.1)
+        graphics::text(1.5, 1.0,paste0("Rank (",dataPeriod,")"), col=text_color, cex=5)
+      }
       # print data point and rank
-      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-      graphics::text(1.5, 1.0,paste0(rank,"/",rankedTotal), col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=18)
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE, uniform=TRUE,margin=0.1)
+      graphics::text(1.5, 1.0,paste0(rank,"/",rankedTotal), col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=15)
     } else {
-      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-      graphics::text(1.5, 1.0,paste0(unit, " (",dataPeriod,")"), col=text_color, cex=5)
-      # print data point and rank
-      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-      graphics::text(1.5, 1.0,dataPoint, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=18)
+      if (paste_unit){
+        plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE, uniform=TRUE,margin=0.1)
+        graphics::text(1.5, 1.0,paste0(unit, " (",dataPeriod,")"), col=text_color, cex=5)
+      }
+        # print data point and rank
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE, uniform=TRUE,margin=0.1)
+      graphics::text(1.5, 1.0,sprintf("%0.2f", as.numeric(dataPoint)), col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=15)
     }
     
   } else {
     
+    indicator <- filter(Report_data, Subsection2==table)$IndicatorShort[1]
     # Print the combo -----------------------------------------------
     par(family = 'serif',mfrow=c(5,1), #sets number of rows in space to number of cols in data frame x
-        mar=c(0,2,0,2), #sets margin size for the figures
-        oma=c(0,1,0,1)) #sets outer margin
+        mar=c(0,0,0,0), #sets margin size for the figures
+        oma=c(0,0,0,0)) #sets outer margin
     
     # print indicator name
-    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 1.1,indicator, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=10)
-    graphics::text(1.5, 0.7,unit, col=text_color, cex=5)
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE, uniform=TRUE,margin=0.1)
+    graphics::text(1.5, 1.0,str_wrap(indicator, width = 30), col="black", cex=7)
+    # graphics::text(1.5, 0.7,unit, col=text_color, cex=5)
     # print data point and rank
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
     graphics::text(1.5, 0.95,"No data available", col=text_color, cex=10)
@@ -540,7 +548,7 @@ line_chart_avg <- function(Report_data,reportConfig,couName, section, table, min
           
           ggplot(data, aes(x=factor(Period), y=Observation)) +
             geom_line(stat="identity",aes(group=factor(gender), colour=factor(gender))) +
-            labs(x="",y="",title=data$IndicatorShort[1]) +
+            labs(x="",y="",title=paste0(data$IndicatorShort[1],", in percent")) +
             theme(legend.key=element_blank(),
                   legend.title=element_blank(),
                   legend.position="top",
@@ -959,7 +967,7 @@ sparklines <- function(Report_data,reportConfig,couName,section,table, num_perio
 }
 
 ## ---- bar_chart_gender ----
-bar_chart_gender <- function(Report_data,reportConfig,couName,section,table,paste_unit, kind="normal"){      
+bar_chart_gender <- function(Report_data,reportConfig,couName,section,table,paste_unit, kind="normal", plot_spacing=0.2){      
   
   cou <- .getCountryCode(couName)
   data <- filter(Report_data, CountryCode==cou, Section %in% section, Subsection %in% table)
@@ -1064,13 +1072,18 @@ bar_chart_gender <- function(Report_data,reportConfig,couName,section,table,past
         
       } else if (kind == "stackedbar"){
         ggplot(data, aes(x = gender, y = Observation, fill = IndicatorShort)) + 
-          geom_bar(stat = "identity") + coord_flip() + labs(y = "", x="", fill="") +
+          geom_bar(stat = "identity", width = 0.8) + coord_flip() + labs(y = "", x="", fill="") +
           theme(panel.border = element_blank(),
                 panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
                 axis.text.x = element_text(family="Times", color = text_color, size = 7),
                 axis.text.y = element_text(family="Times", color = text_color, size = 7),
-                legend.text=element_text(family="Times", color = text_color, size = 10))}
+                legend.text=element_text(family="Times", color = text_color, size = 10))+
+                guides(col = guide_legend(reverse = TRUE), fill = guide_legend(reverse = TRUE))}
       else if(kind=="single_indicator"){
+        max_val <- max(data$Observation)
+        min_val <- min(data$Observation)
+        diff_val <- plot_spacing*(max_val - min_val)
+        
         ggplot(data, aes(x=IndicatorShort, y=Observation, group=gender, fill=gender)) +
           geom_bar(stat="identity",position="dodge", colour="black") +
           coord_flip() +
@@ -1080,8 +1093,14 @@ bar_chart_gender <- function(Report_data,reportConfig,couName,section,table,past
                 axis.text.x = element_text(family="Times", color = text_color, size = 7),
                 axis.text.y = element_blank(),
                 legend.text=element_text(family="Times", color = text_color, size = 10))+
-          geom_text(data=data, aes(label=sprintf('%0.1f', Observation)), position = position_dodge(width=1), hjust=-0.25)
+          geom_text(data=data, aes(label=sprintf('%0.1f', Observation)), position = position_dodge(width=1), hjust=-0.25)+
+          guides(col = guide_legend(reverse = TRUE), fill = guide_legend(reverse = TRUE))+
+          expand_limits(y = max_val*(1+plot_spacing))
       } else if (kind=="normal") {
+        max_val <- max(data$Observation)
+        min_val <- min(data$Observation)
+        diff_val <- plot_spacing*(max_val - min_val)
+        
         ggplot(data, aes(x=IndicatorShort, y=Observation, group=gender, fill=gender)) +
           geom_bar(stat="identity",position="dodge", colour="black") +
           coord_flip() +
@@ -1091,8 +1110,9 @@ bar_chart_gender <- function(Report_data,reportConfig,couName,section,table,past
                       axis.text.x = element_text(family="Times", color = text_color, size = 7),
                       axis.text.y = element_text(family="Times", color = text_color, size = 7),
                 legend.text=element_text(family="Times", color = text_color, size = 10))+
-                geom_text(data=data, aes(label=sprintf('%0.1f', Observation)), position = position_dodge(width=1), hjust=-0.1)
-        
+                geom_text(data=data, aes(label=sprintf('%0.1f', Observation)), position = position_dodge(width=1), hjust=-0.1)+
+          guides(col = guide_legend(reverse = TRUE), fill = guide_legend(reverse = TRUE))+
+          expand_limits(y = max_val*(1+plot_spacing))
        }
       
     } else {
@@ -1465,7 +1485,7 @@ number_chart_yesno <- function(Report_data,reportConfig,couName,section,table,st
         rank[i] <- which(thisKey$CountryCode == cou)
         # print indicator name
         plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-        graphics::text(1, 1.1,thisKey$IndicatorShort[1], col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=3, adj=0)
+        graphics::text(1, 1.1,thisKey$IndicatorShort[1], col=text_color, cex=3, adj=0)
         # print data point and rank
           #remap 1/0 back to Yes/No
           temp_val <- filter(thisKey,CountryCode==cou)$Observation
