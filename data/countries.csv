@@ -1,218 +1,218 @@
-"id","iso2","iso3","name","region","incomeLevel","lendingType","capitalCity","geo.lat","geo.lng"
-"AFG","AF","AFG","Afghanistan","SAS","LIC","IDX","Kabul",34.5228,69.1761
-"ALB","AL","ALB","Albania","ECS","UMC","IBD","Tirane",41.3317,19.8172
-"DZA","DZ","DZA","Algeria","MEA","UMC","IBD","Algiers",36.7397,3.05097
-"ASM","AS","ASM","American Samoa","EAS","UMC","LNX","Pago Pago",-14.2846,-170.691
-"AND","AD","AND","Andorra","ECS","HIC","LNX","Andorra la Vella",42.5075,1.5218
-"AGO","AO","AGO","Angola","SSF","UMC","IBD","Luanda",-8.81155,13.242
-"ATG","AG","ATG","Antigua and Barbuda","LCN","HIC","IBD","Saint John's",17.1175,-61.8456
-"ARG","AR","ARG","Argentina","LCN","INX","IBD","Buenos Aires",-34.6118,-58.4173
-"ARM","AM","ARM","Armenia","ECS","LMC","IBD","Yerevan",40.1596,44.509
-"ABW","AW","ABW","Aruba","LCN","HIC","LNX","Oranjestad",12.5167,-70.0167
-"AUS","AU","AUS","Australia","EAS","HIC","LNX","Canberra",-35.282,149.129
-"AUT","AT","AUT","Austria","ECS","HIC","LNX","Vienna",48.2201,16.3798
-"AZE","AZ","AZE","Azerbaijan","ECS","UMC","IBD","Baku",40.3834,49.8932
-"BHS","BS","BHS","Bahamas, The","LCN","HIC","LNX","Nassau",25.0661,-77.339
-"BHR","BH","BHR","Bahrain","MEA","HIC","LNX","Manama",26.1921,50.5354
-"BGD","BD","BGD","Bangladesh","SAS","LMC","IDX","Dhaka",23.7055,90.4113
-"BRB","BB","BRB","Barbados","LCN","HIC","LNX","Bridgetown",13.0935,-59.6105
-"BLR","BY","BLR","Belarus","ECS","UMC","IBD","Minsk",53.9678,27.5766
-"BEL","BE","BEL","Belgium","ECS","HIC","LNX","Brussels",50.8371,4.36761
-"BLZ","BZ","BLZ","Belize","LCN","UMC","IBD","Belmopan",17.2534,-88.7713
-"BEN","BJ","BEN","Benin","SSF","LIC","IDX","Porto-Novo",6.4779,2.6323
-"BMU","BM","BMU","Bermuda","NAC","HIC","LNX","Hamilton",32.3293,-64.706
-"BTN","BT","BTN","Bhutan","SAS","LMC","IDX","Thimphu",27.5768,89.6177
-"BOL","BO","BOL","Bolivia","LCN","LMC","IDB","La Paz",-13.9908,-66.1936
-"BIH","BA","BIH","Bosnia and Herzegovina","ECS","UMC","IBD","Sarajevo",43.8607,18.4214
-"BWA","BW","BWA","Botswana","SSF","UMC","IBD","Gaborone",-24.6544,25.9201
-"BRA","BR","BRA","Brazil","LCN","UMC","IBD","Brasilia",-15.7801,-47.9292
-"VGB","VG","VGB","British Virgin Islands","LCN","HIC","LNX","Road Town",18.431389,-64.623056
-"BRN","BN","BRN","Brunei Darussalam","EAS","HIC","LNX","Bandar Seri Begawan",4.94199,114.946
-"BGR","BG","BGR","Bulgaria","ECS","UMC","IBD","Sofia",42.7105,23.3238
-"BFA","BF","BFA","Burkina Faso","SSF","LIC","IDX","Ouagadougou",12.3605,-1.53395
-"BDI","BI","BDI","Burundi","SSF","LIC","IDX","Bujumbura",-3.3784,29.3639
-"CPV","CV","CPV","Cabo Verde","SSF","LMC","IDB","Praia",14.9218,-23.5087
-"KHM","KH","KHM","Cambodia","EAS","LMC","IDX","Phnom Penh",11.5556,104.874
-"CMR","CM","CMR","Cameroon","SSF","LMC","IDB","Yaounde",3.8721,11.5174
-"CAN","CA","CAN","Canada","NAC","HIC","LNX","Ottawa",45.4215,-75.6919
-"CYM","KY","CYM","Cayman Islands","LCN","HIC","LNX","George Town",19.3022,-81.3857
-"CAF","CF","CAF","Central African Republic","SSF","LIC","IDX","Bangui",5.63056,21.6407
-"TCD","TD","TCD","Chad","SSF","LIC","IDX","N'Djamena",12.1048,15.0445
-"CHI","JG","CHI","Channel Islands","ECS","HIC","LNX",NA,NA,NA
-"CHL","CL","CHL","Chile","LCN","HIC","IBD","Santiago",-33.475,-70.6475
-"CHN","CN","CHN","China","EAS","UMC","IBD","Beijing",40.0495,116.286
-"COL","CO","COL","Colombia","LCN","UMC","IBD","Bogota",4.60987,-74.082
-"COM","KM","COM","Comoros","SSF","LIC","IDX","Moroni",-11.6986,43.2418
-"COD","CD","COD","Congo, Dem. Rep.","SSF","LIC","IDX","Kinshasa",-4.325,15.3222
-"COG","CG","COG","Congo, Rep.","SSF","LMC","IDB","Brazzaville",-4.2767,15.2662
-"CRI","CR","CRI","Costa Rica","LCN","UMC","IBD","San Jose",9.63701,-84.0089
-"CIV","CI","CIV","Cote d'Ivoire","SSF","LMC","IDX","Yamoussoukro",5.332,-4.0305
-"HRV","HR","HRV","Croatia","ECS","HIC","IBD","Zagreb",45.8069,15.9614
-"CUB","CU","CUB","Cuba","LCN","UMC","LNX","Havana",23.1333,-82.3667
-"CUW","CW","CUW","Curacao","LCN","HIC","LNX","Willemstad",NA,NA
-"CYP","CY","CYP","Cyprus","ECS","HIC","LNX","Nicosia",35.1676,33.3736
-"CZE","CZ","CZE","Czech Republic","ECS","HIC","LNX","Prague",50.0878,14.4205
-"DNK","DK","DNK","Denmark","ECS","HIC","LNX","Copenhagen",55.6763,12.5681
-"DJI","DJ","DJI","Djibouti","MEA","LMC","IDX","Djibouti",11.5806,43.1425
-"DMA","DM","DMA","Dominica","LCN","UMC","IDB","Roseau",15.2976,-61.39
-"DOM","DO","DOM","Dominican Republic","LCN","UMC","IBD","Santo Domingo",18.479,-69.8908
-"ECU","EC","ECU","Ecuador","LCN","UMC","IBD","Quito",-0.229498,-78.5243
-"EGY","EG","EGY","Egypt, Arab Rep.","MEA","LMC","IBD","Cairo",30.0982,31.2461
-"SLV","SV","SLV","El Salvador","LCN","LMC","IBD","San Salvador",13.7034,-89.2073
-"GNQ","GQ","GNQ","Equatorial Guinea","SSF","UMC","IBD","Malabo",3.7523,8.7741
-"ERI","ER","ERI","Eritrea","SSF","LIC","IDX","Asmara",15.3315,38.9183
-"EST","EE","EST","Estonia","ECS","HIC","LNX","Tallinn",59.4392,24.7586
-"ETH","ET","ETH","Ethiopia","SSF","LIC","IDX","Addis Ababa",9.02274,38.7468
-"FRO","FO","FRO","Faroe Islands","ECS","HIC","LNX","Torshavn",61.8926,-6.91181
-"FJI","FJ","FJI","Fiji","EAS","UMC","IBD","Suva",-18.1149,178.399
-"FIN","FI","FIN","Finland","ECS","HIC","LNX","Helsinki",60.1608,24.9525
-"FRA","FR","FRA","France","ECS","HIC","LNX","Paris",48.8566,2.35097
-"PYF","PF","PYF","French Polynesia","EAS","HIC","LNX","Papeete",-17.535,-149.57
-"GAB","GA","GAB","Gabon","SSF","UMC","IBD","Libreville",0.38832,9.45162
-"GMB","GM","GMB","Gambia, The","SSF","LIC","IDX","Banjul",13.4495,-16.5885
-"GEO","GE","GEO","Georgia","ECS","UMC","IBD","Tbilisi",41.71,44.793
-"DEU","DE","DEU","Germany","ECS","HIC","LNX","Berlin",52.5235,13.4115
-"GHA","GH","GHA","Ghana","SSF","LMC","IDX","Accra",5.57045,-0.20795
-"GIB","GI","GIB","Gibraltar","ECS","HIC","LNX",NA,NA,NA
-"GRC","GR","GRC","Greece","ECS","HIC","LNX","Athens",37.9792,23.7166
-"GRL","GL","GRL","Greenland","ECS","HIC","LNX","Nuuk",64.1836,-51.7214
-"GRD","GD","GRD","Grenada","LCN","UMC","IDB","Saint George's",12.0653,-61.7449
-"GUM","GU","GUM","Guam","EAS","HIC","LNX","Agana",13.4443,144.794
-"GTM","GT","GTM","Guatemala","LCN","LMC","IBD","Guatemala City",14.6248,-90.5328
-"GIN","GN","GIN","Guinea","SSF","LIC","IDX","Conakry",9.51667,-13.7
-"GNB","GW","GNB","Guinea-Bissau","SSF","LIC","IDX","Bissau",11.8037,-15.1804
-"GUY","GY","GUY","Guyana","LCN","UMC","IDX","Georgetown",6.80461,-58.1548
-"HTI","HT","HTI","Haiti","LCN","LIC","IDX","Port-au-Prince",18.5392,-72.3288
-"HND","HN","HND","Honduras","LCN","LMC","IDX","Tegucigalpa",15.1333,-87.4667
-"HKG","HK","HKG","Hong Kong SAR, China","EAS","HIC","LNX",NA,22.3964,114.109
-"HUN","HU","HUN","Hungary","ECS","HIC","LNX","Budapest",47.4984,19.0408
-"ISL","IS","ISL","Iceland","ECS","HIC","LNX","Reykjavik",64.1353,-21.8952
-"IND","IN","IND","India","SAS","LMC","IBD","New Delhi",28.6353,77.225
-"IDN","ID","IDN","Indonesia","EAS","LMC","IBD","Jakarta",-6.19752,106.83
-"IRN","IR","IRN","Iran, Islamic Rep.","MEA","UMC","IBD","Tehran",35.6878,51.4447
-"IRQ","IQ","IRQ","Iraq","MEA","UMC","IBD","Baghdad",33.3302,44.394
-"IRL","IE","IRL","Ireland","ECS","HIC","LNX","Dublin",53.3441,-6.26749
-"IMN","IM","IMN","Isle of Man","ECS","HIC","LNX","Douglas",54.1509,-4.47928
-"ISR","IL","ISR","Israel","MEA","HIC","LNX",NA,31.7717,35.2035
-"ITA","IT","ITA","Italy","ECS","HIC","LNX","Rome",41.8955,12.4823
-"JAM","JM","JAM","Jamaica","LCN","UMC","IBD","Kingston",17.9927,-76.792
-"JPN","JP","JPN","Japan","EAS","HIC","LNX","Tokyo",35.67,139.77
-"JOR","JO","JOR","Jordan","MEA","UMC","IBD","Amman",31.9497,35.9263
-"KAZ","KZ","KAZ","Kazakhstan","ECS","UMC","IBD","Astana",51.1879,71.4382
-"KEN","KE","KEN","Kenya","SSF","LMC","IDX","Nairobi",-1.27975,36.8126
-"KIR","KI","KIR","Kiribati","EAS","LMC","IDX","Tarawa",1.32905,172.979
-"PRK","KP","PRK","Korea, Dem. Peopleâ€™s Rep.","EAS","LIC","LNX","Pyongyang",39.0319,125.754
-"KOR","KR","KOR","Korea, Rep.","EAS","HIC","LNX","Seoul",37.5323,126.957
-"KSV","XK","KSV","Kosovo","ECS","LMC","IDX","Pristina",42.565,20.926
-"KWT","KW","KWT","Kuwait","MEA","HIC","LNX","Kuwait City",29.3721,47.9824
-"KGZ","KG","KGZ","Kyrgyz Republic","ECS","LMC","IDX","Bishkek",42.8851,74.6057
-"LAO","LA","LAO","Lao PDR","EAS","LMC","IDX","Vientiane",18.5826,102.177
-"LVA","LV","LVA","Latvia","ECS","HIC","LNX","Riga",56.9465,24.1048
-"LBN","LB","LBN","Lebanon","MEA","UMC","IBD","Beirut",33.8872,35.5134
-"LSO","LS","LSO","Lesotho","SSF","LMC","IDX","Maseru",-29.5208,27.7167
-"LBR","LR","LBR","Liberia","SSF","LIC","IDX","Monrovia",6.30039,-10.7957
-"LBY","LY","LBY","Libya","MEA","UMC","IBD","Tripoli",32.8578,13.1072
-"LIE","LI","LIE","Liechtenstein","ECS","HIC","LNX","Vaduz",47.1411,9.52148
-"LTU","LT","LTU","Lithuania","ECS","HIC","LNX","Vilnius",54.6896,25.2799
-"LUX","LU","LUX","Luxembourg","ECS","HIC","LNX","Luxembourg",49.61,6.1296
-"MAC","MO","MAC","Macao SAR, China","EAS","HIC","LNX",NA,22.1667,113.55
-"MKD","MK","MKD","Macedonia, FYR","ECS","UMC","IBD","Skopje",42.0024,21.4361
-"MDG","MG","MDG","Madagascar","SSF","LIC","IDX","Antananarivo",-20.4667,45.7167
-"MWI","MW","MWI","Malawi","SSF","LIC","IDX","Lilongwe",-13.9899,33.7703
-"MYS","MY","MYS","Malaysia","EAS","UMC","IBD","Kuala Lumpur",3.12433,101.684
-"MDV","MV","MDV","Maldives","SAS","UMC","IDX","Male",4.1742,73.5109
-"MLI","ML","MLI","Mali","SSF","LIC","IDX","Bamako",13.5667,-7.50034
-"MLT","MT","MLT","Malta","MEA","HIC","LNX","Valletta",35.9042,14.5189
-"MHL","MH","MHL","Marshall Islands","EAS","UMC","IDX","Majuro",7.11046,171.135
-"MRT","MR","MRT","Mauritania","SSF","LMC","IDX","Nouakchott",18.2367,-15.9824
-"MUS","MU","MUS","Mauritius","SSF","UMC","IBD","Port Louis",-20.1605,57.4977
-"MEX","MX","MEX","Mexico","LCN","UMC","IBD","Mexico City",19.427,-99.1276
-"FSM","FM","FSM","Micronesia, Fed. Sts.","EAS","LMC","IDX","Palikir",6.91771,158.185
-"MDA","MD","MDA","Moldova","ECS","LMC","IDB","Chisinau",47.0167,28.8497
-"MCO","MC","MCO","Monaco","ECS","HIC","LNX","Monaco",43.7325,7.41891
-"MNG","MN","MNG","Mongolia","EAS","LMC","IDB","Ulaanbaatar",47.9129,106.937
-"MNE","ME","MNE","Montenegro","ECS","UMC","IBD","Podgorica",42.4602,19.2595
-"MAR","MA","MAR","Morocco","MEA","LMC","IBD","Rabat",33.9905,-6.8704
-"MOZ","MZ","MOZ","Mozambique","SSF","LIC","IDX","Maputo",-25.9664,32.5713
-"MMR","MM","MMR","Myanmar","EAS","LMC","IDX","Naypyidaw",21.914,95.9562
-"NAM","NA","NAM","Namibia","SSF","UMC","IBD","Windhoek",-22.5648,17.0931
-"NRU","NR","NRU","Nauru","EAS","HIC","IBD","Yaren District",-0.5477,166.920867
-"NPL","NP","NPL","Nepal","SAS","LIC","IDX","Kathmandu",27.6939,85.3157
-"NLD","NL","NLD","Netherlands","ECS","HIC","LNX","Amsterdam",52.3738,4.89095
-"NCL","NC","NCL","New Caledonia","EAS","HIC","LNX","Noum'ea",-22.2677,166.464
-"NZL","NZ","NZL","New Zealand","EAS","HIC","LNX","Wellington",-41.2865,174.776
-"NIC","NI","NIC","Nicaragua","LCN","LMC","IDX","Managua",12.1475,-86.2734
-"NER","NE","NER","Niger","SSF","LIC","IDX","Niamey",13.514,2.1073
-"NGA","NG","NGA","Nigeria","SSF","LMC","IDB","Abuja",9.05804,7.48906
-"MNP","MP","MNP","Northern Mariana Islands","EAS","HIC","LNX","Saipan",15.1935,145.765
-"NOR","NO","NOR","Norway","ECS","HIC","LNX","Oslo",59.9138,10.7387
-"OMN","OM","OMN","Oman","MEA","HIC","LNX","Muscat",23.6105,58.5874
-"PAK","PK","PAK","Pakistan","SAS","LMC","IDB","Islamabad",30.5167,72.8
-"PLW","PW","PLW","Palau","EAS","UMC","IBD","Koror",7.34194,134.479
-"PAN","PA","PAN","Panama","LCN","UMC","IBD","Panama City",8.99427,-79.5188
-"PNG","PG","PNG","Papua New Guinea","EAS","LMC","IDB","Port Moresby",-9.47357,147.194
-"PRY","PY","PRY","Paraguay","LCN","UMC","IBD","Asuncion",-25.3005,-57.6362
-"PER","PE","PER","Peru","LCN","UMC","IBD","Lima",-12.0931,-77.0465
-"PHL","PH","PHL","Philippines","EAS","LMC","IBD","Manila",14.5515,121.035
-"POL","PL","POL","Poland","ECS","HIC","IBD","Warsaw",52.26,21.02
-"PRT","PT","PRT","Portugal","ECS","HIC","LNX","Lisbon",38.7072,-9.13552
-"PRI","PR","PRI","Puerto Rico","LCN","HIC","LNX","San Juan",18.23,-66
-"QAT","QA","QAT","Qatar","MEA","HIC","LNX","Doha",25.2948,51.5082
-"ROU","RO","ROU","Romania","ECS","UMC","IBD","Bucharest",44.4479,26.0979
-"RUS","RU","RUS","Russian Federation","ECS","UMC","IBD","Moscow",55.7558,37.6176
-"RWA","RW","RWA","Rwanda","SSF","LIC","IDX","Kigali",-1.95325,30.0587
-"WSM","WS","WSM","Samoa","EAS","LMC","IDX","Apia",-13.8314,-171.752
-"SMR","SM","SMR","San Marino","ECS","HIC","LNX","San Marino",43.9322,12.4486
-"STP","ST","STP","Sao Tome and Principe","SSF","LMC","IDX","Sao Tome",0.20618,6.6071
-"SAU","SA","SAU","Saudi Arabia","MEA","HIC","LNX","Riyadh",24.6748,46.6977
-"SEN","SN","SEN","Senegal","SSF","LIC","IDX","Dakar",14.7247,-17.4734
-"SRB","RS","SRB","Serbia","ECS","UMC","IBD","Belgrade",44.8024,20.4656
-"SYC","SC","SYC","Seychelles","SSF","HIC","IBD","Victoria",-4.6309,55.4466
-"SLE","SL","SLE","Sierra Leone","SSF","LIC","IDX","Freetown",8.4821,-13.2134
-"SGP","SG","SGP","Singapore","EAS","HIC","LNX","Singapore",1.28941,103.85
-"SXM","SX","SXM","Sint Maarten (Dutch part)","LCN","HIC","LNX","Philipsburg",NA,NA
-"SVK","SK","SVK","Slovak Republic","ECS","HIC","LNX","Bratislava",48.1484,17.1073
-"SVN","SI","SVN","Slovenia","ECS","HIC","LNX","Ljubljana",46.0546,14.5044
-"SLB","SB","SLB","Solomon Islands","EAS","LMC","IDX","Honiara",-9.42676,159.949
-"SOM","SO","SOM","Somalia","SSF","LIC","IDX","Mogadishu",2.07515,45.3254
-"ZAF","ZA","ZAF","South Africa","SSF","UMC","IBD","Pretoria",-25.746,28.1871
-"SSD","SS","SSD","South Sudan","SSF","LIC","IDX","Juba",4.85,31.6
-"ESP","ES","ESP","Spain","ECS","HIC","LNX","Madrid",40.4167,-3.70327
-"LKA","LK","LKA","Sri Lanka","SAS","LMC","IDB","Colombo",6.92148,79.8528
-"KNA","KN","KNA","St. Kitts and Nevis","LCN","HIC","IBD","Basseterre",17.3,-62.7309
-"LCA","LC","LCA","St. Lucia","LCN","UMC","IDB","Castries",14,-60.9832
-"MAF","MF","MAF","St. Martin (French part)","LCN","HIC","LNX","Marigot",NA,NA
-"VCT","VC","VCT","St. Vincent and the Grenadines","LCN","UMC","IDB","Kingstown",13.2035,-61.2653
-"SDN","SD","SDN","Sudan","SSF","LMC","IDX","Khartoum",15.5932,32.5363
-"SUR","SR","SUR","Suriname","LCN","UMC","IBD","Paramaribo",5.8232,-55.1679
-"SWZ","SZ","SWZ","Swaziland","SSF","LMC","IBD","Mbabane",-26.5225,31.4659
-"SWE","SE","SWE","Sweden","ECS","HIC","LNX","Stockholm",59.3327,18.0645
-"CHE","CH","CHE","Switzerland","ECS","HIC","LNX","Bern",46.948,7.44821
-"SYR","SY","SYR","Syrian Arab Republic","MEA","LMC","IBD","Damascus",33.5146,36.3119
-"TJK","TJ","TJK","Tajikistan","ECS","LMC","IDX","Dushanbe",38.5878,68.7864
-"TZA","TZ","TZA","Tanzania","SSF","LIC","IDX","Dodoma",-6.17486,35.7382
-"THA","TH","THA","Thailand","EAS","UMC","IBD","Bangkok",13.7308,100.521
-"TLS","TL","TLS","Timor-Leste","EAS","LMC","IDB","Dili",-8.56667,125.567
-"TGO","TG","TGO","Togo","SSF","LIC","IDX","Lome",6.1228,1.2255
-"TON","TO","TON","Tonga","EAS","LMC","IDX","Nuku'alofa",-21.136,-175.216
-"TTO","TT","TTO","Trinidad and Tobago","LCN","HIC","IBD","Port-of-Spain",10.6596,-61.4789
-"TUN","TN","TUN","Tunisia","MEA","LMC","IBD","Tunis",36.7899,10.21
-"TUR","TR","TUR","Turkey","ECS","UMC","IBD","Ankara",39.7153,32.3606
-"TKM","TM","TKM","Turkmenistan","ECS","UMC","IBD","Ashgabat",37.9509,58.3794
-"TCA","TC","TCA","Turks and Caicos Islands","LCN","HIC","LNX","Grand Turk",21.4602778,-71.141389
-"TUV","TV","TUV","Tuvalu","EAS","UMC","IDX","Funafuti",-8.6314877,179.089567
-"UGA","UG","UGA","Uganda","SSF","LIC","IDX","Kampala",0.314269,32.5729
-"UKR","UA","UKR","Ukraine","ECS","LMC","IBD","Kiev",50.4536,30.5038
-"ARE","AE","ARE","United Arab Emirates","MEA","HIC","LNX","Abu Dhabi",24.4764,54.3705
-"GBR","GB","GBR","United Kingdom","ECS","HIC","LNX","London",51.5002,-0.126236
-"USA","US","USA","United States","NAC","HIC","LNX","Washington D.C.",38.8895,-77.032
-"URY","UY","URY","Uruguay","LCN","HIC","IBD","Montevideo",-34.8941,-56.0675
-"UZB","UZ","UZB","Uzbekistan","ECS","LMC","IDB","Tashkent",41.3052,69.269
-"VUT","VU","VUT","Vanuatu","EAS","LMC","IDX","Port-Vila",-17.7404,168.321
-"VEN","VE","VEN","Venezuela, RB","LCN","UMC","IBD","Caracas",9.08165,-69.8371
-"VNM","VN","VNM","Vietnam","EAS","LMC","IDB","Hanoi",21.0069,105.825
-"VIR","VI","VIR","Virgin Islands (U.S.)","LCN","HIC","LNX","Charlotte Amalie",18.3358,-64.8963
-"PSE","PS","PSE","West Bank and Gaza","MEA","LMC","LNX",NA,NA,NA
-"YEM","YE","YEM","Yemen, Rep.","MEA","LMC","IDX","Sana'a",15.352,44.2075
-"ZMB","ZM","ZMB","Zambia","SSF","LMC","IDX","Lusaka",-15.3982,28.2937
-"ZWE","ZW","ZWE","Zimbabwe","SSF","LIC","IDB","Harare",-17.8312,31.0672
+"id","iso2","iso3","name","region","adminRegion","incomeLevel","lendingType","capitalCity","aggregate","sids","landlocked","geo.lat","geo.lng"
+"AFG","AF","AFG","Afghanistan","SAS","SAS","LIC","IDX","Kabul",FALSE,FALSE,TRUE,34.5228,69.1761
+"ALB","AL","ALB","Albania","ECS","ECA","UMC","IBD","Tirane",FALSE,FALSE,FALSE,41.3317,19.8172
+"DZA","DZ","DZA","Algeria","MEA","MNA","UMC","IBD","Algiers",FALSE,FALSE,FALSE,36.7397,3.05097
+"ASM","AS","ASM","American Samoa","EAS","EAP","UMC","LNX","Pago Pago",FALSE,NA,NA,-14.2846,-170.691
+"AND","AD","AND","Andorra","ECS",NA,"HIC","LNX","Andorra la Vella",FALSE,NA,NA,42.5075,1.5218
+"AGO","AO","AGO","Angola","SSF","SSA","UMC","IBD","Luanda",FALSE,FALSE,FALSE,-8.81155,13.242
+"ATG","AG","ATG","Antigua and Barbuda","LCN",NA,"HIC","IBD","Saint John's",FALSE,TRUE,FALSE,17.1175,-61.8456
+"ARG","AR","ARG","Argentina","LCN",NA,"INX","IBD","Buenos Aires",FALSE,FALSE,FALSE,-34.6118,-58.4173
+"ARM","AM","ARM","Armenia","ECS","ECA","LMC","IBD","Yerevan",FALSE,FALSE,TRUE,40.1596,44.509
+"ABW","AW","ABW","Aruba","LCN",NA,"HIC","LNX","Oranjestad",FALSE,NA,NA,12.5167,-70.0167
+"AUS","AU","AUS","Australia","EAS",NA,"HIC","LNX","Canberra",FALSE,FALSE,FALSE,-35.282,149.129
+"AUT","AT","AUT","Austria","ECS",NA,"HIC","LNX","Vienna",FALSE,FALSE,TRUE,48.2201,16.3798
+"AZE","AZ","AZE","Azerbaijan","ECS","ECA","UMC","IBD","Baku",FALSE,FALSE,TRUE,40.3834,49.8932
+"BHS","BS","BHS","Bahamas, The","LCN",NA,"HIC","LNX","Nassau",FALSE,TRUE,FALSE,25.0661,-77.339
+"BHR","BH","BHR","Bahrain","MEA",NA,"HIC","LNX","Manama",FALSE,TRUE,FALSE,26.1921,50.5354
+"BGD","BD","BGD","Bangladesh","SAS","SAS","LMC","IDX","Dhaka",FALSE,FALSE,FALSE,23.7055,90.4113
+"BRB","BB","BRB","Barbados","LCN",NA,"HIC","LNX","Bridgetown",FALSE,TRUE,FALSE,13.0935,-59.6105
+"BLR","BY","BLR","Belarus","ECS","ECA","UMC","IBD","Minsk",FALSE,FALSE,TRUE,53.9678,27.5766
+"BEL","BE","BEL","Belgium","ECS",NA,"HIC","LNX","Brussels",FALSE,FALSE,FALSE,50.8371,4.36761
+"BLZ","BZ","BLZ","Belize","LCN","LAC","UMC","IBD","Belmopan",FALSE,FALSE,FALSE,17.2534,-88.7713
+"BEN","BJ","BEN","Benin","SSF","SSA","LIC","IDX","Porto-Novo",FALSE,FALSE,FALSE,6.4779,2.6323
+"BMU","BM","BMU","Bermuda","NAC",NA,"HIC","LNX","Hamilton",FALSE,FALSE,FALSE,32.3293,-64.706
+"BTN","BT","BTN","Bhutan","SAS","SAS","LMC","IDX","Thimphu",FALSE,FALSE,TRUE,27.5768,89.6177
+"BOL","BO","BOL","Bolivia","LCN","LAC","LMC","IDB","La Paz",FALSE,FALSE,FALSE,-13.9908,-66.1936
+"BIH","BA","BIH","Bosnia and Herzegovina","ECS","ECA","UMC","IBD","Sarajevo",FALSE,FALSE,FALSE,43.8607,18.4214
+"BWA","BW","BWA","Botswana","SSF","SSA","UMC","IBD","Gaborone",FALSE,FALSE,TRUE,-24.6544,25.9201
+"BRA","BR","BRA","Brazil","LCN","LAC","UMC","IBD","Brasilia",FALSE,FALSE,FALSE,-15.7801,-47.9292
+"VGB","VG","VGB","British Virgin Islands","LCN",NA,"HIC","LNX","Road Town",FALSE,NA,NA,18.431389,-64.623056
+"BRN","BN","BRN","Brunei Darussalam","EAS",NA,"HIC","LNX","Bandar Seri Begawan",FALSE,FALSE,FALSE,4.94199,114.946
+"BGR","BG","BGR","Bulgaria","ECS","ECA","UMC","IBD","Sofia",FALSE,FALSE,FALSE,42.7105,23.3238
+"BFA","BF","BFA","Burkina Faso","SSF","SSA","LIC","IDX","Ouagadougou",FALSE,FALSE,TRUE,12.3605,-1.53395
+"BDI","BI","BDI","Burundi","SSF","SSA","LIC","IDX","Bujumbura",FALSE,FALSE,TRUE,-3.3784,29.3639
+"CPV","CV","CPV","Cabo Verde","SSF","SSA","LMC","IDB","Praia",FALSE,TRUE,FALSE,14.9218,-23.5087
+"KHM","KH","KHM","Cambodia","EAS","EAP","LMC","IDX","Phnom Penh",FALSE,FALSE,FALSE,11.5556,104.874
+"CMR","CM","CMR","Cameroon","SSF","SSA","LMC","IDB","Yaounde",FALSE,FALSE,FALSE,3.8721,11.5174
+"CAN","CA","CAN","Canada","NAC",NA,"HIC","LNX","Ottawa",FALSE,FALSE,FALSE,45.4215,-75.6919
+"CYM","KY","CYM","Cayman Islands","LCN",NA,"HIC","LNX","George Town",FALSE,NA,NA,19.3022,-81.3857
+"CAF","CF","CAF","Central African Republic","SSF","SSA","LIC","IDX","Bangui",FALSE,FALSE,TRUE,5.63056,21.6407
+"TCD","TD","TCD","Chad","SSF","SSA","LIC","IDX","N'Djamena",FALSE,FALSE,TRUE,12.1048,15.0445
+"CHI","JG","CHI","Channel Islands","ECS",NA,"HIC","LNX",NA,FALSE,NA,NA,NA,NA
+"CHL","CL","CHL","Chile","LCN",NA,"HIC","IBD","Santiago",FALSE,FALSE,FALSE,-33.475,-70.6475
+"CHN","CN","CHN","China","EAS","EAP","UMC","IBD","Beijing",FALSE,FALSE,FALSE,40.0495,116.286
+"COL","CO","COL","Colombia","LCN","LAC","UMC","IBD","Bogota",FALSE,FALSE,FALSE,4.60987,-74.082
+"COM","KM","COM","Comoros","SSF","SSA","LIC","IDX","Moroni",FALSE,TRUE,FALSE,-11.6986,43.2418
+"COD","CD","COD","Congo, Dem. Rep.","SSF","SSA","LIC","IDX","Kinshasa",FALSE,FALSE,FALSE,-4.325,15.3222
+"COG","CG","COG","Congo, Rep.","SSF","SSA","LMC","IDB","Brazzaville",FALSE,FALSE,FALSE,-4.2767,15.2662
+"CRI","CR","CRI","Costa Rica","LCN","LAC","UMC","IBD","San Jose",FALSE,FALSE,FALSE,9.63701,-84.0089
+"CIV","CI","CIV","Cote d'Ivoire","SSF","SSA","LMC","IDX","Yamoussoukro",FALSE,FALSE,FALSE,5.332,-4.0305
+"HRV","HR","HRV","Croatia","ECS",NA,"HIC","IBD","Zagreb",FALSE,FALSE,FALSE,45.8069,15.9614
+"CUB","CU","CUB","Cuba","LCN","LAC","UMC","LNX","Havana",FALSE,TRUE,FALSE,23.1333,-82.3667
+"CUW","CW","CUW","Curacao","LCN",NA,"HIC","LNX","Willemstad",FALSE,NA,NA,NA,NA
+"CYP","CY","CYP","Cyprus","ECS",NA,"HIC","LNX","Nicosia",FALSE,FALSE,FALSE,35.1676,33.3736
+"CZE","CZ","CZE","Czech Republic","ECS",NA,"HIC","LNX","Prague",FALSE,FALSE,TRUE,50.0878,14.4205
+"DNK","DK","DNK","Denmark","ECS",NA,"HIC","LNX","Copenhagen",FALSE,FALSE,FALSE,55.6763,12.5681
+"DJI","DJ","DJI","Djibouti","MEA","MNA","LMC","IDX","Djibouti",FALSE,FALSE,FALSE,11.5806,43.1425
+"DMA","DM","DMA","Dominica","LCN","LAC","UMC","IDB","Roseau",FALSE,TRUE,FALSE,15.2976,-61.39
+"DOM","DO","DOM","Dominican Republic","LCN","LAC","UMC","IBD","Santo Domingo",FALSE,TRUE,FALSE,18.479,-69.8908
+"ECU","EC","ECU","Ecuador","LCN","LAC","UMC","IBD","Quito",FALSE,FALSE,FALSE,-0.229498,-78.5243
+"EGY","EG","EGY","Egypt, Arab Rep.","MEA","MNA","LMC","IBD","Cairo",FALSE,FALSE,FALSE,30.0982,31.2461
+"SLV","SV","SLV","El Salvador","LCN","LAC","LMC","IBD","San Salvador",FALSE,FALSE,FALSE,13.7034,-89.2073
+"GNQ","GQ","GNQ","Equatorial Guinea","SSF","SSA","UMC","IBD","Malabo",FALSE,FALSE,FALSE,3.7523,8.7741
+"ERI","ER","ERI","Eritrea","SSF","SSA","LIC","IDX","Asmara",FALSE,FALSE,FALSE,15.3315,38.9183
+"EST","EE","EST","Estonia","ECS",NA,"HIC","LNX","Tallinn",FALSE,FALSE,FALSE,59.4392,24.7586
+"ETH","ET","ETH","Ethiopia","SSF","SSA","LIC","IDX","Addis Ababa",FALSE,FALSE,TRUE,9.02274,38.7468
+"FRO","FO","FRO","Faroe Islands","ECS",NA,"HIC","LNX","Torshavn",FALSE,NA,NA,61.8926,-6.91181
+"FJI","FJ","FJI","Fiji","EAS","EAP","UMC","IBD","Suva",FALSE,TRUE,FALSE,-18.1149,178.399
+"FIN","FI","FIN","Finland","ECS",NA,"HIC","LNX","Helsinki",FALSE,FALSE,FALSE,60.1608,24.9525
+"FRA","FR","FRA","France","ECS",NA,"HIC","LNX","Paris",FALSE,FALSE,FALSE,48.8566,2.35097
+"PYF","PF","PYF","French Polynesia","EAS",NA,"HIC","LNX","Papeete",FALSE,NA,NA,-17.535,-149.57
+"GAB","GA","GAB","Gabon","SSF","SSA","UMC","IBD","Libreville",FALSE,FALSE,FALSE,0.38832,9.45162
+"GMB","GM","GMB","Gambia, The","SSF","SSA","LIC","IDX","Banjul",FALSE,FALSE,FALSE,13.4495,-16.5885
+"GEO","GE","GEO","Georgia","ECS","ECA","UMC","IBD","Tbilisi",FALSE,FALSE,FALSE,41.71,44.793
+"DEU","DE","DEU","Germany","ECS",NA,"HIC","LNX","Berlin",FALSE,FALSE,FALSE,52.5235,13.4115
+"GHA","GH","GHA","Ghana","SSF","SSA","LMC","IDX","Accra",FALSE,FALSE,FALSE,5.57045,-0.20795
+"GIB","GI","GIB","Gibraltar","ECS",NA,"HIC","LNX",NA,FALSE,NA,NA,NA,NA
+"GRC","GR","GRC","Greece","ECS",NA,"HIC","LNX","Athens",FALSE,FALSE,FALSE,37.9792,23.7166
+"GRL","GL","GRL","Greenland","ECS",NA,"HIC","LNX","Nuuk",FALSE,NA,NA,64.1836,-51.7214
+"GRD","GD","GRD","Grenada","LCN","LAC","UMC","IDB","Saint George's",FALSE,TRUE,FALSE,12.0653,-61.7449
+"GUM","GU","GUM","Guam","EAS",NA,"HIC","LNX","Agana",FALSE,NA,NA,13.4443,144.794
+"GTM","GT","GTM","Guatemala","LCN","LAC","LMC","IBD","Guatemala City",FALSE,FALSE,FALSE,14.6248,-90.5328
+"GIN","GN","GIN","Guinea","SSF","SSA","LIC","IDX","Conakry",FALSE,FALSE,FALSE,9.51667,-13.7
+"GNB","GW","GNB","Guinea-Bissau","SSF","SSA","LIC","IDX","Bissau",FALSE,TRUE,FALSE,11.8037,-15.1804
+"GUY","GY","GUY","Guyana","LCN","LAC","UMC","IDX","Georgetown",FALSE,TRUE,FALSE,6.80461,-58.1548
+"HTI","HT","HTI","Haiti","LCN","LAC","LIC","IDX","Port-au-Prince",FALSE,TRUE,FALSE,18.5392,-72.3288
+"HND","HN","HND","Honduras","LCN","LAC","LMC","IDX","Tegucigalpa",FALSE,FALSE,FALSE,15.1333,-87.4667
+"HKG","HK","HKG","Hong Kong SAR, China","EAS",NA,"HIC","LNX",NA,FALSE,FALSE,FALSE,22.3964,114.109
+"HUN","HU","HUN","Hungary","ECS",NA,"HIC","LNX","Budapest",FALSE,FALSE,TRUE,47.4984,19.0408
+"ISL","IS","ISL","Iceland","ECS",NA,"HIC","LNX","Reykjavik",FALSE,FALSE,FALSE,64.1353,-21.8952
+"IND","IN","IND","India","SAS","SAS","LMC","IBD","New Delhi",FALSE,FALSE,FALSE,28.6353,77.225
+"IDN","ID","IDN","Indonesia","EAS","EAP","LMC","IBD","Jakarta",FALSE,FALSE,FALSE,-6.19752,106.83
+"IRN","IR","IRN","Iran, Islamic Rep.","MEA","MNA","UMC","IBD","Tehran",FALSE,FALSE,FALSE,35.6878,51.4447
+"IRQ","IQ","IRQ","Iraq","MEA","MNA","UMC","IBD","Baghdad",FALSE,FALSE,FALSE,33.3302,44.394
+"IRL","IE","IRL","Ireland","ECS",NA,"HIC","LNX","Dublin",FALSE,FALSE,FALSE,53.3441,-6.26749
+"IMN","IM","IMN","Isle of Man","ECS",NA,"HIC","LNX","Douglas",FALSE,NA,NA,54.1509,-4.47928
+"ISR","IL","ISR","Israel","MEA",NA,"HIC","LNX",NA,FALSE,FALSE,FALSE,31.7717,35.2035
+"ITA","IT","ITA","Italy","ECS",NA,"HIC","LNX","Rome",FALSE,FALSE,FALSE,41.8955,12.4823
+"JAM","JM","JAM","Jamaica","LCN","LAC","UMC","IBD","Kingston",FALSE,TRUE,FALSE,17.9927,-76.792
+"JPN","JP","JPN","Japan","EAS",NA,"HIC","LNX","Tokyo",FALSE,FALSE,FALSE,35.67,139.77
+"JOR","JO","JOR","Jordan","MEA","MNA","UMC","IBD","Amman",FALSE,FALSE,FALSE,31.9497,35.9263
+"KAZ","KZ","KAZ","Kazakhstan","ECS","ECA","UMC","IBD","Astana",FALSE,FALSE,TRUE,51.1879,71.4382
+"KEN","KE","KEN","Kenya","SSF","SSA","LMC","IDX","Nairobi",FALSE,FALSE,FALSE,-1.27975,36.8126
+"KIR","KI","KIR","Kiribati","EAS","EAP","LMC","IDX","Tarawa",FALSE,TRUE,FALSE,1.32905,172.979
+"PRK","KP","PRK","Korea, Dem. People’s Rep.","EAS","EAP","LIC","LNX","Pyongyang",FALSE,NA,NA,39.0319,125.754
+"KOR","KR","KOR","Korea, Rep.","EAS",NA,"HIC","LNX","Seoul",FALSE,FALSE,FALSE,37.5323,126.957
+"KSV","XK","KSV","Kosovo","ECS","ECA","LMC","IDX","Pristina",FALSE,FALSE,TRUE,42.565,20.926
+"KWT","KW","KWT","Kuwait","MEA",NA,"HIC","LNX","Kuwait City",FALSE,FALSE,FALSE,29.3721,47.9824
+"KGZ","KG","KGZ","Kyrgyz Republic","ECS","ECA","LMC","IDX","Bishkek",FALSE,FALSE,TRUE,42.8851,74.6057
+"LAO","LA","LAO","Lao PDR","EAS","EAP","LMC","IDX","Vientiane",FALSE,FALSE,TRUE,18.5826,102.177
+"LVA","LV","LVA","Latvia","ECS",NA,"HIC","LNX","Riga",FALSE,FALSE,FALSE,56.9465,24.1048
+"LBN","LB","LBN","Lebanon","MEA","MNA","UMC","IBD","Beirut",FALSE,FALSE,FALSE,33.8872,35.5134
+"LSO","LS","LSO","Lesotho","SSF","SSA","LMC","IDX","Maseru",FALSE,FALSE,TRUE,-29.5208,27.7167
+"LBR","LR","LBR","Liberia","SSF","SSA","LIC","IDX","Monrovia",FALSE,FALSE,FALSE,6.30039,-10.7957
+"LBY","LY","LBY","Libya","MEA","MNA","UMC","IBD","Tripoli",FALSE,FALSE,FALSE,32.8578,13.1072
+"LIE","LI","LIE","Liechtenstein","ECS",NA,"HIC","LNX","Vaduz",FALSE,NA,NA,47.1411,9.52148
+"LTU","LT","LTU","Lithuania","ECS",NA,"HIC","LNX","Vilnius",FALSE,FALSE,FALSE,54.6896,25.2799
+"LUX","LU","LUX","Luxembourg","ECS",NA,"HIC","LNX","Luxembourg",FALSE,FALSE,TRUE,49.61,6.1296
+"MAC","MO","MAC","Macao SAR, China","EAS",NA,"HIC","LNX",NA,FALSE,FALSE,FALSE,22.1667,113.55
+"MKD","MK","MKD","Macedonia, FYR","ECS","ECA","UMC","IBD","Skopje",FALSE,FALSE,TRUE,42.0024,21.4361
+"MDG","MG","MDG","Madagascar","SSF","SSA","LIC","IDX","Antananarivo",FALSE,FALSE,FALSE,-20.4667,45.7167
+"MWI","MW","MWI","Malawi","SSF","SSA","LIC","IDX","Lilongwe",FALSE,FALSE,TRUE,-13.9899,33.7703
+"MYS","MY","MYS","Malaysia","EAS","EAP","UMC","IBD","Kuala Lumpur",FALSE,FALSE,FALSE,3.12433,101.684
+"MDV","MV","MDV","Maldives","SAS","SAS","UMC","IDX","Male",FALSE,TRUE,FALSE,4.1742,73.5109
+"MLI","ML","MLI","Mali","SSF","SSA","LIC","IDX","Bamako",FALSE,FALSE,TRUE,13.5667,-7.50034
+"MLT","MT","MLT","Malta","MEA",NA,"HIC","LNX","Valletta",FALSE,FALSE,FALSE,35.9042,14.5189
+"MHL","MH","MHL","Marshall Islands","EAS","EAP","UMC","IDX","Majuro",FALSE,TRUE,FALSE,7.11046,171.135
+"MRT","MR","MRT","Mauritania","SSF","SSA","LMC","IDX","Nouakchott",FALSE,FALSE,FALSE,18.2367,-15.9824
+"MUS","MU","MUS","Mauritius","SSF","SSA","UMC","IBD","Port Louis",FALSE,TRUE,FALSE,-20.1605,57.4977
+"MEX","MX","MEX","Mexico","LCN","LAC","UMC","IBD","Mexico City",FALSE,FALSE,FALSE,19.427,-99.1276
+"FSM","FM","FSM","Micronesia, Fed. Sts.","EAS","EAP","LMC","IDX","Palikir",FALSE,TRUE,FALSE,6.91771,158.185
+"MDA","MD","MDA","Moldova","ECS","ECA","LMC","IDB","Chisinau",FALSE,FALSE,TRUE,47.0167,28.8497
+"MCO","MC","MCO","Monaco","ECS",NA,"HIC","LNX","Monaco",FALSE,NA,NA,43.7325,7.41891
+"MNG","MN","MNG","Mongolia","EAS","EAP","LMC","IDB","Ulaanbaatar",FALSE,FALSE,TRUE,47.9129,106.937
+"MNE","ME","MNE","Montenegro","ECS","ECA","UMC","IBD","Podgorica",FALSE,FALSE,FALSE,42.4602,19.2595
+"MAR","MA","MAR","Morocco","MEA","MNA","LMC","IBD","Rabat",FALSE,FALSE,FALSE,33.9905,-6.8704
+"MOZ","MZ","MOZ","Mozambique","SSF","SSA","LIC","IDX","Maputo",FALSE,FALSE,FALSE,-25.9664,32.5713
+"MMR","MM","MMR","Myanmar","EAS","EAP","LMC","IDX","Naypyidaw",FALSE,FALSE,FALSE,21.914,95.9562
+"NAM","NA","NAM","Namibia","SSF","SSA","UMC","IBD","Windhoek",FALSE,FALSE,FALSE,-22.5648,17.0931
+"NRU","NR","NRU","Nauru","EAS",NA,"HIC","IBD","Yaren District",FALSE,NA,NA,-0.5477,166.920867
+"NPL","NP","NPL","Nepal","SAS","SAS","LIC","IDX","Kathmandu",FALSE,FALSE,TRUE,27.6939,85.3157
+"NLD","NL","NLD","Netherlands","ECS",NA,"HIC","LNX","Amsterdam",FALSE,FALSE,FALSE,52.3738,4.89095
+"NCL","NC","NCL","New Caledonia","EAS",NA,"HIC","LNX","Noum'ea",FALSE,NA,NA,-22.2677,166.464
+"NZL","NZ","NZL","New Zealand","EAS",NA,"HIC","LNX","Wellington",FALSE,FALSE,FALSE,-41.2865,174.776
+"NIC","NI","NIC","Nicaragua","LCN","LAC","LMC","IDX","Managua",FALSE,FALSE,FALSE,12.1475,-86.2734
+"NER","NE","NER","Niger","SSF","SSA","LIC","IDX","Niamey",FALSE,FALSE,TRUE,13.514,2.1073
+"NGA","NG","NGA","Nigeria","SSF","SSA","LMC","IDB","Abuja",FALSE,FALSE,FALSE,9.05804,7.48906
+"MNP","MP","MNP","Northern Mariana Islands","EAS",NA,"HIC","LNX","Saipan",FALSE,NA,NA,15.1935,145.765
+"NOR","NO","NOR","Norway","ECS",NA,"HIC","LNX","Oslo",FALSE,FALSE,FALSE,59.9138,10.7387
+"OMN","OM","OMN","Oman","MEA",NA,"HIC","LNX","Muscat",FALSE,FALSE,FALSE,23.6105,58.5874
+"PAK","PK","PAK","Pakistan","SAS","SAS","LMC","IDB","Islamabad",FALSE,FALSE,FALSE,30.5167,72.8
+"PLW","PW","PLW","Palau","EAS","EAP","UMC","IBD","Koror",FALSE,TRUE,FALSE,7.34194,134.479
+"PAN","PA","PAN","Panama","LCN","LAC","UMC","IBD","Panama City",FALSE,FALSE,FALSE,8.99427,-79.5188
+"PNG","PG","PNG","Papua New Guinea","EAS","EAP","LMC","IDB","Port Moresby",FALSE,TRUE,FALSE,-9.47357,147.194
+"PRY","PY","PRY","Paraguay","LCN","LAC","UMC","IBD","Asuncion",FALSE,FALSE,TRUE,-25.3005,-57.6362
+"PER","PE","PER","Peru","LCN","LAC","UMC","IBD","Lima",FALSE,FALSE,FALSE,-12.0931,-77.0465
+"PHL","PH","PHL","Philippines","EAS","EAP","LMC","IBD","Manila",FALSE,FALSE,FALSE,14.5515,121.035
+"POL","PL","POL","Poland","ECS",NA,"HIC","IBD","Warsaw",FALSE,FALSE,FALSE,52.26,21.02
+"PRT","PT","PRT","Portugal","ECS",NA,"HIC","LNX","Lisbon",FALSE,FALSE,FALSE,38.7072,-9.13552
+"PRI","PR","PRI","Puerto Rico","LCN",NA,"HIC","LNX","San Juan",FALSE,TRUE,FALSE,18.23,-66
+"QAT","QA","QAT","Qatar","MEA",NA,"HIC","LNX","Doha",FALSE,FALSE,FALSE,25.2948,51.5082
+"ROU","RO","ROU","Romania","ECS","ECA","UMC","IBD","Bucharest",FALSE,FALSE,FALSE,44.4479,26.0979
+"RUS","RU","RUS","Russian Federation","ECS","ECA","UMC","IBD","Moscow",FALSE,FALSE,FALSE,55.7558,37.6176
+"RWA","RW","RWA","Rwanda","SSF","SSA","LIC","IDX","Kigali",FALSE,FALSE,TRUE,-1.95325,30.0587
+"WSM","WS","WSM","Samoa","EAS","EAP","LMC","IDX","Apia",FALSE,TRUE,FALSE,-13.8314,-171.752
+"SMR","SM","SMR","San Marino","ECS",NA,"HIC","LNX","San Marino",FALSE,NA,NA,43.9322,12.4486
+"STP","ST","STP","Sao Tome and Principe","SSF","SSA","LMC","IDX","Sao Tome",FALSE,TRUE,FALSE,0.20618,6.6071
+"SAU","SA","SAU","Saudi Arabia","MEA",NA,"HIC","LNX","Riyadh",FALSE,FALSE,FALSE,24.6748,46.6977
+"SEN","SN","SEN","Senegal","SSF","SSA","LIC","IDX","Dakar",FALSE,FALSE,FALSE,14.7247,-17.4734
+"SRB","RS","SRB","Serbia","ECS","ECA","UMC","IBD","Belgrade",FALSE,FALSE,TRUE,44.8024,20.4656
+"SYC","SC","SYC","Seychelles","SSF",NA,"HIC","IBD","Victoria",FALSE,TRUE,FALSE,-4.6309,55.4466
+"SLE","SL","SLE","Sierra Leone","SSF","SSA","LIC","IDX","Freetown",FALSE,FALSE,FALSE,8.4821,-13.2134
+"SGP","SG","SGP","Singapore","EAS",NA,"HIC","LNX","Singapore",FALSE,TRUE,FALSE,1.28941,103.85
+"SXM","SX","SXM","Sint Maarten (Dutch part)","LCN",NA,"HIC","LNX","Philipsburg",FALSE,NA,NA,NA,NA
+"SVK","SK","SVK","Slovak Republic","ECS",NA,"HIC","LNX","Bratislava",FALSE,FALSE,TRUE,48.1484,17.1073
+"SVN","SI","SVN","Slovenia","ECS",NA,"HIC","LNX","Ljubljana",FALSE,FALSE,FALSE,46.0546,14.5044
+"SLB","SB","SLB","Solomon Islands","EAS","EAP","LMC","IDX","Honiara",FALSE,TRUE,FALSE,-9.42676,159.949
+"SOM","SO","SOM","Somalia","SSF","SSA","LIC","IDX","Mogadishu",FALSE,FALSE,FALSE,2.07515,45.3254
+"ZAF","ZA","ZAF","South Africa","SSF","SSA","UMC","IBD","Pretoria",FALSE,FALSE,FALSE,-25.746,28.1871
+"SSD","SS","SSD","South Sudan","SSF","SSA","LIC","IDX","Juba",FALSE,FALSE,TRUE,4.85,31.6
+"ESP","ES","ESP","Spain","ECS",NA,"HIC","LNX","Madrid",FALSE,FALSE,FALSE,40.4167,-3.70327
+"LKA","LK","LKA","Sri Lanka","SAS","SAS","LMC","IDB","Colombo",FALSE,FALSE,FALSE,6.92148,79.8528
+"KNA","KN","KNA","St. Kitts and Nevis","LCN",NA,"HIC","IBD","Basseterre",FALSE,TRUE,FALSE,17.3,-62.7309
+"LCA","LC","LCA","St. Lucia","LCN","LAC","UMC","IDB","Castries",FALSE,TRUE,FALSE,14,-60.9832
+"MAF","MF","MAF","St. Martin (French part)","LCN",NA,"HIC","LNX","Marigot",FALSE,NA,NA,NA,NA
+"VCT","VC","VCT","St. Vincent and the Grenadines","LCN","LAC","UMC","IDB","Kingstown",FALSE,TRUE,FALSE,13.2035,-61.2653
+"SDN","SD","SDN","Sudan","SSF","SSA","LMC","IDX","Khartoum",FALSE,FALSE,FALSE,15.5932,32.5363
+"SUR","SR","SUR","Suriname","LCN","LAC","UMC","IBD","Paramaribo",FALSE,TRUE,FALSE,5.8232,-55.1679
+"SWZ","SZ","SWZ","Swaziland","SSF","SSA","LMC","IBD","Mbabane",FALSE,FALSE,TRUE,-26.5225,31.4659
+"SWE","SE","SWE","Sweden","ECS",NA,"HIC","LNX","Stockholm",FALSE,FALSE,FALSE,59.3327,18.0645
+"CHE","CH","CHE","Switzerland","ECS",NA,"HIC","LNX","Bern",FALSE,FALSE,TRUE,46.948,7.44821
+"SYR","SY","SYR","Syrian Arab Republic","MEA","MNA","LMC","IBD","Damascus",FALSE,FALSE,FALSE,33.5146,36.3119
+"TJK","TJ","TJK","Tajikistan","ECS","ECA","LMC","IDX","Dushanbe",FALSE,FALSE,TRUE,38.5878,68.7864
+"TZA","TZ","TZA","Tanzania","SSF","SSA","LIC","IDX","Dodoma",FALSE,FALSE,FALSE,-6.17486,35.7382
+"THA","TH","THA","Thailand","EAS","EAP","UMC","IBD","Bangkok",FALSE,FALSE,FALSE,13.7308,100.521
+"TLS","TL","TLS","Timor-Leste","EAS","EAP","LMC","IDB","Dili",FALSE,TRUE,FALSE,-8.56667,125.567
+"TGO","TG","TGO","Togo","SSF","SSA","LIC","IDX","Lome",FALSE,FALSE,FALSE,6.1228,1.2255
+"TON","TO","TON","Tonga","EAS","EAP","LMC","IDX","Nuku'alofa",FALSE,FALSE,FALSE,-21.136,-175.216
+"TTO","TT","TTO","Trinidad and Tobago","LCN",NA,"HIC","IBD","Port-of-Spain",FALSE,TRUE,FALSE,10.6596,-61.4789
+"TUN","TN","TUN","Tunisia","MEA","MNA","LMC","IBD","Tunis",FALSE,FALSE,FALSE,36.7899,10.21
+"TUR","TR","TUR","Turkey","ECS","ECA","UMC","IBD","Ankara",FALSE,FALSE,FALSE,39.7153,32.3606
+"TKM","TM","TKM","Turkmenistan","ECS","ECA","UMC","IBD","Ashgabat",FALSE,FALSE,TRUE,37.9509,58.3794
+"TCA","TC","TCA","Turks and Caicos Islands","LCN",NA,"HIC","LNX","Grand Turk",FALSE,NA,NA,21.4602778,-71.141389
+"TUV","TV","TUV","Tuvalu","EAS","EAP","UMC","IDX","Funafuti",FALSE,TRUE,FALSE,-8.6314877,179.089567
+"UGA","UG","UGA","Uganda","SSF","SSA","LIC","IDX","Kampala",FALSE,FALSE,TRUE,0.314269,32.5729
+"UKR","UA","UKR","Ukraine","ECS","ECA","LMC","IBD","Kiev",FALSE,FALSE,FALSE,50.4536,30.5038
+"ARE","AE","ARE","United Arab Emirates","MEA",NA,"HIC","LNX","Abu Dhabi",FALSE,FALSE,FALSE,24.4764,54.3705
+"GBR","GB","GBR","United Kingdom","ECS",NA,"HIC","LNX","London",FALSE,FALSE,FALSE,51.5002,-0.126236
+"USA","US","USA","United States","NAC",NA,"HIC","LNX","Washington D.C.",FALSE,FALSE,FALSE,38.8895,-77.032
+"URY","UY","URY","Uruguay","LCN",NA,"HIC","IBD","Montevideo",FALSE,FALSE,FALSE,-34.8941,-56.0675
+"UZB","UZ","UZB","Uzbekistan","ECS","ECA","LMC","IDB","Tashkent",FALSE,FALSE,TRUE,41.3052,69.269
+"VUT","VU","VUT","Vanuatu","EAS","EAP","LMC","IDX","Port-Vila",FALSE,TRUE,FALSE,-17.7404,168.321
+"VEN","VE","VEN","Venezuela, RB","LCN","LAC","UMC","IBD","Caracas",FALSE,FALSE,FALSE,9.08165,-69.8371
+"VNM","VN","VNM","Vietnam","EAS","EAP","LMC","IDB","Hanoi",FALSE,FALSE,FALSE,21.0069,105.825
+"VIR","VI","VIR","Virgin Islands (U.S.)","LCN",NA,"HIC","LNX","Charlotte Amalie",FALSE,NA,NA,18.3358,-64.8963
+"PSE","PS","PSE","West Bank and Gaza","MEA","MNA","LMC","LNX",NA,FALSE,FALSE,FALSE,NA,NA
+"YEM","YE","YEM","Yemen, Rep.","MEA","MNA","LMC","IDX","Sana'a",FALSE,FALSE,FALSE,15.352,44.2075
+"ZMB","ZM","ZMB","Zambia","SSF","SSA","LMC","IDX","Lusaka",FALSE,FALSE,TRUE,-15.3982,28.2937
+"ZWE","ZW","ZWE","Zimbabwe","SSF","SSA","LIC","IDB","Harare",FALSE,FALSE,TRUE,-17.8312,31.0672
