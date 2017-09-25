@@ -45,7 +45,7 @@ nominal_gdp <- nominal_gdp[c('iso2','latestNominalGDP')]
 countries <- merge(countries, nominal_gdp, by="iso2", all.x=TRUE)
 
 
-text_color <- "black"
+text_color <- "#404040"
 ########## Header ##########
 
 ## ---- fcvtext ----
