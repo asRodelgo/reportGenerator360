@@ -119,20 +119,14 @@ figure_number_rank_only <- function(Report_data,reportConfig,couName,table, str_
         mar=c(0,0,0,0), #sets margin size for the figures
         oma=c(0,0,0,0)) #sets outer margin
     
+    if(show_indicator){
     # print indicator name
-    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE, uniform=TRUE,margin=0.1)
-    graphics::text(1.5, 1.0,str_wrap(indicator, width = str_wrap_size), col="black", cex=7)
-    # graphics::text(1.5, 0.7,unit, col=text_color, cex=5)
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE, uniform=TRUE,margin=0.1)
+      graphics::text(1.5, 1.0,str_wrap(indicator, width = str_wrap_size), col="black", cex=7)
+      }
     # print data point and rank
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
     graphics::text(1.5, 0.95,"No data available", col=text_color, cex=10)
-    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    # graphics::text(1.5, 1.1,paste0("(Rank: /",rankedTotal,")"), col=text_color, cex=7)
-    # plot sparkline  
-    # par(family = 'serif',#sets number of rows in space to number of cols in data frame x
-    #     mar=c(0,5,0,5))#sets margin size for the figures
-    #oma=c(0,4,0,4)) #sets outer margin
-    
   } 
   
 }
