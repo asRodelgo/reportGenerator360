@@ -49,7 +49,8 @@ figure_number_rank_only(Report_data,reportConfig,couName, "line14", str_wrap_siz
 ########## Wage Employment ###############
 
 ## ---- bar2.1 ----
-bar_chart_gender(Report_data,reportConfig,couName, reportConfig$Section[2],"bar21",paste_unit=FALSE,kind="stackedbar")
+bar_chart_gender(Report_data,reportConfig,couName, reportConfig$Section[2],"bar21",paste_unit=FALSE,kind="normal", str_wrap_size=20)
+# bar_chart_gender(Report_data,reportConfig,couName, reportConfig$Section[2],"bar21",paste_unit=FALSE,kind="stackedbar")
 
 ## ---- line2.2 ----
 line_chart_avg(Report_data,reportConfig,couName,reportConfig$Section[2],"line22",minTime="2009", neighbor="region",max_neighbors=1, world=TRUE)
@@ -91,7 +92,7 @@ bar_chart_gender(Report_data,reportConfig,couName, reportConfig$Section[5],"bar5
 # bar_chart_gender(Report_data,reportConfig,couName, reportConfig$Section[5],"bar52.1",paste_unit=FALSE, kind="pie")
 
 ## ---- number5.2.2 ----
-pie_chart_region(Report_data,reportConfig,couName, reportConfig$Section[5],"bar52.2",neighbor = "region",region=TRUE)
+pie_chart_region(Report_data,reportConfig,couName, reportConfig$Section[5],"bar52.2",neighbor = "region",region=TRUE, useadminregion = TRUE)
 
 
 ########## Social and Political Norms ##########

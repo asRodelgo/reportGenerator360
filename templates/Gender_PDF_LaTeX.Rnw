@@ -20,10 +20,10 @@
   
     \begin{minipage}[b]{0.99\textwidth} 
       \vspace{3ex}
-      \hspace{5ex}{\fontsize{28}{26}\selectfont{\color{white}\Sexpr{couName}}}
+      \hspace{5ex}{\fontsize{21}{22}\selectfont{\color{white}\Sexpr{couName}}}
       \par
       \vspace*{1ex}
-      \hspace*{5ex}
+      \hspace*{4.5ex}
   <<echo=FALSE, results='asis', warning = FALSE>>=
   cou <- .getCountryCode(couName)
   check_val <- nrow(filter(Report_data, CountryCode==cou, Subsection2 %in% "figure1", !is.na(Observation)))
@@ -54,15 +54,15 @@
     rank <- which(dataWorld$CountryCode == cou)
     rankedTotal <- nrow(dataWorld)
     
-    cat("\\large{\\color{white}") 
-    cat(paste0(sprintf("WEF Overall Gender Empowerment \\par \\hspace*{4ex} Rank (%s): \\textbf{%d/%d}", as.character(dataPeriod),rank, rankedTotal)))
+    cat("\\normalsize{\\color{white}") 
+    cat(paste0(sprintf("WEF Overall Gender Empowerment Rank (%s):\\par \\hspace*{4.5ex}} \\LARGE{\\color{white}\\textbf{%d/%d}", as.character(dataPeriod),rank, rankedTotal)))
     cat("}")
   }
 @
     \end{minipage}
     
     \begin{minipage}[t]{0.99\textwidth} % top section
-      \vspace{1.5ex}
+      \vspace{1ex}
       \hspace{5ex}\raggedright\large{\color{white}Country Snapshot}
     \end{minipage}  
   \end{minipage}
@@ -150,7 +150,7 @@
     \end{minipage}
 \end{minipage}
 
-\vspace*{-3ex}
+\vspace*{-0.1ex}
 \begin{minipage}[c]{0.95\textwidth}
     \begin{minipage}[c]{0.38\textwidth}
     <<line1.3.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='left',fig.height=2,fig.width=4,results="asis">>=  
@@ -167,7 +167,7 @@
   \end{minipage}
 \end{minipage}
 
-\vspace*{-3ex}
+\vspace*{-2ex}
 \begin{minipage}[t]{0.95\textwidth}
     \begin{minipage}[t]{0.38\textwidth}
        \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 1,Order == 3)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 1,Order == 3)[1,1]}}}}\hspace{1ex}\includegraphics[width=0.25cm]{\Sexpr{paste0(parent_directory,"/www/link_icon.png")}}
@@ -291,10 +291,12 @@
   \begin{minipage}[c]{0.5\textwidth}
     <<number4.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=3,fig.width=12,results="asis",out.width="3.75in", out.length="1.25in">>=  
     @
+  \hspace{4ex}\scriptsize{\textit{* Note: The index ranges from -2 to 0, with higher values indicating greater}}
+  \newline \hspace*{6ex}\scriptsize{\textit{inclusiveness of property rights.}}
   \end{minipage}
 \end{minipage}
 
-\vspace*{-0.5ex}
+\vspace*{1ex}
 \begin{minipage}[c]{0.95\textwidth}
   \begin{minipage}[c]{0.5\textwidth}
     \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 1)[1,1]}}}}\hspace{1ex}\includegraphics[width=0.25cm]{\Sexpr{paste0(parent_directory,"/www/link_icon.png")}}
@@ -391,12 +393,12 @@
   \begin{minipage}[t]{0.45\textwidth}
     \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 6,Order == 1)[1,1]}}}
   \end{minipage}
-  \begin{minipage}[t]{0.25\textwidth}
+  \begin{minipage}[t]{0.20\textwidth}
     \small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 6,Order == 2)[1,1]}}}
   \end{minipage}
-  \hspace{0.03\textwidth}
+  \hspace{0.08\textwidth}
   \begin{minipage}[t]{0.25\textwidth}
-    \small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 6,Order == 3)[1,1]}}}
+  \small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 6,Order == 3)[1,1]}}}
   \end{minipage}
 \end{minipage}
 
@@ -432,7 +434,7 @@
 \end{minipage}
 
 %%% footer ----------------------------------
-\vspace{4ex}
+\vspace{2ex}
 \begin{minipage}[c]{0.23\textwidth}
   \hspace*{+0.3cm} \includegraphics[width=4cm,left]{\Sexpr{paste0(parent_directory,"/www/WBlogo_Transparent.png")}}
 \end{minipage}
