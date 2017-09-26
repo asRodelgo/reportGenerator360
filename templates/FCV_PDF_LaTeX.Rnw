@@ -139,8 +139,8 @@
 \begin{minipage}[c]{0.95\textwidth}
   \vspace{5ex}
   \begin{flushleft}  
-    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[2]}}}\hspace{2ex}\small{\textcolor[HTML]{404040} {\Sexpr{section_desc[2]}}}\newline
-    \vspace*{1ex}
+    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[2]}}}\hspace{2ex}\small{\textcolor[HTML]{404040} {\Sexpr{section_desc[2]}}}
+    \vspace*{1ex}\newline
     \hspace*{4ex}\large{\textcolor[HTML]{404040}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 1)[1,1]}}}
   \end{flushleft} 
   \begin{minipage}[c]{0.4\textwidth}
