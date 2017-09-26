@@ -80,7 +80,7 @@ figure_number_rank_only <- function(Report_data,reportConfig,couName,table, str_
   if (nrow(data)>0){
     
     # Print the combo -----------------------------------------------
-    par(family = 'serif',mfrow=c(5,1), #sets number of rows in space to number of cols in data frame x
+    par(family = 'serif',mfrow=c(3,1), #sets number of rows in space to number of cols in data frame x
         mar=c(0,0,0,0), #sets margin size for the figures
         oma=c(0,0,0,0)) #sets outer margin
     if(show_indicator){
@@ -112,21 +112,27 @@ figure_number_rank_only <- function(Report_data,reportConfig,couName,table, str_
     }
     
   } else {
-    
-    indicator <- filter(Report_data, Subsection2==table)$IndicatorShort[1]
-    # Print the combo -----------------------------------------------
-    par(family = 'serif',mfrow=c(5,1), #sets number of rows in space to number of cols in data frame x
-        mar=c(0,0,0,0), #sets margin size for the figures
-        oma=c(0,0,0,0)) #sets outer margin
-    
     if(show_indicator){
+      indicator <- filter(Report_data, Subsection2==table)$IndicatorShort[1]
+      # Print the combo -----------------------------------------------
+      par(family = 'serif',mfrow=c(3,1), #sets number of rows in space to number of cols in data frame x
+          mar=c(0,0,0,0), #sets margin size for the figures
+          oma=c(0,0,0,0)) #sets outer margin
+    
     # print indicator name
       plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE, uniform=TRUE,margin=0.1)
       graphics::text(1.5, 1.0,str_wrap(indicator, width = str_wrap_size), col="black", cex=7)
-      }
-    # print data point and rank
-    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 0.95,"No data available", col=text_color, cex=10)
+    
+      # print data point and rank
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 0.75,"Data not available", col="lightgrey", cex=7)
+    
+    } else{
+      # print data point and rank
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=5)
+    }
+    
   } 
   
 }
