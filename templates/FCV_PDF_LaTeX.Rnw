@@ -184,23 +184,23 @@
 %%%% WEF GLOBAL COMPETITIVENESS INDEX --------------------------------------------
 \vspace*{2ex}
 \begin{minipage}[t]{0.9\textwidth}
-  \begin{minipage}[t]{0.53\textwidth}
+  \begin{minipage}[t]{0.48\textwidth}
     \hspace{4ex}\small{\textcolor[HTML]{404040}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 2)[1,1]}}}
       <<radar2.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=9,results="asis", out.height='2.5in', out.width='4.5in'>>=  
       @
   \end{minipage}
   \hspace{0.1\textwidth}
-\colorbox{lightgray!40}{\begin{minipage}[t]{0.35\textwidth}
+\colorbox{lightgray!40}{\begin{minipage}[t]{0.40\textwidth}
   \hspace{3mm}
   \vspace{3mm}
   
-  \hspace{5mm}\begin{minipage}[t]{0.8\textwidth}
-    \footnotesize{\textcolor[HTML]{404040}{
+  \hspace{5mm}\begin{minipage}[t]{0.85\textwidth}
+    \scriptsize{\textcolor[HTML]{404040}{
     \textbf{Notes on interpreting Class Averages and Comparators in this report:}
-    \vspace{3mm}\newline
+    \vspace{2mm}\newline
     \textbf{\textcolor[HTML]{\Sexpr{main_color}}{Class Averages}} are computed by getting the average of all countries having the same FCV class as that of \textbf{\Sexpr{couName}}.
-    \vspace{3mm}\newline
-    \textbf{\textcolor[HTML]{\Sexpr{main_color}}{Country comparators}} are determined depending whether \textbf{\Sexpr{couName}} is: 
+    \vspace{2mm} \newline
+    \textbf{\textcolor[HTML]{\Sexpr{main_color}}{Country comparators}}* are determined depending whether \textbf{\Sexpr{couName}} is: 
     \begin{itemize}
       \setlength \itemsep{0.5ex}
       \item \textbf{FCS and SIDS:} Comparators are the top 4 SIDS FCS
@@ -208,6 +208,8 @@
       \item \textbf {past-FCS:} Comparators are top 4 past-FCS in same income group
       \item \textbf {non-FCS:} Comparators are top 4 non-FCS with least nominal GDP gap
     \end{itemize}
+    \vspace{2mm}
+    \textbf{*Special case:} If Country A does not have comparators with available data for a certain dataset and year (e.g., CPIA 2016), Comparators are the top 2-4 countries with the least nominal GDP gap in the same region.
     }}
     \end{minipage}
     
