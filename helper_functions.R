@@ -1581,6 +1581,9 @@ bar_facewrap_chart_fcv <- function(Report_data,reportConfig,couName, section, ta
       dataNeighbor <- filter(Report_data, CountryCode %in% c(neighbors), Subsection2 %in% dataset, !is.na(Observation))
     }
     
+    #check if latest neighbors have CPIA data for that year
+    if (((nrow(filter(dataNeighbor, Period==maxPeriod))>0) & (nrow(filter(dataNeighbor))>0))){
+    
     dataNeighbor <- filter(dataNeighbor, Period==maxPeriod)
     dataset_ave <- aggregate(dataNeighbor$Observation, list(dataNeighbor$CountryCode), mean) %>%
       arrange(desc(x))
@@ -1648,6 +1651,10 @@ bar_facewrap_chart_fcv <- function(Report_data,reportConfig,couName, section, ta
         plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
         graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)}
     } else {
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)}
+  }
+    else {
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
     graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
   }
