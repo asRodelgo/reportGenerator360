@@ -2,7 +2,7 @@
 # read folder of the shinyTCMN app
 ##################################
 # setwd() to handle images and other files
-setwd('/Users/asanchez3/Desktop/Work/reportGenerator360/')
+setwd('/Users/mrpso/Documents/GitHub/reportGenerator360/')
 source('global_utils.R') # data and functions needed
 source('helper_functions.R') # charts and table functions needed
 #source(paste0("templates/",input_reportID,"_charts.R"))

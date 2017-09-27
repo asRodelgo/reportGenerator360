@@ -45,7 +45,7 @@ nominal_gdp <- nominal_gdp[c('iso2','latestNominalGDP')]
 countries <- merge(countries, nominal_gdp, by="iso2", all.x=TRUE)
 
 
-text_color <- "black"
+text_color <- "#404040"
 ########## Header ##########
 
 ## ---- fcvtext ----
@@ -58,25 +58,25 @@ fcvtable(Report_data,reportConfig,couName,reportConfig$Section[1],"fcvtable")
 
 ########## Macroeconomic Trend ##########
 ## ---- table_time_avg_1.1 ----
-table_time_avg(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.1", GDPgrowthrate=TRUE, fcv=TRUE)
+table_time_avg(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.1", fcv=TRUE, arrange_by_datadesc=TRUE)
 
 ## ---- sparklines1.1 ----
-sparklines(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.1", num_period=10, GDPgrowthrate=TRUE)
+sparklines(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.1", num_period=10, arrange_by_datadesc=TRUE)
 
 
 ########## Investment Trend ##########
 ## ---- table_time_avg_1.2 ----
-table_time_avg(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.2", fcv=TRUE)
+table_time_avg(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.2", fcv=TRUE, arrange_by_datadesc=TRUE)
 
 ## ---- sparklines1.2 ----
-sparklines(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.2", num_period=10)
+sparklines(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.2", num_period=10, arrange_by_datadesc=TRUE)
 
 ########## Crossborder Flow Trend ##########
 ## ---- table_time_avg_1.3 ----
-table_time_avg(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.3", fcv=TRUE)
+table_time_avg(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.3", fcv=TRUE, arrange_by_datadesc=TRUE)
 
 ## ---- sparklines1.3 ----
-sparklines(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.3", num_period=10)
+sparklines(Report_data,reportConfig,couName,reportConfig$Section[1],"table1.3", num_period=10, arrange_by_datadesc=TRUE)
 
 ########## DOING BUSINESS ##########
 

@@ -6,13 +6,13 @@
 
 \begin{figure}
   \vspace{-1ex} % move up this figure
-  \includegraphics[width=21.6cm,height=6cm]{\Sexpr{paste0(parent_directory,"/www/header_background_",main_color,".png")}}
+  \includegraphics[width=21.6cm,height=6cm]{\Sexpr{paste0(parent_directory,"/www/header_background_small_box_",main_color,".png")}}
 \end{figure}
 
 \begin{figure}
 \begin{minipage}[t]{0.99\textwidth} % top section
   \vspace*{-26.8cm}
-  \begin{minipage}[t]{0.48\textwidth} % top section
+  \begin{minipage}[t]{0.57\textwidth} % top section
     \vspace{-1ex}
     \begin{minipage}[t]{0.99\textwidth} % top section
       \hspace{5ex}\raggedright\Large{\color{white}\Sexpr{title}}
@@ -28,9 +28,8 @@
       \hspace{5ex}\raggedright\large{\color{white}Country Snapshot}
     \end{minipage}  
   \end{minipage}
-  \begin{minipage}[t]{0.56\textwidth} % overview section
-    \vspace*{-2ex}
-    \hspace*{0.5ex}
+  \begin{minipage}[t]{0.43\textwidth} % overview section
+    \vspace*{-1.5ex}
        <<echo=FALSE, results='asis', warning = FALSE>>=
   title_box <- c("Income Group", "Resource Rich", "Fragility Class", "Land Locked",  "Small Island Developing States", "Region")
   cols <- c("incomeLevel_long", "ResourceRich", "FCVclass", "landlocked_long", "sids_long")
@@ -44,10 +43,10 @@
   body <- append(body, region)
   # Reads title and text vectors and prints them iteratively
   for (i in 1:length(title_box)){
-    cat("\\hspace*{4ex}\\large{\\color{black}") 
-    cat(paste(sprintf("\\textbf{\\textcolor[HTML]{722FF5}{%s:}} %s", title_box[i],body[i])))
+    cat("\\large{") 
+    cat(paste(sprintf("\\textbf{\\textcolor[HTML]{404040}{%s: }}{\\textcolor[HTML]{722FF5}{%s}}", title_box[i],body[i])))
     cat("}\\par")
-    cat("\\vspace*{2ex}")
+    cat("\\vspace*{1.5ex}")
   }
 @
     
@@ -58,26 +57,27 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%% OVERVIEW --------------------------------------------
-\begin{minipage}[c]{0.95\textwidth}
-\vspace*{-2ex}
-  \resizebox{\textwidth}{!}{{\color{black}
+\hspace{4ex}
+\begin{minipage}[c]{0.9\textwidth}
+  \resizebox{\textwidth}{!}{\textcolor[HTML]{404040}
     <<fcvtable,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=  
     @      
-  }}
+  }
 \end{minipage}
 
 %% Macroeconomic Trend --------------------------------------------
-\begin{minipage}[c]{0.72\textwidth}
+\hspace{4ex}
+\begin{minipage}[c]{0.65\textwidth}
   \begin{flushleft}
     \vspace*{0.2cm}
-      \textbf{\small{\color{black}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 1)[1,1]}}}}
+      \textbf{\small{\textcolor[HTML]{404040}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 1)[1,1]}}}}
   \end{flushleft}
   \vspace*{-0.7cm}
   \centering
-  \resizebox{\textwidth}{!}{{\color{black}
+  \resizebox{\textwidth}{!}{\textcolor[HTML]{404040}
   <<table_time_avg_1.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=  
   @      
-  }}
+  }
 \end{minipage}
 \begin{minipage}[c]{0.25\textwidth}
   \vspace*{+0.4cm}
@@ -87,17 +87,18 @@
 \end{minipage}
 
 %% Investment Trend --------------------------------------------
-\begin{minipage}[c]{0.72\textwidth}
+\hspace{4ex}
+\begin{minipage}[c]{0.65\textwidth}
   \begin{flushleft}  
     \vspace*{0.2cm}
-      \textbf{\small{\color{black}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 2)[1,1]}}}}
+      \textbf{\small{\textcolor[HTML]{404040}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 2)[1,1]}}}}
   \end{flushleft}
   \vspace*{-0.7cm}
   \centering
-  \resizebox{\textwidth}{!}{{\color{black}
+  \resizebox{\textwidth}{!}{\textcolor[HTML]{404040}
   <<table_time_avg_1.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=  
   @      
-  }}
+  }
 \end{minipage}
 \begin{minipage}[c]{0.25\textwidth}
   \vspace*{+0.4cm}
@@ -107,17 +108,19 @@
 \end{minipage}
 
 %% Crossborder Flow Trend --------------------------------------------
-\begin{minipage}[c]{0.72\textwidth}
+\vspace{2ex}
+\hspace{4ex}
+\begin{minipage}[c]{0.65\textwidth}
   \begin{flushleft}  
     \vspace*{0.2cm}
-      \textbf{\small{\color{black}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 3)[1,1]}}}}
+      \textbf{\small{\textcolor[HTML]{404040}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 3)[1,1]}}}}
   \end{flushleft}
   \vspace*{-0.7cm}
   \centering
-  \resizebox{\textwidth}{!}{{\color{black}
+  \resizebox{\textwidth}{!}{\textcolor[HTML]{404040}
   <<table_time_avg_1.3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=  
   @      
-  }}
+  }
 \end{minipage}
 \begin{minipage}[c]{0.25\textwidth}
   \vspace*{+0.4cm}
@@ -125,47 +128,39 @@
   @
   \vspace*{-0.4cm}
 \end{minipage}
-\hspace*{4ex}\textit{\scriptsize{\color{black}{* ODA means "Official Development Assistance"}}}}
+
+\hspace*{4ex}
+\begin{minipage}[t]{0.9\textwidth}
+  \textit{\scriptsize{\textcolor[HTML]{404040}{* ODA means "Official Development Assistance"}}}}
+\end{minipage}
 
 %%%% INVESTMENT COMPETITIVENESS --------------------------------------------
 %% DOING BUSINESS --------------------------------------------
 \begin{minipage}[c]{0.95\textwidth}
-  \vspace{3ex}
+  \vspace{5ex}
   \begin{flushleft}  
-    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[2]}}}\hspace{2ex}\small{\color{black} {\Sexpr{section_desc[2]}}}\newline
-    \vspace*{1ex}
-    \hspace*{4ex}\large{\color{black}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 1)[1,1]}}}
+    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[2]}}}\hspace{2ex}\small{\textcolor[HTML]{404040} {\Sexpr{section_desc[2]}}}
+    \vspace*{1ex}\newline
+    \hspace*{4ex}\large{\textcolor[HTML]{404040}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 1)[1,1]}}}
   \end{flushleft} 
   \begin{minipage}[c]{0.4\textwidth}
     \begin{minipage}[c]{0.95\textwidth}
-      \hspace{4ex}\small{\color{black}Ease of Doing Business: Rank}
-        <<slope2.1rank,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=1.75,fig.width=5,results="asis">>=  
+      \hspace{4ex}\small{\textcolor[HTML]{404040}{Ease of Doing Business:} \textcolor[HTML]{818181}{ Rank}}
+        <<slope2.1rank,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2.25,fig.width=5,results="asis">>=  
         @      
     \end{minipage}
     
     \begin{minipage}[c]{0.95\textwidth}
-    \hspace{4ex}\small{\color{black}Ease of Doing Business: Distance to Frontier}
-        <<slope2.1dtf,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=1.75,fig.width=5,results="asis">>=  
+    \hspace{4ex}\small{\textcolor[HTML]{404040}{Ease of Doing Business:} \textcolor[HTML]{818181}{ Distance to Frontier}}
+        <<slope2.1dtf,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2.25,fig.width=5,results="asis">>=  
         @      
     \end{minipage}
   \end{minipage}
   \begin{minipage}[c]{0.57\textwidth}
     \vspace*{-3ex}
-    <<radar2.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=9,results="asis",out.height='2.5in', out.width='4.5in'>>=  
+    <<radar2.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=6,fig.width=9,results="asis",out.height='3in', out.width='4.5in'>>=  
     @
   \end{minipage}
-\end{minipage}
-
-\begin{minipage}[c]{0.95\textwidth}
-  \scriptsize{\color{black}{\textbf{General Note:} Class averages are computed by getting the average of all countries having the same FCV class as that of \textbf{\Sexpr{couName}}. Country comparators are determined depending whether \textbf{\Sexpr{couName}} is: 
-  \begin{itemize}
-    \setlength \itemsep{0.25ex}
-    \item \textbf{FCS and SIDS:} Comparators are the top 4 SIDS FCS
-    \item \textbf{FCS but not SIDS:} Comparators are the top 4 FCS in the same region and same income group
-    \item \textbf {past-FCS:} Comparators are top 4 past-FCS in same income group
-    \item \textbf {non-FCS:} Comparators are top 4 non-FCS with least nominal GDP gap
-  \end{itemize}
-  }}
 \end{minipage}
 
 %%% footer ----------------------------------
@@ -188,30 +183,60 @@
 
 %%%% WEF GLOBAL COMPETITIVENESS INDEX --------------------------------------------
 \vspace*{2ex}
-\begin{minipage}[c]{0.95\textwidth}
-  \hspace{4ex}\small{\color{black}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 2)[1,1]}}}
-    <<radar2.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=9,results="asis", out.height='2.5in', out.width='4.5in'>>=  
-    @
+\begin{minipage}[t]{0.9\textwidth}
+  \begin{minipage}[t]{0.48\textwidth}
+    \hspace{4ex}\small{\textcolor[HTML]{404040}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 2)[1,1]}}}
+      <<radar2.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=9,results="asis", out.height='2.5in', out.width='4.5in'>>=  
+      @
+  \end{minipage}
+  \hspace{0.1\textwidth}
+\colorbox{lightgray!40}{\begin{minipage}[t]{0.40\textwidth}
+  \hspace{3mm}
+  \vspace{3mm}
+  
+  \hspace{5mm}\begin{minipage}[t]{0.85\textwidth}
+    \scriptsize{\textcolor[HTML]{404040}{
+    \textbf{Notes on interpreting Class Averages and Comparators in this report:}
+    \vspace{2mm}\newline
+    \textbf{\textcolor[HTML]{\Sexpr{main_color}}{Class Averages}} are computed by getting the average of all countries having the same FCV class as that of \textbf{\Sexpr{couName}}.
+    \vspace{2mm} \newline
+    \textbf{\textcolor[HTML]{\Sexpr{main_color}}{Country comparators}}* are determined depending whether \textbf{\Sexpr{couName}} is: 
+    \begin{itemize}
+      \setlength \itemsep{0.5ex}
+      \item \textbf{FCS and SIDS:} Comparators are the top 4 SIDS FCS
+      \item \textbf{FCS but not SIDS:} Comparators are the top 4 FCS in the same region and same income group
+      \item \textbf {past-FCS:} Comparators are top 4 past-FCS in same income group
+      \item \textbf {non-FCS:} Comparators are top 4 non-FCS with least nominal GDP gap
+    \end{itemize}
+    \vspace{2mm}
+    \textbf{*Special case:} If Country A does not have comparators with available data for a certain dataset and year (e.g., CPIA 2016), Comparators are the top 2-4 countries with the least nominal GDP gap in the same region.
+    }}
+    \end{minipage}
+    
+    \vspace{3mm}
+    \hspace{3mm}
+  \end{minipage}}
 \end{minipage}
+
+
 
 %% INSTITUTIONAL TREND --------------------------------------------
 %% WORLDWIDE GOVERNANCE INDICATORS --------------------------------------------
 \begin{minipage}[c]{0.95\textwidth}
   \vspace{3ex}
   \begin{flushleft}  
-    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[3]}}}\hspace{2ex}\small{\color{black} {\Sexpr{section_desc[3]}}} \newline
-    \vspace*{1ex}
-    \hspace{4ex}\large{\color{black}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 1)[1,1]}}}
+    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[3]}}}\hspace{2ex}\small{\textcolor[HTML]{404040} {\Sexpr{section_desc[3]}}}
+    \vspace{1ex}\newline
+    \hspace*{4ex}\large{\textcolor[HTML]{404040}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 1)[1,1]}}}
   \end{flushleft} 
     <<bar_facewrap3.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2,fig.width=12,results="asis">>=  
     @
 \end{minipage}
 
 %% COUNTRY POLICY AND INSTITUTIONAL ASSESSMENTS --------------------------------------------
-
 \vspace{2ex}
 \begin{minipage}[c]{0.95\textwidth}
-  \hspace{4ex}\large{\color{black}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 2)[1,1]}}}
+  \hspace{4ex}\large{\textcolor[HTML]{404040}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 2)[1,1]}}}
   \newline
   \vspace*{1ex}
   \hspace*{2ex}
@@ -228,9 +253,9 @@
     dataNeighbor <- filter(dataNeighbor, Period==maxPeriod)
     dataset_ave <- mean(aggregate(dataNeighbor$Observation, list(dataNeighbor$CountryCode), mean)$x, na.rm=TRUE)
     country_ave <-mean(filter(Report_data, CountryCode == cou, Subsection2 %in% dataset, Period == maxPeriod)$Observation, na.rm=TRUE)
-    cat("\\small{\\color{black}") 
+    cat("\\small{\\textcolor[HTML]{404040}{") 
     cat(paste(sprintf("Country Overall CPIA: \\textbf{%0.2f} ; Class Average Overall CPIA: \\textbf{%0.2f}", country_ave, dataset_ave)))
-    cat("}")
+    cat("}}")
   }
 @
  
@@ -239,7 +264,7 @@
 \end{minipage}
 \newline
 \vspace*{1ex}
-\hspace*{4ex}
+\hspace*{3.5ex}
 \begin{minipage}[c]{0.95\textwidth}
     <<bar_facewrap3.2.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2,fig.width=12,results="asis">>=  
     @
@@ -249,34 +274,37 @@
 %% TOP 5 OBSTACLES --------------------------------------------
 \begin{minipage}[c]{0.95\textwidth}
   \vspace*{0.5ex}
-  \hspace{4ex}\large{\color{black}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 3)[1,1]}}}
-  \newline
-  
+    \hspace{4ex}\large{\textcolor[HTML]{404040}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 3)[1,1]}}}
+  \vspace{1.5ex}\newline
   \begin{minipage}[c]{0.48\textwidth}
-  \vspace*{0.5ex}
-  \hspace{4ex}\textbf{\small{\color{black}\Sexpr{couName}}}
-    <<bar3.3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2.5,fig.width=10,results="asis">>=  
-    @
+    \hspace{4ex}\textbf{\small{\textcolor[HTML]{404040}{\Sexpr{couName}}}}
   \end{minipage}
     \begin{minipage}[c]{0.48\textwidth}
-    % \hspace{4ex}\textbf{\small{\color{black}FCV Class Average}}
      <<echo=FALSE, results='asis', warning = FALSE>>=
   cou <- .getCountryCode(couName)
   fcv_class <- as.character(countries[countries$iso3==cou,]$FCVclass)
-  cat("\\hspace{4ex}\\textbf{\\small{\\color{black}") 
+  cat("\\hspace{4ex}\\textbf{\\small{\\textcolor[HTML]{404040}{") 
   cat(paste(sprintf("Class Average (%s)", fcv_class)))
-  cat("}}")
+  cat("}}}")
 @
-    
-    
-    <<barclass3.3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2.5,fig.width=10,results="asis">>=  
+  \end{minipage}
+\end{minipage}
+
+\vspace{1ex}
+\begin{minipage}[c]{0.95\textwidth}
+  \begin{minipage}[c]{0.48\textwidth}
+    <<bar3.3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2.75,fig.width=10,results="asis">>=  
+    @
+  \end{minipage}
+    \begin{minipage}[c]{0.48\textwidth}
+    <<barclass3.3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2.75,fig.width=10,results="asis">>=  
     @
   \end{minipage}
 \end{minipage}
 
 
 %%% footer ----------------------------------
-\vspace{4ex}
+\vspace{1ex}
 \begin{minipage}[c]{0.23\textwidth}
   \hspace*{+0.3cm} \includegraphics[width=4cm,left]{\Sexpr{paste0(parent_directory,"/www/WBlogo_Transparent.png")}}
 \end{minipage}
