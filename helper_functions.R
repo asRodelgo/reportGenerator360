@@ -1103,7 +1103,7 @@ bar_chart_gender <- function(Report_data,reportConfig,couName,section,table,past
         ggplot(data, aes(x=IndicatorShort, y=Observation, group=gender, fill=gender)) +
           geom_bar(stat="identity",position="dodge") +
           coord_flip() +
-          labs(y = "", x="", fill="Gender") +
+          labs(y = "", x="", fill="") +
           theme(panel.border = element_blank(),
                 panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
                 axis.text.x = element_text(family="Times", color = text_color, size = 10),
@@ -1122,7 +1122,7 @@ bar_chart_gender <- function(Report_data,reportConfig,couName,section,table,past
         ggplot(data, aes(x=IndicatorShort, y=Observation, group=gender, fill=gender)) +
           geom_bar(stat="identity",position="dodge") +
           coord_flip() +
-          labs(y = "", x="", fill="Gender") +
+          labs(y = "", x="", fill="") +
           theme(panel.border = element_blank(),
                       panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
                       axis.text.x = element_text(family="Times", color = text_color, size = 10),
