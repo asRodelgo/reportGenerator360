@@ -109,14 +109,14 @@
 \begin{minipage}[t]{0.95\textwidth}
   \vspace{-3ex}
   \begin{flushleft}
-    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[1]}}}\hspace{2ex}\small{\textcolor[HTML]{505050}{\Sexpr{section_desc[1]}}}
+    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[1]}}}\hspace{2ex}\small{\textcolor[HTML]{000000}{\Sexpr{section_desc[1]}}}
   \end{flushleft}
   \begin{minipage}[t]{0.5\textwidth}
-      \hspace{4ex}\small{\textcolor[HTML]{505050}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 1)[1,1]}}}
+      \hspace{4ex}\small{\textcolor[HTML]{000000}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 1)[1,1]}}}
   \end{minipage}
   \hspace{4ex}
   \begin{minipage}[t]{0.35\textwidth}  
-      \small{\textcolor[HTML]{505050}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 2)[1,1]}}}
+      \small{\textcolor[HTML]{000000}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 2)[1,1]}}}
   \end{minipage}
 \end{minipage}
 
@@ -140,13 +140,13 @@
 \vspace*{5ex}
 \begin{minipage}[t]{0.95\textwidth}
     \begin{minipage}[t]{0.38\textwidth}
-       \hspace{4ex}\small{\textcolor[HTML]{505050}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 3)[1,1]}}}
+       \hspace{4ex}\small{\textcolor[HTML]{000000}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 3)[1,1]}}}
     \end{minipage}
     \begin{minipage}[t]{0.38\textwidth}
-      \hspace{4ex}\small{\textcolor[HTML]{505050}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 4)[1,1]}}}
+      \hspace{4ex}\small{\textcolor[HTML]{000000}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 4)[1,1]}}}
     \end{minipage}
     \begin{minipage}[t]{0.20\textwidth}  
-       \small{\textcolor[HTML]{505050}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 5)[1,1]}}}
+       \small{\textcolor[HTML]{000000}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 5)[1,1]}}}
     \end{minipage}
 \end{minipage}
 
@@ -184,15 +184,15 @@
 \vspace*{5ex}
 \begin{minipage}[t]{0.95\textwidth}
     \begin{flushleft}  
-    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[2]}}}\hspace{2ex}\small{\textcolor[HTML]{505050}{\Sexpr{section_desc[2]}}}
+    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[2]}}}\hspace{2ex}\small{\textcolor[HTML]{000000}{\Sexpr{section_desc[2]}}}
   \end{flushleft}
   \hspace{4ex}
   \begin{minipage}[t]{0.3\textwidth}
-    \small{\textcolor[HTML]{505050}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 1)[1,1]}}}
+    \small{\textcolor[HTML]{000000}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 1)[1,1]}}}
   \end{minipage}
   \hspace{0.2\textwidth}
   \begin{minipage}[t]{0.5\textwidth}
-    \small{\textcolor[HTML]{505050}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 2)[1,1]}}}
+    \small{\textcolor[HTML]{000000}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 2)[1,1]}}}
   \end{minipage}
 \end{minipage}
 
@@ -243,7 +243,7 @@
 \vspace*{3ex}
 \begin{minipage}[c]{0.95\textwidth}
   \begin{flushleft}  
-    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[3]}}}\hspace{2ex}\small{\textcolor[HTML]{505050}{\Sexpr{section_desc[3]}}}
+    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[3]}}}\hspace{2ex}\small{\textcolor[HTML]{000000}{\Sexpr{section_desc[3]}}}
   \end{flushleft}
       \begin{minipage}[c]{0.32\textwidth}  
         <<figure_sparkline_Ent1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=3.5,fig.width=15,results="asis">>=  
@@ -272,13 +272,13 @@
 \vspace{3ex}
 \begin{minipage}[c]{0.95\textwidth}
   \begin{flushleft}  
-      \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[4]}}}\hspace{2ex}\small{\textcolor[HTML]{505050}{\Sexpr{section_desc[4]}}}
+      \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[4]}}}\hspace{2ex}\small{\textcolor[HTML]{000000}{\Sexpr{section_desc[4]}}}
   \end{flushleft}
   \begin{minipage}[c]{0.5\textwidth}
-    \hspace{4ex}\small{\textcolor[HTML]{505050}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 1)[1,1]}}}
+    \hspace{4ex}\small{\textcolor[HTML]{000000}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 1)[1,1]}}}
   \end{minipage}
   \begin{minipage}[c]{0.5\textwidth}
-    \hspace{4ex}\small{\textcolor[HTML]{505050}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 2)[1,1]}}}
+    \hspace{4ex}\small{\textcolor[HTML]{000000}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 2)[1,1]}}}
   \end{minipage}
 \end{minipage}
 
@@ -310,10 +310,10 @@
 \vspace*{4ex}
 \begin{minipage}[c]{0.95\textwidth}
   \begin{minipage}[c]{0.5\textwidth}
-    \hspace{4ex}\small{\textcolor[HTML]{505050}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 3)[1,1]}}}
+    \hspace{4ex}\small{\textcolor[HTML]{000000}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 3)[1,1]}}}
   \end{minipage}
   \begin{minipage}[c]{0.5\textwidth}
-    \hspace{4ex}\small{\textcolor[HTML]{505050}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 4)[1,1]}}}
+    \hspace{4ex}\small{\textcolor[HTML]{000000}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 4)[1,1]}}}
   \end{minipage}
 \end{minipage}
 
@@ -336,18 +336,18 @@
 \vspace*{5ex}
 \begin{minipage}[t]{0.95\textwidth}
   \begin{flushleft}  
-    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[5]}}}\hspace{2ex}\small{\textcolor[HTML]{505050}{\Sexpr{section_desc[5]}}}
+    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[5]}}}\hspace{2ex}\small{\textcolor[HTML]{000000}{\Sexpr{section_desc[5]}}}
   \end{flushleft}
   \begin{minipage}[t]{0.30\textwidth}
-      \hspace{4ex}\small{\textcolor[HTML]{505050}{\Sexpr{filter(subsection_name, Section_ID == 5,Order == 1)[1,1]}}}
+      \hspace{4ex}\small{\textcolor[HTML]{000000}{\Sexpr{filter(subsection_name, Section_ID == 5,Order == 1)[1,1]}}}
   \end{minipage}
       \hspace{0.03\textwidth}
   \begin{minipage}[t]{0.30\textwidth}
-      \small{\textcolor[HTML]{505050}{\Sexpr{filter(subsection_name, Section_ID == 5,Order == 2)[1,1]}}}
+      \small{\textcolor[HTML]{000000}{\Sexpr{filter(subsection_name, Section_ID == 5,Order == 2)[1,1]}}}
   \end{minipage}
       \hspace{0.03\textwidth}
   \begin{minipage}[t]{0.30\textwidth}
-      \small{\textcolor[HTML]{505050}{\Sexpr{filter(subsection_name, Section_ID == 5,Order == 3)[1,1]}}}
+      \small{\textcolor[HTML]{000000}{\Sexpr{filter(subsection_name, Section_ID == 5,Order == 3)[1,1]}}}
   \end{minipage}
 \end{minipage}
 
@@ -388,17 +388,17 @@
 \vspace*{5ex}
 \begin{minipage}[t]{0.95\textwidth}
   \begin{flushleft}  
-    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[6]}}}\hspace{2ex}\small{\textcolor[HTML]{505050}{\Sexpr{section_desc[6]}}}
+    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[6]}}}\hspace{2ex}\small{\textcolor[HTML]{000000}{\Sexpr{section_desc[6]}}}
   \end{flushleft}
   \begin{minipage}[t]{0.45\textwidth}
-    \hspace{4ex}\small{\textcolor[HTML]{505050}{\Sexpr{filter(subsection_name, Section_ID == 6,Order == 1)[1,1]}}}
+    \hspace{4ex}\small{\textcolor[HTML]{000000}{\Sexpr{filter(subsection_name, Section_ID == 6,Order == 1)[1,1]}}}
   \end{minipage}
   \begin{minipage}[t]{0.20\textwidth}
-    \small{\textcolor[HTML]{505050}{\Sexpr{filter(subsection_name, Section_ID == 6,Order == 2)[1,1]}}}
+    \small{\textcolor[HTML]{000000}{\Sexpr{filter(subsection_name, Section_ID == 6,Order == 2)[1,1]}}}
   \end{minipage}
   \hspace{0.08\textwidth}
   \begin{minipage}[t]{0.25\textwidth}
-  \small{\textcolor[HTML]{505050}{\Sexpr{filter(subsection_name, Section_ID == 6,Order == 3)[1,1]}}}
+  \small{\textcolor[HTML]{000000}{\Sexpr{filter(subsection_name, Section_ID == 6,Order == 3)[1,1]}}}
   \end{minipage}
 \end{minipage}
 
