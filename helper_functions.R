@@ -625,7 +625,7 @@ line_chart_avg <- function(Report_data,reportConfig,couName, section, table, min
   
 }
 ## ---- line_chart ----
-line_chart <- function(Report_data,reportConfig,couName, section, table, minTime="1900",neighbor="region",max_neighbors=4){
+line_chart <- function(Report_data,reportConfig,couName, section, table, minTime="1900",neighbor="region",max_neighbors=4, show_last_year=FALSE, show_data_labels=NULL, plot_spacing=0.0){
   # if max_neighbors = 0, plot only selected country
   # if max_neighbors = 1, plot selected country vs average of all countries
   # if max_neighbors > 1, plot selected country vs the rest of the individual countries
@@ -683,23 +683,59 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
         filter(order <= (max_neighbors+1)) %>% # keep some countries
         arrange(order,Period)
       
-      ggplot(data, aes(x=Period, y=Observation)) +
-        geom_line(stat="identity",aes(group=factor(Key), colour=factor(Key), size=factor(Key), alpha=factor(Key))) +
-        theme(legend.key=element_blank(),
-              legend.title=element_blank(),
-              legend.position="top",
-              legend.text = element_text(family="Times", size = 10, colour = text_color),
-              panel.border = element_blank(),
-              panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
-              axis.line = element_line(size=0.1, colour = "lightgrey"),
-              axis.text.x = element_text(family="Times", color=text_color,hjust = 1),
-              axis.text.y = element_text(family="Times", color=text_color)) +
-        labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
-        ) + 
-        scale_color_manual(labels = unique(data$IndicatorShort), values = c("darkgreen","green","lightblue","lightgreen","pink")) +
-        scale_alpha_manual(labels = unique(data$IndicatorShort),values = c(0.6, rep(0.6,4))) + 
-        scale_size_manual(labels = unique(data$IndicatorShort),values = c(2, rep(2,4))) + 
-        scale_x_discrete(breaks = unique(arrange(data,Period)$Period)[seq(1,length(unique(data$Period)),4)])
+      max_val <- max(data$Observation)
+      min_val <- min(data$Observation)
+      diff_val <- plot_spacing*(max_val - min_val)
+      
+      if(show_last_year){
+        break_vals <- unique(arrange(data,Period)$Period)[unique(c(seq(1,length(unique(data$Period)),2), length(unique(data$Period))))]
+      } else{
+        break_vals <- unique(arrange(data,Period)$Period)[seq(1,length(unique(data$Period)),4)]
+      }
+      
+      if(!is.null(show_data_labels)){
+        ggplot(data, aes(x=Period, y=Observation)) +
+          geom_line(stat="identity",aes(group=factor(Key), colour=factor(Key), size=factor(Key), alpha=factor(Key))) +
+          theme(legend.key=element_blank(),
+                legend.title=element_blank(),
+                legend.position="top",
+                legend.text = element_text(family="Times", size = 10, colour = text_color),
+                panel.border = element_blank(),
+                panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+                axis.line = element_line(size=0.1, colour = "lightgrey"),
+                axis.text.x = element_text(family="Times", color=text_color,hjust = 1),
+                axis.text.y = element_text(family="Times", color=text_color)) +
+          labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
+          ) + 
+          scale_color_manual(labels = unique(data$IndicatorShort), values = c("darkgreen","blue","lightblue","lightgreen","pink")) +
+          scale_alpha_manual(labels = unique(data$IndicatorShort),values = c(0.6, rep(0.6,4))) + 
+          scale_size_manual(labels = unique(data$IndicatorShort),values = c(2, rep(2,4))) + 
+          scale_x_discrete(breaks = break_vals) +
+          geom_point(size = 3, aes(color=factor(Key))) +
+          geom_text(aes(Period, Observation, color=factor(Key), label = sprintf('%0.1f', Observation)),
+                    data = filter(data, Period %in% show_data_labels),                 
+                    show.legend = FALSE, vjust=-1.0)+
+          expand_limits(y = c(min_val-diff_val,max_val+diff_val))
+      } else {
+        ggplot(data, aes(x=Period, y=Observation)) +
+          geom_line(stat="identity",aes(group=factor(Key), colour=factor(Key), size=factor(Key), alpha=factor(Key))) +
+          theme(legend.key=element_blank(),
+                legend.title=element_blank(),
+                legend.position="top",
+                legend.text = element_text(family="Times", size = 10, colour = text_color),
+                panel.border = element_blank(),
+                panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+                axis.line = element_line(size=0.1, colour = "lightgrey"),
+                axis.text.x = element_text(family="Times", color=text_color,hjust = 1),
+                axis.text.y = element_text(family="Times", color=text_color)) +
+          labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
+          ) + 
+          scale_color_manual(labels = unique(data$IndicatorShort), values = c("darkgreen","blue","lightblue","lightgreen","pink")) +
+          scale_alpha_manual(labels = unique(data$IndicatorShort),values = c(0.6, rep(0.6,4))) + 
+          scale_size_manual(labels = unique(data$IndicatorShort),values = c(2, rep(2,4))) + 
+          scale_x_discrete(breaks = break_vals)+
+          expand_limits(y = c(min_val-diff_val,max_val+diff_val))
+      }
       
     } else { # plot 1 indicator for 1 country and perhaps region or other countries
       order_legend <- c(couName,as.character(unique(data[data$CountryCode %in% topNeighbors,]$Country)))
@@ -713,7 +749,17 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
         filter(order <= (max_neighbors+1)) %>% # keep some countries
         arrange(order,Period)
       
-      ggplot(data, aes(x=Period, y=Observation)) +
+      max_val <- max(data$Observation)
+      min_val <- min(data$Observation)
+      diff_val <- plot_spacing*(max_val - min_val)
+      
+      if(show_last_year){
+        break_vals <- unique(arrange(data,Period)$Period)[unique(c(seq(1,length(unique(data$Period)),2), length(unique(data$Period))))]
+      } else{
+        break_vals <- unique(arrange(data,Period)$Period)[seq(1,length(unique(data$Period)),4)]
+      }
+      
+      if(!is.null(show_data_labels)){ggplot(data, aes(x=Period, y=Observation)) +
         geom_line(stat="identity",aes(group=factor(order), colour=factor(order), size=factor(order), alpha=factor(order))) +
         theme(legend.key=element_blank(),
               legend.title=element_blank(),
@@ -729,7 +775,32 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
         scale_color_manual(labels = order_legend, values = c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"lightblue","lightgreen","pink")) +
         scale_alpha_manual(labels = order_legend,values = c(1, rep(0.6,4))) + 
         scale_size_manual(labels = order_legend,values = c(2, rep(1,4))) + 
-        scale_x_discrete(breaks = unique(arrange(data,Period)$Period)[seq(1,length(unique(data$Period)),4)])
+        scale_x_discrete(breaks = break_vals)+
+          geom_point(size = 3, color="orange") +
+          geom_text(aes(Period, Observation, label = sprintf('%0.1f', Observation)),
+                    data = filter(data, Period %in% show_data_labels),                 
+                    show.legend = FALSE, vjust=-1.0)+
+          expand_limits(y = c(min_val-diff_val,max_val+diff_val))
+      } else {
+        ggplot(data, aes(x=Period, y=Observation)) +
+          geom_line(stat="identity",aes(group=factor(order), colour=factor(order), size=factor(order), alpha=factor(order))) +
+          theme(legend.key=element_blank(),
+                legend.title=element_blank(),
+                legend.position="top",
+                legend.text = element_text(family="Times", size = 10, colour = text_color),
+                panel.border = element_blank(),
+                panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+                axis.line = element_line(size=0.1, colour = "lightgrey"),
+                axis.text.x = element_text(family="Times", color=text_color,hjust = 1),
+                axis.text.y = element_text(family="Times", color=text_color)) +
+          labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
+          ) + 
+          scale_color_manual(labels = order_legend, values = c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"lightblue","lightgreen","pink")) +
+          scale_alpha_manual(labels = order_legend,values = c(1, rep(0.6,4))) + 
+          scale_size_manual(labels = order_legend,values = c(2, rep(1,4))) + 
+          scale_x_discrete(breaks = break_vals)+
+          expand_limits(y = c(min_val-diff_val,max_val+diff_val))
+        }
     }
     
   } else {
@@ -1180,7 +1251,7 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,
     
     if (percentBar & nrow(filter(data, Key %in% c(949,1177)))>1 & nrow(filter(data, !(Key %in% c(949,1177))))>1){
       
-      if (data$Section[1]=="TOURISM ECONOMIC INDICATORS"){
+      if (data$Section[1]=="TOURISM ECONOMIC INDICATORS         |       COMPETITIVENESS"){
         
         gdp <- as.numeric(filter(data, Key == 949)$Observation)
         employ <- as.numeric(filter(data, Key == 1177)$Observation)
@@ -1851,7 +1922,7 @@ radar_chart_fcv <- function(Report_data,reportConfig,couName,section,table,max_n
 }
 
 ## ---- radar_chart ----
-radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor = "region"){      
+radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor = "region", spell_out_region=FALSE){      
   
   cou <- .getCountryCode(couName) # This chart needs to query neighbouring countries also
   country <- as.character(countries[countries$iso3==cou,]$Country)
@@ -1924,7 +1995,11 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
       plot(c(1.75,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
       # legend(1,1.5, legend=c(paste0(couName," (",thisPeriod,")"),region,"World"), seg.len=0.5, pch=19, inset=50, 
       #        bty="n" ,lwd=3, cex = 1.5, x.intersp=0.5, horiz=TRUE, col=c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"darkgreen"))
-      legend(1,1.5, legend=c(couName,region,"World"), seg.len=0.5, pch=19, inset=50, cex=1.5,
+      if (spell_out_region){
+        region <- as.character(region_longname[region_longname$GroupCode == region, ]$GroupName)
+      }
+      
+      legend(1,1.5, legend=c(couName,str_wrap(region, 20),"World"), seg.len=0.5, pch=19, inset=50, cex=1.5,
              bty="n" ,lwd=3, x.intersp=0.5, horiz=FALSE, col=c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"darkgreen"))
       
       par(mar=c(1,1,1,1),family="serif")
@@ -2578,7 +2653,7 @@ pie_chart_double <- function(Report_data,reportConfig,couName,section,table){
 }
 
 ## ---- pie_chart_region ----
-pie_chart_region <- function(Report_data,reportConfig,couName,section,table,neighbor="region",region=TRUE, useadminregion=FALSE){      
+pie_chart_region <- function(Report_data,reportConfig,couName,section,table,neighbor="region",region=TRUE, useadminregion=FALSE, spell_out_region=FALSE){      
   
   cou <- .getCountryCode(couName)
   
@@ -2676,13 +2751,17 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table,neig
               axis.text.y = element_blank()) + 
         labs(x="",y="")
       
+      if (spell_out_region){
+        couRegion <- as.character(region_longname[region_longname$GroupCode == couRegion, ]$GroupName)
+      }
+      
       p2 <- ggplot(dataRegion, aes("",Observation,fill=IndicatorShort)) +
         geom_bar(width=1,stat="identity") +
         scale_fill_manual(values = c("#DCDCDC",paste0("#",filter(reportConfig, Section_Level == 10)$Color)),guide=FALSE) +
         coord_polar("y",start = 0) +
         geom_text(aes(label=ObsLabel,y=15),
                   size=12,color=ifelse(dataRegion$Observation[1] > 15,"darkblue","darkblue")) + 
-        ggtitle(paste0(couRegion," (average, ",maxPeriod,")")) + 
+        ggtitle(str_wrap(paste0(couRegion," (average, ",maxPeriod,")"),30)) + 
         theme(legend.key=element_blank(),
               legend.title=element_blank(),
               panel.border = element_blank(),
