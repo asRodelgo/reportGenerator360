@@ -6,7 +6,7 @@
 
 \begin{figure}
   \vspace{-1ex} % move up this figure
-  \includegraphics[width=21.6cm,height=6cm]{\Sexpr{paste0(parent_directory,"/www/header_background_",main_color,".png")}}
+  \includegraphics[width=21.6cm,height=4.5cm]{\Sexpr{paste0(parent_directory,"/www/header_background_thin_box_",main_color,".png")}}
 \end{figure}
 
 \begin{figure}
@@ -29,7 +29,7 @@
     \end{minipage}  
   \end{minipage}
   \begin{minipage}[t]{0.56\textwidth} % overview section
-    \vspace{-4ex}
+    \vspace{-3.5ex}
     \begin{minipage}[c]{0.30\textwidth}
   <<figure_sparkline1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='right',results="asis">>=  
     @      
@@ -51,32 +51,16 @@
     \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure3")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(dataDesc, Subsection2 == "figure3")$Source_Name}}}}
     \vspace{3ex}
     \end{minipage}
-    
-    \begin{minipage}[c]{0.30\textwidth}
-  <<figure_sparkline4,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=  
-    @      
-    \vspace{-2ex}
-    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure4")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(dataDesc, Subsection2 == "figure4")$Source_Name}}}}
+    \vspace{2ex}\newline
+    \hspace*{2ex}\scriptsize{\textcolor[HTML]{818181}{*Note: For sparklines, }\color{red}{red}\textcolor[HTML]{818181}{-colored dots mark the lowest value in the entire time series for this variable,} \\
+    \hspace*{3ex}\textcolor[HTML]{818181}{ whereas }\color{green}{green}\textcolor[HTML]{818181}{-colored dots mark the highest value.}}
     \end{minipage}
-    \begin{minipage}[c]{0.30\textwidth}
-  <<figure_sparkline5,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=  
-    @      
-    \vspace{-2ex}
-    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure5")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(dataDesc, Subsection2 == "figure5")$Source_Name}}}}
-    \end{minipage}
-    \begin{minipage}[c]{0.30\textwidth}
-  <<figure_sparkline6,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.height=8,fig.width=11,fig.align='center',results="asis">>=  
-    @      
-    \vspace{-2ex}
-    \hspace{2ex}\tiny{\href{\Sexpr{filter(dataDesc, Subsection2 == "figure6")$Source_Link}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(dataDesc, Subsection2 == "figure6")$Source_Name}}}}
-    \end{minipage}
-  \end{minipage}
 \end{minipage}
 \end{figure}
 % END OF HEADER PART
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% Tourism Demand and Supply --------------------------------------------
+%% Tourism Demand and Expenditure --------------------------------------------
 \begin{minipage}[t]{0.95\textwidth}
   \begin{flushleft}  
     \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[1]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[1]}}}
@@ -84,78 +68,83 @@
   \begin{minipage}[b]{0.5\textwidth}
       \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 1)[1,1]}}}
       \vspace{1ex}
-      <<line1.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=2,fig.width=6,results="asis">>=  
+      <<line1.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=2.5,fig.width=6,results="asis">>=  
       @      
      \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 1,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 1,Order == 1)[1,1]}}}}
   \end{minipage}
   \begin{minipage}[b]{0.5\textwidth}  
       \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 1,Order == 2)[1,1]}}}
       \vspace{1ex}
-      <<line1.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=2,fig.width=6,results="asis">>=  
+      <<line1.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=2.5,fig.width=6,results="asis">>=  
       @      
      \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 1,Order == 2)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 1,Order == 2)[1,1]}}}}
   \end{minipage}
 \end{minipage}
 
+
+%% Tourism Indicators - Competitiveness --------------------------------------------
 \begin{minipage}[c]{0.95\textwidth}
-  \vspace{3ex}
+  \vspace{5ex}
   \begin{flushleft}  
-    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[2]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[2]}}}
-  \end{flushleft}
-  \begin{minipage}[c]{0.5\textwidth}
-   % \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 1)[1,1]}}}
-  %  \vspace{1ex}
-    <<number1.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=4,fig.width=12,results="asis">>=  
-    @
+    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[2]}}}\hspace{2ex}\small{\textcolor[HTML]{818181} {\Sexpr{section_desc[2]}}}
+  \end{flushleft} 
+  
+    \begin{minipage}[c]{0.5\textwidth}  
+    \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 1)[1,1]}}}
+    \vspace{1ex}
+    <<bar2.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=10,results="asis">>=  
+    @      
     \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 2,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 2,Order == 1)[1,1]}}}}
   \end{minipage}
   \begin{minipage}[c]{0.5\textwidth}
-   % \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 2)[1,1]}}}
-  %  \vspace{1ex}
-    <<number1.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=4,fig.width=12,results="asis">>=  
+    \vspace{1ex}
+    <<radar3.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=10,results="asis">>=  
     @
-    \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 2,Order == 2)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 2,Order == 2)[1,1]}}}}
+  \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 2,Order == 2)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 2,Order == 2)[1,1]}}}}
   \end{minipage}
 \end{minipage}
 
-%% Tourism Economic Indicators --------------------------------------------
-\begin{minipage}[c]{0.95\textwidth}
-  \vspace{3ex}
-  \begin{flushleft}  
-    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[3]}}}\hspace{2ex}\small{\textcolor[HTML]{818181} {\Sexpr{section_desc[3]}}}
-  \end{flushleft} 
+\vspace{5ex}
+\begin{minipage}[c]{0.95\textwidth}%% Reasons to Travel --------------------------------------------
   \begin{minipage}[c]{0.5\textwidth}
-    \begin{minipage}[c]{0.95\textwidth}
-      \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 1)[1,1]}}}\newline
-      \hspace*{5ex}\textit{\footnotesize{\textcolor[HTML]{818181}Goods and services acquired from an economy by travelers}}
-      \vspace{1ex}
-        <<pie2.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2.5,fig.width=9,results="asis">>=  
-        @      
+    \begin{flushleft}  
+    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[3]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[3]}}}
+  \end{flushleft}
+    \end{minipage}%% Travel Facilitators --------------------------------------------
+    \begin{minipage}[c]{0.5\textwidth}
+      \begin{flushleft}  
+    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[4]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[4]}}}
+  \end{flushleft}
+    \end{minipage}
+\end{minipage}
+
+\vspace*{1ex}
+\begin{minipage}[c]{0.95\textwidth}%% Reasons to Travel --------------------------------------------
+  \begin{minipage}[c]{0.5\textwidth}
+      <<number1.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='left',fig.height=4.5,fig.width=10,results="asis">>=  
+    @     
+    \end{minipage}%% Travel Facilitators --------------------------------------------
+    \begin{minipage}[c]{0.5\textwidth}
+      <<number1.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=4.5,fig.width=10,results="asis">>=  
+    @ 
+    \end{minipage}
+\end{minipage}
+
+\vspace*{1ex}
+\begin{minipage}[c]{0.95\textwidth}%% Reasons to Travel --------------------------------------------
+  \begin{minipage}[c]{0.5\textwidth}
       \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 3,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 3,Order == 1)[1,1]}}}}
+    \end{minipage}%% Travel Facilitators --------------------------------------------
+    \begin{minipage}[c]{0.5\textwidth}
+    \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 1)[1,1]}}}}
     \end{minipage}
-    
-    \begin{minipage}[c]{0.95\textwidth}
-      \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 2)[1,1]}}}\newline
-      \hspace*{5ex}\textit{\footnotesize{\textcolor[HTML]{818181}Expenditure of international visitors including payments}}\newline
-      \vspace*{-1ex}
-      \hspace*{5ex}\textit{\footnotesize{\textcolor[HTML]{818181}to national carriers for international transport}}
-      \vspace{1ex}
-        <<pie2.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2.5,fig.width=9,results="asis">>=  
-        @      
-      \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 3,Order == 2)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 3,Order == 2)[1,1]}}}}
-    \end{minipage}
-  \end{minipage}
-  \begin{minipage}[c]{0.5\textwidth}
-  \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 3)[1,1]}}}
-    \vspace{1ex}
-    <<radar3.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=6,fig.width=9,results="asis">>=  
-    @
-  \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 3,Order == 3)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 3,Order == 3)[1,1]}}}}
-  \end{minipage}
 \end{minipage}
 
 %%% footer ----------------------------------
   \vspace{2ex}
+  \hspace{4ex}\small{\textcolor[HTML]{818181}{(*) All WEF TTCR Indicators are on a scale from 1 (lowest) to 7 (best).}}
+  
+  \vspace{1ex}
   \begin{minipage}[c]{0.23\textwidth}
     \hspace*{+0.3cm} \includegraphics[width=4cm,left]{\Sexpr{paste0(parent_directory,"/www/WBlogo_Transparent.png")}}
   \end{minipage}
@@ -172,67 +161,88 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
 
-\begin{minipage}[c]{0.95\textwidth}
-  \vspace{5ex}
-  \begin{flushleft}  
-    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[4]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[4]}}}
-  \end{flushleft}
-  \begin{minipage}[c]{0.5\textwidth}  
-    \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 1)[1,1]}}}
-    \vspace{1ex}
-    <<bar2.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=10,results="asis">>=  
-    @      
-    \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 2,Order == 3)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 1)[1,1]}}}}
-  \end{minipage}
-  \begin{minipage}[c]{0.5\textwidth} 
-    \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 2)[1,1]}}}
-    \vspace{1ex}
-    <<number2.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=12,results="asis">>=  
-    @      
-    \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 2,Order == 4)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 2)[1,1]}}}}
-  \end{minipage}
-\end{minipage}      
+%% Conditions of the Country  --------------------------------------------
 
-\begin{minipage}[c]{0.95\textwidth}
-  \vspace{5ex}
-    \begin{minipage}[c]{0.5\textwidth}
-      \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 3)[1,1]}}}
-      \vspace{1ex}
-      <<bar2.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=10,results="asis">>=  
-      @      
-      \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 3)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 3)[1,1]}}}}
-    \end{minipage}
-    \begin{minipage}[c]{0.5\textwidth}  
-      \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 4)[1,1]}}}
-    \vspace{1ex}
-      <<number4.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=12,results="asis">>=  
-      @      
-      \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 4)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 4)[1,1]}}}}
-    \end{minipage}
-\end{minipage}
-
-%% Tourism Competitiveness --------------------------------------------
 \begin{minipage}[c]{0.95\textwidth}
   \vspace{5ex}
   \begin{flushleft}  
     \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[5]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[5]}}}
   \end{flushleft}
+
   \begin{minipage}[c]{0.5\textwidth}
-    <<number4.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=5,fig.width=10,results="asis">>=  
-    @      
-    \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 5,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 5,Order == 1)[1,1]}}}}
-  \end{minipage}  
+      <<number4.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=5,fig.width=10,results="asis">>=  
+      @      
+      \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 5,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 5,Order == 1)[1,1]}}}}
+    \end{minipage}  
+    \begin{minipage}[c]{0.5\textwidth}
+      <<number4.3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=4,fig.width=12,results="asis", out.length="1.6in", out.width="4in">>=  
+      @ 
+      <<number4.4,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=3,fig.width=14,results="asis", out.length="0.8in", out.width="4in">>=  
+      @ 
+    \end{minipage}
+\end{minipage}      
+
+%% Other Indicators --------------------------------------------
+\begin{minipage}[c]{0.95\textwidth}
+  \vspace{5ex}
+  \begin{flushleft}  
+    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[6]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[6]}}}
+  \end{flushleft}
   \begin{minipage}[c]{0.5\textwidth}
-    <<number4.3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=5,fig.width=10,results="asis">>=  
+   \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 6,Order == 1)[1,1]}}}
+      <<bar2.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='left',fig.height=6,fig.width=10,results="asis">>=  
+      @      
+    \end{minipage}  
+    \begin{minipage}[c]{0.5\textwidth}
+      <<number2.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=6,fig.width=10,results="asis">>=  
     @ 
-  \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 5,Order == 2)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 5,Order == 2)[1,1]}}}}
-  \end{minipage}
+    \end{minipage}
 \end{minipage}
 
+\vspace{1ex}
 \begin{minipage}[c]{0.95\textwidth}
-  \vspace{8ex}
+  \begin{minipage}[c]{0.5\textwidth}
+      \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 6,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 6,Order == 1)[1,1]}}}}
+    \end{minipage}
+    \begin{minipage}[c]{0.5\textwidth}
+    \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 6,Order == 4)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 6,Order == 4)[1,1]}}}}
+    \end{minipage}
+\end{minipage}
+
+\vspace{5ex}
+\begin{minipage}[t]{0.95\textwidth}
+    \begin{minipage}[t]{0.5\textwidth}
+      \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 6,Order == 2)[1,1]}}}\newline
+      \hspace*{4ex}\textit{\footnotesize{\textcolor[HTML]{818181}Goods and services acquired from an economy by travelers}}
+    \end{minipage}
+    \begin{minipage}[t]{0.5\textwidth}
+      \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 6,Order == 3)[1,1]}}}\newline
+      \hspace*{4ex}\textit{\footnotesize{\textcolor[HTML]{818181}Expenditure of international visitors including payments}}\newline
+      \vspace*{-1ex}
+      \hspace*{4ex}\textit{\footnotesize{\textcolor[HTML]{818181}to national carriers for international transport}}
+    \end{minipage}
+  \end{minipage}
+  
+\vspace{3ex}
+\begin{minipage}[t]{0.95\textwidth}
+    \begin{minipage}[t]{0.5\textwidth}
+        <<pie2.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=10,results="asis">>=  
+        @      
+    \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 6,Order == 3)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 6,Order == 3)[1,1]}}}}
+    \end{minipage}
+    \begin{minipage}[t]{0.5\textwidth}
+        <<pie2.2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=10,results="asis">>=  
+        @      
+    \end{minipage}
+  \end{minipage}
+
+\vspace*{5ex}\newline
+\hspace*{4ex}\small{\textcolor[HTML]{818181}{(*) All WEF TTCR Indicators are on a scale from 1 (lowest) to 7 (best).}} \newline
+\vspace*{1ex}\newline
+\hspace*{7.5ex}
+\begin{minipage}[c]{0.9\textwidth}
   \begin{flushleft}
-  \small{\textcolor[HTML]{818181}{(*) Receipt for travel items: These expenditures by international inbound visitors, or in their behalf,  to purchase goods and services in the reporting economy.
+  \small{\textcolor[HTML]{818181}{(**) Receipt for travel items: These expenditures by international inbound visitors, or in their behalf,  to purchase goods and services in the reporting economy.
   Receipts for passenger transport items: These are expenditures by international inbound visitors for all services provided in the international transportation by 
   resident carriers and passenger services performed within an economy by nonresident carriers.}}
   \end{flushleft}

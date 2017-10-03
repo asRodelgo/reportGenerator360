@@ -12,6 +12,9 @@ couISO2 <- .getISO2(couName)
 Report_data <- ReportDataList[[input_reportID]]
 reportConfig <- ReportConfigList[[input_reportID]]
 dataDesc <- dataDescList[[input_reportID]]
+
+text_color <- "#818181"
+region_longname <- read.csv("templates/region_longname.csv") 
 ########## Header ##########
 
 ## ---- figure_sparkline1 ----
@@ -23,62 +26,57 @@ figure_sparkline(Report_data,reportConfig,couName, "figure2",rankBig=FALSE)
 ## ---- figure_sparkline3 ----
 figure_sparkline(Report_data,reportConfig,couName, "figure3",rankBig=FALSE)
 
-## ---- figure_sparkline4 ----
-figure_sparkline(Report_data,reportConfig,couName, "figure4",rankBig=FALSE)
-
-## ---- figure_sparkline5 ----
-figure_sparkline(Report_data,reportConfig,couName, "figure5",rankBig=TRUE)
-
-## ---- figure_sparkline6 ----
-figure_sparkline(Report_data,reportConfig,couName, "figure6",rankBig=FALSE)
-
-########## Tourism Demand and Supply ##########
+########## Tourism Demand and Expenditure ##########
 
 ## ---- line1.1 ----
-line_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"line1",minTime="2005",neighbor="region",max_neighbors = 0)
+line_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"line1",minTime="2005",neighbor="region",max_neighbors = 0,
+           show_last_year=TRUE, show_data_labels = c(2005, 2010, 2015), plot_spacing=0.2)
 
 ## ---- line1.2 ----
-line_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"line2",minTime="2005",neighbor="region",max_neighbors = 0)
+line_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"line2",minTime="2005",neighbor="region",max_neighbors = 0,
+           show_last_year=TRUE, show_data_labels = c(2005, 2010, 2017), plot_spacing=0.2)
 
-########## Resource Base ###############
+########## Tourism Economic Indicators - Competitiveness ##########
 
-## ---- number1.1 ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[2],c("radar6","radar7"),str_wrap_size=30,rankBig=TRUE)
-
-## ---- number1.2 ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],"radar9",str_wrap_size=30,rankBig=TRUE)
-
-########## Tourism Economic Indicators ##########
-
-## ---- pie2.1 ----
-pie_chart_region(Report_data,reportConfig,couName, reportConfig$Section[3],"pie2",neighbor = "region", region=TRUE)
-
-## ---- pie2.2 ----
-pie_chart_region(Report_data,reportConfig,couName, reportConfig$Section[3],"number2",neighbor = "region",region=TRUE)
-
-## ---- radar3.1 ----
-radar_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],c("radar1","radar2","radar4","radar5"),neighbor = "region")
 
 ## ---- bar2.1 ----
-bar_chart(Report_data,reportConfig,couName, reportConfig$Section[1:4],c("bar1","bar2","bar3"),paste_unit = FALSE, percentBar = TRUE)
+bar_chart(Report_data,reportConfig,couName, reportConfig$Section[1:6],c("bar1","bar2","bar3"),paste_unit = FALSE, percentBar = TRUE)
+
+## ---- radar3.1 ----
+radar_chart(Report_data,reportConfig,couName,reportConfig$Section[2:5],c("radar1","radar2","radar3","radar4","radar5"),neighbor = "region", spell_out_region=TRUE)
+
+########## Reasons to Travel ###############
+
+## ---- number1.1 ----
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[3],c("radar6","radar10", "radar1"),str_wrap_size=35,rankBig=TRUE)
+
+########## Travel Facilitators ###############
+
+## ---- number1.2 ----
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[4],c("radar7","radar2"),str_wrap_size=35,rankBig=TRUE)
+
+########## Conditions of the Country ###############
+
+## ---- number4.2 ----
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[5],c("radar9","radar3"),str_wrap_size=35,rankBig=TRUE)
+
+## ---- number4.3 ----
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[5],"radar4",str_wrap_size=28,rankBig=TRUE)
+
+## ---- number4.4 ----
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[5],"radar8",str_wrap_size=28,rankBig=FALSE)
+
+
+########## Other Indicators ###############
+
+## ---- bar2.2 ----
+bar_chart(Report_data,reportConfig,couName, reportConfig$Section[6],"line3",paste_unit = FALSE)
+
+## ---- pie2.1 ----
+pie_chart_region(Report_data,reportConfig,couName, reportConfig$Section[6],"pie2",neighbor = "region", region=TRUE, spell_out_region = TRUE)
+
+## ---- pie2.2 ----
+pie_chart_region(Report_data,reportConfig,couName, reportConfig$Section[6],"number2",neighbor = "region",region=TRUE, spell_out_region = TRUE)
 
 ## ---- number2.1 ----
 number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],"line5",str_wrap_size=30,rankBig=FALSE,includeUnit = TRUE)
-
-## ---- bar2.2 ----
-bar_chart(Report_data,reportConfig,couName, reportConfig$Section[1:4],"line3",paste_unit = FALSE)
-
-## ---- number4.1 ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],"radar3",str_wrap_size=27,rankBig=TRUE)
-
-########## Other Competitiveness Indicators
-
-## ---- number4.2 ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],c("radar4","radar8"),str_wrap_size=27,rankBig=TRUE)
-
-## ---- number4.3 ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[1:4],c("radar5"),str_wrap_size=27,rankBig=TRUE)
-
-
-
-
