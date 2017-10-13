@@ -1251,7 +1251,7 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,
     
     if (percentBar & nrow(filter(data, Key %in% c(949,1177)))>1 & nrow(filter(data, !(Key %in% c(949,1177))))>1){
       
-      if (data$Section[1]=="TOURISM ECONOMIC INDICATORS         |       COMPETITIVENESS"){
+      if (data$Section[1]=="TOURISM ECONOMIC INDICATORS"){
         
         gdp <- as.numeric(filter(data, Key == 949)$Observation)
         employ <- as.numeric(filter(data, Key == 1177)$Observation)
@@ -1999,7 +1999,7 @@ radar_chart <- function(Report_data,reportConfig,couName,section,table,neighbor 
         region <- as.character(region_longname[region_longname$GroupCode == region, ]$GroupName)
       }
       
-      legend(1,1.5, legend=c(couName,str_wrap(region, 20),"World"), seg.len=0.5, pch=19, inset=50, cex=1.5,
+      legend(1,1.5, legend=c(couName,str_wrap(region, 15),"World"), seg.len=0.5, pch=19, inset=50, cex=1.5,
              bty="n" ,lwd=3, x.intersp=0.5, horiz=FALSE, col=c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"darkgreen"))
       
       par(mar=c(1,1,1,1),family="serif")
