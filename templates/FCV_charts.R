@@ -49,7 +49,7 @@ text_color <- "#404040"
 ########## Header ##########
 
 ## ---- fcvtext ----
-fcvtext(countries, couName)
+# fcvtext(countries, couName)
 
 ########## OVERVIEW ##########
 
