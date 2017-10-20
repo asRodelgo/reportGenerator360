@@ -38,11 +38,19 @@ line_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"line1",minT
 ## ---- line1.2 ----
 line_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"line2",minTime="2005",neighbor="region",max_neighbors = 0,
            show_last_year=TRUE, show_data_labels = c(2005, 2010, 2017), plot_spacing=0.4)
+# bar_chart_stacked(Report_data,reportConfig,couName,reportConfig$Section[1],"line2",minTime="2005",neighbor="region",max_neighbors = 0,
+#            show_last_year=TRUE, show_data_labels = c(2005, 2010, 2017), plot_spacing=0.4)
 
 ########## Tourism Economic Indicators ##########
 
 ## ---- bar2.1 ----
 bar_chart(Report_data,reportConfig,couName, reportConfig$Section[2],c("bar1","bar2","bar3"),paste_unit = FALSE, percentBar = TRUE)
+
+## ---- barlegend ----
+par(family = 'serif',mar=c(0,0,0,0), oma=c(0,0,0,0))
+plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+legend(1,1.5, legend=c("Absolute contribution to GDP/employment","Share of GDP/Labor force"), bty="n" ,horiz=TRUE,
+       fill=c("#FF6103","blue"), border=c("white", "white"), text.col=c("#818181", "#818181"))
 
 ########## Competitiveness ##########
 
@@ -69,13 +77,13 @@ number_chart(Report_data,reportConfig,couName,reportConfig$Section[6],c("radar9"
 number_chart(Report_data,reportConfig,couName,reportConfig$Section[6],"radar4",str_wrap_size=28,rankBig=TRUE)
 
 ## ---- number4.4 ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[6],"radar8",str_wrap_size=28,rankBig=FALSE)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[6],"radar8",str_wrap_size=28,rankBig=FALSE, round_off = 2)
 
 
 ########## Other Indicators ###############
 
 ## ---- bar2.2 ----
-bar_chart(Report_data,reportConfig,couName, reportConfig$Section[7],"line3",paste_unit = FALSE)
+bar_chart(Report_data,reportConfig,couName, reportConfig$Section[7],"line3",paste_unit = TRUE)
 
 ## ---- pie2.1 ----
 pie_chart_region(Report_data,reportConfig,couName, reportConfig$Section[7],"pie2",neighbor = "region", region=TRUE, spell_out_region = TRUE)

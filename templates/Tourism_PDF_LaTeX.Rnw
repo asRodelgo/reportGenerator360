@@ -20,7 +20,7 @@
   
     \begin{minipage}[b]{0.99\textwidth} 
       \vspace{4ex}
-      \hspace{5ex}{\fontsize{40}{42}\selectfont{\color{white}\Sexpr{couName}}}
+      \hspace{5ex}{\fontsize{28}{26}\selectfont{\color{white}\Sexpr{couName}}}
     \end{minipage}
     
     \begin{minipage}[t]{0.99\textwidth} % top section
@@ -114,6 +114,9 @@
 \vspace*{1ex}
 \begin{minipage}[c]{0.95\textwidth}%% Tourism Economic Indicators --------------------------------------------
   \begin{minipage}[c]{0.5\textwidth}
+    % \hspace{4ex}\small{\textcolor[HTML]{FF6103}{Absolute contribution to GDP/employment }}\small{\textcolor[HTML]{818181}{vs. }}\small{\textcolor[HTML]{\Sexpr{main_color}}{Share of GDP/Labor force}}
+    <<barlegend,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=0.35,fig.width=7,results="asis">>=  
+    @  
     <<bar2.1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=4.5,fig.width=10,results="asis">>=  
     @     
     \end{minipage}%% Competitiveness --------------------------------------------
@@ -174,7 +177,7 @@
   \hspace{3ex}
 \begin{minipage}[c]{0.9\textwidth}
   \begin{flushleft}
-  \small{\textcolor[HTML]{818181}{(*) All WEF TTCR Indicators are on a scale from 1 to 7 (best). Values in {\color{orange}{orange}} represent the position of the country in relation to other economies included in the WEF report for that particular indicator.}}
+  \small{\textcolor[HTML]{818181}{(*) All WEF TTCR Indicators are on a scale from 1 to 7 (best). Values in {\textcolor[HTML]{FF6103}{orange}} represent the position of the country in relation to other economies included in the WEF report for that particular indicator.}}
   \end{flushleft}
 \end{minipage}
 
@@ -275,7 +278,7 @@
 \hspace*{4ex}
 \begin{minipage}[c]{0.9\textwidth}
   \begin{flushleft}
-  \small{\textcolor[HTML]{818181}{(*) All WEF TTCR Indicators are on a scale from 1 to 7 (best). Values in {\color{orange}{orange}} represent the position of the country in relation to other economies included in the WEF report for that particular indicator.}}
+  \small{\textcolor[HTML]{818181}{(*) All WEF TTCR Indicators are on a scale from 1 to 7 (best). Values in {\textcolor[HTML]{FF6103}{orange}} represent the position of the country in relation to other economies included in the WEF report for that particular indicator.}}
   \end{flushleft}
 \end{minipage}
 
