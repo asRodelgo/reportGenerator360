@@ -15,6 +15,12 @@ if (getwd() == "C:/Users/mrpso/Documents/GitHub/reportGenerator360"){
 ## ---- Run Writer_Report_data.R to update data from TCdata360 API
 ReportDataList <- list()
 for (topic in topics){
+  
+  # if(topic == "FCV"){
+  #   thisYear = as.character(as.numeric(substr(Sys.Date(),1,4))+1)
+  # } else {
+  #   thisYear <- substr(Sys.Date(),1,4)
+  # }
 
   ThisReport_data <- read.csv(paste0(file_root,topic,"_data.csv"),stringsAsFactors = FALSE)
     # Read data description file (what goes in the PDF report)
@@ -24,9 +30,22 @@ for (topic in topics){
   ThisReport_data <- merge(ThisReport_data,ThisDataDesc, by.x = "id", by.y = "tcdata360_id")
   
   ThisReport_data <- merge(ThisReport_data, countries[,c("iso3","iso2","name","region","adminRegion","incomeLevel")],by="iso3",all.x = TRUE)
+  
+  # extract FCV 2018 data
+  if (topic == "FCV"){
+    fcv2018 <- ThisReport_data %>%
+      filter(Period == "2018", id %in% c(28156,28150, 28152, 28151)) 
+  }
+  
   # clean up: remove duplicate columns
   ThisReport_data <- ThisReport_data %>%
-    filter(Period <= thisYear) %>%
+    filter(Period <= thisYear) 
+  
+  if (topic == "FCV"){
+    ThisReport_data <- bind_rows(ThisReport_data, fcv2018) 
+  }
+  
+  ThisReport_data <- ThisReport_data %>%
     mutate(Period = as.character(Period), Scale = ifelse(is.na(Scale),1,Scale)) %>%
     select(Key = id, Country = name, Period, Observation, Scale, CountryCode = iso3, iso2,
            IndicatorShort = Indicator_Short, Source_Name, Source_Link, Unit = Unit_Short,
