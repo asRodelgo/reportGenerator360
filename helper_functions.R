@@ -2599,6 +2599,7 @@ doing_business_table <- function(Report_data,reportConfig,couName){
     # instead of year Doing Business report was released
     dataDTF <- data %>%
       filter(grepl("DTF",Subsection), Period >= as.numeric(thisYear)-2) %>%
+      filter(Period < as.numeric(thisYear)) %>% #make sure maximum period matches that of DB Rank (2016)
       select(-Subsection)
     
     dataR <- spread(dataR, Period, Observation)
