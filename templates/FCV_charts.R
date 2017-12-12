@@ -87,7 +87,7 @@ line_chart_avg(Report_data,reportConfig,couName, reportConfig$Section[2], "slope
 line_chart_avg(Report_data,reportConfig,couName, reportConfig$Section[2], "slope2.1rank", minTime="2015",neighbor="fcv",max_neighbors=1)
 
 ## ---- radar2.1 ----
-radar_chart_fcv(Report_data,reportConfig,couName,reportConfig$Section[2],"radar2.1",max_num_comparators = 4, shortlist_tcdata360_id=416)
+radar_chart_fcv(Report_data,reportConfig,couName,reportConfig$Section[2],"radar2.1",max_num_comparators = 4, shortlist_tcdata360_id=40001)
 
 ########## WEF GLOBAL COMPETITIVENESS INDEX ##########
 
