@@ -31,9 +31,10 @@ for (topic in topics){
   
   ThisReport_data <- merge(ThisReport_data, countries[,c("iso3","iso2","name","region","adminRegion","incomeLevel")],by="iso3",all.x = TRUE)
   
-  # extract FCV 2018 data
+  # preserve data with Periods after thisYear (for special reasons)
   if (topic == "FCV"){
-    fcv2018 <- ThisReport_data %>%
+    # extract FCV 2018 data
+      fcv2018 <- ThisReport_data %>%
       filter(Period == "2018", id %in% c(28156,28150, 28152, 28151)) 
   }
   
@@ -41,6 +42,7 @@ for (topic in topics){
   ThisReport_data <- ThisReport_data %>%
     filter(Period <= thisYear) 
   
+  # preserve data with Periods after thisYear (for special reasons)
   if (topic == "FCV"){
     ThisReport_data <- bind_rows(ThisReport_data, fcv2018) 
   }
