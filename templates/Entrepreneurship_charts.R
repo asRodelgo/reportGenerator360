@@ -12,6 +12,8 @@ couISO2 <- .getISO2(couName)
 Report_data <- ReportDataList[[input_reportID]]
 reportConfig <- ReportConfigList[[input_reportID]]
 dataDesc <- dataDescList[[input_reportID]]
+
+text_color <- "#818181"
 ########## Header ##########
 
 ## ---- figure_sparkline1 ----
