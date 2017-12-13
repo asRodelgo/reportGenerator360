@@ -6,8 +6,7 @@
 # Each R code chunk LaTeX will read is delimited by: ## ---- label ----
 
 ## ---- parameters ----
-couName <- countryNames[countryNames$Country==c,]$Country
-couISO2 <- .getISO2(couName)
+
 # Load data
 Report_data <- ReportDataList[[input_reportID]]
 reportConfig <- ReportConfigList[[input_reportID]]
@@ -46,6 +45,9 @@ countries <- merge(countries, nominal_gdp, by="iso2", all.x=TRUE)
 
 
 text_color <- "#404040"
+
+couName <- countryNames[countryNames$Country==c,]$Country
+couISO2 <- .getISO2(couName)
 ########## Header ##########
 
 ## ---- fcvtext ----
