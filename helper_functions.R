@@ -1781,14 +1781,20 @@ number_chart_yesno <- function(Report_data,reportConfig,couName,section,table,st
         # print data point and rank
           #remap 1/0 back to Yes/No
           temp_val <- filter(thisKey,CountryCode==cou)$Observation
-          if (temp_val == 1){
-            temp_val <- "Yes"
-          } else if (temp_val == 0){
-            temp_val <- "No"
+          
+          # skip the indicator Registering Property, Equal access to property rights index (-2 to 0)*
+          if (ind != 28827){
+            if (temp_val == 1){
+              temp_val <- "Yes"
+            } else if (temp_val == 0){
+              temp_val <- "No"
+            }
           }
           if (temp_val == 'Yes'){
             temp_col="darkgreen"
-          } else {temp_col="red"}
+          } else if (temp_val == 'No'){
+            temp_col="red"
+          } else {temp_col="gray"}
           par(mar = c(0,0,0,0))
           plot(c(1,1), type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
           graphics::text(1,1,paste0(temp_val), col=temp_col, cex=7, adj=0, family="Times")
