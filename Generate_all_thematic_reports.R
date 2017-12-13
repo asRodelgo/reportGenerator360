@@ -1,3 +1,12 @@
+#!/usr/bin/env Rscript
+
+packages <- c("jsonlite", "plyr","dplyr", "ggplot2", "gridExtra" ,"data.table",
+              "tidyr", "xtable", "stringr", "fmsb", "treemap", "DT", "reshape2",
+              "devtools", "sparkline", "knitr", "Cairo", "shiny", "shinythemes",
+              "shinyBS", "shinyjs", "V8", "tidyverse")
+
+install.packages(packages)
+
 # run Entrep, Tourism
 for(input_reportID in c("Entrepreneurship", "Tourism")){
   source('global_utils.R')
