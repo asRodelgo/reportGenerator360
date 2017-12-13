@@ -7,7 +7,9 @@ packages <- c("jsonlite", "plyr","dplyr", "ggplot2", "gridExtra" ,"data.table",
 
 install.packages(packages, repos = "https://cran.stat.upd.edu.ph/")
 
+#preprocessing code
 text_color <- "#818181"
+region_longname <- read.csv("templates/region_longname.csv") 
 
 # run Entrep, Tourism
 for(input_reportID in c("Entrepreneurship", "Tourism")){
