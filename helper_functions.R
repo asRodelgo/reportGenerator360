@@ -1781,14 +1781,20 @@ number_chart_yesno <- function(Report_data,reportConfig,couName,section,table,st
         # print data point and rank
           #remap 1/0 back to Yes/No
           temp_val <- filter(thisKey,CountryCode==cou)$Observation
-          if (temp_val == 1){
-            temp_val <- "Yes"
-          } else if (temp_val == 0){
-            temp_val <- "No"
+          
+          # skip the indicator Registering Property, Equal access to property rights index (-2 to 0)*
+          if (ind != 28827){
+            if (temp_val == 1){
+              temp_val <- "Yes"
+            } else if (temp_val == 0){
+              temp_val <- "No"
+            }
           }
           if (temp_val == 'Yes'){
             temp_col="darkgreen"
-          } else {temp_col="red"}
+          } else if (temp_val == 'No'){
+            temp_col="red"
+          } else {temp_col="gray"}
           par(mar = c(0,0,0,0))
           plot(c(1,1), type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
           graphics::text(1,1,paste0(temp_val), col=temp_col, cex=7, adj=0, family="Times")
@@ -1796,19 +1802,11 @@ number_chart_yesno <- function(Report_data,reportConfig,couName,section,table,st
         } else { # no data for this indicator
         
         # print indicator name
-        plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-        graphics::text(1, 1.1,str_wrap(thisKey$IndicatorShort[1], str_wrap_size), col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=3, adj=0)
-        graphics::text(1, 0.75,paste0(thisKey$Unit[1], " (",thisKey$Period[1],")"), col=text_color, cex=2, adj = 0)
-        # print data point and rank
-        if (!rankBig){ # rank bigger than actual value
-          plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-          graphics::text(1.17, 1," " , col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=8)
-          graphics::text(1.42, 0.95,paste0("(Rank: /",rankedTotal[i],")"), col=text_color, cex=3, adj=0)
-        } else {
-          plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-          graphics::text(1.17, 1,paste0("NA/",rankedTotal[i]), col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=5)
-          graphics::text(1.5, 1," ", col=text_color, cex=4, adj=0)
-        }
+        # par(mar = c(0,0,0,0))
+        # plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+        # graphics::text(1, 1,str_wrap(thisKey$IndicatorShort[1], str_wrap_size), col=text_color, cex=3, adj=0, family="Times")
+        # par(mar = c(0,0,0,0))
+        # plot(c(1,1), type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
       }
       i <- i + 1
     } 
@@ -2599,6 +2597,7 @@ doing_business_table <- function(Report_data,reportConfig,couName){
     # instead of year Doing Business report was released
     dataDTF <- data %>%
       filter(grepl("DTF",Subsection), Period >= as.numeric(thisYear)-2) %>%
+      filter(Period < as.numeric(thisYear)) %>% #make sure maximum period matches that of DB Rank (2016)
       select(-Subsection)
     
     dataR <- spread(dataR, Period, Observation)
