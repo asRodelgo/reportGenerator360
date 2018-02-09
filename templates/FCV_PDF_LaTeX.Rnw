@@ -60,8 +60,8 @@
 \hspace{4ex}
 \begin{minipage}[c]{0.9\textwidth}
   \resizebox{\textwidth}{!}{\textcolor[HTML]{404040}
-    <<fcvtable,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=  
-    @      
+    <<fcvtable,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=
+    @
   }
 \end{minipage}
 
@@ -252,7 +252,7 @@
     maxPeriod <- max(filter(Report_data, CountryCode==cou, Subsection2 %in% "cpia", !is.na(Observation))$Period)
     dataNeighbor <- filter(dataNeighbor, Period==maxPeriod)
     dataset_ave <- mean(aggregate(dataNeighbor$Observation, list(dataNeighbor$CountryCode), mean)$x, na.rm=TRUE)
-    country_ave <-mean(filter(Report_data, CountryCode == cou, Subsection2 %in% dataset, Period == maxPeriod)$Observation, na.rm=TRUE)
+    country_ave <-mean(filter(Report_data, CountryCode == cou, Subsection2 %in% "cpia", Period == maxPeriod)$Observation, na.rm=TRUE)
     cat("\\small{\\textcolor[HTML]{404040}{") 
     cat(paste(sprintf("Country Overall CPIA: \\textbf{%0.2f} ; Class Average Overall CPIA: \\textbf{%0.2f}", country_ave, dataset_ave)))
     cat("}}")
