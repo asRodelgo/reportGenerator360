@@ -1575,7 +1575,7 @@ bar_chart_fcv_class <- function(Report_data,reportConfig,couName,section,table){
   
   cou <- .getCountryCode(couName)
   # data <- filter(Report_data, CountryCode==cou, Section %in% section, Subsection %in% table)
-  couFCV <- as.character(countries[countries$iso3==cou,]$FCVclass)  # obtain the region for the selected country
+  couRegion <- as.character(countries[countries$iso3==cou,]$FCVclass)  # obtain the region for the selected country
   FCV_classmates <- countries[countries$FCVclass == couFCV, 'iso2']
   data <- filter(Report_data, iso2 %in% FCV_classmates, Section == section, Subsection == table)
   
@@ -3247,11 +3247,11 @@ fcvtable <- function(Report_data,reportConfig,couName,section,table, minTime='20
   # modify column names
   names(data) <- c("",names(data)[2:(ncol(data)-1)],"")
   
-  if (section %in% c("Culture","Supports")){
-    col <- rep("\\rowcolor{white}", length(rowsSelect))
-  } else {
-    col <- rep("\\rowcolor[gray]{0.95}", length(rowsSelect))
-  }
+  # if (section %in% c("Culture","Supports")){
+  #   col <- rep("\\rowcolor{white}", length(rowsSelect))
+  # } else {
+  #   col <- rep("\\rowcolor[gray]{0.95}", length(rowsSelect))
+  # }
   
   data.table <- xtable(data, digits=rep(1,ncol(data)+1)) #control decimals
   align(data.table) <- c('l','>{\\raggedright}p{4.5in}','r',rep('>{\\raggedleft}p{0.8in}',ncol(data.table)-3),'l')
@@ -3363,13 +3363,21 @@ text_box <- function(reportConfig,title, body, str_wrap_size=75){
   ### Run the report ---------------
   
     iso3 <- .getCountryCode(couName)
-    knit2pdf('PDF_LaTeX.Rnw', clean = TRUE,
-             encoding = "UTF-8",
+    # knit2pdf('PDF_LaTeX.Rnw',
+    #          # clean = TRUE,
+    #          encoding = "UTF-8",
+    #          # compiler = 'pdflatex',
+    #          output = paste0(input_reportID,"_",iso3,".tex"))
+    knit('PDF_LaTeX.Rnw',
              output = paste0(input_reportID,"_",iso3,".tex"))
+    tools::texi2pdf(paste0(input_reportID,"_",iso3,".tex"))
     # copy file to pdf directory
     file.copy(paste0(input_reportID,"_",iso3,".pdf"), paste0("templates/",input_reportID,"_final_pdf/"),overwrite=TRUE)
     #file.copy(paste0(input_reportID,"_",iso3,".pdf"), "www/",overwrite=TRUE)
     file.remove(paste0(input_reportID,"_",iso3,".pdf"))
     file.remove(paste0(input_reportID,"_",iso3,".tex"))
+    file.remove(paste0(input_reportID,"_",iso3,".aux"))
+    file.remove(paste0(input_reportID,"_",iso3,".log"))
+    file.remove(paste0(input_reportID,"_",iso3,".out"))
 }
 

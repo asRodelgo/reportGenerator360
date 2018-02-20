@@ -2,10 +2,20 @@
 
 packages <- c("jsonlite", "plyr","dplyr", "ggplot2", "gridExtra" ,"data.table",
               "tidyr", "xtable", "stringr", "fmsb", "treemap", "DT", "reshape2",
-              "devtools", "sparkline", "knitr", "Cairo", "shiny", "shinythemes",
-              "shinyBS", "shinyjs", "V8", "tidyverse", "scales")
+              "devtools", "sparkline", "Cairo", "shiny", "shinythemes",
+              "shinyBS", "shinyjs", "V8", "tidyverse", "scales", "tinytex", "rmarkdown", "knitr")
 
 install.packages(packages, repos = "https://cran.stat.upd.edu.ph/")
+# install.packages(packages)
+
+# library(devtools)
+# devtools::install_github(c('yihui/tinytex', 'rstudio/rmarkdown', "yihui/knitr"), force=TRUE)
+library(rmarkdown)
+library(tinytex)
+# Sys.getenv("RSTUDIO_PANDOC")
+# Sys.setenv(RSTUDIO_PANDOC = "C:/Users/mrpso/AppData/Local/Pandoc")
+# rmarkdown:::find_pandoc()
+# as.list(rmarkdown:::.pandoc)
 
 #### ----- run FCV
 input_reportID <- "FCV"
@@ -31,7 +41,7 @@ fcv_coutyp <- filter(Report_data, Key %in% c(28150, 28151, 28152)) %>%
 # fcv_coutyp$FCVclass <- sub("^Fragility Class: ", "", fcv_coutyp$IndicatorShort)
 fcv_coutyp$FCVclass <- fcv_coutyp$IndicatorShort
 fcv_coutyp <- fcv_coutyp[c("iso2", "FCVclass")]
-countries <- merge(countries, fcv_coutyp, by="iso2", all.x=TRUE)
+countries <- unique(merge(countries, fcv_coutyp, by="iso2"))
 
 # Map longer names to existing country typologies
 countries$incomeLevel_long <- mapvalues(countries$incomeLevel,
@@ -42,7 +52,7 @@ countries <- mutate(countries, sids_long = ifelse(sids,"Yes","No"), landlocked_l
 
 # Add latest nominal GDP for non-FCV comparators
 nominal_gdp <- filter(Report_data, Key %in% 28107) %>%
-  subset(Period == as.numeric(max(Period,na.rm = TRUE)) -1.0) %>%
+  subset(Period == as.numeric(max(Period,na.rm = TRUE)) -2.0) %>%
   mutate(latestNominalGDP = Observation)
 nominal_gdp <- nominal_gdp[c('iso2','latestNominalGDP')]
 countries <- merge(countries, nominal_gdp, by="iso2", all.x=TRUE)

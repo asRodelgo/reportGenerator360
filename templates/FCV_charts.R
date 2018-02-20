@@ -12,7 +12,6 @@ Report_data <- ReportDataList[[input_reportID]]
 reportConfig <- ReportConfigList[[input_reportID]]
 dataDesc <- dataDescList[[input_reportID]]
 
-#### Add new columns to countries dataframe to include FCS typology
 # Add latest resource rich data
 resource_rich <- filter(Report_data, Key %in% 28157) %>%
   subset(Period == max(Period,na.rm = TRUE)) %>%
@@ -27,7 +26,7 @@ fcv_coutyp <- filter(Report_data, Key %in% c(28150, 28151, 28152)) %>%
 # fcv_coutyp$FCVclass <- sub("^Fragility Class: ", "", fcv_coutyp$IndicatorShort)
 fcv_coutyp$FCVclass <- fcv_coutyp$IndicatorShort
 fcv_coutyp <- fcv_coutyp[c("iso2", "FCVclass")]
-countries <- merge(countries, fcv_coutyp, by="iso2", all.x=TRUE)
+countries <- unique(merge(countries, fcv_coutyp, by="iso2"))
 
 # Map longer names to existing country typologies
 countries$incomeLevel_long <- mapvalues(countries$incomeLevel,
@@ -38,11 +37,10 @@ countries <- mutate(countries, sids_long = ifelse(sids,"Yes","No"), landlocked_l
 
 # Add latest nominal GDP for non-FCV comparators
 nominal_gdp <- filter(Report_data, Key %in% 28107) %>%
-  subset(Period == as.numeric(max(Period,na.rm = TRUE)) -1.0) %>%
+  subset(Period == as.numeric(max(Period,na.rm = TRUE)) -2.0) %>%
   mutate(latestNominalGDP = Observation)
 nominal_gdp <- nominal_gdp[c('iso2','latestNominalGDP')]
 countries <- merge(countries, nominal_gdp, by="iso2", all.x=TRUE)
-
 
 text_color <- "#404040"
 
