@@ -2599,17 +2599,23 @@ doing_business_table <- function(Report_data,reportConfig,couName){
       filter(grepl("DTF",Subsection), Period >= as.numeric(thisYear)-2) %>%
       filter(Period < as.numeric(thisYear)) %>% #make sure maximum period matches that of DB Rank (2016)
       select(-Subsection)
-    
     dataR <- spread(dataR, Period, Observation)
-    dataDTF <- spread(dataDTF, Period, Observation)
     
-    # calculate difference in Rank
-    dataR$ChangeRank <- dataR[,2] - dataR[,3]
+    if(dim(dataR)[2] == 2){
+      dataR$"2016" <- ".."
+      dataR$ChangeRank <- ".."
+      dataR <- dataR[,c("IndicatorShort","2016","2017","ChangeRank")]
+    } else {
+      # calculate difference in Rank
+      dataR$ChangeRank <- dataR[,2] - dataR[,3]
+    }
+    
+    dataDTF <- spread(dataDTF, Period, Observation)
     dataDTF$ChangeDTF <- round(dataDTF[,3] - dataDTF[,2],2)
     
     # red for negative, green for positive changes
-    dataR <- mutate(dataR, ChangeRank = ifelse(ChangeRank<0, paste0("\\color{red}{",ChangeRank,"}"),
-                                               ifelse(ChangeRank>0, paste0("\\color{green}{",ChangeRank,"}"),paste0(sprintf("\\color{%s}{",text_color),ChangeRank,"}"))))
+    dataR <- mutate(dataR, ChangeRank = ifelse(ChangeRank == '..', paste0(sprintf("\\color{%s}{",text_color),ChangeRank,"}"), ifelse(ChangeRank<0, paste0("\\color{red}{",ChangeRank,"}"),
+                                               ifelse(ChangeRank>0, paste0("\\color{green}{",ChangeRank,"}"),paste0(sprintf("\\color{%s}{",text_color),ChangeRank,"}")))))
     dataDTF <- mutate(dataDTF, ChangeDTF = ifelse(ChangeDTF<0, paste0("\\color{red}{",ChangeDTF,"}"),
                                                   ifelse(ChangeDTF>0, paste0("\\color{green}{",ChangeDTF,"}"),paste0(sprintf("\\color{%s}{",text_color),ChangeDTF,"}"))))
     
