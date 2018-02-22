@@ -15,7 +15,7 @@ Section_ID,Order,Color,Section,Section_Description,Section_Level
 4,1,,FINANCIAL INCLUSION (\% age 15+),SOURCE: WORLD BANK - FINDEX,2
 4,2,,DIGITAL COMMERCE \& INTERNET ACCESS,SOURCE: ES; WEF-GCI REPORT; WDI; CONSUMER BAROMETER,2
 5,5,,CULTURE,Societal attitudes toward entrepreneurship,1
-5,1,,,SOURCE: ES; WEF-GCI REPORT; WDI; CONSUMER BAROMETER,2
+5,1,,,SOURCE: Global Entrepreneurship Monitor; WEF-GCI REPORT; WDI,2
 6,6,,SUPPORTS,"Infrastructure and support services available through incubators, accelerators and other NGOs",1
 6,1,,,SOURCE: ES; WEF-GCI REPORT; WORLD BANK - WDI,2
 9,9,22A6F5,Entrepreneurship,Digital Entrepreneurship 360,9
