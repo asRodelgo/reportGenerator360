@@ -1576,7 +1576,7 @@ bar_chart_fcv_class <- function(Report_data,reportConfig,couName,section,table){
   cou <- .getCountryCode(couName)
   # data <- filter(Report_data, CountryCode==cou, Section %in% section, Subsection %in% table)
   couRegion <- as.character(countries[countries$iso3==cou,]$FCVclass)  # obtain the region for the selected country
-  FCV_classmates <- countries[countries$FCVclass == couFCV, 'iso2']
+  FCV_classmates <- countries[countries$FCVclass == couRegion, 'iso2']
   data <- filter(Report_data, iso2 %in% FCV_classmates, Section == section, Subsection == table)
   
   data <- data %>%
