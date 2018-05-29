@@ -17,7 +17,7 @@ Section_ID,Order,Color,Section,Section_Description,Section_Level
 4,4,,FAMILY AND CHILDREN,"SOURCE: WOMEN, BUSINESS, AND THE LAW",2
 5,5,,"ASSET OWNERSHIP, CONTROL, AND TIME ALLOCATION",,1
 5,1,,"Account Ownership, by gender",SOURCE: WORLD BANK - WDI,2
-5,2,,"Daily time spent (hours) on domestic work, by gender",SOURCE: GENDER STATISTICS,2
+5,2,,"Proportion of time spent (\% of 24-hour day) on unpaid domestic and care work, by gender",SOURCE: GENDER STATISTICS,2
 5,3,,Women participating in making major household purchase decisions,SOURCE: GENDER STATISTICS,2
 6,6,,SOCIAL AND POLITICAL NORMS,,1
 6,1,,"Educational Attainment, by gender","SOURCE: EDSTATS, WORLD BANK - WDI",2
