@@ -3,8 +3,9 @@
 # ------------------------
 require(jsonlite)
 # my local mac vs shiny-server
-if (getwd() == "C:/Users/mrpso/Documents/GitHub/reportGenerator360"){
-  file_root <- "C:/Users/mrpso/Documents/GitHub/reportGenerator360_data/"
+#if (getwd() == "C:/Users/mrpso/Documents/GitHub/reportGenerator360"){
+if (grepl("User",getwd())) {
+  file_root <- paste0(getwd(),"_data/")
   file_extra_root <- file_root
 }
 #else {
@@ -12,7 +13,13 @@ if (getwd() == "C:/Users/mrpso/Documents/GitHub/reportGenerator360"){
 #  file_extra_root <- "data/"
 #}
 # read data extracted from API.
+
+###### IMPORTANT #####
+######################
 ## ---- Run Writer_Report_data.R to update data from TCdata360 API
+######################
+######################
+
 ReportDataList <- list()
 for (topic in topics){
   

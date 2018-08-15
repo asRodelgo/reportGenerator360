@@ -52,7 +52,14 @@ for (cou in filter(countries,(iso3 %in% unique(countries$iso3)))$iso3){
     if (!is.null(thisQuery$estimated)){
       thisQuery$estimated <- NULL
       thisQuery <- as.data.frame(thisQuery)
-    }  
+    }
+    if (length(thisQuery$products)>0) {
+      #thisQuery <- filter(thisQuery$products, grepl("total",tolower(product))) %>%
+      thisQuery <- thisQuery$products[nrow(thisQuery$products),] %>%  
+        mutate(id = ind) %>%
+        select(id, starts_with("values")) %>%
+        select_if(!is.na(.))
+    }
     thisQuery <- thisQuery %>%
       mutate(iso3 = cou)
     names(thisQuery) <- gsub("values.","",names(thisQuery),fixed=TRUE)
@@ -95,8 +102,7 @@ Report_data <- gather(Report_data, Period, Observation, -iso3,-id)
 # your file system. In the future I might think about slicing it in a way that fits
 #write.csv(Report_data,paste0("/Users/asanchez3/Desktop/Work/TCMN/reportGenerator360_data/",input_reportID,"_data.csv"),row.names = FALSE)
 
-write.csv(Report_data,paste0("/Users/mrpso/Documents/GitHub/reportGenerator360_data/",input_reportID,"_data.csv"),row.names = FALSE)
-
+write.csv(Report_data,paste0(getwd(),"_data/",input_reportID,"_data.csv"),row.names = FALSE)
 
 # -----------------------------------------------------------
 #

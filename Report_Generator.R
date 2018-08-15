@@ -11,9 +11,10 @@ exclude <- c("Channel Islands","Virgin Islands (U.S.)","Northern Mariana Islands
              "Marshall Islands","Greenland","Gibraltar","Cayman Islands","British Virgin Islands",
              "St. Martin (French part)","Sint Maarten (Dutch part)")
 processed <- c()
-for (couName in filter(countries, !(name %in% exclude))$name) {
-#for (couName in c("China","Spain","Sweden")) {
-  suppressWarnings(.reportGenerator(couName, input_reportID))
+#for (couName in filter(countries, !(name %in% exclude))$name) {
+for (couName in c("China","Spain")) {
+  .reportGenerator(couName, input_reportID)
+  #suppressWarnings(.reportGenerator(couName, input_reportID))
   # if (!(substr(c,1,1)=="(") & !(filter(countries, name==c)$iso3=="")){
   #   iso3 <- .getCountryCode(c)
   #   knit2pdf('PDF_LaTeX.Rnw', clean = TRUE,
