@@ -19,13 +19,26 @@ countries$incomeLevel_long <- mapvalues(countries$incomeLevel,
                                              "Lower Middle Income", "Upper Middle Income"))
 countries <- mutate(countries, sids_long = ifelse(sids,"Yes","No"), landlocked_long= ifelse(landlocked,"Yes","No"))
 
-text_color <- "#404040"
+text_color <- "#818181"
 
 couName <- countryNames[countryNames$Country==c,]$Country
 couISO2 <- .getISO2(couName)
-########## Header ##########
-
-## ---- fcvtext ----
-# fcvtext(countries, couName)
 
 ########## OVERVIEW ##########
+
+# Uses reportConfig$Section[1] directly inside the .Rnw
+
+########## Trade & Investment ##########
+
+## ---- bar_facewrap_chart_Trade ----
+bar_facewrap_chart(Report_data,reportConfig,couName,reportConfig$Section[2],"bar1")
+
+## ---- table_time_Investment ----
+table_time(Report_data,reportConfig,couName,reportConfig$Section[2],"table1")
+
+
+
+
+
+
+

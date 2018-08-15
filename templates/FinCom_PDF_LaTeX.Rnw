@@ -31,7 +31,6 @@
   \begin{minipage}[t]{0.43\textwidth} % overview section
     \vspace*{-1.5ex}
        <<echo=FALSE, results='asis', warning = FALSE>>=
-  title_box <- filter(ThisDataDesc, Section == "OVERVIEW")$Indicator_Short
   title_ids <- filter(ThisDataDesc, Section == "OVERVIEW")$tcdata360_id
   title_data <- filter(ThisReport_data, Key %in% title_ids, Country == couName, !is.na(Observation)) %>%
     group_by(Key) %>%
@@ -53,6 +52,30 @@
 \end{figure}
 % END OF HEADER PART
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% TRADE --------------------------------------------
+\begin{minipage}[c]{0.95\textwidth}
+  \begin{flushleft}  
+    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[2]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[2]}}}
+  \end{flushleft}
+  \begin{minipage}[c]{0.55\textwidth}
+    \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 1)[1,1]}}}
+    \vspace{1ex}
+    <<bar_facewrap_chart_Trade,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=3.2,fig.width=7,results="asis">>=  
+    @      
+   \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 2,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 2,Order == 1)[1,1]}}}}
+  \end{minipage}
+  \begin{minipage}[c]{0.43\textwidth}
+    \small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 2)[1,1]}}}
+    \vspace{1ex}
+    <<table_time_Investment,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=6,fig.width=10,results="asis">>=  
+    @
+    \vspace{-1ex}
+    \scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 2,Order == 2)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 2,Order == 2)[1,1]}}}}
+  \end{minipage}
+\end{minipage}
+
+
 
 %%% footer ----------------------------------
 \vspace{1ex}

@@ -83,7 +83,8 @@ for (topic in topics){
   # Add source links to reportConfig ------------------------
   ThisReportConfig <- left_join(ThisReportConfig,ThisDataDesc[,c("Source_Name", "Source_Link")], by = c("Section_Description" = "Source_Name")) %>%
     #distinct(Section_Description, Source_Link, .keep_all = TRUE) %>%
-    arrange(Section_Level, Order)
+    arrange(Section_Level, Order) %>%
+    distinct(Section_ID,Order,Section_Level, .keep_all = TRUE)
   
   ReportConfigList[[topic]] <- ThisReportConfig
   
