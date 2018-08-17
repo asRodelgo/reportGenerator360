@@ -817,7 +817,6 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
   
 }
 
-
 ## ---- bar_chart_stacked ----
 bar_chart_stacked <- function(Report_data,reportConfig,couName, section, table, minTime="1900",neighbor="region",max_neighbors=4, show_last_year=FALSE, show_data_labels=NULL, plot_spacing=0.0){
   # if max_neighbors = 0, plot only selected country
@@ -848,7 +847,11 @@ bar_chart_stacked <- function(Report_data,reportConfig,couName, section, table, 
     
   } else { # compare against top incomes wihtin region 
     # select top neighbors according to income
-    income <- filter(Report_data, region==couRegion & Section=="aux_income")
+    if (nrow(filter(Report_data, Section == "aux_income"))>0) {
+      income <- filter(Report_data, region==couRegion & Section=="aux_income")
+    } else {
+      income <- filter(Report_data, region==couRegion)
+    }
     income <- income %>%
       group_by(CountryCode) %>%
       filter(!is.na(Observation), Period < thisYear, !(CountryCode==cou)) %>%
@@ -914,7 +917,7 @@ bar_chart_stacked <- function(Report_data,reportConfig,couName, section, table, 
           #           show.legend = FALSE, position = position_stack(vjust = 0.5))+
           expand_limits(y = max_val+diff_val)
       
-        } else {
+      } else {
         ggplot(data, aes(x=Period, y=Observation)) +
           geom_line(stat="identity",aes(group=factor(Key), colour=factor(Key), size=factor(Key), alpha=factor(Key))) +
           theme(legend.key=element_blank(),
@@ -1000,6 +1003,49 @@ bar_chart_stacked <- function(Report_data,reportConfig,couName, section, table, 
           expand_limits(y = c(min_val-diff_val,max_val+diff_val))
       }
     }
+    
+  } else {
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
+  }
+  
+}
+
+## ---- barchart_stacked_FinCom ----
+barchart_stacked_FinCom <- function(Report_data,reportConfig,couName, section, table) {
+  
+  cou <- .getCountryCode(couName)
+  data <- filter(Report_data, region==couRegion, Section == section, Subsection == table, !(is.na(Observation))) #select country, region and world
+  data <- filter(data, CountryCode == cou) %>%
+    mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
+    arrange(CountryCode,Period)
+  
+  data2 <- data %>%
+    filter(CountryCode == cou) %>%
+    dplyr::select(IndicatorShort, Period, Observation) %>%
+    mutate(Period = as.numeric(Period)) %>%
+    filter(Period >= max(Period) - 4) %>%
+    filter(!grepl("Services",IndicatorShort)) %>%
+    tidyr::spread(IndicatorShort,Observation, drop = FALSE) %>%
+    dplyr::select(Period, Agriculture = starts_with("Agriculture"), Industry = starts_with("Manufactu")) %>%
+    mutate(Services = 100 - Agriculture - Industry) %>%
+    tidyr::gather(IndicatorShort,Observation, -Period) %>%
+    dplyr::select(Period, IndicatorShort, Observation)
+  
+  if (nrow(data2)>0){
+    ggplot(data2, aes(x = Period, y = Observation, fill = IndicatorShort)) +
+      geom_bar(stat = "identity") +
+      theme(legend.key=element_blank(),
+            legend.title=element_blank(),
+            legend.position="top",
+            legend.text = element_text(family="Times", size = 10, colour = text_color),
+            panel.border = element_blank(),
+            panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+            axis.line = element_line(size=0.1, colour = "lightgrey"),
+            axis.text.x = element_text(family="Times", color=text_color,hjust = 1),
+            axis.text.y = element_text(family="Times", color=text_color)) +
+      labs(x="",y="% of GDP"#,title="Goods Export and Import volume growth, 2012-2015"
+      )
     
   } else {
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
@@ -2504,7 +2550,11 @@ table_countries <- function(Report_data,reportConfig,couName,section,table,compa
       filter(Period == max(Period,na.rm=TRUE)) %>%
       distinct(Key,CountryCode, .keep_all = TRUE)
     # select top 4 countries from the neighborhood based on their income level
-    income <- filter(Report_data, CountryCode %in% neighbors & Section=="aux_income")
+    if (nrow(filter(Report_data, Section == "aux_income"))>0) {
+      income <- filter(Report_data, CountryCode %in% neighbors & Section=="aux_income")
+    } else {
+      income <- filter(Report_data, CountryCode %in% neighbors)
+    }
     income <- income %>%
       group_by(CountryCode) %>%
       filter(!is.na(Observation), Period < thisYear) %>%
@@ -2532,7 +2582,7 @@ table_countries <- function(Report_data,reportConfig,couName,section,table,compa
     } else {
       data <- select(data, Country, Observation, IndicatorShort, Unit) %>%
         spread(Country, Observation) %>%
-        select(IndicatorShort, get(couName), everything(), -Unit)
+        select(IndicatorShort, paste0(couName), everything(), -Unit)
     }
     # keep compareCountries neighbour countries at most
     if (ncol(data) > (compareCountries + 2)) data <- data[,c(1:(compareCountries + 2))]

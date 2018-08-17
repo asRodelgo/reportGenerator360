@@ -10,9 +10,11 @@ Section_ID,Order,Color,Section,Section_Description,Section_Level
 4,2,,TOP 5 CONSTRAINTS (\% of firms) ,SOURCE: Enterprise Survey,2
 4,3,,GCI \& ENTERPRISE SURVEY,SOURCE: WEF Global Competitiveness Report 2017,2
 4,4,,ENTERPRISE SURVEY,SOURCE: Enterprise Survey,2
-5,5,,OTHER,,1
-5,1,,LOGISTICS,,2
-5,2,,ENTERPRENEURSHIP \& INNOVATION,,2
-5,3,,SECTORAL COMPOSITION,,2
+5,5,,LOGISTICS,This is the Logistics section,1
+5,1,,LOGISTICS PERFORMANCE INDEX,SOURCE: WB LPI,2
+6,6,,SECTORAL COMPOSITION,,1
+6,1,,Value Added in \% of GDP,SOURCE: WDI,2
+7,7,,ENTERPRENEURSHIP \& INNOVATION,This is the Entrepreneurship section,1
+7,1,,,,2
 9,9,722FF5,FinCom,"Finance, Competitiveness \& Innovation 360",9
 9,10,722FF5,FinCom,"Finance, Competitiveness \& Innovation 360",10

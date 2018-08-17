@@ -63,6 +63,23 @@ radar_chart(Report_data,reportConfig,couName,reportConfig$Section[4],"competIndi
 ## ---- bar_es_chart ----
 bar_chart(Report_data,reportConfig,couName, reportConfig$Section[4],"es",paste_unit=FALSE,percentBar=TRUE)
 
+########## Logistics ##########
+## ---- lpi_table_countries ----
+table_countries(Report_data,reportConfig,couName, reportConfig$Section[5],"lpi")
+
+########## Sectoral Composition ##########
+## ---- sectoral_stackedbar ----
+barchart_stacked_FinCom(Report_data,reportConfig,couName, reportConfig$Section[6],"sectoral")
+
+########## Entrepreneurship and Innovation ##########
+## ---- table_time_avg_EntrepInnov ----
+table_time_avg(Report_data,reportConfig,couName,reportConfig$Section[7],"entrep_table")
+
+## ---- sparklines_EntrepInnov ----
+sparklines(Report_data,reportConfig,couName,reportConfig$Section[7],"entrep_table")
+
+
+
 
 
 
