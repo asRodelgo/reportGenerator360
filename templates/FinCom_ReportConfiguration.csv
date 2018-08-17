@@ -1,12 +1,15 @@
 Section_ID,Order,Color,Section,Section_Description,Section_Level
 1,1,,OVERVIEW,,1
 2,2,,TRADE \& INVESTMENT,This is the Trade and Investment section,1
-2,1,,Trade,SOURCE: WDI,2
-2,2,,Investment,"SOURCE: WDI, Findex",2
-3,3,,FINANCIAL INCLUSION \& STABILITY,,1
-4,4,,COMPETITIVENESS,,1
-4,1,,DOING BUSINESS,,2
-4,2,,GCI \& ENTERPRISE SURVEY,,2
+2,1,,TRADE,SOURCE: WDI,2
+2,2,,INVESTMENT,"SOURCE: WDI, Findex",2
+3,3,,FINANCIAL INCLUSION AND STABILITY,This is the Financial Inclusion and Stability section,1
+3,1,,,"SOURCE: WDI, ES, Global Innovation Index, Findex",2
+4,4,,COMPETITIVENESS,This is the Competitiveness section,1
+4,1,,DOING BUSINESS,SOURCE: Doing Business 2018,2
+4,2,,TOP 5 CONSTRAINTS (\% of firms) ,SOURCE: Enterprise Survey,2
+4,3,,GCI \& ENTERPRISE SURVEY,SOURCE: WEF Global Competitiveness Report 2017,2
+4,4,,ENTERPRISE SURVEY,SOURCE: Enterprise Survey,2
 5,5,,OTHER,,1
 5,1,,LOGISTICS,,2
 5,2,,ENTERPRENEURSHIP \& INNOVATION,,2

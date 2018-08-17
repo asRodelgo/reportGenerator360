@@ -34,10 +34,34 @@ couISO2 <- .getISO2(couName)
 bar_facewrap_chart(Report_data,reportConfig,couName,reportConfig$Section[2],"bar1")
 
 ## ---- table_time_Investment ----
-table_time(Report_data,reportConfig,couName,reportConfig$Section[2],"table1")
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[2],c("table1"),str_wrap_size=30)
+#table_region(Report_data,reportConfig,couName, reportConfig$Section[2],"table1")
+#table_time(Report_data,reportConfig,couName,reportConfig$Section[2],"table1")
 
+## ---- sparklines_Investment ----
+#sparklines(Report_data,reportConfig,couName,reportConfig$Section[2],"table1")
 
+## ---- table_time_avg_FinInclus ----
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[3],c("table2"),str_wrap_size=45)
+#table_time_avg(Report_data,reportConfig,couName,reportConfig$Section[3],"table2")
 
+## ---- sparklines_FinInclus ----
+#sparklines(Report_data,reportConfig,couName,reportConfig$Section[3],"table2")
+
+########## Competitiveness ##########
+
+## ---- doing_business_table ----
+doing_business_table(Report_data,reportConfig,couName)
+
+## ---- bar_top5constraints_chart ----
+bar_chart(Report_data,reportConfig,couName, reportConfig$Section[4],"top5constraints",paste_unit=FALSE,percentBar=TRUE,top5=TRUE)
+
+## ---- competIndic_radar ----
+radar_chart(Report_data,reportConfig,couName,reportConfig$Section[4],"competIndic")
+#radar_chart_fcv(Report_data,reportConfig,couName,reportConfig$Section[4],"competIndic",max_num_comparators = 4, shortlist_tcdata360_id=631, radar_fontsize=0.75)
+
+## ---- bar_es_chart ----
+bar_chart(Report_data,reportConfig,couName, reportConfig$Section[4],"es",paste_unit=FALSE,percentBar=TRUE)
 
 
 

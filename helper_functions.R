@@ -1416,7 +1416,7 @@ bar_chart_gender <- function(Report_data,reportConfig,couName,section,table,past
 }
 
 ## ---- bar_chart ----
-bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,percentBar = FALSE){      
+bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,percentBar = FALSE, top5 = FALSE){      
   
   cou <- .getCountryCode(couName)
   data <- filter(Report_data, CountryCode==cou, Section %in% section, Subsection %in% table)
@@ -1433,6 +1433,8 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,
         group_by(Key) %>%
         filter(Period == max(Period))
     }
+    #get top 5 obstacles
+    if (top5) data <- head(arrange(data, desc(Observation)),5)
     
     require(stringr) # to wrap label text
     require(scales) # to use thousands separator
@@ -1493,7 +1495,7 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,
       
       data <- filter(data, !(Key %in% c(949,1177))) # make sure gdp and employ don't show up here
       
-      ggplot(NULL,aes(x=IndicatorShort,y=Observation)) +
+      ggplot(NULL,aes(x=reorder(IndicatorShort, Observation),y=Observation)) +
         geom_bar(data=data,color=paste0("#",filter(reportConfig, Section_Level == 10)$Color),fill=paste0("#",filter(reportConfig, Section_Level == 10)$Color),stat="identity") +
         geom_text(data=data, aes(label=format(round(Observation,1),big.mark = ","),y=ifelse(Observation<max_value*.15,Observation + max(Observation)*.1,Observation - max(Observation)*.1)),
                   size=8,color=ifelse(data$Observation<max_value*.15,paste0("#",filter(reportConfig, Section_Level == 10)$Color),"white")) + 
@@ -1948,8 +1950,12 @@ bar_facewrap_chart <- function(Report_data,reportConfig,couName, section, table,
       group_by(Key,Country) %>%
       filter(Period == max(Period,na.rm=TRUE)) %>%
       distinct(Key,CountryCode, .keep_all = TRUE)
-    # select top 4 countries from the neighborhood based on their income level
-    income <- filter(Report_data, CountryCode %in% neighbors & Section=="aux_income")
+    # select top 4 countries from the neighborhood based on their income level (for Entrepreneurship reports only)
+    if (nrow(filter(Report_data, Section == "aux_income"))>0) {
+      income <- filter(Report_data, CountryCode %in% neighbors & Section=="aux_income")
+    } else {
+      income <- filter(Report_data, CountryCode %in% neighbors)
+    }
     income <- income %>%
       group_by(CountryCode) %>%
       filter(!is.na(Observation), Period < thisYear) %>%

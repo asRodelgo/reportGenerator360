@@ -65,17 +65,75 @@
     @      
    \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 2,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 2,Order == 1)[1,1]}}}}
   \end{minipage}
-  \begin{minipage}[c]{0.43\textwidth}
+  \begin{minipage}[c]{0.44\textwidth} % 
     \small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 2)[1,1]}}}
     \vspace{1ex}
-    <<table_time_Investment,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=6,fig.width=10,results="asis">>=  
-    @
-    \vspace{-1ex}
-    \scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 2,Order == 2)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 2,Order == 2)[1,1]}}}}
+      <<table_time_Investment,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=4,fig.width=8,results="asis">>=  
+      @            
+    \vspace{2ex}
+    \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 2,Order == 2)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 2,Order == 2)[1,1]}}}}
   \end{minipage}
 \end{minipage}
 
+%% Financial Inclusion & Stability --------------------------------------------
+\begin{minipage}[c]{0.95\textwidth}
+  \vspace{2ex}
+  \begin{flushleft}  
+    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[3]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[3]}}}
+  \end{flushleft}
+    \small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 1)[1,1]}}}
+    \vspace{1ex}
+      <<table_time_avg_FinInclus,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=7,fig.width=13,results="asis">>=  
+      @            
+    \vspace{2ex}
+    \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 3,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 3,Order == 1)[1,1]}}}}
+\end{minipage}
 
+\begin{minipage}[c]{0.95\textwidth}
+  \begin{flushleft}  
+    \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[4]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[4]}}}
+  \end{flushleft}
+  \vspace{2ex}
+  \hspace*{0.4cm} 
+  \begin{minipage}[c]{0.50\textwidth} % Doing Business table
+    \hspace{1ex}\small{\textcolor[HTML]{818181}{\Sexpr{paste(filter(subsection_name, Section_ID == 4,Order == 1)[1,1],year)}}}
+   \\[4pt]
+      \resizebox{\textwidth}{!}{%
+      <<doing_business_table,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=  
+        @          
+      }
+    \\[6pt]
+     \hspace{1ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 1)[1,1]}}}}
+  \end{minipage}
+    \begin{minipage}[c]{0.42\textwidth} 
+    \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 2)[1,1]}}}
+    
+    \vspace{1ex}
+    %\hspace{4ex}\footnotesize{\textcolor[HTML]{818181}{\% of GNI per capita}}
+    <<bar_top5constraints_chart,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=4,fig.width=8.5,results="asis">>=  
+      @            
+    \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 2)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 2)[1,1]}}}} 
+  \end{minipage}
+\end{minipage}
+
+\begin{minipage}[b]{0.95\textwidth}
+  \vspace{2ex}
+  \begin{minipage}[c]{0.50\textwidth}
+    \hspace{1ex}\small{\textcolor[HTML]{818181}{\Sexpr{paste(filter(subsection_name, Section_ID == 4,Order == 3)[1,1],year)}}}
+      <<competIndic_radar,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=4,fig.width=8,results="asis">>=  
+        @          
+     \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 3)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 3)[1,1]}}}} 
+  \end{minipage}
+    \begin{minipage}[c]{0.42\textwidth} 
+    \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 4)[1,1]}}}
+    
+    \vspace{1ex}
+    %\hspace{4ex}\footnotesize{\textcolor[HTML]{818181}{\% of GNI per capita}}
+    <<bar_es_chart,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=4.5,fig.width=8,results="asis">>=  
+      @            
+    \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 4)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 4)[1,1]}}}} 
+  \end{minipage}
+\end{minipage}
 
 %%% footer ----------------------------------
 \vspace{1ex}
@@ -90,3 +148,25 @@
   \vspace*{-0.1cm}
   \raggedleft{\color{white!40!black} \scriptsize \Sexpr{title} - LAST UPDATED \Sexpr{date}}
 \end{minipage}
+
+% %% Financial Inclusion & Stability --------------------------------------------
+%   \begin{minipage}[c]{0.83\textwidth}
+%     \vspace{2ex}
+%     \begin{flushleft}  
+%       \Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[3]}}}\hspace{2ex}\small{\textcolor[HTML]{818181} {\Sexpr{section_desc[3]}}}
+%     \end{flushleft}
+%     \vspace*{-0.2cm}
+%     \centering
+%     \resizebox{\textwidth}{!}{
+%     <<table_time_avg_FinInclus,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=  
+%     @      
+%     }
+%   \end{minipage}
+%   \begin{minipage}[c]{0.125\textwidth}
+%     \vspace*{+1.1cm}
+%     <<sparklines_FinInlcus,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=8.8,fig.width=5.5,results="asis">>=  
+%     @
+%     \vspace*{-0.5cm}
+%   \end{minipage}
+%   
+%   \scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 3,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 3,Order == 1)[1,1]}}}}
