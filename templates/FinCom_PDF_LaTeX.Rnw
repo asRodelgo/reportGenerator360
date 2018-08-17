@@ -41,7 +41,7 @@
   # Reads title and text vectors and prints them iteratively
   for (i in 1:nrow(title_data)){
     cat("\\small{") 
-    cat(paste(sprintf("\\textbf{\\textcolor[HTML]{404040}{%s: }}{\\textcolor[HTML]{722FF5}{%s}}", title_data$IndicatorShort[i],title_data$Observation[i])))
+    cat(paste(sprintf("\\textbf{\\textcolor[HTML]{0073e6}{%s: }}{\\textcolor[HTML]{404040}{%s}}", title_data$IndicatorShort[i],title_data$Observation[i])))
     cat("}\\par")
     cat("\\vspace*{1.5ex}")
   }
@@ -95,7 +95,7 @@
 \clearpage
 %% Finance --------------------------------------------
 \begin{figure}
-  \vspace{118ex} % move down this figure
+  \vspace{110ex} % move down this figure
   
   \includegraphics[width=21.7cm,height=5cm]{\Sexpr{paste0(parent_directory,"/www/bottom_background_lightgrey.png")}}
 \end{figure}
@@ -210,7 +210,7 @@
 \end{minipage}
 
 %%% footer ----------------------------------
-\vspace{1ex}
+\vspace{8ex}
 \begin{minipage}[c]{0.23\textwidth}
   \hspace*{+0.3cm} \includegraphics[width=4cm,left]{\Sexpr{paste0(parent_directory,"/www/WBlogo_Transparent.png")}}
 \end{minipage}
@@ -223,24 +223,3 @@
   \raggedleft{\color{white!40!black} \scriptsize \Sexpr{title} - LAST UPDATED \Sexpr{date}}
 \end{minipage}
 \end{figure}
-% %% Financial Inclusion & Stability --------------------------------------------
-%   \begin{minipage}[c]{0.83\textwidth}
-%     \vspace{2ex}
-%     \begin{flushleft}  
-%       \Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[3]}}}\hspace{2ex}\small{\textcolor[HTML]{818181} {\Sexpr{section_desc[3]}}}
-%     \end{flushleft}
-%     \vspace*{-0.2cm}
-%     \centering
-%     \resizebox{\textwidth}{!}{
-%     <<table_time_avg_FinInclus,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',results="asis">>=  
-%     @      
-%     }
-%   \end{minipage}
-%   \begin{minipage}[c]{0.125\textwidth}
-%     \vspace*{+1.1cm}
-%     <<sparklines_FinInlcus,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=8.8,fig.width=5.5,results="asis">>=  
-%     @
-%     \vspace*{-0.5cm}
-%   \end{minipage}
-%   
-%   \scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 3,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 3,Order == 1)[1,1]}}}}

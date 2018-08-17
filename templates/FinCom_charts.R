@@ -34,7 +34,7 @@ couISO2 <- .getISO2(couName)
 bar_facewrap_chart(Report_data,reportConfig,couName,reportConfig$Section[2],"bar1")
 
 ## ---- table_time_Investment ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[2],c("table1"),str_wrap_size=30)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[2],c("table1"),str_wrap_size=25)
 #table_region(Report_data,reportConfig,couName, reportConfig$Section[2],"table1")
 #table_time(Report_data,reportConfig,couName,reportConfig$Section[2],"table1")
 

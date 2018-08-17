@@ -14,7 +14,7 @@ Section_ID,Order,Color,Section,Section_Description,Section_Level
 5,1,,LOGISTICS PERFORMANCE INDEX,SOURCE: WB LPI,2
 6,6,,SECTORAL COMPOSITION,,1
 6,1,,Value Added in \% of GDP,SOURCE: WDI,2
-7,7,,ENTERPRENEURSHIP \& INNOVATION,This is the Entrepreneurship section,1
+7,7,,ENTREPRENEURSHIP \& INNOVATION,This is the Entrepreneurship section,1
 7,1,,,,2
-9,9,722FF5,FinCom,"Finance, Competitiveness \& Innovation 360",9
-9,10,722FF5,FinCom,"Finance, Competitiveness \& Innovation 360",10
+9,9,e4790a,FinCom,"Finance, Competitiveness \& Innovation 360",9
+9,10,0073e6,FinCom,"Finance, Competitiveness \& Innovation 360",10
