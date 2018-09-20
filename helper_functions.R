@@ -1054,6 +1054,185 @@ barchart_stacked_FinCom <- function(Report_data,reportConfig,couName, section, t
   
 }
 
+## ---- barchart_double_y_axis ----
+barchart_double_y_axis <- function(Report_data,reportConfig,couName, section, table, country_peers = NULL, double_yaxis = TRUE, timeline = FALSE) {
+  
+  country_peers <- c("TZA","KEN","UGA","RWA")
+  cou <- .getCountryCode(couName)
+  data <- filter(Report_data, Section == section, Subsection == table, !(is.na(Observation))) #select country, region and world
+  
+  if (!timeline){ # countries
+    
+    this_country_peers <- country_peers 
+  
+    data <- filter(data, CountryCode %in% c(cou, this_country_peers)) %>%
+      mutate(Observation = round(Observation/ifelse(is.na(Scale),1,Scale),1)) %>%
+      arrange(CountryCode,Period)
+    
+    data2 <- data %>%
+      dplyr::select(Key,IndicatorShort, Unit, Country, Period, Observation) %>%
+      # Imports goes on the negative y-axis
+      mutate(Period = as.numeric(Period), Observation = ifelse(Key == 1026,-Observation,Observation)) %>%
+      group_by(IndicatorShort,Unit,Country) %>%
+      filter(Period >= max(Period))
+    
+    if (nrow(data2)>0){
+      
+      data3 <- dplyr::group_by(data2, Unit) %>%
+        dplyr::mutate(maxObs = max(Observation), minObs = min(Observation)) %>%
+        #mutate(Scaled_Observation = sign(Observation)*(Observation-min(Observation))/(max(Observation)-min(Observation))) %>%
+        #ungroup() %>%
+        #dplyr::mutate(Scaled_Observation = ifelse(maxObs < 0,-.1-(Observation-maxObs)/(minObs-maxObs),
+        #                                   .1+(Observation-minObs)/(maxObs-minObs)))
+        ungroup() %>%
+        dplyr::mutate(Scaled_Observation = Observation, Unit = gsub("\\"," ",Unit,fixed=TRUE), 
+                      Alpha = ifelse(Country == couName, .8,.7))
+      
+      maxObs <- max(filter(data3, grepl("$",Unit,fixed=TRUE))$Observation)
+      minObs <- min(filter(data3, grepl("$",Unit,fixed=TRUE))$Observation)
+      maxObs2 <- max(filter(data3, !(grepl("$",Unit,fixed=TRUE)))$Observation)
+      minObs2 <- min(filter(data3, !(grepl("$",Unit,fixed=TRUE)))$Observation)
+      
+      if (double_yaxis) {
+        ggplot(data = data3, mapping = aes(x = Country, y = Scaled_Observation, fill = IndicatorShort, colour = IndicatorShort, alpha = Alpha)) +
+          geom_bar(data = filter(data3, grepl("$",Unit,fixed=TRUE), !grepl("Current",IndicatorShort)),stat = 'identity') +
+          geom_bin2d(data = filter(data3, grepl("$",Unit,fixed=TRUE), grepl("Current",IndicatorShort)), size = 4,position = 'dodge',stat='identity') +
+          geom_point(data = filter(data3, !grepl("$",Unit,fixed=TRUE)), size = 4, alpha = .6) +
+          scale_alpha_continuous(guide=FALSE) +
+          scale_y_continuous(name = "USD $B", labels = function(a) { paste0(round(a, 0), "$B")},
+                             sec.axis = sec_axis(~., name = "%GDP", 
+                                                 labels = function(b) { paste0(round(b, 1), "%")})) +
+          #scale_y_continuous(name = "USD $B", labels = function(a) { paste0(round((a + .1)* (maxObs-minObs) + maxObs, 0), "$B")},
+          #                   sec.axis = sec_axis(~., name = "%GDP", 
+          #                                       labels = function(b) { paste0(round((b+.1) * (maxObs2-minObs2) + maxObs2, 1), "%")})) +
+          theme(legend.key=element_blank(),
+                legend.title=element_blank(),
+                legend.position="top",
+                legend.text = element_text(family="Times", size = 10, colour = text_color),
+                panel.border = element_blank(),
+                panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+                axis.line = element_line(size=0.1, colour = "lightgrey"),
+                axis.text.x = element_text(family="Times", color=text_color,hjust = 1),
+                axis.text.y = element_text(family="Times", color=text_color)) +
+          labs(x="",y="% of GDP"#,title="Goods Export and Import volume growth, 2012-2015"
+          )
+      } else {
+        
+        secondFacet <- FALSE # see below
+        ggplot(data = data3, mapping = aes(x = Country, y = Scaled_Observation, fill = IndicatorShort, colour = IndicatorShort, alpha = Alpha)) +
+          facet_grid(Unit~., scale = "free") +
+          geom_bar(data = filter(data3, grepl("$",Unit,fixed=TRUE)),stat = 'identity', position = 'dodge') +
+          #geom_bin2d(data = filter(data3, grepl("$",Unit,fixed=TRUE), grepl("Current",IndicatorShort)), size = 4,position = 'dodge',stat='identity') +
+          geom_point(data = filter(data3, !grepl("$",Unit,fixed=TRUE)), size = 4, alpha = .5) +
+          scale_alpha_continuous(guide = FALSE) + 
+          scale_y_continuous(name = NULL, labels = function(b) {
+            if(!secondFacet) {
+              secondFacet <<- TRUE 
+              return(paste0(round(b, 1), "%"))
+            }else{
+              return(paste0(round(b, 0), "$B"))
+            }
+          }) +                                      
+          theme(legend.key=element_blank(),
+                legend.title=element_blank(),
+                legend.position="top",
+                legend.text = element_text(family="Times", size = 10, colour = text_color),
+                panel.border = element_blank(),
+                panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+                axis.line = element_line(size=0.1, colour = "lightgrey"),
+                axis.text.x = element_text(family="Times", color=text_color,hjust = 1),
+                axis.text.y = element_text(family="Times", color=text_color)) +
+          labs(x="",y="% of GDP"#,title="Goods Export and Import volume growth, 2012-2015"
+          )
+        
+      }
+      
+      
+    } else {
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
+    }
+    
+  } else { # timelines
+    
+    this_country_peers <- NULL
+    
+    data <- filter(data, CountryCode %in% c(cou, this_country_peers)) %>%
+      mutate(Observation = round(Observation/ifelse(is.na(Scale),1,Scale),1)) %>%
+      arrange(CountryCode,Period)
+    
+    data2 <- data %>%
+      dplyr::select(Key,IndicatorShort, Unit, Country, Period, Observation) %>%
+      # Imports goes on the negative y-axis
+      mutate(Period = as.numeric(Period), Observation = ifelse(Key == 1026,-Observation,Observation)) %>%
+      filter(Period >= max(Period) - 8)
+      
+      
+    
+    if (nrow(data2)>0){
+      
+      data3 <- dplyr::mutate(data2, Scaled_Observation = Observation, Unit = gsub("\\"," ",Unit,fixed=TRUE))
+      
+      if (double_yaxis) {
+        ggplot(data = data3, mapping = aes(x = factor(Period), y = Scaled_Observation, fill = IndicatorShort, colour = IndicatorShort)) +
+          geom_bar(data = filter(data3, grepl("$",Unit,fixed=TRUE), !grepl("Current",IndicatorShort)),stat = 'identity') +
+          geom_bin2d(data = filter(data3, grepl("$",Unit,fixed=TRUE), grepl("Current",IndicatorShort)), size = 4,position = 'dodge',stat='identity') +
+          geom_line(data = filter(data3, !grepl("$",Unit,fixed=TRUE)), aes(group = IndicatorShort), size = 1) +
+          geom_point(data = filter(data3, !grepl("$",Unit,fixed=TRUE)), size = 4) +
+          scale_y_continuous(name = "USD $B", labels = function(a) { paste0(round(a, 0), "$B")},
+                             sec.axis = sec_axis(~., name = "%GDP", 
+                                                 labels = function(b) { paste0(round(b, 1), "%")})) +
+          theme(legend.key=element_blank(),
+                legend.title=element_blank(),
+                legend.position="top",
+                legend.text = element_text(family="Times", size = 10, colour = text_color),
+                panel.border = element_blank(),
+                panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+                axis.line = element_line(size=0.1, colour = "lightgrey"),
+                axis.text.x = element_text(family="Times", color=text_color,hjust = 1),
+                axis.text.y = element_text(family="Times", color=text_color)) +
+          labs(x="",y="% of GDP"#,title="Goods Export and Import volume growth, 2012-2015"
+          )
+      } else {
+        
+        secondFacet <- FALSE # see below
+        ggplot(data = data3, mapping = aes(x = factor(Period), y = Scaled_Observation, fill = IndicatorShort, colour = IndicatorShort)) +
+          facet_grid(Unit~., scale = "free") +
+          geom_bar(data = filter(data3, grepl("$",Unit,fixed=TRUE)),stat = 'identity', position = 'dodge') +
+          geom_line(data = filter(data3, !grepl("$",Unit,fixed=TRUE)), aes(group = IndicatorShort), size = 1) +
+          #geom_bin2d(data = filter(data3, grepl("$",Unit,fixed=TRUE), grepl("Current",IndicatorShort)), size = 4,position = 'dodge',stat='identity') +
+          geom_point(data = filter(data3, !grepl("$",Unit,fixed=TRUE)), size = 4, alpha = .5) +
+          scale_y_continuous(name = NULL, labels = function(b) {
+            if(!secondFacet) {
+              secondFacet <<- TRUE 
+              return(paste0(round(b, 1), "%"))
+            }else{
+              return(paste0(round(b, 0), "$B"))
+            }
+          }) +                                      
+          theme(legend.key=element_blank(),
+                legend.title=element_blank(),
+                legend.position="top",
+                legend.text = element_text(family="Times", size = 10, colour = text_color),
+                panel.border = element_blank(),
+                panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
+                axis.line = element_line(size=0.1, colour = "lightgrey"),
+                axis.text.x = element_text(family="Times", color=text_color,hjust = 1),
+                axis.text.y = element_text(family="Times", color=text_color)) +
+          labs(x="",y="% of GDP"#,title="Goods Export and Import volume growth, 2012-2015"
+          )
+        
+      }
+      
+      
+    } else {
+      plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+      graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
+    }
+  }
+  
+}
+
 ## ---- table_time_avg ----
 table_time_avg <- function(Report_data,reportConfig,couName,section,table, GDPgrowthrate=FALSE, fcv=FALSE, arrange_by_datadesc=FALSE){    
   cou <- .getCountryCode(couName)
