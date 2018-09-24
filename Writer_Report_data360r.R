@@ -3,8 +3,7 @@
 # ------------------------
 library(jsonlite)
 library(tidyverse)
-library(dplyr)
-library(tidyr)
+library(data360r)
 # Query data based on ids of filtered indicators
 # loop by country and indicator id. Bind it all in a data.frame
 # Query country metadata:
@@ -36,68 +35,46 @@ indicators_selected <- indicators %>%
 
 Report_data <- data.frame()
 specialchars <- paste(c("[-]","[.]"),collapse = "|")
-#for (cou in c("IND","ARM")){
+
 for (cou in filter(countries,(iso3 %in% unique(countries$iso3)))$iso3){
-#for (cou in countries$id){
+  #for (cou in countries$id){
   for (ind in indicators_selected$id){
-  print(paste0("Processing...",cou," ",ind))
-  thisQuery <- tryCatch(fromJSON(paste0("https://tcdata360-backend.worldbank.org/api/v1/data?countries=",cou,
-                               "&indicators=",ind),
-                        flatten = TRUE),
-                        error = function(e) {print(paste0("Warning: API data call returns an error for country ",cou," and indicator ",ind));
-                          thisQuery = data.frame()}, 
-                        finally = {thisQuery = data.frame()})
-  if (length(thisQuery$data)>0){
-    thisQuery <- flatten(thisQuery$data$indicators[[1]])
-    if (!is.null(thisQuery$estimated)){
-      thisQuery$estimated <- NULL
-      thisQuery <- as.data.frame(thisQuery)
-    }
-    if (length(thisQuery$products)>0) {
-      #thisQuery <- filter(thisQuery$products, grepl("total",tolower(product))) %>%
-      thisQuery <- bind_cols(thisQuery$id[[1]],thisQuery$products[[1]])
-      [1:nrow(thisQuery$products[[1]]),] %>%  
-        mutate(id = ind) %>%
-        select(id, starts_with("values")) %>%
-        select_if(!is.na(.))
-    }
-    thisQuery <- thisQuery %>%
-      mutate(iso3 = cou)
-    names(thisQuery) <- gsub("values.","",names(thisQuery),fixed=TRUE)
-    names(thisQuery) <- ifelse(grepl(specialchars,names(thisQuery)),substr(names(thisQuery),1,4),names(thisQuery))
-    # consolidate quarterly data by the 4th quarter
-    names(thisQuery) <- gsub("Q4","",names(thisQuery))
-    thisQuery <- select(thisQuery, -dplyr::contains("Q"))
+    print(paste0("Processing...",cou," ",ind))
+    thisQuery <- tryCatch(get_data360(indicator_id=ind, country_iso3=cou),
+                          error = function(e) {print(paste0("Warning: API data call returns an error for country ",cou," and indicator ",ind));
+                            thisQuery = data.frame()}, 
+                          finally = {thisQuery = data.frame()})
     
+    if (nrow(thisQuery)>0){
+      names(thisQuery) <- ifelse(grepl(specialchars,names(thisQuery)),substr(names(thisQuery),1,4),names(thisQuery))
+      # consolidate quarterly data by the 4th quarter
+      names(thisQuery) <- gsub("Q4","",names(thisQuery))
+      thisQuery <- mutate(thisQuery, id = ind) %>%
+        select(id,iso3 = `Country ISO3`, everything(),-dplyr::contains("Q"))
+      
       if (nrow(Report_data)==0) {
         Report_data <- thisQuery
+        
       } else {
         cols <- grep("\\d{4}", names(thisQuery))
         # # catch Yes/No values and remap to 1/0 to avoid bind_rows errors for conversion from numeric to factor
-        if(sum(thisQuery[cols] == 'No' | thisQuery[cols] == 'Yes') > 0){
+        if(sum(thisQuery[cols] == 'No' | thisQuery[cols] == 'Yes',na.rm=TRUE) > 0){
           thisQuery[cols] <- sapply(thisQuery[cols], as.character)
           thisQuery[cols][(thisQuery[cols] == 'No')] <- 0.0
           thisQuery[cols][(thisQuery[cols] == 'Yes')] <- 1.0
           thisQuery[cols] <- sapply(thisQuery[cols], as.numeric)
         }
         Report_data <- bind_rows(Report_data,thisQuery)
-        # catch bind_rows errors for Column `2014` can't be converted from numeric to factor
-        # Report_data <- tryCatch(bind_rows(Report_data,thisQuery),
-        #                         error = function(e) {print(paste0("Warning: bind_rows error for country ",cou," and indicator ",ind));
-        #                           cols <- grep("\\d{4}", names(thisQuery));
-        #                           thisQuery[cols] <- lapply(thisQuery[cols], factor);
-        #                           Report_data <- bind_rows(Report_data,thisQuery)},
-        #                         error2 = function(e2) {print(paste0("Warning: persistent bind_rows error for country ",cou," and indicator ",ind));
-        #                           Report_data <- bind_rows(Report_data,thisQuery)})
       }
     }
   }
 }
 
 # create Period variable
-Report_data <- gather(Report_data, Period, Observation, -iso3,-id)
-
-# 
+Report_data <- gather(Report_data, Period, Observation, -matches("[A-Z]"))
+Report_data <- filter(Report_data, !is.na(Observation))
+  
+# iso3 id
 # -----------------------------------------------------------
 # This file is normally too big to include in the github project so pick some place in 
 # your file system. In the future I might think about slicing it in a way that fits

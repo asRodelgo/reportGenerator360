@@ -81,5 +81,32 @@ ggplot(data = mydata4, mapping = aes(x = Period, y = Scaled_Observation)) +
                      sec.axis = sec_axis(~., name = "%GDP", 
                                          labels = function(b) { paste0(round((b+.1) * (maxObs2-minObs2) + maxObs2, 1), "%")}))
 
+#############################
+# Top 5 exports (% of total value of exports)
+library(data360r)
+# search indicator
+exportShare <- search_360("Budget Deficit", search_type="indicator", limit_results = 5)
+# Export Product Share ID: 2758
+# Export Product Share ID: 2759
+dataExportShare <- get_data360(indicator_id=2758, country_iso3="USA") %>%
+  gather(Period, Observation, -matches("[A-Z]")) %>%
+  filter(Period == max(Period)) %>%
+  arrange(desc(Observation)) %>%
+  top_n(5, Observation)
+
+dataImportShare <- get_data360(indicator_id=2759, country_iso3="USA") %>%
+  gather(Period, Observation, -matches("[A-Z]")) %>%
+  filter(Period == max(Period)) %>%
+  arrange(desc(Observation)) %>%
+  top_n(5, Observation)
+
+dataImportShare <- get_data360(indicator_id=786, country_iso3="BRA")
+
+
+
+
+
+
+
 
 

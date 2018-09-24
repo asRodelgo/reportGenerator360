@@ -56,7 +56,7 @@ for (topic in topics){
   
   ThisReport_data <- ThisReport_data %>%
     mutate(Period = as.character(Period), Scale = ifelse(is.na(Scale),1,Scale)) %>%
-    select(Key = id, Country = name, Period, Observation, Scale, CountryCode = iso3, iso2,
+    select(Key = id, Country = name, Period, Observation, Scale, contains("Product"), CountryCode = iso3, iso2,
            IndicatorShort = Indicator_Short, Source_Name, Source_Link, Unit = Unit_Short,
            Section, Subsection, Subsection2, region, adminRegion, incomeLevel, Source_ID)
 

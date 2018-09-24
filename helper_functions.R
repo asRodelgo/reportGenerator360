@@ -1096,7 +1096,7 @@ barchart_double_y_axis <- function(Report_data,reportConfig,couName, section, ta
       if (double_yaxis) {
         ggplot(data = data3, mapping = aes(x = Country, y = Scaled_Observation, fill = IndicatorShort, colour = IndicatorShort, alpha = Alpha)) +
           geom_bar(data = filter(data3, grepl("$",Unit,fixed=TRUE), !grepl("Current",IndicatorShort)),stat = 'identity') +
-          geom_bin2d(data = filter(data3, grepl("$",Unit,fixed=TRUE), grepl("Current",IndicatorShort)), size = 4,position = 'dodge',stat='identity') +
+          geom_bin2d(data = filter(data3, grepl("$",Unit,fixed=TRUE), grepl("Current",IndicatorShort)), size = 1,position = 'dodge',stat='identity') +
           geom_point(data = filter(data3, !grepl("$",Unit,fixed=TRUE)), size = 4, alpha = .6) +
           scale_alpha_continuous(guide=FALSE) +
           scale_y_continuous(name = "USD $B", labels = function(a) { paste0(round(a, 0), "$B")},
@@ -1176,7 +1176,7 @@ barchart_double_y_axis <- function(Report_data,reportConfig,couName, section, ta
       if (double_yaxis) {
         ggplot(data = data3, mapping = aes(x = factor(Period), y = Scaled_Observation, fill = IndicatorShort, colour = IndicatorShort)) +
           geom_bar(data = filter(data3, grepl("$",Unit,fixed=TRUE), !grepl("Current",IndicatorShort)),stat = 'identity') +
-          geom_bin2d(data = filter(data3, grepl("$",Unit,fixed=TRUE), grepl("Current",IndicatorShort)), size = 4,position = 'dodge',stat='identity') +
+          geom_bin2d(data = filter(data3, grepl("$",Unit,fixed=TRUE), grepl("Current",IndicatorShort)), size = 1,position = 'dodge',stat='identity') +
           geom_line(data = filter(data3, !grepl("$",Unit,fixed=TRUE)), aes(group = IndicatorShort), size = 1) +
           geom_point(data = filter(data3, !grepl("$",Unit,fixed=TRUE)), size = 4) +
           scale_y_continuous(name = "USD $B", labels = function(a) { paste0(round(a, 0), "$B")},
