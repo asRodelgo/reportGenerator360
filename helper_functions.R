@@ -1055,11 +1055,31 @@ barchart_stacked_FinCom <- function(Report_data,reportConfig,couName, section, t
 }
 
 ## ---- barchart_double_y_axis ----
-barchart_double_y_axis <- function(Report_data,reportConfig,couName, section, table, country_peers = NULL, double_yaxis = TRUE, timeline = FALSE) {
+barchart_double_y_axis <- function(Report_data,reportConfig,couName, section, table, country_peers = NULL, double_yaxis = TRUE, timeline = FALSE, computeTotals = NULL) {
   
+  computeTotals <- 345
   country_peers <- c("TZA","KEN","UGA","RWA")
+  
   cou <- .getCountryCode(couName)
-  data <- filter(Report_data, Section == section, Subsection == table, !(is.na(Observation))) #select country, region and world
+  data <- filter(Report_data, Section == section, Subsection == table, !(is.na(Observation))) 
+  
+  if (!is.null(computeTotals)) { # compute Total USD figures by means of % of GDP
+    
+    data_computed <- filter(Report_data, Key %in% c(computeTotals,28107), !(is.na(Observation))) %>%
+      select(Key,Country,Period,Observation) %>%
+      spread(Key,Observation) %>%
+      mutate(Observation2 = eval(parse(text=paste0("`",computeTotals,"`")))*`28107`/100) %>%
+      filter(!(is.na(Observation2))) %>%
+      select(-matches("^[0-9]"))
+    
+    data_toChange <- filter(Report_data, Key == computeTotals, !(is.na(Observation))) %>%
+      left_join(data_computed, by = c("Country","Period")) %>%
+      mutate(Key = Key*1000,Observation = Observation2,Scale = 1000000000, Unit = "US\\$B") %>%
+      select(-Observation2)
+    
+    data <- bind_rows(data, data_toChange)
+      
+  }
   
   if (!timeline){ # countries
     
@@ -1067,6 +1087,7 @@ barchart_double_y_axis <- function(Report_data,reportConfig,couName, section, ta
   
     data <- filter(data, CountryCode %in% c(cou, this_country_peers)) %>%
       mutate(Observation = round(Observation/ifelse(is.na(Scale),1,Scale),1)) %>%
+      filter(!is.na(Observation)) %>%
       arrange(CountryCode,Period)
     
     data2 <- data %>%
@@ -1095,16 +1116,13 @@ barchart_double_y_axis <- function(Report_data,reportConfig,couName, section, ta
       
       if (double_yaxis) {
         ggplot(data = data3, mapping = aes(x = Country, y = Scaled_Observation, fill = IndicatorShort, colour = IndicatorShort, alpha = Alpha)) +
-          geom_bar(data = filter(data3, grepl("$",Unit,fixed=TRUE), !grepl("Current",IndicatorShort)),stat = 'identity') +
+          geom_bar(data = filter(data3, grepl("$",Unit,fixed=TRUE), !grepl("Current",IndicatorShort)),stat = 'identity', position = 'identity') +
           geom_bin2d(data = filter(data3, grepl("$",Unit,fixed=TRUE), grepl("Current",IndicatorShort)), size = 1,position = 'dodge',stat='identity') +
           geom_point(data = filter(data3, !grepl("$",Unit,fixed=TRUE)), size = 4, alpha = .6) +
           scale_alpha_continuous(guide=FALSE) +
           scale_y_continuous(name = "USD $B", labels = function(a) { paste0(round(a, 0), "$B")},
                              sec.axis = sec_axis(~., name = "%GDP", 
                                                  labels = function(b) { paste0(round(b, 1), "%")})) +
-          #scale_y_continuous(name = "USD $B", labels = function(a) { paste0(round((a + .1)* (maxObs-minObs) + maxObs, 0), "$B")},
-          #                   sec.axis = sec_axis(~., name = "%GDP", 
-          #                                       labels = function(b) { paste0(round((b+.1) * (maxObs2-minObs2) + maxObs2, 1), "%")})) +
           theme(legend.key=element_blank(),
                 legend.title=element_blank(),
                 legend.position="top",
@@ -1641,14 +1659,22 @@ bar_chart_gender <- function(Report_data,reportConfig,couName,section,table,past
 }
 
 ## ---- bar_chart ----
-bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,percentBar = FALSE, top5 = FALSE){      
+bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,percentBar = FALSE, top5 = FALSE, products = FALSE){      
   
   cou <- .getCountryCode(couName)
   data <- filter(Report_data, CountryCode==cou, Section %in% section, Subsection %in% table)
-  data <- data %>%
-    filter(!(is.na(Observation))) %>%
-    mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
-    distinct(Key,Period,.keep_all=TRUE)
+  if (products) { # indicator is measured by product categories, like exports of goods
+    data <- data %>%
+      filter(!(is.na(Observation))) %>%
+      mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale),
+             IndicatorShort = Product) %>%
+      distinct(Key,Period,Product,.keep_all=TRUE)
+  } else {
+    data <- data %>%
+      filter(!(is.na(Observation))) %>%
+      mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
+      distinct(Key,Period,.keep_all=TRUE)
+  }
   maxPeriod <- filter(data, Period == max(Period,na.rm=TRUE))$Period[1]
   
   if (nrow(data)>0){

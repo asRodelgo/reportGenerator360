@@ -39,17 +39,17 @@ barchart_double_y_axis(Report_data,reportConfig,couName, reportConfig$Section[2]
                        double_yaxis = TRUE, timeline = TRUE)
 
 ## ---- bar_chart_exports ----
-bar_chart(Report_data,reportConfig,couName, reportConfig$Section[4],"top5constraints",paste_unit=FALSE,percentBar=TRUE,top5=TRUE)
+bar_chart(Report_data,reportConfig,couName, reportConfig$Section[2],"top5exports",paste_unit=FALSE,percentBar=TRUE,top5=TRUE,products = TRUE)
 
 ## ---- bar_chart_imports ----
-bar_chart(Report_data,reportConfig,couName, reportConfig$Section[4],"top5constraints",paste_unit=FALSE,percentBar=TRUE,top5=TRUE)
+bar_chart(Report_data,reportConfig,couName, reportConfig$Section[2],"top5imports",paste_unit=FALSE,percentBar=TRUE,top5=TRUE,products = TRUE)
 
 
 ########## INVESTMENT ##########
 
 ## ---- double_yaxis_bar_peers_inv ----
-barchart_double_y_axis(Report_data,reportConfig,couName, reportConfig$Section[2], "bar1", country_peers = NULL, 
-                       double_yaxis = TRUE, timeline = FALSE)
+barchart_double_y_axis(Report_data,reportConfig,couName, reportConfig$Section[3], "inv_bar1", country_peers = NULL, 
+                       double_yaxis = TRUE, timeline = FALSE, computeTotals = TRUE)
 
 ## ---- double_yaxis_bar_time ----
 line_chart(Report_data,reportConfig,couName, reportConfig$Section[3], "inv_line2", minTime="1900",

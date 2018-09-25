@@ -85,7 +85,7 @@ ggplot(data = mydata4, mapping = aes(x = Period, y = Scaled_Observation)) +
 # Top 5 exports (% of total value of exports)
 library(data360r)
 # search indicator
-exportShare <- search_360("Budget Deficit", search_type="indicator", limit_results = 5)
+exportShare <- search_360("Chemicals", search_type="indicator", limit_results = 5)
 # Export Product Share ID: 2758
 # Export Product Share ID: 2759
 dataExportShare <- get_data360(indicator_id=2758, country_iso3="USA") %>%
