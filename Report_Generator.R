@@ -28,6 +28,6 @@ for (couName in c("Ethiopia")) {
   #   file.copy(paste0(input_reportID,"_",iso3,".pdf"), paste0("templates/",input_reportID,"_final_pdf/"),overwrite=TRUE)
   #   file.remove(paste0(input_reportID,"_",iso3,".pdf"))
   #   file.remove(paste0(input_reportID,"_",iso3,".tex"))
-  #   processed <- c(processed,c)
+  #   processed <- c(processed,c) 
   # }
 }

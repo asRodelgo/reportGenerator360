@@ -29,19 +29,31 @@
     \end{minipage}  
   \end{minipage}
   \begin{minipage}[t]{0.43\textwidth} % overview section
-    \vspace*{-1.5ex}
+    \vspace*{-2.5ex}
        <<echo=FALSE, results='asis', warning = FALSE>>=
   title_ids <- filter(ThisDataDesc, Section == "OVERVIEW")$tcdata360_id
   title_data <- filter(ThisReport_data, Key %in% title_ids, Country == couName, !is.na(Observation)) %>%
-    group_by(Key) %>%
+    dplyr::select(Key,IndicatorShort,Period,Observation,Scale,Unit) %>%
+    dplyr::mutate(Key = factor(Key)) %>%
+    arrange(Key) %>%
+    dplyr::group_by(Key) %>%
+    dplyr::mutate(ObsAverage = mean(Observation, na.rm = TRUE), minPeriod = min(as.numeric(Period), na.rm = TRUE)) %>%
     filter(Period == max(Period)) %>%
     ungroup() %>%
-    select(Key,IndicatorShort,Period,Observation)
+    select(Key,IndicatorShort,Period,Observation,Scale,Unit,ObsAverage, minPeriod)
+    
   
   # Reads title and text vectors and prints them iteratively
   for (i in 1:nrow(title_data)){
     cat("\\small{") 
-    cat(paste(sprintf("\\textbf{\\textcolor[HTML]{0073e6}{%s: }}{\\textcolor[HTML]{404040}{%s}}", title_data$IndicatorShort[i],title_data$Observation[i])))
+    cat(paste0(sprintf("\\textbf{\\textcolor[HTML]{0073e6}{%s: }}{\\textcolor[HTML]{404040}{%s}}", 
+                      title_data$IndicatorShort[i],
+                      prettyNum(round(title_data$Observation[i]/title_data$Scale[i],1), big.mark = ",")),
+                      " ",title_data$Unit[i], 
+                      " (",title_data$Period[i],") ",
+                      prettyNum(round(title_data$ObsAverage[i]/title_data$Scale[i],1), big.mark = ","),
+                      " (Avg ",title_data$minPeriod[i],"-", title_data$Period[i],")"
+                      ))
     cat("}\\par")
     cat("\\vspace*{1.5ex}")
   }
@@ -58,36 +70,105 @@
   \begin{flushleft}  
     \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[2]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[2]}}}
   \end{flushleft}
-  \begin{minipage}[c]{0.55\textwidth}
+  \begin{minipage}[c]{0.48\textwidth}
     \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 1)[1,1]}}}
     \vspace{1ex}
-    <<bar_facewrap_chart_Trade,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=3.2,fig.width=7,results="asis">>=  
+    <<double_yaxis_bar_peers_trade,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=3.2,fig.width=7,results="asis">>=  
     @      
    \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 2,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 2,Order == 1)[1,1]}}}}
   \end{minipage}
-  \begin{minipage}[c]{0.44\textwidth} % 
+  \begin{minipage}[c]{0.48\textwidth} %
+    \vspace{1ex}
     \small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 2)[1,1]}}}
     \vspace{1ex}
-      <<table_time_Investment,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=4,fig.width=8,results="asis">>=  
+      <<double_yaxis_bar_time_trade,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=3.2,fig.width=7,results="asis">>=  
       @            
-    \vspace{2ex}
+    %\vspace{2ex}
     \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 2,Order == 2)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 2,Order == 2)[1,1]}}}}
   \end{minipage}
+  \vspace{2ex}
 \end{minipage}
 
-%% Financial Inclusion & Stability --------------------------------------------
 \begin{minipage}[c]{0.95\textwidth}
-  \vspace{2ex}
+  \begin{minipage}[c]{0.48\textwidth}
+    \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 3)[1,1]}}}
+    \vspace{1ex}
+    <<bar_chart_exports,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2.5,fig.width=8,results="asis">>=  
+    @      
+   \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 2,Order == 3)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 2,Order == 3)[1,1]}}}}
+  \end{minipage}
+  \begin{minipage}[c]{0.48\textwidth} % 
+    \small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 4)[1,1]}}}
+    \vspace{1ex}
+      <<bar_chart_imports,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=2.5,fig.width=8,results="asis">>=  
+      @            
+    %\vspace{2ex}
+    \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 2,Order == 4)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 2,Order == 4)[1,1]}}}}
+  \end{minipage}
+  \vspace{4ex}
+\end{minipage}
+
+%% INVESTMENT --------------------------------------------
+\begin{minipage}[c]{0.95\textwidth}
   \begin{flushleft}  
     \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[3]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[3]}}}
   \end{flushleft}
-    \small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 1)[1,1]}}}
+  \begin{minipage}[c]{0.48\textwidth}
+    \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 1)[1,1]}}}
     \vspace{1ex}
-      <<table_time_avg_FinInclus,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=7,fig.width=13,results="asis">>=  
+    <<double_yaxis_bar_peers_inv,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=3.2,fig.width=7,results="asis">>=  
+    @      
+   \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 3,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 3,Order == 1)[1,1]}}}}
+  \end{minipage}
+  \begin{minipage}[c]{0.48\textwidth} % 
+    \small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 2)[1,1]}}}
+    \vspace{1ex}
+      <<double_yaxis_bar_time,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=3.2,fig.width=7,results="asis">>=  
       @            
-    \vspace{2ex}
-    \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 3,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 3,Order == 1)[1,1]}}}}
+    %\vspace{2ex}
+    \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 3,Order == 2)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 3,Order == 2)[1,1]}}}}
+  \end{minipage}
+  \vspace{2ex}
 \end{minipage}
+
+\begin{minipage}[c]{0.95\textwidth}
+  \begin{minipage}[c]{0.24\textwidth}
+    \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 3)[1,1]}}}
+    \vspace{1ex}
+    <<sparkline1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=8,fig.width=14,results="asis">>=  
+    @      
+   \vspace{-1ex}
+   \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 3,Order == 3)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 3,Order == 3)[1,1]}}}}
+  \end{minipage}
+    \begin{minipage}[c]{0.24\textwidth}
+    \vspace{1ex}
+    \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 4)[1,1]}}}
+    \vspace{1ex}
+    <<sparkline2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=8,fig.width=14,results="asis">>=  
+    @      
+   \vspace{-1ex}
+   \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 3,Order == 4)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 3,Order == 4)[1,1]}}}}
+  \end{minipage}
+    \begin{minipage}[c]{0.24\textwidth}
+    \vspace{1ex}
+    \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 5)[1,1]}}}
+    \vspace{1ex}
+    <<sparkline3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=8,fig.width=14,results="asis">>=  
+    @      
+   \vspace{-1ex}
+   \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 3,Order == 5)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 3,Order == 5)[1,1]}}}}
+  \end{minipage}
+    \begin{minipage}[c]{0.24\textwidth}
+    \vspace{1ex}
+    \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 6)[1,1]}}}
+    \vspace{1ex}
+    <<sparkline4,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=8,fig.width=14,results="asis">>=  
+    @      
+   \vspace{-1ex}
+   \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 3,Order == 6)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 3,Order == 6)[1,1]}}}}
+  \end{minipage}
+\end{minipage}
+
 
 % END OF FIRST PAGE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -28,25 +28,44 @@ couISO2 <- .getISO2(couName)
 
 # Uses reportConfig$Section[1] directly inside the .Rnw
 
-########## Trade & Investment ##########
+########## TRADE ##########
 
-## ---- bar_facewrap_chart_Trade ----
-bar_facewrap_chart(Report_data,reportConfig,couName,reportConfig$Section[2],"bar1")
+## ---- double_yaxis_bar_peers_trade ----
+barchart_double_y_axis(Report_data,reportConfig,couName, reportConfig$Section[2], "bar1", country_peers = NULL, 
+                       double_yaxis = TRUE, timeline = FALSE)
 
-## ---- table_time_Investment ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[2],c("table1"),str_wrap_size=25)
-#table_region(Report_data,reportConfig,couName, reportConfig$Section[2],"table1")
-#table_time(Report_data,reportConfig,couName,reportConfig$Section[2],"table1")
+## ---- double_yaxis_bar_time_trade ----
+barchart_double_y_axis(Report_data,reportConfig,couName, reportConfig$Section[2], "bar1", country_peers = NULL, 
+                       double_yaxis = TRUE, timeline = TRUE)
 
-## ---- sparklines_Investment ----
-#sparklines(Report_data,reportConfig,couName,reportConfig$Section[2],"table1")
+## ---- bar_chart_exports ----
+bar_chart(Report_data,reportConfig,couName, reportConfig$Section[4],"top5constraints",paste_unit=FALSE,percentBar=TRUE,top5=TRUE)
 
-## ---- table_time_avg_FinInclus ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[3],c("table2"),str_wrap_size=45)
-#table_time_avg(Report_data,reportConfig,couName,reportConfig$Section[3],"table2")
+## ---- bar_chart_imports ----
+bar_chart(Report_data,reportConfig,couName, reportConfig$Section[4],"top5constraints",paste_unit=FALSE,percentBar=TRUE,top5=TRUE)
 
-## ---- sparklines_FinInclus ----
-#sparklines(Report_data,reportConfig,couName,reportConfig$Section[3],"table2")
+
+########## INVESTMENT ##########
+
+## ---- double_yaxis_bar_peers_inv ----
+barchart_double_y_axis(Report_data,reportConfig,couName, reportConfig$Section[2], "bar1", country_peers = NULL, 
+                       double_yaxis = TRUE, timeline = FALSE)
+
+## ---- double_yaxis_bar_time ----
+line_chart(Report_data,reportConfig,couName, reportConfig$Section[3], "inv_line2", minTime="1900",
+           neighbor="region",max_neighbors=4, show_last_year=FALSE, show_data_labels=NULL, plot_spacing=0.0)
+
+## ---- sparkline1 ----
+figure_sparkline(Report_data,reportConfig,couName,"inv_spark1",rankBig=FALSE)
+
+## ---- sparkline2 ----
+figure_sparkline(Report_data,reportConfig,couName,"inv_spark2",rankBig=FALSE)
+
+## ---- sparkline3 ----
+figure_sparkline(Report_data,reportConfig,couName,"inv_spark3",rankBig=FALSE)
+
+## ---- sparkline4 ----
+figure_sparkline(Report_data,reportConfig,couName,"inv_spark4",rankBig=FALSE)
 
 ########## Competitiveness ##########
 
