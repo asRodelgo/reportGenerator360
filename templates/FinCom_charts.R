@@ -49,7 +49,7 @@ bar_chart(Report_data,reportConfig,couName, reportConfig$Section[2],"top5imports
 
 ## ---- double_yaxis_bar_peers_inv ----
 barchart_double_y_axis(Report_data,reportConfig,couName, reportConfig$Section[3], "inv_bar1", country_peers = NULL, 
-                       double_yaxis = TRUE, timeline = FALSE, computeTotals = TRUE)
+                       double_yaxis = TRUE, timeline = FALSE, computeTotals = 345)
 
 ## ---- double_yaxis_bar_time ----
 line_chart(Report_data,reportConfig,couName, reportConfig$Section[3], "inv_line2", minTime="1900",

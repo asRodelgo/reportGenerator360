@@ -629,13 +629,16 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
   # if max_neighbors = 0, plot only selected country
   # if max_neighbors = 1, plot selected country vs average of all countries
   # if max_neighbors > 1, plot selected country vs the rest of the individual countries
+  neighbor <- c("TZA","KEN","UGA","RWA")
   cou <- .getCountryCode(couName)
   if (neighbor=="region"){ # region level
     couRegion <- as.character(countries[countries$iso3==cou,]$region)  # obtain the region for the selected country
     data <- filter(Report_data, region==couRegion, Section == section, Subsection == table, !(is.na(Observation)), Period >= minTime) #select country, region and world
+  } else if (length(neighbor)>1) { # custom peer countries
+      data <- filter(Report_data, CountryCode %in% c(cou, neighbor), Section == section, Subsection == table, !(is.na(Observation)), Period >= minTime)
   } else { # income level 
-    couRegion <- as.character(countries[countries$iso3==cou,]$incomeLevel)  # obtain the region for the selected country
-    data <- filter(Report_data, incomeLevel==couRegion, Section == section, Subsection == table, !(is.na(Observation)), Period >= minTime) #select country, region and world
+      couRegion <- as.character(countries[countries$iso3==cou,]$incomeLevel)  # obtain the region for the selected country
+      data <- filter(Report_data, incomeLevel==couRegion, Section == section, Subsection == table, !(is.na(Observation)), Period >= minTime) #select country, region and world
   }
   
   if (max_neighbors == 1){ # use the average of all neighbors
@@ -652,6 +655,10 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
       arrange(CountryCode,Period) %>%
       bind_rows(region_avg)
     
+  } else if (length(neighbor)>1) {
+    data <- mutate(data, Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
+      arrange(CountryCode,Period)
+    topNeighbors <- neighbor
   } else { # compare against top incomes wihtin region 
     # select top neighbors according to income
     income <- filter(Report_data, region==couRegion & Section=="aux_income")
@@ -1057,7 +1064,7 @@ barchart_stacked_FinCom <- function(Report_data,reportConfig,couName, section, t
 ## ---- barchart_double_y_axis ----
 barchart_double_y_axis <- function(Report_data,reportConfig,couName, section, table, country_peers = NULL, double_yaxis = TRUE, timeline = FALSE, computeTotals = NULL) {
   
-  computeTotals <- 345
+  #computeTotals <- 345
   country_peers <- c("TZA","KEN","UGA","RWA")
   
   cou <- .getCountryCode(couName)
