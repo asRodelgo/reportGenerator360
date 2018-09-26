@@ -12,16 +12,22 @@ Section_ID,Order,Color,Section,Section_Description,Section_Level
 3,4,,,SOURCE: WDI,2
 3,5,,,SOURCE: WDI,2
 3,6,,,SOURCE: WDI,2
-4,4,,COMPETITIVENESS,This is the Competitiveness section,1
-4,1,,DOING BUSINESS,SOURCE: Doing Business 2018,2
-4,2,,TOP 5 CONSTRAINTS (\% of firms) ,SOURCE: Enterprise Survey,2
-4,3,,GCI \& ENTERPRISE SURVEY,SOURCE: WEF Global Competitiveness Report 2017,2
-4,4,,ENTERPRISE SURVEY,SOURCE: Enterprise Survey,2
-5,5,,LOGISTICS,This is the Logistics section,1
-5,1,,LOGISTICS PERFORMANCE INDEX,SOURCE: WB LPI,2
-6,6,,SECTORAL COMPOSITION,,1
-6,1,,Value Added in \% of GDP,SOURCE: WDI,2
-7,7,,ENTREPRENEURSHIP \& INNOVATION,This is the Entrepreneurship section,1
-7,1,,,,2
+4,4,,SECTORAL COMPOSITION,,1
+4,1,,,SOURCE: WDI,2
+4,2,,,,2
+4,3,,,,2
+4,4,,,,2
+4,5,,,,2
+5,5,,FINANCE,This is the Finance Section,1
+5,1,,SOME FINANCE STUFF,SOURCE: Source to the finance stuff,2
+6,6,,COMPETITIVENESS,This is the Competitiveness section,1
+6,1,,DOING BUSINESS,SOURCE: Doing Business 2018,2
+6,2,,TOP 5 CONSTRAINTS (\% of firms) ,SOURCE: Enterprise Survey,2
+6,3,,GCI \& ENTERPRISE SURVEY,SOURCE: WEF Global Competitiveness Report 2017,2
+6,4,,ENTERPRISE SURVEY,SOURCE: Enterprise Survey,2
+7,7,,LOGISTICS,This is the Logistics section,1
+7,1,,LOGISTICS PERFORMANCE INDEX,SOURCE: WB LPI,2
+8,8,,ENTREPRENEURSHIP \& INNOVATION,This is the Entrepreneurship section,1
+8,1,,,,2
 9,9,e4790a,FinCom,"Finance, Competitiveness \& Innovation 360",9
 9,10,0000ff,FinCom,"Finance, Competitiveness \& Innovation 360",10

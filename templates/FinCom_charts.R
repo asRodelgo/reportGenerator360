@@ -48,12 +48,12 @@ bar_chart(Report_data,reportConfig,couName, reportConfig$Section[2],"top5imports
 ########## INVESTMENT ##########
 
 ## ---- double_yaxis_bar_peers_inv ----
-barchart_double_y_axis(Report_data,reportConfig,couName, reportConfig$Section[3], "inv_bar1", country_peers = NULL, 
+barchart_double_y_axis(Report_data,reportConfig,couName, reportConfig$Section[3], "inv_bar1", country_peers = c("TZA","KEN","UGA","RWA"), 
                        double_yaxis = TRUE, timeline = FALSE, computeTotals = 345)
 
 ## ---- double_yaxis_bar_time ----
 line_chart(Report_data,reportConfig,couName, reportConfig$Section[3], "inv_line2", minTime="1900",
-           neighbor="region",max_neighbors=4, show_last_year=FALSE, show_data_labels=NULL, plot_spacing=0.0)
+           neighbor=c("TZA","KEN","UGA","RWA"),max_neighbors=4, show_last_year=FALSE, show_data_labels=NULL, plot_spacing=0.0)
 
 ## ---- sparkline1 ----
 figure_sparkline(Report_data,reportConfig,couName,"inv_spark1",rankBig=FALSE)
@@ -67,35 +67,53 @@ figure_sparkline(Report_data,reportConfig,couName,"inv_spark3",rankBig=FALSE)
 ## ---- sparkline4 ----
 figure_sparkline(Report_data,reportConfig,couName,"inv_spark4",rankBig=FALSE)
 
+########## SECTORAL OVERVIEW ##########
+
+## ---- sectoral_stackedbar ----
+barchart_stacked_FinCom(Report_data,reportConfig,couName, section = reportConfig$Section[4], table = "sectoral", country_peers = c("TZA","KEN","UGA","RWA"))
+
+## ---- sector_sparkline1 ----
+figure_sparkline(Report_data,reportConfig,couName,"sec_spark1",rankBig=FALSE)
+
+## ---- sector_sparkline2 ----
+figure_sparkline(Report_data,reportConfig,couName,"sec_spark2",rankBig=FALSE)
+
+## ---- sector_sparkline3 ----
+figure_sparkline(Report_data,reportConfig,couName,"sec_spark3",rankBig=FALSE)
+
+## ---- sector_sparkline4 ----
+figure_sparkline(Report_data,reportConfig,couName,"sec_spark4",rankBig=FALSE)
+
 ########## Competitiveness ##########
 
 ## ---- doing_business_table ----
 doing_business_table(Report_data,reportConfig,couName)
 
 ## ---- bar_top5constraints_chart ----
-bar_chart(Report_data,reportConfig,couName, reportConfig$Section[4],"top5constraints",paste_unit=FALSE,percentBar=TRUE,top5=TRUE)
+bar_chart(Report_data,reportConfig,couName, reportConfig$Section[6],"top5constraints",paste_unit=FALSE,percentBar=TRUE,top5=TRUE)
 
 ## ---- competIndic_radar ----
-radar_chart(Report_data,reportConfig,couName,reportConfig$Section[4],"competIndic")
+radar_chart(Report_data,reportConfig,couName,reportConfig$Section[6],"competIndic")
 #radar_chart_fcv(Report_data,reportConfig,couName,reportConfig$Section[4],"competIndic",max_num_comparators = 4, shortlist_tcdata360_id=631, radar_fontsize=0.75)
 
 ## ---- bar_es_chart ----
-bar_chart(Report_data,reportConfig,couName, reportConfig$Section[4],"es",paste_unit=FALSE,percentBar=TRUE)
+bar_chart(Report_data,reportConfig,couName, reportConfig$Section[6],"es",paste_unit=FALSE,percentBar=TRUE)
 
 ########## Logistics ##########
 ## ---- lpi_table_countries ----
-table_countries(Report_data,reportConfig,couName, reportConfig$Section[5],"lpi")
+#table_countries(Report_data,reportConfig,couName, reportConfig$Section[7],"lpi")
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[7],"lpi",str_wrap_size=25,rankBig=FALSE,includeUnit=FALSE, round_off=0, compareRegion = "SSA",includePeriod = FALSE)
 
-########## Sectoral Composition ##########
-## ---- sectoral_stackedbar ----
-barchart_stacked_FinCom(Report_data,reportConfig,couName, reportConfig$Section[6],"sectoral")
+## ---- entrepr_table_countries ----
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[8],"entrep_table",str_wrap_size=25,rankBig=FALSE,includeUnit=TRUE, round_off=0, compareRegion = "SSA",includePeriod = TRUE)
 
 ########## Entrepreneurship and Innovation ##########
 ## ---- table_time_avg_EntrepInnov ----
-table_time_avg(Report_data,reportConfig,couName,reportConfig$Section[7],"entrep_table")
+table_time_avg(Report_data,reportConfig,couName,reportConfig$Section[8],"entrep_table")
+
 
 ## ---- sparklines_EntrepInnov ----
-sparklines(Report_data,reportConfig,couName,reportConfig$Section[7],"entrep_table")
+sparklines(Report_data,reportConfig,couName,reportConfig$Section[8],"entrep_table")
 
 
 
