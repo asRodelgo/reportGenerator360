@@ -86,11 +86,11 @@ figure_sparkline(Report_data,reportConfig,couName,"sec_spark4",rankBig=FALSE)
 
 ########## Finance ##########
 ## ---- fin_table_access ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[7],"lpi",str_wrap_size=25,rankBig=FALSE,includeUnit=FALSE, round_off=0, compareRegion = "SSA",includePeriod = FALSE)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[5],"access",str_wrap_size=45,rankBig=FALSE,includeUnit=TRUE, round_off=0, compareRegion = "SSA",includePeriod = TRUE)
 ## ---- fin_table_stability ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[7],"lpi",str_wrap_size=25,rankBig=FALSE,includeUnit=FALSE, round_off=0, compareRegion = "SSA",includePeriod = FALSE)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[5],"stability",str_wrap_size=45,rankBig=FALSE,includeUnit=TRUE, round_off=0, compareRegion = "SSA",includePeriod = TRUE)
 ## ---- fin_table_longTerm ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[7],"lpi",str_wrap_size=25,rankBig=FALSE,includeUnit=FALSE, round_off=0, compareRegion = "SSA",includePeriod = FALSE)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[5],"longTerm",str_wrap_size=45,rankBig=FALSE,includeUnit=TRUE, round_off=0, compareRegion = "SSA",includePeriod = TRUE)
 
 ########## Competitiveness ##########
 
@@ -113,7 +113,7 @@ bar_chart(Report_data,reportConfig,couName, reportConfig$Section[6],"es",paste_u
 number_chart(Report_data,reportConfig,couName,reportConfig$Section[7],"lpi",str_wrap_size=25,rankBig=FALSE,includeUnit=FALSE, round_off=0, compareRegion = "SSA",includePeriod = FALSE)
 
 ## ---- entrepr_table_countries ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[8],"entrep_table",str_wrap_size=25,rankBig=FALSE,includeUnit=TRUE, round_off=0, compareRegion = "SSA",includePeriod = TRUE)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[8],"entrep_table",str_wrap_size=35,rankBig=FALSE,includeUnit=TRUE, round_off=0, compareRegion = "SSA",includePeriod = FALSE)
 
 ########## Entrepreneurship and Innovation ##########
 ## ---- table_time_avg_EntrepInnov ----

@@ -1867,7 +1867,7 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
   data <- filter(Report_data, CountryCode==cou,  Subsection %in% table)
   data <- data %>%
     filter(!(is.na(Observation))) %>%
-    mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
+    mutate(Observation = round(Observation/ifelse(is.na(Scale),1,Scale),round_off)) %>%
     distinct(Key,Period,.keep_all=TRUE)
   
   if (!is.null(compareRegion)){
@@ -1880,6 +1880,7 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
         distinct(Key, Period, .keep_all = TRUE) %>%
         ungroup() %>%
         group_by(Key,adminRegion) %>%
+        mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
         summarise(ObservationRegion = round(mean(Observation, na.rm=TRUE),round_off)) %>%
         ungroup() %>%
         as.data.frame()
@@ -1894,7 +1895,8 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
         bind_rows(dataRegion) %>%
         spread(Country,Observation) %>%
         left_join(select(data,Key,Period,IndicatorShort,Unit), by="Key") %>%
-        mutate(IndicatorShort = str_wrap(paste0(IndicatorShort), width = str_wrap_size))
+        mutate(IndicatorShort = str_wrap(paste0(IndicatorShort), width = str_wrap_size)) %>%
+        filter(!is.na(Period))
       
       require(stringr) # to wrap label text
       # Print the combo -----------------------------------------------
