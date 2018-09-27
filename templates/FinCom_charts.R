@@ -52,7 +52,7 @@ barchart_double_y_axis(Report_data,reportConfig,couName, reportConfig$Section[3]
                        double_yaxis = TRUE, timeline = FALSE, computeTotals = 345)
 
 ## ---- double_yaxis_bar_time ----
-line_chart(Report_data,reportConfig,couName, reportConfig$Section[3], "inv_line2", minTime="1900",
+line_chart(Report_data,reportConfig,couName, reportConfig$Section[3], "inv_line2", minTime=as.character(as.numeric(thisYear)-10),
            neighbor=c("TZA","KEN","UGA","RWA"),max_neighbors=4, show_last_year=FALSE, show_data_labels=NULL, plot_spacing=0.0)
 
 ## ---- sparkline1 ----
@@ -83,6 +83,14 @@ figure_sparkline(Report_data,reportConfig,couName,"sec_spark3",rankBig=FALSE)
 
 ## ---- sector_sparkline4 ----
 figure_sparkline(Report_data,reportConfig,couName,"sec_spark4",rankBig=FALSE)
+
+########## Finance ##########
+## ---- fin_table_access ----
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[7],"lpi",str_wrap_size=25,rankBig=FALSE,includeUnit=FALSE, round_off=0, compareRegion = "SSA",includePeriod = FALSE)
+## ---- fin_table_stability ----
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[7],"lpi",str_wrap_size=25,rankBig=FALSE,includeUnit=FALSE, round_off=0, compareRegion = "SSA",includePeriod = FALSE)
+## ---- fin_table_longTerm ----
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[7],"lpi",str_wrap_size=25,rankBig=FALSE,includeUnit=FALSE, round_off=0, compareRegion = "SSA",includePeriod = FALSE)
 
 ########## Competitiveness ##########
 
