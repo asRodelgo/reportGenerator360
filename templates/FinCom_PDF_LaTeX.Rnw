@@ -29,31 +29,63 @@
     \end{minipage}  
   \end{minipage}
   \begin{minipage}[t]{0.43\textwidth} % overview section
-    \vspace*{-2.5ex}
+    \vspace*{-3ex}
        <<echo=FALSE, results='asis', warning = FALSE>>=
+  library(ltxsparklines)
   title_ids <- filter(ThisDataDesc, Section == "OVERVIEW")$tcdata360_id
+  
+  # title data for average observations over time
+  # title_data <- filter(ThisReport_data, Key %in% title_ids, Country == couName, !is.na(Observation)) %>%
+  #   dplyr::select(Key,IndicatorShort,Period,Observation,Scale,Unit) %>%
+  #   dplyr::mutate(Key = factor(Key)) %>%
+  #   arrange(Key) %>%
+  #   dplyr::group_by(Key) %>%
+  #   dplyr::mutate(ObsAverage = mean(Observation, na.rm = TRUE), minPeriod = min(as.numeric(Period), na.rm = TRUE)) %>%
+  #   filter(Period == max(Period)) %>%
+  #   ungroup() %>%
+  #   select(Key,IndicatorShort,Period,Observation,Scale,Unit,ObsAverage, minPeriod)
+  
+  # title data for sparklines
   title_data <- filter(ThisReport_data, Key %in% title_ids, Country == couName, !is.na(Observation)) %>%
     dplyr::select(Key,IndicatorShort,Period,Observation,Scale,Unit) %>%
     dplyr::mutate(Key = factor(Key)) %>%
     arrange(Key) %>%
     dplyr::group_by(Key) %>%
-    dplyr::mutate(ObsAverage = mean(Observation, na.rm = TRUE), minPeriod = min(as.numeric(Period), na.rm = TRUE)) %>%
-    filter(Period == max(Period)) %>%
+    dplyr::mutate(Period = as.numeric(Period),minPeriod = min(as.numeric(Period), na.rm = TRUE),
+                  Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
     ungroup() %>%
-    select(Key,IndicatorShort,Period,Observation,Scale,Unit,ObsAverage, minPeriod)
-    
+    select(Key,IndicatorShort,Period,Observation,Scale,Unit,minPeriod) %>%
+    arrange(Key,Period)
   
   # Reads title and text vectors and prints them iteratively
-  for (i in 1:nrow(title_data)){
+  key_list <- as.numeric(unique(as.character(title_data$Key)))
+  for (i in 1:length(key_list)){
+  spark_x_axis <- filter(title_data, Key == key_list[i])$Period
+    spark_y_axis <- filter(title_data, Key == key_list[i])$Observation
+    latestObs <- spark_y_axis[length(spark_y_axis)]
+    latestPeriod <- spark_x_axis[length(spark_x_axis)]
+    thisUnit <- filter(title_data, Key == key_list[i])$Unit[1]
+    thisIndicator <- filter(title_data, Key == key_list[i])$IndicatorShort[1]
     cat("\\small{") 
-    cat(paste0(sprintf("\\textbf{\\textcolor[HTML]{0073e6}{%s: }}{\\textcolor[HTML]{404040}{%s}}", 
-                      title_data$IndicatorShort[i],
-                      prettyNum(round(title_data$Observation[i]/title_data$Scale[i],1), big.mark = ",")),
-                      " ",title_data$Unit[i], 
-                      " (",title_data$Period[i],") ",
-                      prettyNum(round(title_data$ObsAverage[i]/title_data$Scale[i],1), big.mark = ","),
-                      " (Avg ",title_data$minPeriod[i],"-", title_data$Period[i],")"
-                      ))
+    # cat(paste0(sprintf("\\textbf{\\textcolor[HTML]{0073e6}{%s: }}{\\textcolor[HTML]{404040}{%s}}", 
+    #                   thisIndicator,
+    #                   prettyNum(round(latestObs,1), big.mark = ",")),
+    #                   " ",thisUnit, 
+    #                   " (",latestPeriod,") ",
+    #                   "\\hspace{4ex}",
+    #                   sparkline(x=spark_x_axis, y=spark_y_axis,startdotcolor='green',enddotcolor='red')
+    #                   #prettyNum(round(title_data$ObsAverage[i]/title_data$Scale[i],1), big.mark = ","),
+    #                   #" (Avg ",title_data$minPeriod[i],"-", title_data$Period[i],")"
+    #                   ))
+    cat(paste0("\\textbf{\\textcolor[HTML]{0073e6}{",
+               thisIndicator,
+               "}} ",thisUnit, 
+               "\\hspace{4ex}",
+               sparkline(x=spark_x_axis, y=spark_y_axis,startdotcolor='green',enddotcolor='red'),
+               "\\hspace{2ex}\\textbf{\\textcolor[HTML]{404040}{", 
+               prettyNum(round(latestObs,1), big.mark = ","),
+               "}} (",latestPeriod,") "
+               ))
     cat("}\\par")
     cat("\\vspace*{1.5ex}")
   }
@@ -69,6 +101,9 @@
 \begin{minipage}[c]{0.95\textwidth}
   \begin{flushleft}  
     \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[2]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[2]}}}
+    <<echo=FALSE,results="asis">>=
+      cat(paste0("\\textcolor[HTML]{",main_color,"}{\\hrulefill}"))
+      @
   \end{flushleft}
   \begin{minipage}[c]{0.48\textwidth}
     \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 2,Order == 1)[1,1]}}}
@@ -112,6 +147,9 @@
 \begin{minipage}[c]{0.95\textwidth}
   \begin{flushleft}  
     \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[3]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[3]}}}
+    <<echo=FALSE,results="asis">>=
+      cat(paste0("\\textcolor[HTML]{",main_color,"}{\\hrulefill}"))
+      @
   \end{flushleft}
   \begin{minipage}[c]{0.48\textwidth}
     \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 3,Order == 1)[1,1]}}}
@@ -192,6 +230,9 @@
     \begin{minipage}[c]{0.48\textwidth}
       \begin{flushleft}  
         \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[4]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[4]}}}
+      <<echo=FALSE,results="asis">>=
+      cat(paste0("\\textcolor[HTML]{",main_color,"}{\\hrulefill}"))
+      @
       \end{flushleft}
       \vspace{-4ex}
       \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 1)[1,1]}}}
@@ -251,6 +292,9 @@
     \vspace{2ex}
     \begin{flushleft}
       \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[5]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[5]}}}
+    <<echo=FALSE,results="asis">>=
+      cat(paste0("\\textcolor[HTML]{",main_color,"}{\\hrulefill}"))
+      @
     \end{flushleft}
     %\vspace{-5ex}
     \begin{minipage}[c]{0.33\textwidth}
@@ -279,6 +323,9 @@
     %\vspace{2ex}
     \begin{flushleft}
       \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[6]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[6]}}}
+    <<echo=FALSE,results="asis">>=
+      cat(paste0("\\textcolor[HTML]{",main_color,"}{\\hrulefill}"))
+      @
     \end{flushleft}
     %\vspace{2ex}
     \hspace*{0.4cm}
@@ -332,6 +379,9 @@
     \begin{minipage}[c]{0.48\textwidth}
       \begin{flushleft}
       \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[7]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[7]}}}
+      <<echo=FALSE,results="asis">>=
+      cat(paste0("\\textcolor[HTML]{",main_color,"}{\\hrulefill}"))
+      @
       \end{flushleft}
       \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 7,Order == 1)[1,1]}}}
       % \vspace*{-0.2cm}
@@ -350,6 +400,9 @@
     \begin{minipage}[c]{0.48\textwidth}
       \begin{flushleft}
         \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[8]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[8]}}}
+      <<echo=FALSE,results="asis">>=
+      cat(paste0("\\textcolor[HTML]{",main_color,"}{\\hrulefill}"))
+      @
       \end{flushleft}
       \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 8,Order == 1)[1,1]}}}
       %\vspace{-3ex}

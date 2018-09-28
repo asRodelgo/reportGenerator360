@@ -24,6 +24,25 @@
 \usepackage{times} % select font family
 \usepackage{anyfontsize} % custom font sizes
 \usepackage{colortbl} % custom font sizes
+\usepackage{sparklines} % tiny inline charts
+% The height of the sparklines in ex units
+    \renewcommand\sparklineheight{1.75} 
+    % The line width
+    \setlength\sparklinethickness{0.4pt}
+    % The color of the sparkline
+    \definecolor{sparklinecolor}{named}{blue}
+    % The color of the sparkine rectangle when present
+    \definecolor{sparkrectanglecolor}{gray}{0.8}
+    % The dot width
+    \setlength\sparkdotwidth{2pt}
+    % The color of the spikes
+    \definecolor{sparkspikecolor}{named}{red}
+    % The color of the bottom line when present
+    \definecolor{bottomlinecolor}{gray}{0.2}
+    % The thickness of the bottom line
+    \setlength\sparkbottomlinethickness{.2pt}
+    % The clipping separation (need sparklines v1.7 or later)
+    \setlength\sparklineclipsep{2pt}  
 \color{gray}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
