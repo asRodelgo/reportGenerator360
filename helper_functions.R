@@ -138,7 +138,7 @@ figure_number_rank_only <- function(Report_data,reportConfig,couName,table, str_
 }
 
 ## ---- figure_sparkline ----
-figure_sparkline <- function(Report_data,reportConfig,couName,table,rankBig=FALSE){      
+figure_sparkline <- function(Report_data,reportConfig,couName,table,rankBig=FALSE,includeRank = TRUE){      
   
   cou <- .getCountryCode(couName)
   ## Examples like Edward Tufte's sparklines:
@@ -212,10 +212,14 @@ figure_sparkline <- function(Report_data,reportConfig,couName,table,rankBig=FALS
       plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
       graphics::text(1.5, 0.95,dataPoint, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=18)
       plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-      graphics::text(1.5, 1.1,paste0("(Rank: ",rank,"/",rankedTotal,")"), col=text_color, cex=10)
+      if (includeRank) {
+        graphics::text(1.5, 1.1,paste0("(Rank: ",rank,"/",rankedTotal,")"), col=text_color, cex=10) 
+      } else {graphics::text(1.5, 1.1," ", col=text_color, cex=10)}
     } else {
       plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-      graphics::text(1.5, 0.95,paste0(rank,"/",rankedTotal), col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=18)
+      if (includeRank) {
+        graphics::text(1.5, 0.95,paste0(rank,"/",rankedTotal), col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=18)
+      } else {graphics::text(1.5, 0.95," ", col=text_color, cex=18)}
       plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
       graphics::text(1.5, 1.1,paste0("Value: ",dataPoint), col=text_color, cex=10)
     }
@@ -258,13 +262,15 @@ figure_sparkline <- function(Report_data,reportConfig,couName,table,rankBig=FALS
     
     # print indicator name
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 1.1,indicator, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=10)
-    graphics::text(1.5, 0.7,unit, col=text_color, cex=5)
+    graphics::text(1.5, 1.1,dataWorld$IndicatorShort[1], col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=10)
+    graphics::text(1.5, 0.7,dataWorld$Unit[1], col=text_color, cex=5)
     # print data point and rank
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
     graphics::text(1.5, 0.95,"No data available", col=text_color, cex=10)
     plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-    graphics::text(1.5, 1.1,paste0("(Rank: /",rankedTotal,")"), col=text_color, cex=7)
+    if (includeRank) {
+      graphics::text(1.5, 1.1,paste0("(Rank: /",rankedTotal,")"), col=text_color, cex=7)
+    } else {graphics::text(1.5, 1.1," ", col=text_color, cex=7)}
     # plot sparkline  
     par(family = 'serif',#sets number of rows in space to number of cols in data frame x
       mar=c(0,5,0,5))#sets margin size for the figures
@@ -641,6 +647,8 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
       data <- filter(Report_data, incomeLevel==couRegion, Section == section, Subsection == table, !(is.na(Observation)), Period >= minTime) #select country, region and world
   }
   
+  units <- data$Unit[1]
+  
   if (max_neighbors == 1){ # use the average of all neighbors
     
     region_avg <- dplyr::group_by(data, Key,Period) %>%
@@ -715,7 +723,7 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
                 legend.title=element_blank(),
                 legend.position="top",
                 legend.text = element_text(family="Times", size = 10, colour = text_color)) +
-          labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
+          labs(x="",y=units #,title="Goods Export and Import volume growth, 2012-2015"
           ) + 
           scale_color_manual(labels = unique(data$IndicatorShort), values = c("darkgreen","blue","lightblue","lightgreen","pink")) +
           scale_alpha_manual(labels = unique(data$IndicatorShort),values = c(0.6, rep(0.6,4))) + 
@@ -734,7 +742,7 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
                 legend.title=element_blank(),
                 legend.position="top",
                 legend.text = element_text(family="Times", size = 10, colour = text_color)) +
-          labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
+          labs(x="",y=units#,title="Goods Export and Import volume growth, 2012-2015"
           ) + 
           scale_color_manual(labels = unique(data$IndicatorShort), values = c("darkgreen","blue","lightblue","lightgreen","pink")) +
           scale_alpha_manual(labels = unique(data$IndicatorShort),values = c(0.6, rep(0.6,4))) + 
@@ -772,7 +780,7 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
                 legend.title=element_blank(),
                 legend.position="top",
                 legend.text = element_text(family="Times", size = 10, colour = text_color)) +
-        labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
+        labs(x="",y=units#,title="Goods Export and Import volume growth, 2012-2015"
         ) + 
         scale_color_manual(labels = order_legend, values = c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"lightblue","lightgreen","pink")) +
         scale_alpha_manual(labels = order_legend,values = c(1, rep(0.6,4))) + 
@@ -791,7 +799,7 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
                 legend.title=element_blank(),
                 legend.position="top",
                 legend.text = element_text(family="Times", size = 10, colour = text_color)) +
-          labs(x="",y=""#,title="Goods Export and Import volume growth, 2012-2015"
+          labs(x="",y=units#,title="Goods Export and Import volume growth, 2012-2015"
           ) + 
           scale_color_manual(labels = order_legend, values = c("orange",paste0("#",filter(reportConfig, Section_Level == 10)$Color),"lightblue","lightgreen","pink")) +
           scale_alpha_manual(labels = order_legend,values = c(1, rep(0.6,4))) + 
@@ -994,6 +1002,8 @@ barchart_stacked_FinCom <- function(Report_data,reportConfig,couName, section, t
     dplyr::mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
     arrange(CountryCode,Period)
   
+  Units <- data$Unit[1]
+  
   minMaxPeriod <- data %>%
     dplyr::select(IndicatorShort, Period, Observation, Country) %>%
     mutate(Period = as.numeric(Period)) %>%
@@ -1013,18 +1023,20 @@ barchart_stacked_FinCom <- function(Report_data,reportConfig,couName, section, t
     dplyr::select(Period, Agriculture = starts_with("Agriculture"), Industry = starts_with("Manufactu")) %>%
     mutate(Services = 100 - Agriculture - Industry) %>%
     gather(IndicatorShort,Observation, -Period, -Country) %>%
+    mutate(Alpha = ifelse(Country == couName, .8,.7)) %>%
     as.data.frame()
 
 
   if (nrow(data2)>0){
-    ggplot(data2, aes(x = Country, y = Observation, fill = IndicatorShort)) +
+    ggplot(data2, aes(x = Country, y = Observation, fill = IndicatorShort, colour = IndicatorShort, alpha = Alpha)) +
       geom_bar(stat = "identity") +
       theme_minimal() +
+      scale_alpha_continuous(guide=FALSE) +
       theme(legend.key=element_blank(),
             legend.title=element_blank(),
             legend.position="top",
             legend.text = element_text(family="Times", size = 10, colour = text_color)) +
-      labs(x="",y="% of GDP"#,title="Goods Export and Import volume growth, 2012-2015"
+      labs(x="",y=Units#,title="Goods Export and Import volume growth, 2012-2015"
       )
 
   } else {
@@ -1052,12 +1064,28 @@ barchart_double_y_axis <- function(Report_data,reportConfig,couName, section, ta
       filter(!(is.na(Observation2))) %>%
       select(-matches("^[0-9]"))
     
+    # There seem to be data errors on FDI net inflows in USD so I calculate from % of GDP indicator to make sure I'm showing the right values
+    FDI_net_USD <- filter(Report_data, Key %in% c(2812,28107), !(is.na(Observation))) %>%
+      select(Key,Country,Period,Observation) %>%
+      spread(Key,Observation) %>%
+      mutate(Observation2 = `2812`*`28107`/100) %>%
+      filter(!(is.na(Observation2))) %>%
+      select(-matches("^[0-9]"))
+    
     data_toChange <- filter(Report_data, Key == computeTotals, !(is.na(Observation))) %>%
       left_join(data_computed, by = c("Country","Period")) %>%
       mutate(Key = Key*1000,Observation = Observation2,Scale = 1000000000, Unit = "US\\$B") %>%
       select(-Observation2)
     
-    data <- bind_rows(data, data_toChange)
+    computedFDI <- filter(Report_data, Key == 2816, !(is.na(Observation))) %>%
+      left_join(FDI_net_USD, by = c("Country","Period")) %>%
+      mutate(Key = Key*1000,Observation = Observation2,Scale = 1000000000, Unit = "US\\$B") %>%
+      select(-Observation2)
+    
+    data <- bind_rows(data, data_toChange, computedFDI)
+    
+    # remove the old spotty FDI USD data
+    data <- filter(data, !(Key == 2816))
       
   }
   
@@ -1070,12 +1098,19 @@ barchart_double_y_axis <- function(Report_data,reportConfig,couName, section, ta
       filter(!is.na(Observation)) %>%
       arrange(CountryCode,Period)
     
+    minMaxPeriod <- group_by(data, Country,Key) %>%
+      mutate(Period = max(Period)) %>%
+      distinct(Key,Country,Period) %>%
+      ungroup() %>%
+      summarise(min(Period)) %>%
+      as.numeric()
+    
     data2 <- data %>%
       dplyr::select(Key,IndicatorShort, Unit, Country, Period, Observation) %>%
       # Imports goes on the negative y-axis
       mutate(Period = as.numeric(Period), Observation = ifelse(Key == 1026,-Observation,Observation)) %>%
       group_by(IndicatorShort,Unit,Country) %>%
-      filter(Period >= max(Period))
+      filter(Period == minMaxPeriod)
     
     if (nrow(data2)>0){
       
@@ -1104,15 +1139,6 @@ barchart_double_y_axis <- function(Report_data,reportConfig,couName, section, ta
                        legend.title=element_blank(),
                        legend.position="top",
                        legend.text = element_text(family="Times", size = 10, colour = text_color)) +
-          # theme(legend.key=element_blank(),
-          #       legend.title=element_blank(),
-          #       legend.position="top",
-          #       legend.text = element_text(family="Times", size = 10, colour = text_color),
-          #       panel.border = element_blank(),
-          #       panel.background = element_blank(),plot.title = element_text(family="Times", lineheight=.5),
-          #       axis.line = element_line(size=0.1, colour = "lightgrey"),
-          #       axis.text.x = element_text(family="Times", color=text_color,hjust = 1),
-          #       axis.text.y = element_text(family="Times", color=text_color)) +
           labs(x="",y="% of GDP"#,title="Goods Export and Import volume growth, 2012-2015"
           )
       } else {
@@ -1220,6 +1246,82 @@ barchart_double_y_axis <- function(Report_data,reportConfig,couName, section, ta
   
 }
 
+## ---- barchart_benchmark ----
+barchart_benchmark <- function(Report_data,reportConfig,couName, section, table, country_peers = NULL, benchmark = TRUE) {
+  
+  #computeTotals <- 345
+  country_peers <- c("TZA","KEN","UGA","RWA")
+  
+  cou <- .getCountryCode(couName)
+  data <- filter(Report_data, Section == section, Subsection == table, !(is.na(Observation))) 
+
+  thisRegion <- filter(data, CountryCode == cou)$adminRegion
+  region_median <- filter(data, adminRegion == thisRegion) %>%
+    mutate(Observation = round(Observation/ifelse(is.na(Scale),1,Scale),1)) %>%
+    summarise(median(Observation, na.rm = TRUE)) %>%
+    as.numeric()
+  region_avg <- filter(data, adminRegion == thisRegion) %>%
+    mutate(Observation = round(Observation/ifelse(is.na(Scale),1,Scale),1)) %>%
+    summarise(round(mean(Observation, na.rm = TRUE),1)) %>%
+    as.numeric()
+  
+  data <- filter(data, CountryCode %in% c(cou, country_peers)) %>%
+    mutate(Observation = round(Observation/ifelse(is.na(Scale),1,Scale),1)) %>%
+    filter(!is.na(Observation)) %>%
+    arrange(CountryCode,Period)
+  
+  minMaxPeriod <- group_by(data, Country,Key) %>%
+    mutate(Period = max(Period)) %>%
+    distinct(Key,Country,Period) %>%
+    ungroup() %>%
+    summarise(min(Period)) %>%
+    as.numeric()
+  
+  data2 <- data %>%
+    dplyr::select(Key,IndicatorShort, Unit, Country, Period, Observation) %>%
+    # Imports goes on the negative y-axis
+    mutate(Period = as.numeric(Period), Observation = ifelse(Key == 1026,-Observation,Observation)) %>%
+    group_by(IndicatorShort,Unit,Country) %>%
+    filter(Period == minMaxPeriod)
+  
+  if (nrow(data2)>0) {
+    
+    data2 <- mutate(data2, Alpha = ifelse(Country == couName, .8,.7))
+    
+    if (benchmark) {
+      ggplot(data = data2, mapping = aes(x = Country, y = Observation, fill = IndicatorShort, alpha = Alpha), colour = 'orange') +
+        geom_bar(stat = 'identity', position = 'identity') +
+        geom_hline(aes(yintercept = region_median), colour = 'darkblue',linetype = 5, size = 2) +
+        geom_text(aes(5,region_median),label = paste0(thisRegion," median: ",region_median), vjust = -1) + 
+        geom_hline(aes(yintercept = region_avg), colour = 'darkgreen',linetype = 5, size = 2) +
+        geom_text(aes(3,region_avg),label = paste0(thisRegion," average: ",region_avg), vjust = -1) + 
+        scale_alpha_continuous(guide=FALSE) +
+        theme_minimal() +
+        theme(legend.key=element_blank(),
+              legend.title=element_blank(),
+              legend.position="top",
+              legend.text = element_text(family="Times", size = 10, colour = text_color)) +
+        labs(x="",y="Index (0-9)"
+        )
+    } else {
+      ggplot(data = data2, mapping = aes(x = Country, y = Observation, fill = IndicatorShort, alpha = Alpha), colour = 'orange') +
+        geom_bar(stat = 'identity', position = 'identity') +
+        scale_alpha_continuous(guide=FALSE) +
+        theme_minimal() +
+        theme(legend.key=element_blank(),
+              legend.title=element_blank(),
+              legend.position="top",
+              legend.text = element_text(family="Times", size = 10, colour = text_color)) +
+        labs(x="",y="Index (0-9)"
+        )
+    }
+  } else {
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
+  }
+  
+}  
+  
 ## ---- table_time_avg ----
 table_time_avg <- function(Report_data,reportConfig,couName,section,table, GDPgrowthrate=FALSE, fcv=FALSE, arrange_by_datadesc=FALSE){    
   cou <- .getCountryCode(couName)
@@ -1633,11 +1735,15 @@ bar_chart <- function(Report_data,reportConfig,couName,section,table,paste_unit,
   cou <- .getCountryCode(couName)
   data <- filter(Report_data, CountryCode==cou, Section %in% section, Subsection %in% table)
   if (products) { # indicator is measured by product categories, like exports of goods
+    if (grepl("export",tolower(data$IndicatorShort[1]))) { # different product levels are mixed up. Want to stick to the lowest level available
+      data <- filter(data, !grepl("goods|materials",Product))
+    }
     data <- data %>%
       filter(!(is.na(Observation))) %>%
       mutate(Observation = Observation/ifelse(is.na(Scale),1,Scale),
              IndicatorShort = Product) %>%
       distinct(Key,Period,Product,.keep_all=TRUE)
+    
   } else {
     data <- data %>%
       filter(!(is.na(Observation))) %>%
@@ -1866,7 +1972,7 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
   cou <- .getCountryCode(couName)
   data <- filter(Report_data, CountryCode==cou,  Subsection %in% table)
   data <- data %>%
-    filter(!(is.na(Observation))) %>%
+    #filter(!(is.na(Observation))) %>%
     mutate(Observation = round(Observation/ifelse(is.na(Scale),1,Scale),round_off)) %>%
     distinct(Key,Period,.keep_all=TRUE)
   

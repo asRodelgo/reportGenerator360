@@ -56,16 +56,16 @@ line_chart(Report_data,reportConfig,couName, reportConfig$Section[3], "inv_line2
            neighbor=c("TZA","KEN","UGA","RWA"),max_neighbors=4, show_last_year=FALSE, show_data_labels=NULL, plot_spacing=0.0)
 
 ## ---- sparkline1 ----
-figure_sparkline(Report_data,reportConfig,couName,"inv_spark1",rankBig=FALSE)
+figure_sparkline(Report_data,reportConfig,couName,"inv_spark1",rankBig=FALSE,includeRank = FALSE)
 
 ## ---- sparkline2 ----
-figure_sparkline(Report_data,reportConfig,couName,"inv_spark2",rankBig=FALSE)
+figure_sparkline(Report_data,reportConfig,couName,"inv_spark2",rankBig=FALSE,includeRank = FALSE)
 
 ## ---- sparkline3 ----
-figure_sparkline(Report_data,reportConfig,couName,"inv_spark3",rankBig=FALSE)
+figure_sparkline(Report_data,reportConfig,couName,"inv_spark3",rankBig=FALSE,includeRank = FALSE)
 
 ## ---- sparkline4 ----
-figure_sparkline(Report_data,reportConfig,couName,"inv_spark4",rankBig=FALSE)
+figure_sparkline(Report_data,reportConfig,couName,"inv_spark4",rankBig=FALSE,includeRank = FALSE)
 
 ########## SECTORAL OVERVIEW ##########
 
@@ -73,16 +73,16 @@ figure_sparkline(Report_data,reportConfig,couName,"inv_spark4",rankBig=FALSE)
 barchart_stacked_FinCom(Report_data,reportConfig,couName, section = reportConfig$Section[4], table = "sectoral", country_peers = c("TZA","KEN","UGA","RWA"))
 
 ## ---- sector_sparkline1 ----
-figure_sparkline(Report_data,reportConfig,couName,"sec_spark1",rankBig=FALSE)
+figure_sparkline(Report_data,reportConfig,couName,"sec_spark1",rankBig=FALSE,includeRank = FALSE)
 
 ## ---- sector_sparkline2 ----
-figure_sparkline(Report_data,reportConfig,couName,"sec_spark2",rankBig=FALSE)
+figure_sparkline(Report_data,reportConfig,couName,"sec_spark2",rankBig=FALSE,includeRank = FALSE)
 
 ## ---- sector_sparkline3 ----
-figure_sparkline(Report_data,reportConfig,couName,"sec_spark3",rankBig=FALSE)
+figure_sparkline(Report_data,reportConfig,couName,"sec_spark3",rankBig=FALSE,includeRank = FALSE)
 
 ## ---- sector_sparkline4 ----
-figure_sparkline(Report_data,reportConfig,couName,"sec_spark4",rankBig=FALSE)
+figure_sparkline(Report_data,reportConfig,couName,"sec_spark4",rankBig=FALSE,includeRank = FALSE)
 
 ########## Finance ##########
 ## ---- fin_table_access ----
@@ -119,12 +119,14 @@ number_chart(Report_data,reportConfig,couName,reportConfig$Section[8],"entrep_ta
 ## ---- table_time_avg_EntrepInnov ----
 table_time_avg(Report_data,reportConfig,couName,reportConfig$Section[8],"entrep_table")
 
-
 ## ---- sparklines_EntrepInnov ----
 sparklines(Report_data,reportConfig,couName,reportConfig$Section[8],"entrep_table")
 
+########## EBA ##########
+## ---- table_agricultural_trade_index ----
+barchart_benchmark(Report_data,reportConfig,couName, section = reportConfig$Section[9], table = "table1", country_peers = c("TZA","KEN","UGA","RWA"), benchmark = TRUE)
 
-
-
+## ---- table_agricultural_trade_index ----
+barchart_benchmark(Report_data,reportConfig,couName, section = reportConfig$Section[9], table = "table2", country_peers = c("TZA","KEN","UGA","RWA"), benchmark = TRUE)
 
 
