@@ -126,7 +126,12 @@ sparklines(Report_data,reportConfig,couName,reportConfig$Section[8],"entrep_tabl
 ## ---- table_agricultural_trade_index ----
 barchart_benchmark(Report_data,reportConfig,couName, section = reportConfig$Section[9], table = "table1", country_peers = c("TZA","KEN","UGA","RWA"), benchmark = TRUE)
 
-## ---- table_agricultural_trade_index ----
+## ---- table_agricultural_cost_export ----
 barchart_benchmark(Report_data,reportConfig,couName, section = reportConfig$Section[9], table = "table2", country_peers = c("TZA","KEN","UGA","RWA"), benchmark = TRUE)
+
+## ---- table_eba_indicators ----
+number_chart(Report_data,reportConfig,couName,section = reportConfig$Section[9], table = "table3",str_wrap_size=35,rankBig=FALSE,includeUnit=FALSE, round_off=0, compareRegion = "SSA",includePeriod = FALSE)
+
+
 
 

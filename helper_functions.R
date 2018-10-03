@@ -1289,11 +1289,11 @@ barchart_benchmark <- function(Report_data,reportConfig,couName, section, table,
     data2 <- mutate(data2, Alpha = ifelse(Country == couName, .8,.7))
     
     if (benchmark) {
-      ggplot(data = data2, mapping = aes(x = Country, y = Observation, fill = IndicatorShort, alpha = Alpha), colour = 'orange') +
+      ggplot(data = data2, mapping = aes(x = Country, y = Observation, fill = IndicatorShort, colour = IndicatorShort, alpha = Alpha)) +
         geom_bar(stat = 'identity', position = 'identity') +
-        geom_hline(aes(yintercept = region_median), colour = 'darkblue',linetype = 5, size = 2) +
-        geom_text(aes(5,region_median),label = paste0(thisRegion," median: ",region_median), vjust = -1) + 
-        geom_hline(aes(yintercept = region_avg), colour = 'darkgreen',linetype = 5, size = 2) +
+        #geom_hline(aes(yintercept = region_median), colour = 'darkblue',linetype = 5, size = 1) +
+        #geom_text(aes(5,region_median),label = paste0(thisRegion," median: ",region_median), vjust = -1) + 
+        geom_hline(aes(yintercept = region_avg), colour = 'darkgreen',linetype = 5, size = 1) +
         geom_text(aes(3,region_avg),label = paste0(thisRegion," average: ",region_avg), vjust = -1) + 
         scale_alpha_continuous(guide=FALSE) +
         theme_minimal() +
@@ -1304,7 +1304,7 @@ barchart_benchmark <- function(Report_data,reportConfig,couName, section, table,
         labs(x="",y="Index (0-9)"
         )
     } else {
-      ggplot(data = data2, mapping = aes(x = Country, y = Observation, fill = IndicatorShort, alpha = Alpha), colour = 'orange') +
+      ggplot(data = data2, mapping = aes(x = Country, y = Observation, fill = IndicatorShort, colour = IndicatorShort, alpha = Alpha), colour = 'orange') +
         geom_bar(stat = 'identity', position = 'identity') +
         scale_alpha_continuous(guide=FALSE) +
         theme_minimal() +
