@@ -1050,7 +1050,7 @@ barchart_stacked_FinCom <- function(Report_data,reportConfig,couName, section, t
 barchart_double_y_axis <- function(Report_data,reportConfig,couName, section, table, country_peers = NULL, double_yaxis = TRUE, timeline = FALSE, computeTotals = NULL) {
   
   #computeTotals <- 345
-  country_peers <- c("TZA","KEN","UGA","RWA")
+  #country_peers <- c("TZA","KEN","UGA","RWA")
   
   cou <- .getCountryCode(couName)
   data <- filter(Report_data, Section == section, Subsection == table, !(is.na(Observation))) 
@@ -1250,7 +1250,7 @@ barchart_double_y_axis <- function(Report_data,reportConfig,couName, section, ta
 barchart_benchmark <- function(Report_data,reportConfig,couName, section, table, country_peers = NULL, benchmark = TRUE) {
   
   #computeTotals <- 345
-  country_peers <- c("TZA","KEN","UGA","RWA")
+  #country_peers <- c("TZA","KEN","UGA","RWA")
   
   cou <- .getCountryCode(couName)
   data <- filter(Report_data, Section == section, Subsection == table, !(is.na(Observation))) 
@@ -1294,7 +1294,7 @@ barchart_benchmark <- function(Report_data,reportConfig,couName, section, table,
         #geom_hline(aes(yintercept = region_median), colour = 'darkblue',linetype = 5, size = 1) +
         #geom_text(aes(5,region_median),label = paste0(thisRegion," median: ",region_median), vjust = -1) + 
         geom_hline(aes(yintercept = region_avg), colour = 'darkgreen',linetype = 5, size = 1) +
-        geom_text(aes(3,region_avg),label = paste0(thisRegion," average: ",region_avg), vjust = -1) + 
+        geom_text(aes(3,region_avg,label = paste0(thisRegion," average: ",region_avg)), colour = "darkgreen", vjust = -1) + 
         scale_alpha_continuous(guide=FALSE) +
         theme_minimal() +
         theme(legend.key=element_blank(),
@@ -3809,7 +3809,7 @@ text_box <- function(reportConfig,title, body, str_wrap_size=75){
 ##########################
 
 # Generate report. Store it in www in order to be rendered in a browser
-.reportGenerator <- function(couName, input_reportID){
+.reportGenerator <- function(couName, input_reportID, country_peers){
   
   ### Read data and configurations ---------------
   

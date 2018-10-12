@@ -14,8 +14,8 @@ Section_ID,Order,Color,Section,Section_Description,Section_Level
 3,6,,,SOURCE: WDI,2
 4,4,,SECTORAL COMPOSITION,,1
 4,1,,,SOURCE: WDI,2
-4,2,,,,2
-4,3,,,,2
+4,2,,"EMPLOYMENT, \% of Total",SOURCE: WDI,2
+4,3,,"MANUFACTURING, \% of Value Added",SOURCE: WDI,2
 4,4,,,,2
 4,5,,,,2
 5,5,,FINANCE,,1

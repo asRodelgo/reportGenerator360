@@ -24,6 +24,18 @@ text_color <- "#818181"
 couName <- countryNames[countryNames$Country==c,]$Country
 couISO2 <- .getISO2(couName)
 
+#countryPeers <- c("TZA","KEN","UGA","RWA","ETH")
+# countryCode <- .getCountryCode(couName)
+# if (countryCode %in% countryPeers){
+#   countryPeers <- countryPeers[-which(countryPeers == countryCode)]
+# } else {
+#   couRegion <- countries[countries$iso3==countryCode,]$region  # obtain the region for the selected country
+#   neighbors <- countries[countries$region==couRegion,]$iso3 # retrieve all countries in that region
+#   neighbors <- as.character(neighbors[!(neighbors==countryCode)])
+#   set.seed(123)
+#   countryPeers <- sample(neighbors,4)
+# }
+
 ########## OVERVIEW ##########
 
 # Uses reportConfig$Section[1] directly inside the .Rnw
@@ -31,11 +43,11 @@ couISO2 <- .getISO2(couName)
 ########## TRADE ##########
 
 ## ---- double_yaxis_bar_peers_trade ----
-barchart_double_y_axis(Report_data,reportConfig,couName, reportConfig$Section[2], "bar1", country_peers = NULL, 
+barchart_double_y_axis(Report_data,reportConfig,couName, reportConfig$Section[2], "bar1", country_peers = countryPeers, 
                        double_yaxis = TRUE, timeline = FALSE)
 
 ## ---- double_yaxis_bar_time_trade ----
-barchart_double_y_axis(Report_data,reportConfig,couName, reportConfig$Section[2], "bar1", country_peers = NULL, 
+barchart_double_y_axis(Report_data,reportConfig,couName, reportConfig$Section[2], "bar1", country_peers = countryPeers, 
                        double_yaxis = TRUE, timeline = TRUE)
 
 ## ---- bar_chart_exports ----
@@ -48,12 +60,12 @@ bar_chart(Report_data,reportConfig,couName, reportConfig$Section[2],"top5imports
 ########## INVESTMENT ##########
 
 ## ---- double_yaxis_bar_peers_inv ----
-barchart_double_y_axis(Report_data,reportConfig,couName, reportConfig$Section[3], "inv_bar1", country_peers = c("TZA","KEN","UGA","RWA"), 
+barchart_double_y_axis(Report_data,reportConfig,couName, reportConfig$Section[3], "inv_bar1", country_peers = countryPeers, 
                        double_yaxis = TRUE, timeline = FALSE, computeTotals = 345)
 
 ## ---- double_yaxis_bar_time ----
-line_chart(Report_data,reportConfig,couName, reportConfig$Section[3], "inv_line2", minTime=as.character(as.numeric(thisYear)-10),
-           neighbor=c("TZA","KEN","UGA","RWA"),max_neighbors=4, show_last_year=FALSE, show_data_labels=NULL, plot_spacing=0.0)
+line_chart(Report_data,reportConfig,couName, section = reportConfig$Section[3], table = "inv_line2", minTime=as.character(as.numeric(thisYear)-10),
+           neighbor=countryPeers,max_neighbors=4, show_last_year=FALSE, show_data_labels=NULL, plot_spacing=0.0)
 
 ## ---- sparkline1 ----
 figure_sparkline(Report_data,reportConfig,couName,"inv_spark1",rankBig=FALSE,includeRank = FALSE)
@@ -70,7 +82,7 @@ figure_sparkline(Report_data,reportConfig,couName,"inv_spark4",rankBig=FALSE,inc
 ########## SECTORAL OVERVIEW ##########
 
 ## ---- sectoral_stackedbar ----
-barchart_stacked_FinCom(Report_data,reportConfig,couName, section = reportConfig$Section[4], table = "sectoral", country_peers = c("TZA","KEN","UGA","RWA"))
+barchart_stacked_FinCom(Report_data,reportConfig,couName, section = reportConfig$Section[4], table = "sectoral", country_peers = countryPeers)
 
 ## ---- sectoral_piechart ----
 pie_chart(Report_data,reportConfig,couName, section = reportConfig$Section[4], table = "pie1")
@@ -130,10 +142,10 @@ sparklines(Report_data,reportConfig,couName,reportConfig$Section[8],"entrep_tabl
 
 ########## EBA ##########
 ## ---- table_agricultural_trade_index ----
-barchart_benchmark(Report_data,reportConfig,couName, section = reportConfig$Section[9], table = "table1", country_peers = c("TZA","KEN","UGA","RWA"), benchmark = TRUE)
+barchart_benchmark(Report_data,reportConfig,couName, section = reportConfig$Section[9], table = "table1", country_peers = countryPeers, benchmark = TRUE)
 
 ## ---- table_agricultural_cost_export ----
-barchart_benchmark(Report_data,reportConfig,couName, section = reportConfig$Section[9], table = "table2", country_peers = c("TZA","KEN","UGA","RWA"), benchmark = TRUE)
+barchart_benchmark(Report_data,reportConfig,couName, section = reportConfig$Section[9], table = "table2", country_peers = countryPeers, benchmark = TRUE)
 
 ## ---- table_eba_indicators ----
 number_chart(Report_data,reportConfig,couName,section = reportConfig$Section[9], table = "table3",str_wrap_size=35,rankBig=FALSE,includeUnit=FALSE, round_off=0, compareRegion = "SSA",includePeriod = FALSE)

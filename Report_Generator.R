@@ -16,8 +16,23 @@ exclude <- c("Channel Islands","Virgin Islands (U.S.)","Northern Mariana Islands
              "St. Martin (French part)","Sint Maarten (Dutch part)")
 processed <- c()
 #for (couName in filter(countries, !(name %in% exclude))$name) {
-for (couName in c("Ethiopia")) {
-  .reportGenerator(couName, input_reportID)
+for (couName in c("Ethiopia","Kenya")) {
+  ### Figure out the country peers ----------
+  countryPeers <- c("TZA","KEN","UGA","RWA","ETH")
+  countryCode <- .getCountryCode(couName)
+  if (countryCode %in% countryPeers){
+    countryPeers <- countryPeers[-which(countryPeers == countryCode)]
+  } else {
+    couRegion <- countries[countries$iso3==countryCode,]$region  # obtain the region for the selected country
+    neighbors <- countries[countries$region==couRegion,]$iso3 # retrieve all countries in that region
+    neighbors <- as.character(neighbors[!(neighbors==countryCode)])
+    set.seed(123)
+    countryPeers <- sample(neighbors,4)
+  }
+  ### --------------------------------------
+  #
+  ### Run the report -------------------------
+  .reportGenerator(couName, input_reportID, countryPeers)
   #suppressWarnings(.reportGenerator(couName, input_reportID))
   # if (!(substr(c,1,1)=="(") & !(filter(countries, name==c)$iso3=="")){
   #   iso3 <- .getCountryCode(c)
