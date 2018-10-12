@@ -35,10 +35,10 @@ Total Investment,\% of GDP,1,World Economic Outlook,http://www.imf.org/external/
 "Manufacturing, value added (% of GDP)",Value added % GDP,1,World Development Indicators,http://data.worldbank.org/data-catalog/world-development-indicators,1045,"Manufacturing, value added (% of GDP)",SECTORAL COMPOSITION,sectoral,,
 "Services, etc., value added (% of GDP)",Value added % GDP,1,World Development Indicators,http://data.worldbank.org/data-catalog/world-development-indicators,1117,"Services, etc., value added (% of GDP)",SECTORAL COMPOSITION,sectoral,,
 Manufacturing Value Added per capita,Value,1,,http://www.unido.org/data1/Statistics/Research/cip.html,3798,Manufacturing Value Added per capita,SECTORAL COMPOSITION,,,
-Machinery & Transport,Value added % GDP,1,World Development Indicators,http://data.worldbank.org/data-catalog/world-development-indicators,1039,Machinery (% of value added in manufacturing),SECTORAL COMPOSITION,,sec_spark1,
-Textiles & Clothing,Value added % GDP,1,World Development Indicators,http://data.worldbank.org/data-catalog/world-development-indicators,1121,Textile (% of value added in manufacturing),SECTORAL COMPOSITION,,sec_spark2,
-Food & Beverages,Value added % GDP,1,World Development Indicators,http://data.worldbank.org/data-catalog/world-development-indicators,40210,Food (% of value added in manufacturing),SECTORAL COMPOSITION,,sec_spark3,
-Chemicals,Value added % GDP,1,World Development Indicators,http://data.worldbank.org/data-catalog/world-development-indicators,40211,Chemicals (% of value added in manufacturing),SECTORAL COMPOSITION,,sec_spark4,
+Machinery & Transport,Value added % GDP,1,World Development Indicators,http://data.worldbank.org/data-catalog/world-development-indicators,1039,Machinery (% of value added in manufacturing),SECTORAL COMPOSITION,sec_valueAdd,sec_spark1,
+Textiles & Clothing,Value added % GDP,1,World Development Indicators,http://data.worldbank.org/data-catalog/world-development-indicators,1121,Textile (% of value added in manufacturing),SECTORAL COMPOSITION,sec_valueAdd,sec_spark2,
+Food & Beverages,Value added % GDP,1,World Development Indicators,http://data.worldbank.org/data-catalog/world-development-indicators,40210,Food (% of value added in manufacturing),SECTORAL COMPOSITION,sec_valueAdd,sec_spark3,
+Chemicals,Value added % GDP,1,World Development Indicators,http://data.worldbank.org/data-catalog/world-development-indicators,40211,Chemicals (% of value added in manufacturing),SECTORAL COMPOSITION,sec_valueAdd,sec_spark4,
 Domestic Credit to the Private Sector,%,1,Global Innovation Index,https://www.globalinnovationindex.org/analysis-indicator,32775,Domestic credit to private sector 2017,FINANCE,access,,
 Insurance Premium (Life and non-life) to GDP ,%,1,,,240010,Insurance Premium (Life and non-life) to GDP ,FINANCE,stability,,240010
 Bank Asset Concentration,%,1,,,240020,Bank Asset Concentration,FINANCE,stability,,240020

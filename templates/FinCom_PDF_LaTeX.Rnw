@@ -225,7 +225,63 @@
 
 %\vspace{-2ex}
 %% Finance --------------------------------------------
-%% SECTORAL COMPOSITION --------------------------------------------
+% %% SECTORAL COMPOSITION --------------------------------------------
+%   \begin{minipage}[c]{0.95\textwidth}
+%     %\vspace{4ex}
+%     \begin{flushleft}  
+%         \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[4]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[4]}}}
+%       <<echo=FALSE,results="asis">>=
+%       cat(paste0("\\textcolor[HTML]{",main_color,"}{\\hrulefill}"))
+%       @
+%     \end{flushleft}
+%     \begin{minipage}[c]{0.48\textwidth}
+%       \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 1)[1,1]}}}
+%       <<sectoral_stackedbar,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=3.2,fig.width=7,results="asis">>=  
+%       @      
+%      \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 1)[1,1]}}}}
+%     \end{minipage}
+%     \begin{minipage}[c]{0.25\textwidth}  
+%       %\vspace{-4ex}
+%       \begin{minipage}[u]{0.95\textwidth}
+%       %\hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 2)[1,1]}}}
+%       \vspace{1ex}
+%       <<sector_sparkline1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=7,fig.width=18,results="asis">>=  
+%       @      
+%      \vspace{-1ex}
+%      \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 2)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 2)[1,1]}}}}
+%     \end{minipage}
+%     
+%     \begin{minipage}[b]{0.95\textwidth}
+%       \vspace{1ex}
+%       <<sector_sparkline2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=7,fig.width=18,results="asis">>=  
+%       @      
+%      \vspace{-1ex}
+%      \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 3)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 3)[1,1]}}}}
+%     \end{minipage}
+%     %\vspace{2ex}
+%   \end{minipage}
+%   \begin{minipage}[c]{0.25\textwidth} 
+%     %\vspace{-4ex}
+%     \begin{minipage}[u]{0.95\textwidth}
+%       \vspace{1ex}
+%       <<sector_sparkline3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=7,fig.width=18,results="asis">>=  
+%       @      
+%      \vspace{-1ex}
+%      \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 3)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 3)[1,1]}}}}
+%     \end{minipage}
+%     
+%     \begin{minipage}[b]{0.95\textwidth}
+%       \vspace{1ex}
+%       <<sector_sparkline4,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=7,fig.width=18,results="asis">>=  
+%       @      
+%      \vspace{-1ex}
+%      \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 4)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 4)[1,1]}}}}
+%     \end{minipage}
+%     %\vspace{2ex}
+%   \end{minipage}
+%  \end{minipage}
+ 
+%% SECTORAL COMPOSITION WITH PIE --------------------------------------------
   \begin{minipage}[c]{0.95\textwidth}
     %\vspace{4ex}
     \begin{flushleft}  
@@ -234,52 +290,26 @@
       cat(paste0("\\textcolor[HTML]{",main_color,"}{\\hrulefill}"))
       @
     \end{flushleft}
-    \begin{minipage}[c]{0.48\textwidth}
+    \begin{minipage}[c]{0.40\textwidth}
       \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 1)[1,1]}}}
       <<sectoral_stackedbar,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=3.2,fig.width=7,results="asis">>=  
       @      
      \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 1)[1,1]}}}}
     \end{minipage}
-    \begin{minipage}[c]{0.25\textwidth}  
-      %\vspace{-4ex}
-      \begin{minipage}[u]{0.95\textwidth}
-      %\hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 2)[1,1]}}}
-      \vspace{1ex}
-      <<sector_sparkline1,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=7,fig.width=18,results="asis">>=  
+    \begin{minipage}[c]{0.25\textwidth}
+      \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 1)[1,1]}}}
+      <<sectoral_piechart,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=5,fig.width=7,results="asis">>=  
       @      
-     \vspace{-1ex}
-     \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 2)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 2)[1,1]}}}}
+     \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 1)[1,1]}}}}
     \end{minipage}
-    
-    \begin{minipage}[b]{0.95\textwidth}
-      \vspace{1ex}
-      <<sector_sparkline2,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=7,fig.width=18,results="asis">>=  
+    \begin{minipage}[c]{0.33\textwidth}
+      \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 4,Order == 1)[1,1]}}}
+      <<sectoral_valueAdded,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=4.5,fig.width=8.5,results="asis">>=  
       @      
-     \vspace{-1ex}
-     \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 3)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 3)[1,1]}}}}
+     \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 1)[1,1]}}}}
     \end{minipage}
     %\vspace{2ex}
-  \end{minipage}
-  \begin{minipage}[c]{0.25\textwidth} 
-    %\vspace{-4ex}
-    \begin{minipage}[u]{0.95\textwidth}
-      \vspace{1ex}
-      <<sector_sparkline3,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=7,fig.width=18,results="asis">>=  
-      @      
-     \vspace{-1ex}
-     \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 3)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 3)[1,1]}}}}
-    \end{minipage}
-    
-    \begin{minipage}[b]{0.95\textwidth}
-      \vspace{1ex}
-      <<sector_sparkline4,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=7,fig.width=18,results="asis">>=  
-      @      
-     \vspace{-1ex}
-     \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 4,Order == 4)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 4,Order == 4)[1,1]}}}}
-    \end{minipage}
-    %\vspace{2ex}
-  \end{minipage}
- \end{minipage}
+ \end{minipage} 
  
 % 
 %% Finance -----------------------------

@@ -3421,6 +3421,51 @@ pie_chart_region <- function(Report_data,reportConfig,couName,section,table,neig
   
 }
 
+## ---- pie_chart ----
+pie_chart <- function(Report_data,reportConfig,couName,section,table) {
+  
+  cou <- .getCountryCode(couName)
+  
+  data <- Report_data %>%
+    filter(CountryCode==cou & Section == section & Subsection %in% table)
+  data <- filter(data, !(is.na(Observation)))
+  data <- mutate(data, Period = ifelse(is.na(Period),as.character(as.numeric(thisYear) - 1),Period))
+  
+  # filter the data
+  if (nrow(filter(data, CountryCode==cou))>0){
+    data <- filter(data, Period==max(Period)) %>%
+      mutate(IndicatorShort = gsub("Employment in ","",IndicatorShort),
+             Observation <- round(as.numeric(Observation),2)) %>%
+      select(IndicatorShort, Observation)
+    
+    # format numbers
+    data$Observation <- format(data$Observation, digits=0, decimal.mark=".",
+                               big.mark=",",small.mark=".", small.interval=3)
+    data$Observation <- as.numeric(data$Observation)
+    data<- data %>%
+      mutate(ObsLabel = paste0(Observation,"%")) %>%
+      arrange(desc(IndicatorShort))
+  
+    ggplot(data,  aes("",Observation,fill=IndicatorShort)) +
+      geom_bar(width=1,stat="identity") +
+      coord_polar("y",start = 0) +
+      geom_text(aes(y = Observation/3 + c(0, cumsum(Observation)[-length(Observation)]), 
+                    label = ObsLabel), size=8, color="white") +
+      theme_minimal() +
+      theme(legend.key=element_blank(),
+            legend.title=element_blank(),
+            legend.position="top",
+            legend.text = element_text(family="Times", size = 10, colour = text_color)) +
+      labs(x="",y=""
+      )
+  
+  } else {
+    plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
+    graphics::text(1.5, 1,"Data not available", col="lightgrey", cex=1.5)
+  }
+  
+}
+
 ## ---- pie_chart_regular ----
 pie_chart_regular <- function(Report_data,reportConfig,couName,section,table){      
   

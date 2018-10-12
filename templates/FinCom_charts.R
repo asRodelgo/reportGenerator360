@@ -72,6 +72,12 @@ figure_sparkline(Report_data,reportConfig,couName,"inv_spark4",rankBig=FALSE,inc
 ## ---- sectoral_stackedbar ----
 barchart_stacked_FinCom(Report_data,reportConfig,couName, section = reportConfig$Section[4], table = "sectoral", country_peers = c("TZA","KEN","UGA","RWA"))
 
+## ---- sectoral_piechart ----
+pie_chart(Report_data,reportConfig,couName, section = reportConfig$Section[4], table = "pie1")
+
+## ---- sectoral_valueAdded ----
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[4],"sec_valueAdd",str_wrap_size=45,rankBig=FALSE,includeUnit=FALSE, round_off=0, compareRegion = "SSA",includePeriod = TRUE)
+
 ## ---- sector_sparkline1 ----
 figure_sparkline(Report_data,reportConfig,couName,"sec_spark1",rankBig=FALSE,includeRank = FALSE)
 
