@@ -20,20 +20,20 @@ Section_ID,Order,Color,Section,Section_Description,Section_Level
 4,5,,,,2
 5,5,,FINANCE,,1
 5,1,,ACCESS,SOURCE: Findex,2
-5,2,,STABILITY,"SOURCE: WDI, Finstat",2
-5,3,,LONG TERM,"SOURCE: Finstat, World Federation of Exchanges",2
+5,2,,,SOURCE: Findex,2
+5,3,,STABILITY,"SOURCE: WDI, Finstat",2
 6,6,,COMPETITIVENESS,,1
 6,1,,DOING BUSINESS,SOURCE: Doing Business 2018,2
 6,2,,TOP 5 CONSTRAINTS (\% of firms) ,SOURCE: Enterprise Survey,2
 6,3,,"GLOBAL COMPETITIVENESS INDEX, Index 1-7 (best)",SOURCE: WEF Global Competitiveness Report 2017,2
 6,4,,ENTERPRISE SURVEY,SOURCE: Enterprise Survey,2
 7,7,,LOGISTICS,,1
-7,1,,"LOGISTICS PERFORMANCE INDEX, Rank",SOURCE: WB LPI,2
+7,1,,"LOGISTICS PERFORMANCE INDEX, Rank (2018)",SOURCE: WB LPI,2
 8,8,,ENTREPRENEURSHIP,,1
 8,1,,ENTREPRENEURSHIP \& INNOVATION,SOURCE: World Economic Forum,2
 9,9,e4790a,FinCom,"Finance, Competitiveness \& Innovation 360",9
 9,10,00a1ff,FinCom,"Finance, Competitiveness \& Innovation 360",10
-9,9,,ENABLING THE BUSINESS OF AGRICULTURE,,1
+9,9,,ENABLING THE BUSINESS OF AGRICULTURE,Examines and monitors regulations that impact how markets function in the agriculture and agribusiness sectors,1
 9,1,,AGRICULTURAL TRADE INDEX,SOURCE: EBA,2
 9,2,,COST TO EXPORT AGRICULTURAL GOODS,SOURCE: EBA,2
-9,3,,EBA RANKS,SOURCE: EBA,2
+9,3,,EBA RANKS (62 ranked countries),SOURCE: EBA,2

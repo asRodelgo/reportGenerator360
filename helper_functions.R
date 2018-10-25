@@ -146,7 +146,7 @@ figure_sparkline <- function(Report_data,reportConfig,couName,table,rankBig=FALS
   data <- Report_data %>%
     filter(CountryCode==cou, Subsection2==table, !is.na(Observation)) %>%
     mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear)-1),Period),
-           Observation = Observation/ifelse(is.na(Scale),1,Scale))
+           Observation = round(Observation/ifelse(is.na(Scale),1,Scale),3))
   
   if (table == "figureFin2"){
     data <- filter(data,Observation > 0)
@@ -1993,7 +1993,9 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
       
       names(dataRegion) <- c("Key","Country","Observation")
       
-      data <- filter(data, Period == max(Period,na.rm=TRUE))%>%
+      data <- group_by(data, Key, Country) %>%
+        filter(Period == max(Period,na.rm=TRUE))%>%
+        ungroup() %>%
         distinct(Key, Period, .keep_all = TRUE) %>%
         as.data.frame()
   

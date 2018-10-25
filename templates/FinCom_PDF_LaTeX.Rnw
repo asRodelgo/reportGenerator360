@@ -385,13 +385,18 @@
        \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 6,Order == 3)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 6,Order == 3)[1,1]}}}}
     \end{minipage}
       \begin{minipage}[c]{0.42\textwidth}
-      \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 6,Order == 4)[1,1]}}}
-
+      \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 7,Order == 1)[1,1]}}}
       \vspace{1ex}
-      <<bar_es_chart,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=4.5,fig.width=8,results="asis">>=
+      <<lpi_table_countries,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='center',fig.height=4.7,fig.width=8.5,results="asis">>=
         @
-      \vspace{-1ex}
-      \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 6,Order == 4)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 6,Order == 4)[1,1]}}}}
+       \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 7,Order == 1)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 7,Order == 1)[1,1]}}}}
+      % \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 6,Order == 4)[1,1]}}}
+      % 
+      % \vspace{1ex}
+      % <<bar_es_chart,echo=FALSE,message=FALSE,cache=FALSE,warning=FALSE,fig.align='right',fig.height=4.5,fig.width=8,results="asis">>=
+      %   @
+      % \vspace{-1ex}
+      % \hspace{4ex}\scriptsize{\href{\Sexpr{filter(subsection_sourceLink, Section_ID == 6,Order == 4)[1,1]}}{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{filter(subsection_source, Section_ID == 6,Order == 4)[1,1]}}}}
     \end{minipage}
     \vspace{2ex}
   \end{minipage}
@@ -431,10 +436,14 @@
   \begin{minipage}[b]{0.95\textwidth}
     \vspace{2ex}
     \begin{flushleft}
-      \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[9]}}}\hspace{2ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[9]}}}
+      \hspace{4ex}\Large{\textcolor[HTML]{\Sexpr{main_color}}{\Sexpr{section_name[9]}}}
     <<echo=FALSE,results="asis">>=
       cat(paste0("\\textcolor[HTML]{",main_color,"}{\\hrulefill}"))
       @
+    \end{flushleft}
+    \begin{flushleft}
+      \vspace{-2ex}
+      \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{section_desc[9]}}}
     \end{flushleft}
     \begin{minipage}[c]{0.35\textwidth}
       \hspace{4ex}\small{\textcolor[HTML]{818181}{\Sexpr{filter(subsection_name, Section_ID == 9,Order == 1)[1,1]}}}
@@ -463,7 +472,7 @@
 %%% footer ----------------------------------
 %\vspace{8ex}
 \begin{minipage}[c]{0.23\textwidth}
-  \hspace*{+0.3cm} \includegraphics[width=3cm,left]{\Sexpr{paste0(parent_directory,"/www/WBlogo_Transparent.png")}}
+  \hspace*{+0.3cm} \includegraphics[width=3cm,left]{\Sexpr{paste0(parent_directory,"/www/WBlogo_Transparent_EFI.png")}}
 \end{minipage}
 \begin{minipage}[c]{0.35\textwidth}
   \vspace*{-0.1cm}

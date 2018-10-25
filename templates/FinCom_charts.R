@@ -104,11 +104,11 @@ figure_sparkline(Report_data,reportConfig,couName,"sec_spark4",rankBig=FALSE,inc
 
 ########## Finance ##########
 ## ---- fin_table_access ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[5],"access",str_wrap_size=45,rankBig=FALSE,includeUnit=TRUE, round_off=0, compareRegion = "SSA",includePeriod = TRUE)
+number_chart(Report_data,reportConfig,couName,section = reportConfig$Section[5],table = "access",str_wrap_size=45,rankBig=FALSE,includeUnit=TRUE, round_off=0, compareRegion = "SSA",includePeriod = TRUE)
 ## ---- fin_table_stability ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[5],"stability",str_wrap_size=45,rankBig=FALSE,includeUnit=TRUE, round_off=0, compareRegion = "SSA",includePeriod = TRUE)
+number_chart(Report_data,reportConfig,couName,section = reportConfig$Section[5],table = "access2",str_wrap_size=45,rankBig=FALSE,includeUnit=TRUE, round_off=0, compareRegion = "SSA",includePeriod = TRUE)
 ## ---- fin_table_longTerm ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[5],"longTerm",str_wrap_size=45,rankBig=FALSE,includeUnit=TRUE, round_off=0, compareRegion = "SSA",includePeriod = TRUE)
+number_chart(Report_data,reportConfig,couName,section = reportConfig$Section[5],table = "stability",str_wrap_size=45,rankBig=FALSE,includeUnit=TRUE, round_off=0, compareRegion = "SSA",includePeriod = TRUE)
 
 ########## Competitiveness ##########
 
