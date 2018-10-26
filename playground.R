@@ -102,6 +102,36 @@ dataImportShare <- get_data360(indicator_id=2759, country_iso3="USA") %>%
 
 dataImportShare <- get_data360(indicator_id=786, country_iso3="BRA")
 
+################################################
+# Suggested Peers methodology
+data <- Report_data %>%
+  filter(Subsection2 == "peers", !is.na(Observation)) %>%
+  mutate(Period = ifelse(is.na(Period),as.character(as.numeric(thisYear)-1),Period),
+         Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
+  group_by(Key) %>%
+  filter(Period == max(Period)) %>%
+  mutate(rank = percent_rank(Observation))
+
+myCountry <- "Ethiopia"
+perRank_myCountry <- filter(data, Country == myCountry) %>%
+  ungroup() %>%
+  mutate(Key = if_else(grepl("Population", IndicatorShort),"MPOP","MGDP")) %>%
+  select(Key,Country,rank) %>%
+  spread(Key,rank)
+  
+suggestedPeers <- filter(data, !(Country == myCountry)) %>%
+  ungroup() %>%
+  mutate(Key = if_else(grepl("Population", IndicatorShort),"POP","GDP")) %>%
+  select(Key,Country,rank) %>%
+  spread(Key, rank) %>%
+  mutate(score = (abs(GDP - perRank_myCountry$MGDP)+abs(POP - perRank_myCountry$MPOP))/2) %>%
+  arrange(score) %>%
+  top_n(5,desc(score))
+  
+
+  
+
+
 
 
 
