@@ -1255,7 +1255,7 @@ barchart_benchmark <- function(Report_data,reportConfig,couName, section, table,
   cou <- .getCountryCode(couName)
   data <- filter(Report_data, Section == section, Subsection == table, !(is.na(Observation))) 
 
-  thisRegion <- filter(data, CountryCode == cou)$adminRegion
+  thisRegion <- filter(countries, name == couName)$adminRegion
   region_median <- filter(data, adminRegion == thisRegion) %>%
     mutate(Observation = round(Observation/ifelse(is.na(Scale),1,Scale),1)) %>%
     summarise(median(Observation, na.rm = TRUE)) %>%
@@ -2016,9 +2016,9 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
       plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
       graphics::text(1, 1.1," ", cex=3, adj=0)
       plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-      graphics::text(1.17, 1,couName, col=paste0("#",filter(reportConfig, Section_Level == 9)$Color), cex=4)
+      graphics::text(1.3, 1,couName, col=paste0("#",filter(reportConfig, Section_Level == 9)$Color), cex=4)
       #plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-      graphics::text(1.6, 1,compareRegion, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=4)
+      graphics::text(1.8, 1,compareRegion, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=4)
       
       #i <- 1
       for (ind in unique(data2$Key)){
@@ -2040,9 +2040,9 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
         graphics::text(1, 0.75,str_wrap(paste0(thisKey$Unit[1], ifelse(parenth," (",""),thisKey$Period[1],ifelse(parenth,")","")), width = str_wrap_size+8), col=text_color, cex=2, adj = 0)
         # print data point for country and region average
         plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-        graphics::text(1.17, 1,select_(thisKey,couName), col=paste0("#",filter(reportConfig, Section_Level == 9)$Color), cex=4)
+        graphics::text(1.3, 1,select(thisKey,couName), col=paste0("#",filter(reportConfig, Section_Level == 9)$Color), cex=4)
         #plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-        graphics::text(1.6, 1,select_(thisKey,compareRegion), col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=4)
+        graphics::text(1.8, 1,select(thisKey,compareRegion), col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=4)
         #i <- i + 1
       }
       

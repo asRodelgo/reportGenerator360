@@ -17,7 +17,10 @@ countries$incomeLevel_long <- mapvalues(countries$incomeLevel,
                                         from=c("LIC", "HIC", "UMC", "LMC", "INX"),
                                         to=c("Low Income", "High Income", "Upper Middle Income",
                                              "Lower Middle Income", "Upper Middle Income"))
-countries <- mutate(countries, sids_long = ifelse(sids,"Yes","No"), landlocked_long= ifelse(landlocked,"Yes","No"))
+countries <- mutate(countries, sids_long = ifelse(sids,"Yes","No"), landlocked_long= ifelse(landlocked,"Yes","No")) %>%
+  mutate(adminRegion = if_else(is.na(adminRegion),region,adminRegion)) %>%
+  mutate(adminRegion = mapvalues(adminRegion, from = c("SSF","LCN","ECS","MEA","EAS"), 
+                                 to = c("SSA","LAC","ECA","MNE","EAP")))
 
 text_color <- "#818181"
 
@@ -88,7 +91,7 @@ barchart_stacked_FinCom(Report_data,reportConfig,couName, section = reportConfig
 pie_chart(Report_data,reportConfig,couName, section = reportConfig$Section[4], table = "pie1")
 
 ## ---- sectoral_valueAdded ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[4],"sec_valueAdd",str_wrap_size=45,rankBig=FALSE,includeUnit=FALSE, round_off=0, compareRegion = "SSA",includePeriod = TRUE)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[4],"sec_valueAdd",str_wrap_size=45,rankBig=FALSE,includeUnit=FALSE, round_off=0, compareRegion = filter(countries, name == couName)$adminRegion,includePeriod = TRUE)
 
 ## ---- sector_sparkline1 ----
 figure_sparkline(Report_data,reportConfig,couName,"sec_spark1",rankBig=FALSE,includeRank = FALSE)
@@ -104,11 +107,11 @@ figure_sparkline(Report_data,reportConfig,couName,"sec_spark4",rankBig=FALSE,inc
 
 ########## Finance ##########
 ## ---- fin_table_access ----
-number_chart(Report_data,reportConfig,couName,section = reportConfig$Section[5],table = "access",str_wrap_size=45,rankBig=FALSE,includeUnit=TRUE, round_off=0, compareRegion = "SSA",includePeriod = TRUE)
+number_chart(Report_data,reportConfig,couName,section = reportConfig$Section[5],table = "access",str_wrap_size=45,rankBig=FALSE,includeUnit=TRUE, round_off=0, compareRegion = filter(countries, name == couName)$adminRegion,includePeriod = TRUE)
 ## ---- fin_table_stability ----
-number_chart(Report_data,reportConfig,couName,section = reportConfig$Section[5],table = "access2",str_wrap_size=45,rankBig=FALSE,includeUnit=TRUE, round_off=0, compareRegion = "SSA",includePeriod = TRUE)
+number_chart(Report_data,reportConfig,couName,section = reportConfig$Section[5],table = "access2",str_wrap_size=45,rankBig=FALSE,includeUnit=TRUE, round_off=0, compareRegion = filter(countries, name == couName)$adminRegion,includePeriod = TRUE)
 ## ---- fin_table_longTerm ----
-number_chart(Report_data,reportConfig,couName,section = reportConfig$Section[5],table = "stability",str_wrap_size=45,rankBig=FALSE,includeUnit=TRUE, round_off=0, compareRegion = "SSA",includePeriod = TRUE)
+number_chart(Report_data,reportConfig,couName,section = reportConfig$Section[5],table = "stability",str_wrap_size=45,rankBig=FALSE,includeUnit=TRUE, round_off=0, compareRegion = filter(countries, name == couName)$adminRegion,includePeriod = TRUE)
 
 ########## Competitiveness ##########
 
@@ -128,10 +131,10 @@ bar_chart(Report_data,reportConfig,couName, reportConfig$Section[6],"es",paste_u
 ########## Logistics ##########
 ## ---- lpi_table_countries ----
 #table_countries(Report_data,reportConfig,couName, reportConfig$Section[7],"lpi")
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[7],"lpi",str_wrap_size=25,rankBig=FALSE,includeUnit=FALSE, round_off=0, compareRegion = "SSA",includePeriod = FALSE)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[7],"lpi",str_wrap_size=25,rankBig=FALSE,includeUnit=FALSE, round_off=0, compareRegion = filter(countries, name == couName)$adminRegion,includePeriod = FALSE)
 
 ## ---- entrepr_table_countries ----
-number_chart(Report_data,reportConfig,couName,reportConfig$Section[8],"entrep_table",str_wrap_size=35,rankBig=FALSE,includeUnit=TRUE, round_off=0, compareRegion = "SSA",includePeriod = FALSE)
+number_chart(Report_data,reportConfig,couName,reportConfig$Section[8],"entrep_table",str_wrap_size=35,rankBig=FALSE,includeUnit=TRUE, round_off=0, compareRegion = filter(countries, name == couName)$adminRegion,includePeriod = FALSE)
 
 ########## Entrepreneurship and Innovation ##########
 ## ---- table_time_avg_EntrepInnov ----
@@ -148,7 +151,7 @@ barchart_benchmark(Report_data,reportConfig,couName, section = reportConfig$Sect
 barchart_benchmark(Report_data,reportConfig,couName, section = reportConfig$Section[9], table = "table2", country_peers = countryPeers, benchmark = TRUE)
 
 ## ---- table_eba_indicators ----
-number_chart(Report_data,reportConfig,couName,section = reportConfig$Section[9], table = "table3",str_wrap_size=35,rankBig=FALSE,includeUnit=FALSE, round_off=0, compareRegion = "SSA",includePeriod = FALSE)
+number_chart(Report_data,reportConfig,couName,section = reportConfig$Section[9], table = "table3",str_wrap_size=35,rankBig=FALSE,includeUnit=FALSE, round_off=0, compareRegion = filter(countries, name == couName)$adminRegion,includePeriod = FALSE)
 
 
 

@@ -128,6 +128,62 @@ suggestedPeers <- filter(data, !(Country == myCountry)) %>%
   arrange(score) %>%
   top_n(5,desc(score))
   
+#####################################################
+# Pull indicators for MTI poverty dataset EFI exercise: 10/29/2018
+library(tidyverse)
+library(data360r)
+# Indicators MTI
+data <- read.csv("C:/Users/wb493327/OneDrive - WBG/CEM_20/EFI_Poverty_Indicators_MTI.csv", stringsAsFactors = FALSE)
+indicator_ids <- data$IndicatorID
+# All Countries
+countries <- tryCatch(fromJSON("https://tcdata360-backend.worldbank.org/api/v1/countries/",
+                               flatten = TRUE), 
+                      error = function(e) {print("Warning: API call to countries returns an error");
+                        countries = read.csv("data/countries.csv", stringsAsFactors = FALSE)}, 
+                      finally = {countries = read.csv("data/countries.csv", stringsAsFactors = FALSE)})
+# Countries EFI
+countries_efi <- read.csv("C:/Users/wb493327/OneDrive - WBG/CEM_20/EFI_Poverty_Indicators_countryList.csv", stringsAsFactors = FALSE)
+countryCodes <- sapply(countries_efi$Country, .getCountryCode)
+#
+specialchars <- paste(c("[-]","[.]"),collapse = "|")
+#
+Report_data <- data.frame()
+for (cou in countryCodes){
+  for (ind in indicator_ids[which(indicator_ids != 360)]){
+    print(paste0("Processing...",cou," ",ind))
+    thisQuery <- tryCatch(get_data360(indicator_id=ind, country_iso3=cou),
+                          error = function(e) {print(paste0("Warning: API data call returns an error for country ",cou," and indicator ",ind));
+                            thisQuery = data.frame()}, 
+                          finally = {thisQuery = data.frame()})
+    
+    if (nrow(thisQuery)>0){
+      names(thisQuery) <- ifelse(grepl(specialchars,names(thisQuery)),substr(names(thisQuery),1,4),names(thisQuery))
+      # consolidate quarterly data by the 4th quarter
+      names(thisQuery) <- gsub("Q4","",names(thisQuery))
+      thisQuery <- mutate(thisQuery, id = ind) %>%
+        select(id,iso3 = `Country ISO3`, everything(),-dplyr::contains("Q"))
+      
+      if (nrow(Report_data)==0) {
+        Report_data <- thisQuery
+        
+      } else {
+        cols <- grep("\\d{4}", names(thisQuery))
+        # # catch Yes/No values and remap to 1/0 to avoid bind_rows errors for conversion from numeric to factor
+        if(sum(thisQuery[cols] == 'No' | thisQuery[cols] == 'Yes',na.rm=TRUE) > 0){
+          thisQuery[cols] <- sapply(thisQuery[cols], as.character)
+          thisQuery[cols][(thisQuery[cols] == 'No')] <- 0.0
+          thisQuery[cols][(thisQuery[cols] == 'Yes')] <- 1.0
+          thisQuery[cols] <- sapply(thisQuery[cols], as.numeric)
+        }
+        Report_data <- bind_rows(Report_data,thisQuery)
+      }
+    }
+  }
+}
+
+Report_data <- gather(Report_data, Period, Value, -c(id,iso3,`Country Name`,Indicator,`Subindicator Type`,Product))
+
+
 
   
 
