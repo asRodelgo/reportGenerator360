@@ -130,14 +130,19 @@ suggestedPeers <- filter(data, !(Country == myCountry)) %>%
   
 #####################################################
 # Pull indicators for MTI poverty dataset EFI exercise: 10/29/2018
+# Values_indicators_GPname.xlsx: file containing the data for the countries with the following columns: Indicator Code, Country ISO3, Year, Dataset Source, Value.
+# Metadata_indicators_GPname.xlsx: file containing the following columns: Indicator Code, Indicator Name, Indicator description, Dataset Source, Units, Year coverage, number of countries.
+
 library(tidyverse)
 
 ## TCdata360 indicators -------------------------------------------
 
 library(data360r)
 # Indicators MTI
-data <- read.csv("C:/Users/wb493327/OneDrive - WBG/CEM_20/EFI_Poverty_Indicators_MTI.csv", stringsAsFactors = FALSE)
-indicator_ids <- data$IndicatorID
+data <- read.csv("C:/Users/wb493327/OneDrive - WBG/CEM_20/EFI_Poverty_Indicators_MTI_v2.csv", stringsAsFactors = FALSE)
+indicator_ids <- as.numeric(filter(data, grepl("[0-9]",IndicatorID))$IndicatorID)
+indicator_weo <- filter(data, !grepl("[0-9]",IndicatorID))$IndicatorID
+indicator_sources <- select(data, IndicatorID, Source)
 # All Countries
 countries <- tryCatch(fromJSON("https://tcdata360-backend.worldbank.org/api/v1/countries/",
                                flatten = TRUE), 
@@ -184,27 +189,49 @@ for (cou in countryCodes){
   }
 }
 
-Report_data <- gather(Report_data, Period, Value, -c(id,iso3,`Country Name`,`Subindicator Type`,Product))
-tc360_data <- select(Report_data, `Indicator Code` = id, `Indicator Name` = Indicator, Unit = `Subindicator Type`,
-                     `Country ISO3` = iso3, Year = Period, Product, Value)
+Report_data <- gather(Report_data, Period, Value, -c(id,iso3,`Country Name`,Indicator,`Subindicator Type`,contains("Product")))
+tc360_data <- select(Report_data, `Indicator Code` = id, `Country Name`, `Indicator Name` = Indicator, 
+                     Unit = `Subindicator Type`,`Country ISO3` = iso3, Year = Period, contains("Product"), Value) %>%
+  mutate(`Indicator Code` = as.character(`Indicator Code`))
 
 ## WEO indicators from source --------------------------------------------
 
-weo_data <- read.csv("C:/Users/wb493327/OneDrive - WBG/CEM_20/WEO_data.csv", stringsAsFactors = FALSE)
+weo_data <- read.csv("C:/Users/wb493327/OneDrive - WBG/CEM_20/WEO_data_v2.csv", stringsAsFactors = FALSE)
 
-weo_data <- select(weo_data, `Country ISO3` = ISO, `Country Name` = Country, `Indicator Name` = Subject.Descriptor,
+weo_data <- select(weo_data, `Indicator Code` = WEO.Subject.Code,`Country ISO3` = ISO, `Country Name` = Country, `Indicator Name` = Subject.Descriptor,
                    Unit = Units, starts_with("X"), contains("Estimate")) %>%
   rename_at(vars(starts_with("X")),funs(gsub("X","",.))) %>%
-  gather(Year, Value, -c(`Country ISO3`,`Country Name`, `Indicator Name`, Unit)) %>%
+  gather(Year, Value, -c(`Indicator Code`,`Country ISO3`,`Country Name`, `Indicator Name`, Unit, contains("Estimate"))) %>%
   mutate(Value = as.numeric(Value)) %>%
-  filter(`Country ISO3` %in% countryCodes)
+  filter(`Country ISO3` %in% countryCodes, `Indicator Code` %in% indicator_weo)
 
+## Put it all together -------------------------------------------------
+MTI_data <- bind_rows(tc360_data,weo_data)
 
+# Add Region
+MTI_data <- left_join(MTI_data, select(countries, iso3, region), by = c("Country ISO3"="iso3"))
   
+# Add sources
+MTI_data <- left_join(mutate(MTI_data, `Indicator Code` = as.character(`Indicator Code`)), indicator_sources, by = c("Indicator Code"="IndicatorID")) %>%
+  mutate(Source = if_else(is.na(Source),"WEO",Source))
 
+# Calculate year coverage and number of countries
+MTI_data <- filter(MTI_data, !is.na(Value)) %>%
+  group_by(`Indicator Code`) %>%
+  mutate(`Year coverage` = paste0(min(Year),"-",max(Year)), 
+         `number of countries` = n_distinct(`Country ISO3`))
 
+# Final Output
+library(readxl)
 
+data_file <- select(MTI_data, `Indicator Code`, `Country ISO3`, region, Year, Value) %>%
+  as.data.frame()
+metadata_file <- select(MTI_data, -c(`Country ISO3`, `Country Name`, region, Year, Value)) %>% 
+  distinct(`Indicator Code`, .keep_all = TRUE) %>%
+  as.data.frame()
 
+write.csv(data_file, "C:/Users/wb493327/OneDrive - WBG/CEM_20/Values_indicators_MTI.csv", row.names = FALSE)
+write.csv(metadata_file, "C:/Users/wb493327/OneDrive - WBG/CEM_20/Metadata_indicators_MTI.csv", row.names = FALSE)
 
 
 
