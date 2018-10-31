@@ -16,9 +16,11 @@ exclude <- c("Channel Islands","Virgin Islands (U.S.)","Northern Mariana Islands
              "St. Martin (French part)","Sint Maarten (Dutch part)")
 processed <- c()
 for (couName in filter(countries, !(name %in% exclude))$name) {
+#for (couName in c("Ethiopia", "Eritrea", "Sudan", "Burundi", "Malawi", "Kenya", "Uganda", "Rwanda", "Tanzania", "Somalia", "South Sudan")) {
+#for (couName in c("Eritrea", "Sudan", "Malawi", "Somalia", "South Sudan")) {
 #for (couName in c("Ethiopia","Kenya","Rwanda","Uganda","Tanzania")) {
 #for (couName in c("Morocco","South Africa","China","India","Spain","Bolivia")) {
-#for (couName in c("Burundi")) {
+#for (couName in c("South Sudan")) {
   ### Figure out the country peers ----------
   countryPeers <- c("TZA","KEN","UGA","RWA","ETH")
   countryCode <- .getCountryCode(couName)

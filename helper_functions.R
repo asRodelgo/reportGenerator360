@@ -3823,23 +3823,36 @@ get_suggestedPeers <- function(couName) {
     filter(Period == max(Period)) %>%
     mutate(rank = percent_rank(Observation))
   
-  perRank_myCountry <- filter(data, Country == couName) %>%
-    ungroup() %>%
-    mutate(Key = if_else(grepl("Population", IndicatorShort),"MPOP","MGDP")) %>%
-    select(Key,Country,rank) %>%
-    spread(Key,rank)
+  perRank_myCountry <- filter(data, Country == couName)
   
-  suggestedPeers <- filter(data, !(Country == couName)) %>%
-    ungroup() %>%
-    mutate(Key = if_else(grepl("Population", IndicatorShort),"POP","GDP")) %>%
-    select(Key,Country,rank) %>%
-    spread(Key, rank) %>%
-    mutate(score = (abs(GDP - perRank_myCountry$MGDP)+abs(POP - perRank_myCountry$MPOP))/2) %>%
-    arrange(score) %>%
-    top_n(4,desc(score)) %>%
-    select(Country)
+  if (nrow(perRank_myCountry)>1){
+    
+    perRank_myCountry <- ungroup(perRank_myCountry) %>%
+      mutate(Key = if_else(grepl("Population", IndicatorShort),"MPOP","MGDP")) %>%
+      select(Key,Country,rank) %>%
+      spread(Key,rank)
   
-  peerCodes <- sapply(suggestedPeers$Country, .getCountryCode) 
+    suggestedPeers <- filter(data, !(Country == couName)) %>%
+      ungroup() %>%
+      mutate(Key = if_else(grepl("Population", IndicatorShort),"POP","GDP")) %>%
+      select(Key,Country,rank) %>%
+      spread(Key, rank) %>%
+      mutate(score = (abs(GDP - perRank_myCountry$MGDP)+abs(POP - perRank_myCountry$MPOP))/2) %>%
+      arrange(score) %>%
+      top_n(4,desc(score)) %>%
+      select(Country)
+    
+    peerCodes <- sapply(suggestedPeers$Country, .getCountryCode) 
+    
+  } else {
+    couAdminRegion <- filter(countries, name == couName)$adminRegion
+    suggestedPeers <- filter(countries, adminRegion == couAdminRegion, !(name == couName)) %>%
+      top_n(4,iso3) %>%
+      select(name)
+    
+    peerCodes <- sapply(suggestedPeers$name, .getCountryCode) 
+
+  }
   
   return(peerCodes)
   

@@ -1,10 +1,11 @@
 # load global packages ----------------------------------------------
-library(plyr) # manipulate data 
-library(dplyr) # manipulate data 
-library(ggplot2) # charts
+library(tidyverse)
+#library(plyr) # manipulate data 
+#library(dplyr) # manipulate data 
+#library(ggplot2) # charts
 library(gridExtra) # ggplot charts side by side
 library(data.table) # fast operations
-library(tidyr) # transform data
+#library(tidyr) # transform data
 library(xtable) # LaTeX tables
 library(stringr) # work with character strings
 library(fmsb) # radar charts

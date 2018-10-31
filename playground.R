@@ -131,6 +131,9 @@ suggestedPeers <- filter(data, !(Country == myCountry)) %>%
 #####################################################
 # Pull indicators for MTI poverty dataset EFI exercise: 10/29/2018
 library(tidyverse)
+
+## TCdata360 indicators -------------------------------------------
+
 library(data360r)
 # Indicators MTI
 data <- read.csv("C:/Users/wb493327/OneDrive - WBG/CEM_20/EFI_Poverty_Indicators_MTI.csv", stringsAsFactors = FALSE)
@@ -181,8 +184,20 @@ for (cou in countryCodes){
   }
 }
 
-Report_data <- gather(Report_data, Period, Value, -c(id,iso3,`Country Name`,Indicator,`Subindicator Type`,Product))
+Report_data <- gather(Report_data, Period, Value, -c(id,iso3,`Country Name`,`Subindicator Type`,Product))
+tc360_data <- select(Report_data, `Indicator Code` = id, `Indicator Name` = Indicator, Unit = `Subindicator Type`,
+                     `Country ISO3` = iso3, Year = Period, Product, Value)
 
+## WEO indicators from source --------------------------------------------
+
+weo_data <- read.csv("C:/Users/wb493327/OneDrive - WBG/CEM_20/WEO_data.csv", stringsAsFactors = FALSE)
+
+weo_data <- select(weo_data, `Country ISO3` = ISO, `Country Name` = Country, `Indicator Name` = Subject.Descriptor,
+                   Unit = Units, starts_with("X"), contains("Estimate")) %>%
+  rename_at(vars(starts_with("X")),funs(gsub("X","",.))) %>%
+  gather(Year, Value, -c(`Country ISO3`,`Country Name`, `Indicator Name`, Unit)) %>%
+  mutate(Value = as.numeric(Value)) %>%
+  filter(`Country ISO3` %in% countryCodes)
 
 
   
