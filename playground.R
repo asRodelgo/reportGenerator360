@@ -228,12 +228,11 @@ data_file <- select(MTI_data, `Indicator Code`, `Country ISO3`, region, Year, Va
   as.data.frame()
 metadata_file <- select(MTI_data, -c(`Country ISO3`, `Country Name`, region, Year, Value)) %>% 
   distinct(`Indicator Code`, .keep_all = TRUE) %>%
+  left_join(select(data, IndicatorID, `Indicator description` = Indicator), by=c("Indicator Code"="IndicatorID")) %>%
   as.data.frame()
 
 write.csv(data_file, "C:/Users/wb493327/OneDrive - WBG/CEM_20/Values_indicators_MTI.csv", row.names = FALSE)
 write.csv(metadata_file, "C:/Users/wb493327/OneDrive - WBG/CEM_20/Metadata_indicators_MTI.csv", row.names = FALSE)
-
-
 
 
 

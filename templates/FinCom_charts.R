@@ -13,14 +13,14 @@ reportConfig <- ReportConfigList[[input_reportID]]
 dataDesc <- dataDescList[[input_reportID]]
 
 # Map longer names to existing country typologies
-countries$incomeLevel_long <- mapvalues(countries$incomeLevel,
-                                        from=c("LIC", "HIC", "UMC", "LMC", "INX"),
-                                        to=c("Low Income", "High Income", "Upper Middle Income",
-                                             "Lower Middle Income", "Upper Middle Income"))
-countries <- mutate(countries, sids_long = ifelse(sids,"Yes","No"), landlocked_long= ifelse(landlocked,"Yes","No")) %>%
-  mutate(adminRegion = if_else(is.na(adminRegion),region,adminRegion)) %>%
-  mutate(adminRegion = mapvalues(adminRegion, from = c("SSF","LCN","ECS","MEA","EAS"), 
-                                 to = c("SSA","LAC","ECA","MNE","EAP")))
+# countries$incomeLevel_long <- mapvalues(countries$incomeLevel,
+#                                         from=c("LIC", "HIC", "UMC", "LMC", "INX"),
+#                                         to=c("Low Income", "High Income", "Upper Middle Income",
+#                                              "Lower Middle Income", "Upper Middle Income"))
+# countries <- mutate(countries, sids_long = ifelse(sids,"Yes","No"), landlocked_long= ifelse(landlocked,"Yes","No")) %>%
+#   mutate(adminRegion = if_else(is.na(adminRegion),region,adminRegion)) %>%
+#   mutate(adminRegion = mapvalues(adminRegion, from = c("SSF","LCN","ECS","MEA","EAS","NAC"), 
+#                                  to = c("SSA","LAC","ECA","MNE","EAP","NAC")))
 
 text_color <- "#818181"
 

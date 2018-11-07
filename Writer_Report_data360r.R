@@ -4,6 +4,8 @@
 library(jsonlite)
 library(tidyverse)
 library(data360r)
+#install.packages('bit64')
+library(bit64)
 # Query data based on ids of filtered indicators
 # loop by country and indicator id. Bind it all in a data.frame
 # Query country metadata:

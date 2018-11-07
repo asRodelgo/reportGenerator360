@@ -20,7 +20,8 @@ for (couName in filter(countries, !(name %in% exclude))$name) {
 #for (couName in c("Eritrea", "Sudan", "Malawi", "Somalia", "South Sudan")) {
 #for (couName in c("Ethiopia","Kenya","Rwanda","Uganda","Tanzania")) {
 #for (couName in c("Morocco","South Africa","China","India","Spain","Bolivia")) {
-#for (couName in c("South Sudan")) {
+#for (couName in c("West Bank and Gaza")){
+#for (couName in c("United States","Oman","United Arab Emirates","West Bank and Gaza","Malta")) {
   ### Figure out the country peers ----------
   countryPeers <- c("TZA","KEN","UGA","RWA","ETH")
   countryCode <- .getCountryCode(couName)

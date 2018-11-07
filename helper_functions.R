@@ -2016,7 +2016,7 @@ number_chart <- function(Report_data,reportConfig,couName,section,table,str_wrap
       plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
       graphics::text(1, 1.1," ", cex=3, adj=0)
       plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
-      graphics::text(1.3, 1,couName, col=paste0("#",filter(reportConfig, Section_Level == 9)$Color), cex=4)
+      graphics::text(1.3, 1,cou, col=paste0("#",filter(reportConfig, Section_Level == 9)$Color), cex=4)
       #plot(c(1,1),type="n", frame.plot = FALSE, axes=FALSE, ann=FALSE)
       graphics::text(1.8, 1,compareRegion, col=paste0("#",filter(reportConfig, Section_Level == 10)$Color), cex=4)
       
@@ -3020,55 +3020,58 @@ doing_business_table <- function(Report_data,reportConfig,couName){
       dataR$"2016" <- ".."
       dataR$ChangeRank <- ".."
       dataR <- dataR[,c("IndicatorShort","2016","2017","ChangeRank")]
+      
     } else {
       # calculate difference in Rank
       dataR$ChangeRank <- dataR[,2] - dataR[,3]
     }
     
-    dataDTF <- spread(dataDTF, Period, Observation)
-    dataDTF$ChangeDTF <- round(dataDTF[,3] - dataDTF[,2],2)
+    if (nrow(dataDTF)>0){ # in case there's rank data but no DTF
+      
+      dataDTF <- spread(dataDTF, Period, Observation)
+      dataDTF$ChangeDTF <- round(dataDTF[,3] - dataDTF[,2],2)
+      dataDTF <- mutate(dataDTF, ChangeDTF = ifelse(ChangeDTF<0, paste0("\\color{red}{",ChangeDTF,"}"),
+                                                    ifelse(ChangeDTF>0, paste0("\\color{green}{",ChangeDTF,"}"),paste0(sprintf("\\color{%s}{",text_color),ChangeDTF,"}"))))
     
-    # red for negative, green for positive changes
-    dataR <- mutate(dataR, ChangeRank = ifelse(ChangeRank == '..', paste0(sprintf("\\color{%s}{",text_color),ChangeRank,"}"), ifelse(ChangeRank<0, paste0("\\color{red}{",ChangeRank,"}"),
-                                               ifelse(ChangeRank>0, paste0("\\color{green}{",ChangeRank,"}"),paste0(sprintf("\\color{%s}{",text_color),ChangeRank,"}")))))
-    dataDTF <- mutate(dataDTF, ChangeDTF = ifelse(ChangeDTF<0, paste0("\\color{red}{",ChangeDTF,"}"),
-                                                  ifelse(ChangeDTF>0, paste0("\\color{green}{",ChangeDTF,"}"),paste0(sprintf("\\color{%s}{",text_color),ChangeDTF,"}"))))
+      names(dataDTF) <- c("",paste("DTF",names(dataDTF)[2]),paste("DTF",names(dataDTF)[3]),"DTF Change")
+      # red for negative, green for positive changes
+      dataR <- mutate(dataR, ChangeRank = ifelse(ChangeRank == '..', paste0(sprintf("\\color{%s}{",text_color),ChangeRank,"}"), ifelse(ChangeRank<0, paste0("\\color{red}{",ChangeRank,"}"),
+                                                 ifelse(ChangeRank>0, paste0("\\color{green}{",ChangeRank,"}"),paste0(sprintf("\\color{%s}{",text_color),ChangeRank,"}")))))
+      
+      names(dataR) <- c("",paste("Rank",names(dataR)[2]),paste("Rank",names(dataR)[3]),"Rank Change")
+      # put them together in 1 table
+      data <- cbind(dataDTF,dataR[,-c(1)])
+      # reorder rows. Want overall indicator on top
+      order <- c(2,1,seq(3,nrow(data),1))
+      data <- cbind(data,order)
+      data <- arrange(data, order)
+      data <- select(data, -order)
+      # I have to add a dummy column so the alignment works (align)
+      data$dummy <- rep("",nrow(data))
+      names(data)[1] <- "" 
+      names(data)[ncol(data)] <-""
+      # highlight top row
+      data[1,c(1:(ncol(data)-1))] <- paste0("\\textbf{",data[1,c(1:(ncol(data)-1))],"}")
+      # add an extra header. Push current header to row1
+      data_aux <- data
+      data_aux[1,] <- names(data)
+      for (i in 1:nrow(data)){
+        data_aux[i+1,] <- data[i,]
+      }
+      data <- data_aux
+      data[1,] <- gsub("Rank |DTF","",data[1,])
+      names(data) <- c(rep("",2),"DTF",rep("",2),"Rank",rep("",2))
+      
+      # substitute NAs for "---" em-dash
+      data[is.na(data)] <- "---"
+      
+    } else data[!is.na(data)] <- ""
     
-    names(dataR) <- c("",paste("Rank",names(dataR)[2]),paste("Rank",names(dataR)[3]),"Rank Change")
-    names(dataDTF) <- c("",paste("DTF",names(dataDTF)[2]),paste("DTF",names(dataDTF)[3]),"DTF Change")
-    # put them together in 1 table
-    data <- cbind(dataDTF,dataR[,-c(1)])
-    # reorder rows. Want overall indicator on top
-    order <- c(2,1,seq(3,nrow(data),1))
-    data <- cbind(data,order)
-    data <- arrange(data, order)
-    data <- select(data, -order)
-    # I have to add a dummy column so the alignment works (align)
-    data$dummy <- rep("",nrow(data))
-    names(data)[1] <- "" 
-    names(data)[ncol(data)] <-""
-    # highlight top row
-    data[1,c(1:(ncol(data)-1))] <- paste0("\\textbf{",data[1,c(1:(ncol(data)-1))],"}")
-    # add an extra header. Push current header to row1
-    data_aux <- data
-    data_aux[1,] <- names(data)
-    for (i in 1:nrow(data)){
-      data_aux[i+1,] <- data[i,]
-    }
-    data <- data_aux
-    data[1,] <- gsub("Rank |DTF","",data[1,])
-    names(data) <- c(rep("",2),"DTF",rep("",2),"Rank",rep("",2))
-    
-    # substitute NAs for "---" em-dash
-    data[is.na(data)] <- "---"
-  } else{
-    
-    data[!is.na(data)] <- ""
-  }   
-  
+  } else data[!is.na(data)] <- ""
+
   
   #align(data.table) <- c('l','l',rep('>{\\raggedleft}p{0.6in}',2),'>{\\raggedleft}p{0.8in}',"|",rep('>{\\raggedleft}p{0.6in}',2),'>{\\raggedleft}p{0.8in}','r')
-  if (nrow(data)>0){
+  if (nrow(data)>2){
     rowsSelect <- seq(2,nrow(data)-1,2)
     col <- rep("\\rowcolor[gray]{0.95}", length(rowsSelect))
     data.table <- xtable(data, digits=rep(0,ncol(data)+1)) #control decimals
@@ -3078,12 +3081,14 @@ doing_business_table <- function(Report_data,reportConfig,couName){
           booktabs = FALSE, table.placement="", hline.after = c(1) ,latex.environments = "right",
           sanitize.text.function = function(x){x}) # include sanitize to control format like colors
   } else {
-    data[1,] <- c("No data",rep("",ncol(data)-1))
-    names(data) <- c(rep(" ",2),"DTF",rep(" ",2),"Rank",rep(" ",2))
+    data <- c("No data",rep("",7))
+    data <- t(data) %>% as.data.frame(stringsAsFactors = FALSE)
+    #names(data) <- c(rep(" ",2),"DTF",rep(" ",2),"Rank",rep(" ",2))
+    names(data) <- rep("",ncol(data))
     data.table <- xtable(data, digits=rep(0,ncol(data)+1)) #control decimals
     #align(data.table) <- c('l','l',rep('r',2),'r',"|",rep('r',2),'r','r')
-    print(data.table, include.rownames=FALSE,include.colnames=TRUE, floating=FALSE, 
-          size="\\normalsize", 
+    print(data.table, include.rownames=FALSE,include.colnames=FALSE, floating=FALSE, 
+          size="\\footnotesize", 
           booktabs = FALSE, table.placement="" ,latex.environments = "right",
           sanitize.text.function = function(x){x}) # include sanitize to control format like colors
   }
@@ -3813,7 +3818,8 @@ text_box <- function(reportConfig,title, body, str_wrap_size=75){
 
 get_suggestedPeers <- function(couName) {
   
-  #couName <- "Ethiopia"
+  #couName <- "West Bank and Gaza"
+  #couName <- "Norway"
   
   data <- Report_data %>%
     filter(Subsection2 == "peers", !is.na(Observation)) %>%
@@ -3821,6 +3827,9 @@ get_suggestedPeers <- function(couName) {
            Observation = Observation/ifelse(is.na(Scale),1,Scale)) %>%
     group_by(Key) %>%
     filter(Period == max(Period)) %>%
+    mutate(Observation = if_else(round(Observation,15)==0, # sanity check: sometimes big numbers get screwed up from the API pull
+                                 as.numeric(substr(Observation,nchar(Observation)-20,nchar(Observation))),
+                                 Observation)) %>%
     mutate(rank = percent_rank(Observation))
   
   perRank_myCountry <- filter(data, Country == couName)

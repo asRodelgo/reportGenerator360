@@ -1,6 +1,6 @@
 # load global packages ----------------------------------------------
+library(plyr) # manipulate data 
 library(tidyverse)
-#library(plyr) # manipulate data 
 #library(dplyr) # manipulate data 
 #library(ggplot2) # charts
 library(gridExtra) # ggplot charts side by side
@@ -68,6 +68,15 @@ countries <- tryCatch(fromJSON("https://tcdata360-backend.worldbank.org/api/v1/c
                       error = function(e) {print("Warning: API call to countries returns an error");
                         countries = read.csv("data/countries.csv", stringsAsFactors = FALSE)},
                       finally = {countries = read.csv("data/countries.csv", stringsAsFactors = FALSE)})
+# Map longer names to existing country typologies
+countries$incomeLevel_long <- mapvalues(countries$incomeLevel,
+                                        from=c("LIC", "HIC", "UMC", "LMC", "INX"),
+                                        to=c("Low Income", "High Income", "Upper Middle Income",
+                                             "Lower Middle Income", "Upper Middle Income"))
+countries <- mutate(countries, sids_long = ifelse(sids,"Yes","No"), landlocked_long= ifelse(landlocked,"Yes","No")) %>%
+  mutate(adminRegion = if_else(is.na(adminRegion),region,adminRegion)) %>%
+  mutate(adminRegion = mapvalues(adminRegion, from = c("SSF","LCN","ECS","MEA","EAS","NAC","MNA"), 
+                                 to = c("SSA","LAC","ECA","MNE","EAP","NAC","MNE")))
 # Query indicators:
 indicators <- tryCatch(fromJSON("https://tcdata360-backend.worldbank.org/api/v1/indicators/?fields=id%2Cname%2CvalueType%2Crank",
                                 flatten=TRUE), 

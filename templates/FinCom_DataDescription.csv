@@ -1,7 +1,7 @@
 Indicator_Short,Unit_Short,Scale,Source_Name,Source_Link,tcdata360_id,Indicator_Description,Section,Subsection,Subsection2,Source_ID
 Population,million,1000000,SOURCE: WDI,http://data.worldbank.org/data-catalog/world-development-indicators,3295,Total population,OVERVIEW,3,peers,
-"GDP per capita, PPP",US\$,1,SOURCE: WDI,http://data.worldbank.org/data-catalog/world-development-indicators,947,"GDP per capita, PPP (current international $)",OVERVIEW,1,,
-GDP current US$,US\$,1,SOURCE: WDI,http://data.worldbank.org/data-catalog/world-development-indicators,28107,GDP,,,peers,
+"GDP per capita, PPP",US\$,1,SOURCE: WDI,http://data.worldbank.org/data-catalog/world-development-indicators,947,"GDP per capita, PPP (current international $)",OVERVIEW,1,peers,
+GDP current US$,US\$,1,SOURCE: WDI,http://data.worldbank.org/data-catalog/world-development-indicators,28107,GDP,,,,
 GDP growth,annual \%,1,SOURCE: WDI,http://data.worldbank.org/data-catalog/world-development-indicators,940,GDP growth (annual %),OVERVIEW,2,,
 Gross fixed capital formation,\% of GDP,1,SOURCE: WDI,http://data.worldbank.org/data-catalog/world-development-indicators,989,Gross fixed capital formation (% of GDP),TRADE,,,
 "FDI inflow, net per capita",US$,1,United Nations Conference on Trade and Development Statistics,http://unctadstat.unctad.org/wds/ReportFolders/reportFolders.aspx?sCS_ChosenLang=en,2810,Foreign Direct Investment: Inward flows,INVESTMENT,inv_line2,,
