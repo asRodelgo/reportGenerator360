@@ -36,7 +36,7 @@ thisYear <- substr(Sys.Date(),1,4)
 
 ##################
 # # global input Report template: Entrepreneurship, Tourism, Investment Climate, etc
-# input_reportID <- "Tourism"
+#input_reportID <- "Entrepreneurship"
 # ##################
 # # Read template report configuration
 # reportConfig <- read.csv(paste0("templates/",input_reportID, "_ReportConfiguration.csv"), stringsAsFactors = FALSE)
@@ -70,9 +70,9 @@ countries <- tryCatch(fromJSON("https://tcdata360-backend.worldbank.org/api/v1/c
                       finally = {countries = read.csv("data/countries.csv", stringsAsFactors = FALSE)})
 # Map longer names to existing country typologies
 countries$incomeLevel_long <- mapvalues(countries$incomeLevel,
-                                        from=c("LIC", "HIC", "UMC", "LMC", "INX"),
+                                        from=c("LIC", "HIC", "UMC", "LMC"),
                                         to=c("Low Income", "High Income", "Upper Middle Income",
-                                             "Lower Middle Income", "Upper Middle Income"))
+                                             "Lower Middle Income"))
 countries <- mutate(countries, sids_long = ifelse(sids,"Yes","No"), landlocked_long= ifelse(landlocked,"Yes","No")) %>%
   mutate(adminRegion = if_else(is.na(adminRegion),region,adminRegion)) %>%
   mutate(adminRegion = mapvalues(adminRegion, from = c("SSF","LCN","ECS","MEA","EAS","NAC","MNA"), 
@@ -98,7 +98,7 @@ indicators <- tryCatch(fromJSON("https://tcdata360-backend.worldbank.org/api/v1/
 
 # List topics
 #topics <- c("Entrepreneurship","Tourism", "Gender", "FCV", "FinCom")
-topics <- c("FinCom")
+topics <- c("Entrepreneurship")
 
 # Read and process data from TCdata360 API ----------------
 source('datapull_TCdata360.R', local = TRUE)

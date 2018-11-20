@@ -8,7 +8,7 @@
 
 source('global_utils.R') # data and functions needed
 source('helper_functions.R') # charts and table functions needed
-input_reportID <- "FinCom"
+input_reportID <- "Entrepreneurship"
 source(paste0("templates/",input_reportID,"_charts.R"))
 # Create the data reports --------------------------------------
 exclude <- c("Channel Islands","Virgin Islands (U.S.)","Northern Mariana Islands",
@@ -20,6 +20,7 @@ for (couName in filter(countries, !(name %in% exclude))$name) {
 #for (couName in c("Eritrea", "Sudan", "Malawi", "Somalia", "South Sudan")) {
 #for (couName in c("Ethiopia","Kenya","Rwanda","Uganda","Tanzania")) {
 #for (couName in c("Morocco","South Africa","China","India","Spain","Bolivia")) {
+#for (couName in c("Morocco")) {
 #for (couName in c("West Bank and Gaza")){
 #for (couName in c("United States","Oman","United Arab Emirates","West Bank and Gaza","Malta")) {
   ### Figure out the country peers ----------

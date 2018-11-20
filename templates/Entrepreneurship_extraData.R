@@ -3,7 +3,12 @@
 # -----------------------------------------------------------------------
 # Missing indicators from TCdata360
 #"/Users/asanchez3/Desktop/Data Analysis/Entrepreneurship-Ind/Testapp/all datasets.rda")
-load(paste0(file_extra_root,"/Entrepreneurship_Extra_1.rda"))
+if (file.exists(paste0(file_extra_root,"/Entrepreneurship_Extra_1.rda"))) {
+  load(paste0(file_extra_root,"/Entrepreneurship_Extra_1.rda"))
+} else {
+  load(paste0(getwd(),"/data/Entrepreneurship_Extra_1.rda"))
+}
+
 missInd <- select(all.datasets$WB.data, iso2 = iso2c, Period = year, Observation = one_of("SL.SRV.EMPL.ZS")) %>%
   mutate(Source_ID = "SL.SRV.EMPL.ZS") %>%
   join(ThisDataDesc, by = "Source_ID") %>%
@@ -19,7 +24,12 @@ ThisReport_data <- bind_rows(ThisReport_data, missInd)
 #
 # Ratio online?in store purchases
 #load("/Users/asanchez3/Desktop/Work/TCMN/reportGenerator360_data/all datasets.rda")
-load(paste0(file_extra_root,"/Entrepreneurship_Extra_2.rda"))
+if (file.exists(paste0(file_extra_root,"/Entrepreneurship_Extra_1.rda"))) {
+  load(paste0(file_extra_root,"/Entrepreneurship_Extra_2.rda"))
+} else {
+  load(paste0(getwd(),"/data/Entrepreneurship_Extra_2.rda"))
+}
+
 missInd <- select(all.datasets$consumer.barometer.data, iso2 = iso2c, Observation = one_of("online.ratio")) %>%
   mutate(Source_ID = "online.ratio", Period = 2016, Observation = Observation*100) %>%
   join(ThisDataDesc, by = "Source_ID") %>%

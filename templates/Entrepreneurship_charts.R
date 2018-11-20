@@ -59,7 +59,8 @@ number_chart(Report_data,reportConfig,couName,reportConfig$Section[1],c("combo1"
 sparklines(Report_data,reportConfig,couName,reportConfig$Section[1],"table1")
 
 ## ---- line_chart_Policy ----
-line_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"figure5")
+line_chart(Report_data,reportConfig,couName,reportConfig$Section[1],"figure5",minTime=as.character(as.numeric(thisYear)-10),
+           neighbor=countryPeers,max_neighbors=4, show_last_year=FALSE, show_data_labels=NULL, plot_spacing=0.0)
 
 ## ---- table_time_Policy ----
 table_time(Report_data,reportConfig,couName,reportConfig$Section[1],"table1")
@@ -94,10 +95,12 @@ table_time(Report_data,reportConfig,couName, reportConfig$Section[3],"table1")
 sparklines(Report_data,reportConfig,couName,reportConfig$Section[3],"table1")
 
 ## ---- line_chart_Finance1 ----
-line_chart(Report_data,reportConfig,couName,reportConfig$Section[3],"figure2")
+line_chart(Report_data,reportConfig,couName,reportConfig$Section[3],"figure2",minTime=as.character(as.numeric(thisYear)-10),
+           neighbor=countryPeers,max_neighbors=4, show_last_year=FALSE, show_data_labels=NULL, plot_spacing=0.0)
 
 ## ---- line_chart_Finance2 ----
-line_chart(Report_data,reportConfig,couName,reportConfig$Section[3],"line2")
+line_chart(Report_data,reportConfig,couName,reportConfig$Section[3],"line2",minTime=as.character(as.numeric(thisYear)-10),
+           neighbor=countryPeers,max_neighbors=4, show_last_year=FALSE, show_data_labels=NULL, plot_spacing=0.0)
 #figure_sparkline(Report_data,reportConfig,couName,"figure2")
 
 ########## Markets ##########
