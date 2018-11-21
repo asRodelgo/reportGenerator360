@@ -30,9 +30,9 @@ countries <- unique(merge(countries, fcv_coutyp, by="iso2"))
 
 # Map longer names to existing country typologies
 countries$incomeLevel_long <- mapvalues(countries$incomeLevel,
-                                        from=c("LIC", "HIC", "UMC", "LMC", "INX"),
+                                        from=c("LIC", "HIC", "UMC", "LMC"),
                                         to=c("Low Income", "High Income", "Upper Middle Income",
-                                             "Lower Middle Income", "Upper Middle Income"))
+                                             "Lower Middle Income"))
 countries <- mutate(countries, sids_long = ifelse(sids,"Yes","No"), landlocked_long= ifelse(landlocked,"Yes","No"))
 
 # Add latest nominal GDP for non-FCV comparators

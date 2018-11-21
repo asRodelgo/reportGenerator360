@@ -1367,18 +1367,33 @@ table_time_avg <- function(Report_data,reportConfig,couName,section,table, GDPgr
       group_by(Key) %>%
       filter(Period < (as.numeric(thisYear)-5) & Period > (as.numeric(thisYear)-15)) %>%
       mutate(historical_avg = mean(Observation,na.rm=TRUE))
-    # add average as one of the time periods
-    min_year <- min(data_avg$Period,na.rm=TRUE)
-    max_year <- max(data_avg$Period,na.rm=TRUE)
-    data_avg <- mutate(data_avg, Period = paste("Avg ",min_year,"-",max_year,sep=""),
-                       Observation = historical_avg, ObsScaled = historical_avg)
+    if (nrow(data_avg)>0){
+      # add average as one of the time periods
+      min_year <- min(data_avg$Period,na.rm=TRUE)
+      max_year <- max(data_avg$Period,na.rm=TRUE)
+      data_avg <- mutate(data_avg, Period = paste("Avg ",min_year,"-",max_year,sep=""),
+                         Observation = historical_avg, ObsScaled = historical_avg)
+    } else {
+      maxYear <- max(data$Period)
+      min_year <- as.numeric(maxYear)-15
+      max_year <- as.numeric(maxYear)-5
+    
+      data_avg <- data.frame(Key = data$Key[1],
+                         Period = paste("Avg ",min_year,"-",max_year,sep=""),
+                         Observation = NA, ObsScaled = NA, historical_avg = NA)
+    }
+    
     
     data_avg <- data_avg[!duplicated(data_avg$Key),] # remove duplicates
     data_avg <- select(data_avg, -historical_avg, -ObsScaled) # remove some variables
     
     #keep only periods of interest in data
+    all_keys <- distinct(data, Key, IndicatorShort) %>%
+      mutate(Period = maxYear)
     data <- mutate(data, Period = ifelse(Period==thisYear & is.na(CountryCode),as.numeric(thisYear)-1,Period)) %>%
       filter(Period > (as.numeric(thisYear) - 6) & Period < (as.numeric(thisYear)))
+    data_extra <- anti_join(all_keys,data, by = "Key")
+    if (nrow(data_extra)>0) data <- bind_rows(data,data_extra)
     data <- bind_rows(data, data_avg) %>% # add rows to data
     #data <- as.data.frame(data)
     # Scale Observations
@@ -1493,6 +1508,9 @@ sparklines <- function(Report_data,reportConfig,couName,section,table, num_perio
     }
     
     # keep the latest period (excluding projections further than 2 years)
+    #keep only periods of interest in data
+    all_keys <- distinct(data, Key, IndicatorShort)
+    
     data <- data %>%
       mutate(Period = ifelse(Period==thisYear & is.na(CountryCode),as.numeric(thisYear)-1,Period)) %>%
       filter(Period > (as.numeric(thisYear) - 2-num_period) & Period < (as.numeric(thisYear))) %>%
@@ -1502,15 +1520,20 @@ sparklines <- function(Report_data,reportConfig,couName,section,table, num_perio
       arrange(Key, Period) %>%
       distinct(Key,Period, .keep_all = TRUE)
     
+    data_extra <- anti_join(all_keys,data, by = "Key")
+    if (nrow(data_extra)>0) data <- bind_rows(data,data_extra)
+    
     minPeriod <- min(data$Period,na.rm = TRUE)
     maxPeriod <- max(data$Period,na.rm = TRUE)
     
     x <- spread(data, Key, Observation)
     x <- x[,-1] # don't need Period column anymore
+    #x <- x[which(colSums(x,na.rm=TRUE)>0)]
     
     # Arrange the table variables based on order in DataDesc
     if (arrange_by_datadesc){
       target <- filter(dataDesc, Subsection == table)$tcdata360_id
+      target <- target[which(target %in% names(x))]
       x <- x[, as.character(target)]
     }
     
