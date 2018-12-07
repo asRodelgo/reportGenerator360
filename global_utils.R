@@ -98,7 +98,7 @@ indicators <- tryCatch(fromJSON("https://tcdata360-backend.worldbank.org/api/v1/
 
 # List topics
 #topics <- c("Entrepreneurship","Tourism", "Gender", "FCV", "FinCom")
-topics <- c("FCV")
+topics <- c("FinCom")
 
 # Read and process data from TCdata360 API ----------------
 source('datapull_TCdata360.R', local = TRUE)
