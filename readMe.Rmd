@@ -25,23 +25,21 @@ Basic instructions on how to generate 2 pager PDF reports based on TCdata360 dat
   - **input_reportID_charts.R** calls to functions in helper_functions.R (charts, tables, etc.)
   - **input_reportID_DataDescription.csv** tell the report what indicators, units, sections, sources you will use. In more detail:
 
-    * **Section**: Main topics within the report
-    * **Subsection**: group tag indicators. Example: Use the same name for indicators you want to appear in the same chart/table. 
-    * **Subsection2**: in case indicators are used in more than 1 place. In case indicators are used in 3 places, then a new column would need to be added (Subsection3), although I'm not sure this will work without further changes.
-    * **tcdata360_id**: TCdata360 indicator ID per the API.
-    * **Source_Name**: Name of data source to appear on report footnotes. Ex: WDI 
-    * **Source_Link**: URL pointing to data source (as hyperlink to Source_Name)
-  
-    The rest of the columns should be self explanatory
+    ***Section**: Main topics within the report
+    ***Subsection**: group tag indicators. Example: Use the same name for indicators you want to appear in the same chart/table. 
+    ***Subsection2**: in case indicators are used in more than 1 place. In case indicators are used in 3 places, then a new column would need to be added (Subsection3), although I'm not sure this will work without further changes. The rest of the columns should be self explanatory
+    ***tcdata360_id**: TCdata360 indicator ID per the API.
+    ***Source_Name**: Name of data source to appear on report footnotes. Ex: WDI 
+    ***Source_Link**: URL pointing to data source (as hyperlink to Source_Name)
 
   - **input_reportID_ReportConfiguration.csv** configuration file needed for the overall attributes of each report. Details:
   
-    * **SectionID**: Identify main sections in the report. The bigger font titles. Section 9 is a place holder for the main header banner and color styles.
-    * **Order**: Identify secondary sections within each main sectionID. Order 9 in sectionID 9 defines the color for the report title and header banner and main titles. Banner will look for a file **header_background_[hexacolor].png** in folder www. You can create this file by editing the file templates/Powerpoint_styles.pptx. Pick a header, a color (hexacolor) and save it as PNG file into www folder. Make sure hexacolor in the .png filename is the same as in the color column corresponding to SectionID = 9. 
+    ***SectionID**: Identify main sections in the report. The bigger font titles. Section 9 is a place holder for the main header banner and color styles.
+    ***Order**: Identify secondary sections within each main sectionID. Order 9 in sectionID 9 defines the color for the report title and header banner and main titles. Banner will look for a file **header_background_[hexacolor].png** in folder www. You can create this file by editing the file templates/Powerpoint_styles.pptx. Pick a header, a color (hexacolor) and save it as PNG file into www folder. Make sure hexacolor in the .png filename is the same as in the color column corresponding to SectionID = 9. 
     Order 10 defines the text color in the report.
-    * **Section_Level**: Main sections = 1, secondary sections = 2
-    * **Section**: Section title. For sections without subsection title, you must create a new row and leave this column empty. 
-    * **Section_Description**: For Section_Level = 1, a short description in smaller font to accompany the main title of the section. For Section_Level = 2, this is the footnote, normally corresponding to the data source.
+    ***Section_Level**: Main sections = 1, secondary sections = 2
+    ***Section**: Section title. For sections without subsection title, you must create a new row and leave this column empty. 
+    ***Section_Description**: For Section_Level = 1, a short description in smaller font to accompany the main title of the section. For Section_Level = 2, this is the footnote, normally corresponding to the data source.
   
   - **input_reportID_PDF_LaTeX.Rnw** layout of the report. Here you will layout the elements you described on **_charts.R** 
 

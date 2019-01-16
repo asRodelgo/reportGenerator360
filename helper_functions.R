@@ -637,7 +637,7 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
   # if max_neighbors > 1, plot selected country vs the rest of the individual countries
   #neighbor <- c("TZA","KEN","UGA","RWA")
   cou <- .getCountryCode(couName)
-  if (neighbor=="region"){ # region level
+  if (neighbor[1]=="region"){ # region level
     couRegion <- as.character(countries[countries$iso3==cou,]$region)  # obtain the region for the selected country
     data <- filter(Report_data, region==couRegion, Section == section, Subsection == table, !(is.na(Observation)), Period >= minTime) #select country, region and world
   } else if (length(neighbor)>1) { # custom peer countries
@@ -752,7 +752,7 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
       }
       
     } else { # plot 1 indicator for 1 country and perhaps region or other countries
-      order_legend <- c(couName,as.character(unique(data[data$CountryCode %in% topNeighbors,]$Country)))
+      order_legend <- unique(c(couName,as.character(unique(data[data$CountryCode %in% topNeighbors,]$Country))))
       # catch errors for multiple indicators
       temp_unique_order <- c(couName,order_legend[2:length(order_legend)])
       temp_unique_order <- unique(temp_unique_order[!is.na(temp_unique_order)])
@@ -761,7 +761,8 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
       my_order <- data.frame(Country = country_order, order = seq(1,length(order_legend),1))
       data <- merge(data,my_order, by="Country") %>%
         filter(order <= (max_neighbors+1)) %>% # keep some countries
-        arrange(order,Period)
+        arrange(order,Period) %>%
+        distinct(CountryCode, Key, Period, .keep_all = TRUE)
       
       max_val <- max(data$Observation)
       min_val <- min(data$Observation)
@@ -773,7 +774,8 @@ line_chart <- function(Report_data,reportConfig,couName, section, table, minTime
         break_vals <- unique(arrange(data,Period)$Period)[seq(1,length(unique(data$Period)),4)]
       }
       
-      if(!is.null(show_data_labels)){ggplot(data, aes(x=Period, y=Observation)) +
+      if(!is.null(show_data_labels)){
+        ggplot(data, aes(x=Period, y=Observation)) +
         geom_line(stat="identity",aes(group=factor(order), colour=factor(order), size=factor(order), alpha=factor(order))) +
           theme_minimal() +
           theme(legend.key=element_blank(),
@@ -1389,7 +1391,7 @@ table_time_avg <- function(Report_data,reportConfig,couName,section,table, GDPgr
     
     #keep only periods of interest in data
     all_keys <- distinct(data, Key, IndicatorShort) %>%
-      mutate(Period = maxYear)
+      mutate(Period = max_year)
     data <- mutate(data, Period = ifelse(Period==thisYear & is.na(CountryCode),as.numeric(thisYear)-1,Period)) %>%
       filter(Period > (as.numeric(thisYear) - 6) & Period < (as.numeric(thisYear)))
     data_extra <- anti_join(all_keys,data, by = "Key")
@@ -1527,7 +1529,8 @@ sparklines <- function(Report_data,reportConfig,couName,section,table, num_perio
     maxPeriod <- max(data$Period,na.rm = TRUE)
     
     x <- spread(data, Key, Observation)
-    x <- x[,-1] # don't need Period column anymore
+    #x <- x[,-1] # don't need Period or IndicatorShort columns anymore
+    x <- select(x, -matches("Period|Indicator"))
     #x <- x[which(colSums(x,na.rm=TRUE)>0)]
     
     # Arrange the table variables based on order in DataDesc
@@ -3030,16 +3033,16 @@ doing_business_table <- function(Report_data,reportConfig,couName){
     dataR <- data %>%
       filter(grepl("R",Subsection)) %>%
       select(-Subsection)
-    
+    dataR <- spread(dataR, Period, Observation)
     # Not sure this note applies anymore:
         # adjusted thisYear by 2 years (instead of 1) since TCdata360 Doing Business data displays year when data was collected
         # instead of year Doing Business report was released
     dataDTF <- data %>%
-      filter(grepl("DTF",Subsection), Period >= as.numeric(thisYear)-1) %>%
+      #filter(grepl("DTF",Subsection), Period >= as.numeric(thisYear)-1) %>%
+      filter(grepl("DTF",Subsection), Period >= max(as.numeric(Period))-1) %>%
       filter(Period <= as.numeric(thisYear)) %>% #make sure maximum period matches that of DB Rank (2016)
       select(-Subsection)
-    dataR <- spread(dataR, Period, Observation)
-    
+    #
     if(dim(dataR)[2] == 2){
       dataR$"2016" <- ".."
       dataR$ChangeRank <- ".."

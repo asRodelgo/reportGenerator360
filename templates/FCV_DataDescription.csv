@@ -29,31 +29,19 @@ Registering property,Distance to Frontier,1,Doing Business,http://www.doingbusin
 Resolving Insolvency,Distance to Frontier,1,Doing Business,http://www.doingbusiness.org/rankings,Resolving insolvency (DB15-18 methodology),INVESTMENT COMPETITIVENESS,radar2.1,,40023,
 Starting a business,Distance to Frontier,1,Doing Business,http://www.doingbusiness.org/rankings,Starting a business,INVESTMENT COMPETITIVENESS,radar2.1,,457,
 Trading across borders,Distance to Frontier,1,Doing Business,http://www.doingbusiness.org/rankings,Trading across borders (DB16-18 methodology),INVESTMENT COMPETITIVENESS,radar2.1,,40025,
-Global Competitiveness Index,Index (1-7=best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Global Competitiveness Index,INVESTMENT COMPETITIVENESS,,,631,
-"1st pillar:
-Institutions",Index (1-7=best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Institutions,INVESTMENT COMPETITIVENESS,radar2.2,,725,
-"2nd pillar:
-Infrastructure",Index (1-7=best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Infrastructure,INVESTMENT COMPETITIVENESS,radar2.2,,727,
-"3rd pillar:
-Macroeconomic Environment",Index (1-7=best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Macroeconomic Environment,INVESTMENT COMPETITIVENESS,radar2.2,,729,
-"4th pillar:
-Health and Primary Education",Index (1-7=best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Health and Primary Education,INVESTMENT COMPETITIVENESS,radar2.2,,731,
-"5th pillar:
-Higher Education and Training",Index (1-7=best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Higher Education and Training,INVESTMENT COMPETITIVENESS,radar2.2,,733,
-"6th pillar:
-Goods Market Efficiency",Index (1-7=best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Goods Market Efficiency,INVESTMENT COMPETITIVENESS,radar2.2,,735,
-"7th pillar:
-Labor Market Efficiency",Index (1-7=best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Labor Market Efficiency,INVESTMENT COMPETITIVENESS,radar2.2,,737,
-"8th pillar:
-Financial Market Development",Index (1-7=best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Financial Market Development,INVESTMENT COMPETITIVENESS,radar2.2,,739,
-"9th pillar:
-Technological Readiness",Index (1-7=best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Technological Readiness,INVESTMENT COMPETITIVENESS,radar2.2,,741,
-"10th pillar:
-Market size",Index (1-7=best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Market size,INVESTMENT COMPETITIVENESS,radar2.2,,3292,
-"11th pillar:
-Business Sophistication",Index (1-7=best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Business Sophistication,INVESTMENT COMPETITIVENESS,radar2.2,,743,
-"12th pillar:
-Innovation",Index (1-7=best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Innovation,INVESTMENT COMPETITIVENESS,radar2.2,,745,
+Global Competitiveness Index,0-100 (best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Global Competitiveness Index,INVESTMENT COMPETITIVENESS,,,41472,
+Institutions,0-100 (best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Pillar 1: Institutions,INVESTMENT COMPETITIVENESS,radar2.2,,41621,
+Infrastructure,0-100 (best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Pillar 2: Infrastructure,INVESTMENT COMPETITIVENESS,radar2.2,,41652,
+ICT adoption,0-100 (best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Pillar 3: ICT adoption,INVESTMENT COMPETITIVENESS,radar2.2,,41673,
+Macroeconomic stability,0-100 (best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Pillar 4: Macroeconomic stability,INVESTMENT COMPETITIVENESS,radar2.2,,41679,
+Health,0-100 (best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Pillar 5: Health,INVESTMENT COMPETITIVENESS,radar2.2,,41683,
+Skills,0-100 (best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Pillar 6: Skills,INVESTMENT COMPETITIVENESS,radar2.2,,41685,
+Product market,0-100 (best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Pillar 7: Product market,INVESTMENT COMPETITIVENESS,radar2.2,,41702,
+Labour market,0-100 (best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Pillar 8: Labour market,INVESTMENT COMPETITIVENESS,radar2.2,,41716,
+Financial system,0-100 (best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Pillar 9: Financial system,INVESTMENT COMPETITIVENESS,radar2.2,,41725,
+Market size,0-100 (best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Pillar 10: Market size,INVESTMENT COMPETITIVENESS,radar2.2,,41737,
+Business dynamism,0-100 (best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Pillar 11: Business dynamism,INVESTMENT COMPETITIVENESS,radar2.2,,41741,
+Innovation capability,0-100 (best),1,World Economic Forum Global Competitiveness Index,http://reports.weforum.org/global-competitiveness-index/,Pillar 12: Innovation capability,INVESTMENT COMPETITIVENESS,radar2.2,,41751,
 Corruption ,Estimate (-2.5 to 2.5),1,Worldwide Governance Indicators,http://info.worldbank.org/governance/wgi/index.aspx#home,Corruption ,INSTITUTIONAL TREND,bar_facewrap3.1,wgi,364,
 Government effectiveness ,Estimate (-2.5 to 2.5),1,Worldwide Governance Indicators,http://info.worldbank.org/governance/wgi/index.aspx#home,Government effectiveness ,INSTITUTIONAL TREND,bar_facewrap3.1,wgi,388,
 Political stability ,Estimate (-2.5 to 2.5),1,Worldwide Governance Indicators,http://info.worldbank.org/governance/wgi/index.aspx#home,Political stability ,INSTITUTIONAL TREND,bar_facewrap3.1,wgi,376,

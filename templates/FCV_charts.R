@@ -92,7 +92,7 @@ radar_chart_fcv(Report_data,reportConfig,couName,reportConfig$Section[2],"radar2
 ########## WEF GLOBAL COMPETITIVENESS INDEX ##########
 
 ## ---- radar2.2 ----
-radar_chart_fcv(Report_data,reportConfig,couName,reportConfig$Section[2],"radar2.2",max_num_comparators = 4, shortlist_tcdata360_id=631, radar_fontsize=0.75)
+radar_chart_fcv(Report_data,reportConfig,couName,reportConfig$Section[2],"radar2.2",max_num_comparators = 4, shortlist_tcdata360_id=41472, radar_fontsize=0.75)
 
 ########## WORLDWIDE GOVERNANCE INDICATORS ##########
 

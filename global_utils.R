@@ -36,7 +36,7 @@ thisYear <- substr(Sys.Date(),1,4)
 
 ##################
 # # global input Report template: Entrepreneurship, Tourism, Investment Climate, etc
-#input_reportID <- "Entrepreneurship"
+#input_reportID <- "Tourism"
 # ##################
 # # Read template report configuration
 # reportConfig <- read.csv(paste0("templates/",input_reportID, "_ReportConfiguration.csv"), stringsAsFactors = FALSE)
@@ -98,7 +98,7 @@ indicators <- tryCatch(fromJSON("https://tcdata360-backend.worldbank.org/api/v1/
 
 # List topics
 #topics <- c("Entrepreneurship","Tourism", "Gender", "FCV", "FinCom")
-topics <- c("FinCom")
+topics <- c("Gender")
 
 # Read and process data from TCdata360 API ----------------
 source('datapull_TCdata360.R', local = TRUE)
