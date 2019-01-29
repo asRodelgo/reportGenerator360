@@ -60,18 +60,21 @@ figure_number_rank_only <- function(Report_data,reportConfig,couName,table, str_
   # period
   dataPeriod <- dataLast$Period
   
-  dataWorld <- filter(Report_data, Subsection2==table)
-  dataWorld <- filter(dataWorld,!is.na(Observation))
-  dataWorld <- dataWorld %>%
-    group_by(iso2) %>%
-    mutate(Period = max(Period,na.rm=TRUE)) %>%
-    distinct(Period, .keep_all = TRUE) %>%
-    as.data.frame()
+  dataWorld <- filter(Report_data, Subsection2==table & !is.na(Observation))
   
-  dataWorld <- arrange(dataWorld, desc(Observation))
-  # rank in the world
-  rank <- which(dataWorld$CountryCode == cou)
-  rankedTotal <- nrow(dataWorld)
+  if (nrow(dataWorld)>0) {
+    dataWorld <- dataWorld %>%
+      filter(Period == max(Period,na.rm=TRUE)) %>%
+      group_by(iso2) %>%
+      mutate(Period = max(Period,na.rm=TRUE)) %>%
+      distinct(Period, .keep_all = TRUE) %>%
+      as.data.frame()
+    
+    dataWorld <- arrange(dataWorld, desc(Observation))
+    # rank in the world
+    rank <- which(dataWorld$CountryCode == cou)
+    rankedTotal <- nrow(dataWorld)
+  }
   
   indicator <- data$IndicatorShort[1]
   indicator <- str_wrap(paste0(indicator), width = str_wrap_size)
